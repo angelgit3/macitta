@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void: #050505;
+  --color-stone-surface: #0A0A0A;
+  --color-accent-focus: #60A5FA;
+  --color-accent-success: #4ADE80;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
