@@ -1,0 +1,23 @@
+
+
+> web@0.1.0 build
+> next build
+
+[1G[0K   [1m[38;2;173;127;168m▲ Next.js 15.1.0[39m[22m
+   - Experiments (use with caution):
+     · reactCompiler
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+
+> Build error occurred
+[Error: Failed to load the `babel-plugin-react-compiler`. It is required to use the React Compiler. Please install it.] {
+  type: [32m'Error'[39m
+}
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcode[39m [33m1[39m
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mpath[39m /home/aanaya/Escritorio/Maccita_god/apps/web
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mworkspace[39m web@0.1.0
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mlocation[39m /home/aanaya/Escritorio/Maccita_god/apps/web
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m command failed
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcommand[39m sh -c next build
+[1G[0K⠙[1G[0K

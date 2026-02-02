@@ -2,14 +2,24 @@
 
 @theme {
   --color-void: #050505;
-  --color-stone-surface: #0A0A0A;
-  --color-accent-focus: #60A5FA;
-  --color-accent-success: #4ADE80;
+  --color-stone-surface: #121212;
+  --color-stone-light: #1E1E1E;
+
+  --color-accent-focus: #3B82F6;
+  /* Blue from image */
+  --color-accent-success: #22C55E;
+  /* Green from image */
+
   --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-text-dim: #A1A1AA;
 }
 
 @layer base {
   body {
-    @apply antialiased;
+    @apply antialiased bg-void text-white;
   }
+}
+
+@utility glass-panel {
+  @apply backdrop-blur-md bg-stone-surface/90 border border-white/5;
 }
