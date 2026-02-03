@@ -44,6 +44,7 @@ La lógica de calificación se encuentra en `packages/shared/index.ts`:
         - **4s - 8s**: Good (si es correcto).
         - **> 8s**: Hard (aunque sea correcto).
         - **Error o Distancia > 1**: Again (Fallo).
+        El tiempo empieza a correr desde que el usuario empieza a escribir, para evitar que alguien que se sabe la respuesta pero escribe lento reciba malas puntuaciones
 
 ### Algoritmo SRS (FSRS)
 - **Implementación**: `ts-fsrs` ejecutándose en el cliente.

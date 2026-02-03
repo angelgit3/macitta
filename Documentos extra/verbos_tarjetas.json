@@ -1,0 +1,469 @@
+{
+  "cards": [
+    { "front_text": "Ser/Estar", "answers": [
+      { "field": "Infinitivo", "text": "be" },
+      { "field": "Pasado Simple", "text": { "allOf": ["was", "were"] } },
+      { "field": "Pasado Participio", "text": "been" }
+    ]},
+    { "front_text": "Vencer", "answers": [
+      { "field": "Infinitivo", "text": "beat" },
+      { "field": "Pasado Simple", "text": "beat" },
+      { "field": "Pasado Participio", "text": "beaten" }
+    ]},
+    { "front_text": "Convertirse", "answers": [
+      { "field": "Infinitivo", "text": "become" },
+      { "field": "Pasado Simple", "text": "became" },
+      { "field": "Pasado Participio", "text": "become" }
+    ]},
+    { "front_text": "Empezar", "answers": [
+      { "field": "Infinitivo", "text": "begin" },
+      { "field": "Pasado Simple", "text": "began" },
+      { "field": "Pasado Participio", "text": "begun" }
+    ]},
+    { "front_text": "Morder", "answers": [
+      { "field": "Infinitivo", "text": "bite" },
+      { "field": "Pasado Simple", "text": "bit" },
+      { "field": "Pasado Participio", "text": "bitten" }
+    ]},
+    { "front_text": "Sangrar", "answers": [
+      { "field": "Infinitivo", "text": "bleed" },
+      { "field": "Pasado Simple", "text": "bled" },
+      { "field": "Pasado Participio", "text": "bled" }
+    ]},
+    { "front_text": "Soplar", "answers": [
+      { "field": "Infinitivo", "text": "blow" },
+      { "field": "Pasado Simple", "text": "blew" },
+      { "field": "Pasado Participio", "text": "blown" }
+    ]},
+    { "front_text": "Romper", "answers": [
+      { "field": "Infinitivo", "text": "break" },
+      { "field": "Pasado Simple", "text": "broke" },
+      { "field": "Pasado Participio", "text": "broken" }
+    ]},
+    { "front_text": "Traer", "answers": [
+      { "field": "Infinitivo", "text": "bring" },
+      { "field": "Pasado Simple", "text": "brought" },
+      { "field": "Pasado Participio", "text": "brought" }
+    ]},
+    { "front_text": "Construir", "answers": [
+      { "field": "Infinitivo", "text": "build" },
+      { "field": "Pasado Simple", "text": "built" },
+      { "field": "Pasado Participio", "text": "built" }
+    ]},
+    { "front_text": "Quemar", "answers": [
+      { "field": "Infinitivo", "text": "burn" },
+      { "field": "Pasado Simple", "text": { "anyOf": ["burned", "burnt"] } },
+      { "field": "Pasado Participio", "text": { "anyOf": ["burned", "burnt"] } }
+    ]},
+    { "front_text": "Comprar", "answers": [
+      { "field": "Infinitivo", "text": "buy" },
+      { "field": "Pasado Simple", "text": "bought" },
+      { "field": "Pasado Participio", "text": "bought" }
+    ]},
+    { "front_text": "Atrapar", "answers": [
+      { "field": "Infinitivo", "text": "catch" },
+      { "field": "Pasado Simple", "text": "caught" },
+      { "field": "Pasado Participio", "text": "caught" }
+    ]},
+    { "front_text": "Elegir", "answers": [
+      { "field": "Infinitivo", "text": "choose" },
+      { "field": "Pasado Simple", "text": "chose" },
+      { "field": "Pasado Participio", "text": "chosen" }
+    ]},
+    { "front_text": "Venir", "answers": [
+      { "field": "Infinitivo", "text": "come" },
+      { "field": "Pasado Simple", "text": "came" },
+      { "field": "Pasado Participio", "text": "come" }
+    ]},
+    { "front_text": "Costar", "answers": [
+      { "field": "Infinitivo", "text": "cost" },
+      { "field": "Pasado Simple", "text": "cost" },
+      { "field": "Pasado Participio", "text": "cost" }
+    ]},
+    { "front_text": "Cortar", "answers": [
+      { "field": "Infinitivo", "text": "cut" },
+      { "field": "Pasado Simple", "text": "cut" },
+      { "field": "Pasado Participio", "text": "cut" }
+    ]},
+    { "front_text": "Tratar/Repartir", "answers": [
+      { "field": "Infinitivo", "text": "deal" },
+      { "field": "Pasado Simple", "text": "dealt" },
+      { "field": "Pasado Participio", "text": "dealt" }
+    ]},
+    { "front_text": "Hacer", "answers": [
+      { "field": "Infinitivo", "text": "do" },
+      { "field": "Pasado Simple", "text": "did" },
+      { "field": "Pasado Participio", "text": "done" }
+    ]},
+    { "front_text": "Dibujar", "answers": [
+      { "field": "Infinitivo", "text": "draw" },
+      { "field": "Pasado Simple", "text": "drew" },
+      { "field": "Pasado Participio", "text": "drawn" }
+    ]},
+    { "front_text": "Beber", "answers": [
+      { "field": "Infinitivo", "text": "drink" },
+      { "field": "Pasado Simple", "text": "drank" },
+      { "field": "Pasado Participio", "text": "drunk" }
+    ]},
+    { "front_text": "Conducir", "answers": [
+      { "field": "Infinitivo", "text": "drive" },
+      { "field": "Pasado Simple", "text": "drove" },
+      { "field": "Pasado Participio", "text": "driven" }
+    ]},
+    { "front_text": "Comer", "answers": [
+      { "field": "Infinitivo", "text": "eat" },
+      { "field": "Pasado Simple", "text": "ate" },
+      { "field": "Pasado Participio", "text": "eaten" }
+    ]},
+    { "front_text": "Caer", "answers": [
+      { "field": "Infinitivo", "text": "fall" },
+      { "field": "Pasado Simple", "text": "fell" },
+      { "field": "Pasado Participio", "text": "fallen" }
+    ]},
+    { "front_text": "Sentir", "answers": [
+      { "field": "Infinitivo", "text": "feel" },
+      { "field": "Pasado Simple", "text": "felt" },
+      { "field": "Pasado Participio", "text": "felt" }
+    ]},
+    { "front_text": "Pelear", "answers": [
+      { "field": "Infinitivo", "text": "fight" },
+      { "field": "Pasado Simple", "text": "fought" },
+      { "field": "Pasado Participio", "text": "fought" }
+    ]},
+    { "front_text": "Encontrar", "answers": [
+      { "field": "Infinitivo", "text": "find" },
+      { "field": "Pasado Simple", "text": "found" },
+      { "field": "Pasado Participio", "text": "found" }
+    ]},
+    { "front_text": "Volar", "answers": [
+      { "field": "Infinitivo", "text": "fly" },
+      { "field": "Pasado Simple", "text": "flew" },
+      { "field": "Pasado Participio", "text": "flown" }
+    ]},
+    { "front_text": "Olvidar", "answers": [
+      { "field": "Infinitivo", "text": "forget" },
+      { "field": "Pasado Simple", "text": "forgot" },
+      { "field": "Pasado Participio", "text": "forgotten" }
+    ]},
+    { "front_text": "Congelar", "answers": [
+      { "field": "Infinitivo", "text": "freeze" },
+      { "field": "Pasado Simple", "text": "froze" },
+      { "field": "Pasado Participio", "text": "frozen" }
+    ]},
+    { "front_text": "Obtener/Conseguir", "answers": [
+      { "field": "Infinitivo", "text": "get" },
+      { "field": "Pasado Simple", "text": "got" },
+      { "field": "Pasado Participio", "text": { "anyOf": ["gotten", "got"] } }
+    ]},
+    { "front_text": "Dar", "answers": [
+      { "field": "Infinitivo", "text": "give" },
+      { "field": "Pasado Simple", "text": "gave" },
+      { "field": "Pasado Participio", "text": "given" }
+    ]},
+    { "front_text": "Ir", "answers": [
+      { "field": "Infinitivo", "text": "go" },
+      { "field": "Pasado Simple", "text": "went" },
+      { "field": "Pasado Participio", "text": "gone" }
+    ]},
+    { "front_text": "Crecer/Cultivar", "answers": [
+      { "field": "Infinitivo", "text": "grow" },
+      { "field": "Pasado Simple", "text": "grew" },
+      { "field": "Pasado Participio", "text": "grown" }
+    ]},
+    { "front_text": "Colgar", "answers": [
+      { "field": "Infinitivo", "text": "hang" },
+      { "field": "Pasado Simple", "text": "hung" },
+      { "field": "Pasado Participio", "text": "hung" }
+    ]},
+    { "front_text": "Tener", "answers": [
+      { "field": "Infinitivo", "text": "have" },
+      { "field": "Pasado Simple", "text": "had" },
+      { "field": "Pasado Participio", "text": "had" }
+    ]},
+    { "front_text": "Oír", "answers": [
+      { "field": "Infinitivo", "text": "hear" },
+      { "field": "Pasado Simple", "text": "heard" },
+      { "field": "Pasado Participio", "text": "heard" }
+    ]},
+    { "front_text": "Esconder", "answers": [
+      { "field": "Infinitivo", "text": "hide" },
+      { "field": "Pasado Simple", "text": "hid" },
+      { "field": "Pasado Participio", "text": "hidden" }
+    ]},
+    { "front_text": "Golpear", "answers": [
+      { "field": "Infinitivo", "text": "hit" },
+      { "field": "Pasado Simple", "text": "hit" },
+      { "field": "Pasado Participio", "text": "hit" }
+    ]},
+    { "front_text": "Sostener/Abrazar", "answers": [
+      { "field": "Infinitivo", "text": "hold" },
+      { "field": "Pasado Simple", "text": "held" },
+      { "field": "Pasado Participio", "text": "held" }
+    ]},
+    { "front_text": "Herir/Doler", "answers": [
+      { "field": "Infinitivo", "text": "hurt" },
+      { "field": "Pasado Simple", "text": "hurt" },
+      { "field": "Pasado Participio", "text": "hurt" }
+    ]},
+    { "front_text": "Guardar/Mantener", "answers": [
+      { "field": "Infinitivo", "text": "keep" },
+      { "field": "Pasado Simple", "text": "kept" },
+      { "field": "Pasado Participio", "text": "kept" }
+    ]},
+    { "front_text": "Saber/Conocer", "answers": [
+      { "field": "Infinitivo", "text": "know" },
+      { "field": "Pasado Simple", "text": "knew" },
+      { "field": "Pasado Participio", "text": "known" }
+    ]},
+    { "front_text": "Aprender", "answers": [
+      { "field": "Infinitivo", "text": "learn" },
+      { "field": "Pasado Simple", "text": { "anyOf": ["learned", "learnt"] } },
+      { "field": "Pasado Participio", "text": { "anyOf": ["learned", "learnt"] } }
+    ]},
+    { "front_text": "Dejar/Salir", "answers": [
+      { "field": "Infinitivo", "text": "leave" },
+      { "field": "Pasado Simple", "text": "left" },
+      { "field": "Pasado Participio", "text": "left" }
+    ]},
+    { "front_text": "Prestar", "answers": [
+      { "field": "Infinitivo", "text": "lend" },
+      { "field": "Pasado Simple", "text": "lent" },
+      { "field": "Pasado Participio", "text": "lent" }
+    ]},
+    { "front_text": "Dejar/Permitir", "answers": [
+      { "field": "Infinitivo", "text": "let" },
+      { "field": "Pasado Simple", "text": "let" },
+      { "field": "Pasado Participio", "text": "let" }
+    ]},
+    { "front_text": "Yacer/Acostarse", "answers": [
+      { "field": "Infinitivo", "text": "lie" },
+      { "field": "Pasado Simple", "text": "lay" },
+      { "field": "Pasado Participio", "text": "lain" }
+    ]},
+    { "front_text": "Encender", "answers": [
+      { "field": "Infinitivo", "text": "light" },
+      { "field": "Pasado Simple", "text": "lit" },
+      { "field": "Pasado Participio", "text": "lit" }
+    ]},
+    { "front_text": "Perder", "answers": [
+      { "field": "Infinitivo", "text": "lose" },
+      { "field": "Pasado Simple", "text": "lost" },
+      { "field": "Pasado Participio", "text": "lost" }
+    ]},
+    { "front_text": "Hacer/Fabricar", "answers": [
+      { "field": "Infinitivo", "text": "make" },
+      { "field": "Pasado Simple", "text": "made" },
+      { "field": "Pasado Participio", "text": "made" }
+    ]},
+    { "front_text": "Significar", "answers": [
+      { "field": "Infinitivo", "text": "mean" },
+      { "field": "Pasado Simple", "text": "meant" },
+      { "field": "Pasado Participio", "text": "meant" }
+    ]},
+    { "front_text": "Conocer/Reunirse", "answers": [
+      { "field": "Infinitivo", "text": "meet" },
+      { "field": "Pasado Simple", "text": "met" },
+      { "field": "Pasado Participio", "text": "met" }
+    ]},
+    { "front_text": "Segar/Cortar césped", "answers": [
+      { "field": "Infinitivo", "text": "mow" },
+      { "field": "Pasado Simple", "text": "mowed" },
+      { "field": "Pasado Participio", "text": { "anyOf": ["mowed", "mown"] } }
+    ]},
+    { "front_text": "Pagar", "answers": [
+      { "field": "Infinitivo", "text": "pay" },
+      { "field": "Pasado Simple", "text": "paid" },
+      { "field": "Pasado Participio", "text": "paid" }
+    ]},
+    { "front_text": "Poner", "answers": [
+      { "field": "Infinitivo", "text": "put" },
+      { "field": "Pasado Simple", "text": "put" },
+      { "field": "Pasado Participio", "text": "put" }
+    ]},
+    { "front_text": "Leer", "answers": [
+      { "field": "Infinitivo", "text": "read" },
+      { "field": "Pasado Simple", "text": "read" },
+      { "field": "Pasado Participio", "text": "read" }
+    ]},
+    { "front_text": "Montar/Andar", "answers": [
+      { "field": "Infinitivo", "text": "ride" },
+      { "field": "Pasado Simple", "text": "rode" },
+      { "field": "Pasado Participio", "text": "ridden" }
+    ]},
+    { "front_text": "Sonear/Llamar", "answers": [
+      { "field": "Infinitivo", "text": "ring" },
+      { "field": "Pasado Simple", "text": "rang" },
+      { "field": "Pasado Participio", "text": "rung" }
+    ]},
+    { "front_text": "Elevarse/Subir", "answers": [
+      { "field": "Infinitivo", "text": "rise" },
+      { "field": "Pasado Simple", "text": "rose" },
+      { "field": "Pasado Participio", "text": "risen" }
+    ]},
+    { "front_text": "Correr", "answers": [
+      { "field": "Infinitivo", "text": "run" },
+      { "field": "Pasado Simple", "text": "ran" },
+      { "field": "Pasado Participio", "text": "run" }
+    ]},
+    { "front_text": "Decir", "answers": [
+      { "field": "Infinitivo", "text": "say" },
+      { "field": "Pasado Simple", "text": "said" },
+      { "field": "Pasado Participio", "text": "said" }
+    ]},
+    { "front_text": "Ver", "answers": [
+      { "field": "Infinitivo", "text": "see" },
+      { "field": "Pasado Simple", "text": "saw" },
+      { "field": "Pasado Participio", "text": "seen" }
+    ]},
+    { "front_text": "Vender", "answers": [
+      { "field": "Infinitivo", "text": "sell" },
+      { "field": "Pasado Simple", "text": "sold" },
+      { "field": "Pasado Participio", "text": "sold" }
+    ]},
+    { "front_text": "Enviar", "answers": [
+      { "field": "Infinitivo", "text": "send" },
+      { "field": "Pasado Simple", "text": "sent" },
+      { "field": "Pasado Participio", "text": "sent" }
+    ]},
+    { "front_text": "Poner/Colocar", "answers": [
+      { "field": "Infinitivo", "text": "set" },
+      { "field": "Pasado Simple", "text": "set" },
+      { "field": "Pasado Participio", "text": "set" }
+    ]},
+    { "front_text": "Agitar/Sacudir", "answers": [
+      { "field": "Infinitivo", "text": "shake" },
+      { "field": "Pasado Simple", "text": "shook" },
+      { "field": "Pasado Participio", "text": "shaken" }
+    ]},
+    { "front_text": "Brillar", "answers": [
+      { "field": "Infinitivo", "text": "shine" },
+      { "field": "Pasado Simple", "text": "shone" },
+      { "field": "Pasado Participio", "text": "shone" }
+    ]},
+    { "front_text": "Disparar", "answers": [
+      { "field": "Infinitivo", "text": "shoot" },
+      { "field": "Pasado Simple", "text": "shot" },
+      { "field": "Pasado Participio", "text": "shot" }
+    ]},
+    { "front_text": "Mostrar", "answers": [
+      { "field": "Infinitivo", "text": "show" },
+      { "field": "Pasado Simple", "text": "showed" },
+      { "field": "Pasado Participio", "text": "shown" }
+    ]},
+    { "front_text": "Cantar", "answers": [
+      { "field": "Infinitivo", "text": "sing" },
+      { "field": "Pasado Simple", "text": "sang" },
+      { "field": "Pasado Participio", "text": "sung" }
+    ]},
+    { "front_text": "Sentarse", "answers": [
+      { "field": "Infinitivo", "text": "sit" },
+      { "field": "Pasado Simple", "text": "sat" },
+      { "field": "Pasado Participio", "text": "sat" }
+    ]},
+    { "front_text": "Dormir", "answers": [
+      { "field": "Infinitivo", "text": "sleep" },
+      { "field": "Pasado Simple", "text": "slept" },
+      { "field": "Pasado Participio", "text": "slept" }
+    ]},
+    { "front_text": "Oler", "answers": [
+      { "field": "Infinitivo", "text": "smell" },
+      { "field": "Pasado Simple", "text": { "anyOf": ["smelled", "smelt"] } },
+      { "field": "Pasado Participio", "text": { "anyOf": ["smelled", "smelt"] } }
+    ]},
+    { "front_text": "Hablar", "answers": [
+      { "field": "Infinitivo", "text": "speak" },
+      { "field": "Pasado Simple", "text": "spoke" },
+      { "field": "Pasado Participio", "text": "spoken" }
+    ]},
+    { "front_text": "Deletrear", "answers": [
+      { "field": "Infinitivo", "text": "spell" },
+      { "field": "Pasado Simple", "text": { "anyOf": ["spelled", "spelt"] } },
+      { "field": "Pasado Participio", "text": { "anyOf": ["spelled", "spelt"] } }
+    ]},
+    { "front_text": "Gastar/Pasar", "answers": [
+      { "field": "Infinitivo", "text": "spend" },
+      { "field": "Pasado Simple", "text": "spent" },
+      { "field": "Pasado Participio", "text": "spent" }
+    ]},
+    { "front_text": "Derramar", "answers": [
+      { "field": "Infinitivo", "text": "spill" },
+      { "field": "Pasado Simple", "text": { "anyOf": ["spilled", "spilt"] } },
+      { "field": "Pasado Participio", "text": { "anyOf": ["spilled", "spilt"] } }
+    ]},
+    { "front_text": "Estar de pie", "answers": [
+      { "field": "Infinitivo", "text": "stand" },
+      { "field": "Pasado Simple", "text": "stood" },
+      { "field": "Pasado Participio", "text": "stood" }
+    ]},
+    { "front_text": "Robar", "answers": [
+      { "field": "Infinitivo", "text": "steal" },
+      { "field": "Pasado Simple", "text": "stole" },
+      { "field": "Pasado Participio", "text": "stolen" }
+    ]},
+    { "front_text": "Picar", "answers": [
+      { "field": "Infinitivo", "text": "sting" },
+      { "field": "Pasado Simple", "text": "stung" },
+      { "field": "Pasado Participio", "text": "stung" }
+    ]},
+    { "front_text": "Nadar", "answers": [
+      { "field": "Infinitivo", "text": "swim" },
+      { "field": "Pasado Simple", "text": "swam" },
+      { "field": "Pasado Participio", "text": "swum" }
+    ]},
+    { "front_text": "Tomar/Llevar", "answers": [
+      { "field": "Infinitivo", "text": "take" },
+      { "field": "Pasado Simple", "text": "took" },
+      { "field": "Pasado Participio", "text": "taken" }
+    ]},
+    { "front_text": "Enseñar", "answers": [
+      { "field": "Infinitivo", "text": "teach" },
+      { "field": "Pasado Simple", "text": "taught" },
+      { "field": "Pasado Participio", "text": "taught" }
+    ]},
+    { "front_text": "Contar/Decir", "answers": [
+      { "field": "Infinitivo", "text": "tell" },
+      { "field": "Pasado Simple", "text": "told" },
+      { "field": "Pasado Participio", "text": "told" }
+    ]},
+    { "front_text": "Pensar", "answers": [
+      { "field": "Infinitivo", "text": "think" },
+      { "field": "Pasado Simple", "text": "thought" },
+      { "field": "Pasado Participio", "text": "thought" }
+    ]},
+    { "front_text": "Lanzar/Arrojar", "answers": [
+      { "field": "Infinitivo", "text": "throw" },
+      { "field": "Pasado Simple", "text": "threw" },
+      { "field": "Pasado Participio", "text": "thrown" }
+    ]},
+    { "front_text": "Entender", "answers": [
+      { "field": "Infinitivo", "text": "understand" },
+      { "field": "Pasado Simple", "text": "understood" },
+      { "field": "Pasado Participio", "text": "understood" }
+    ]},
+    { "front_text": "Despertar", "answers": [
+      { "field": "Infinitivo", "text": "wake" },
+      { "field": "Pasado Simple", "text": "woke" },
+      { "field": "Pasado Participio", "text": "woken" }
+    ]},
+    { "front_text": "Vestir/Usar", "answers": [
+      { "field": "Infinitivo", "text": "wear" },
+      { "field": "Pasado Simple", "text": "wore" },
+      { "field": "Pasado Participio", "text": "worn" }
+    ]},
+    { "front_text": "Ganar", "answers": [
+      { "field": "Infinitivo", "text": "win" },
+      { "field": "Pasado Simple", "text": "won" },
+      { "field": "Pasado Participio", "text": "won" }
+    ]},
+    { "front_text": "Retirar/Sacar", "answers": [
+      { "field": "Infinitivo", "text": "withdraw" },
+      { "field": "Pasado Simple", "text": "withdrew" },
+      { "field": "Pasado Participio", "text": "withdrawn" }
+    ]},
+    { "front_text": "Escribir", "answers": [
+      { "field": "Infinitivo", "text": "write" },
+      { "field": "Pasado Simple", "text": "wrote" },
+      { "field": "Pasado Participio", "text": "written" }
+    ]}
+  ]
+}

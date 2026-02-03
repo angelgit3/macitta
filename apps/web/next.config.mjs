@@ -1,7 +1,7 @@
 const nextConfig = {
     transpilePackages: ["@maccita/shared"],
     experimental: {
-        reactCompiler: true,
+        // reactCompiler: true,
     },
 };
 
