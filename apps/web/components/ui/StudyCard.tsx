@@ -1,71 +1,160 @@
-import React, { useState } from "react";
-import { Volume2 } from "lucide-react";
+import React, { useRef, useEffect } from "react";
+import { Check, X, ArrowRight, CornerDownLeft } from "lucide-react";
+import type { CardData, SlotFeedback } from "@/hooks/useStudySession";
 
 interface StudyCardProps {
-    frontContent: string;
-    backContent: string;
-    context?: string;
-    masteryLevel?: number;
-    onFlip?: () => void;
+    card: CardData;
+    userAnswers: Record<string, string>;
+    feedback: Record<string, SlotFeedback>;
+    isRevealed: boolean;
+    onInputChange: (slotId: string, value: string) => void;
+    onSubmit: () => void;
+    onNext: () => void;
 }
 
 export function StudyCard({
-    frontContent,
-    backContent,
-    context,
-    masteryLevel,
+    card,
+    userAnswers,
+    feedback,
+    isRevealed,
+    onInputChange,
+    onSubmit,
+    onNext,
 }: StudyCardProps) {
-    const [isFlipped, setIsFlipped] = useState(false);
+    // Refs for input management
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const submitButtonRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+        // Reset refs when card changes
+        inputRefs.current = inputRefs.current.slice(0, card.slots.length);
+        if (!isRevealed && inputRefs.current[0]) {
+            inputRefs.current[0].focus();
+        }
+        // Focus submit/next button when revealed so Enter works to proceed
+        if (isRevealed && submitButtonRef.current) {
+            submitButtonRef.current.focus();
+        }
+    }, [card.id, isRevealed, card.slots.length]);
+
+    const handleKeyDown = (e: React.KeyboardEvent, index: number, slotId: string) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+
+            if (isRevealed) {
+                onNext();
+                return;
+            }
+
+            // If there's a next slot, focus it
+            if (index < card.slots.length - 1) {
+                inputRefs.current[index + 1]?.focus();
+            } else {
+                // Last slot -> Submit
+                onSubmit();
+            }
+        }
+
+        if (e.key === "Backspace") {
+            const currentValue = userAnswers[slotId] || "";
+            if (currentValue === "" && index > 0) {
+                // Go back to previous input if current is empty
+                e.preventDefault(); // Good UX to prevent back nav potentially
+                inputRefs.current[index - 1]?.focus();
+            }
+        }
+    };
 
     return (
-        <div className="w-full aspect-[4/5] bg-stone-surface rounded-3xl border border-white/5 p-8 relative flex flex-col items-center justify-center text-center shadow-2xl shadow-black/50 overflow-hidden">
-            {/* Background Gradient Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+        <div className="w-full max-w-md mx-auto bg-zinc-900 rounded-3xl border border-white/5 p-8 relative flex flex-col gap-8 shadow-2xl shadow-black/50 overflow-hidden">
+            {/* Background Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
 
-            {/* Top Controls */}
-            <div className="absolute top-6 w-full px-6 flex justify-between items-center text-xs font-bold tracking-widest text-text-dim/50 uppercase">
-                <span>Infinitive Verb</span>
-                {masteryLevel && (
-                    <span className="bg-blue-500/10 text-accent-focus px-2 py-1 rounded">
-                        Mastery Level {masteryLevel}
-                    </span>
-                )}
-            </div>
-
-            {/* Main Content */}
-            <div className="z-10 flex flex-col items-center gap-4">
-                <h1 className="text-6xl font-black tracking-tight text-white drop-shadow-xl">
-                    {frontContent}
+            {/* Question Header */}
+            <div className="z-10 text-center space-y-2">
+                <span className="text-xs font-bold tracking-[0.2em] text-blue-400 uppercase">
+                    Verbo Irregular
+                </span>
+                <h1 className="text-4xl font-black tracking-tight text-white drop-shadow-md">
+                    {card.question}
                 </h1>
-
-                <div
-                    className={`text-2xl font-serif text-text-dim transition-all duration-500 ${isFlipped ? "opacity-100 blur-0" : "opacity-0 blur-md translate-y-4"
-                        }`}
-                >
-                    {backContent}
-                </div>
             </div>
 
-            {/* Context Quote */}
-            {context && (
-                <div className="absolute bottom-12 text-sm italic text-white/30 font-serif max-w-[80%]">
-                    "{context}"
-                </div>
-            )}
+            {/* Slots / Inputs */}
+            <div className="z-10 flex flex-col gap-4">
+                {card.slots.map((slot, index) => {
+                    const slotState = feedback[slot.id];
+                    const isCorrect = slotState?.status === 'correct';
+                    const isIncorrect = slotState?.status === 'incorrect';
+                    const inputValue = userAnswers[slot.id] || "";
 
-            {/* Audio Button */}
-            <button className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-accent-focus/20 hover:bg-accent-focus text-accent-focus hover:text-white flex items-center justify-center transition-all">
-                <Volume2 size={24} />
-            </button>
+                    return (
+                        <div key={slot.id} className="group relative">
+                            <label className="text-[10px] font-bold text-zinc-500 uppercase ml-1 mb-1 block">
+                                {slot.label}
+                                {slot.match_type === 'all' && <span className="text-blue-500/50 ml-1">(Todas las formas)</span>}
+                            </label>
 
-            {/* Reveal Interaction */}
-            {!isFlipped && (
+                            <div className="relative">
+                                <input
+                                    ref={el => { inputRefs.current[index] = el }}
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => onInputChange(slot.id, e.target.value)}
+                                    onKeyDown={(e) => handleKeyDown(e, index, slot.id)}
+                                    disabled={isRevealed}
+                                    autoComplete="off"
+                                    className={`
+                                        w-full bg-black/40 border-2 rounded-xl px-4 py-3 text-lg font-medium text-white placeholder-zinc-700 outline-none transition-all
+                                        ${isRevealed
+                                            ? isCorrect
+                                                ? "border-green-500/50 bg-green-500/10 text-green-200"
+                                                : "border-red-500/50 bg-red-500/10 text-red-200"
+                                            : "border-white/10 focus:border-blue-500/50 focus:bg-white/5"
+                                        }
+                                    `}
+                                    placeholder="..."
+                                />
+
+                                {/* Icons */}
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
+                                    {isRevealed && isCorrect && <Check className="text-green-400 w-5 h-5" />}
+                                    {isRevealed && isIncorrect && <X className="text-red-400 w-5 h-5" />}
+                                </div>
+                            </div>
+
+                            {/* Correction / Answer Display */}
+                            {isRevealed && isIncorrect && (
+                                <div className="mt-2 text-sm text-green-400/90 pl-1 animate-in fade-in slide-in-from-top-1">
+                                    <span className="opacity-50 text-xs uppercase mr-2">Respuesta:</span>
+                                    {slot.accepted_answers.join(", ")}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* Action Button */}
+            <div className="z-10 mt-2">
                 <button
-                    onClick={() => setIsFlipped(true)}
-                    className="absolute inset-0 w-full h-full cursor-pointer z-20 outline-none"
-                    aria-label="Reveal Answer"
-                />
-            )}
+                    ref={submitButtonRef}
+                    onClick={isRevealed ? onNext : onSubmit}
+                    className={`
+                        w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold tracking-wide transition-all transform active:scale-95
+                        ${isRevealed
+                            ? "bg-white text-black hover:bg-zinc-200"
+                            : "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-900/20"
+                        }
+                    `}
+                >
+                    {isRevealed ? (
+                        <>Siguiente <ArrowRight size={20} /></>
+                    ) : (
+                        <>Comprobar <CornerDownLeft size={20} /></>
+                    )}
+                </button>
+            </div>
         </div>
     );
 }
