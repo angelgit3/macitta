@@ -4,7 +4,7 @@ import { StatsGraph } from "@/components/ui/StatsGraph";
 import { BookOpen, Target, Cloud } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function Dashboard() {
+export default async function HomePage() {
     const supabase = await createClient();
 
     const { count } = await supabase
