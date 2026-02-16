@@ -23,38 +23,25 @@
 
 ### Core Libraries (`packages/shared`)
 - **Algoritmo SRS**: `ts-fsrs` (Free Spaced Repetition Scheduler).
-- **Validación**: `zod`.
-- **Comparación de Textos**: `fast-levenshtein` (para detectar typos y calcular similitud).
+- **Relaciones de Datos**: Configuración de `decks`, `cards`, `card_slots`, `user_items` y `study_logs`.
 
 ## 3. Lógica Principal del Negocio
 
 ### El Algoritmo de Repaso (FSRS)
 El núcleo de la aplicación reside en cómo gestiona los intervalos de repaso. Utiliza el algoritmo FSRS para calcular cuándo se debe volver a mostrar una tarjeta en función de la dificultad y la estabilidad de la memoria.
 
-La lógica de calificación se encuentra en `packages/shared/index.ts`:
+La lógica de calificación se encuentra en `useStudySession`:
 
 1.  **Validación de Respuesta (`validateAnswer`)**:
-    - Maneja respuestas complejas: cadenas simples, arrays de respuestas válidas, opciones múltiples (`anyOf`), o requerimientos compuestos (`allOf`).
-    - Normaliza entradas (minusculas, trim) para comparación.
+    - Maneja respuestas múltiples para cada slot (Infinitive, Past, Participle).
+    - Soporta comparación exacta y tipos de coincidencia (`any` / `all`).
 
-2.  **Cálculo de Rating (`calculateRating`)**: determina la calidad de la respuesta (Again, Hard, Good, Easy) basándose en dos factores:
-    - **Distancia de Levenshtein**: Mide qué tan cerca estuvo la respuesta del usuario de la correcta (permite pequeños typos).
-    - **Tiempo de Respuesta**:
-        - **< 4s**: Easy (si es correcto).
-        - **4s - 8s**: Good (si es correcto).
-        - **> 8s**: Hard (aunque sea correcto).
-        - **Error o Distancia > 1**: Again (Fallo).
-        El tiempo empieza a correr desde que el usuario empieza a escribir, para evitar que alguien que se sabe la respuesta pero escribe lento reciba malas puntuaciones
-
-### Algoritmo SRS (FSRS)
-- **Implementación**: `ts-fsrs` ejecutándose en el cliente.
-- **Ventaja**: Permite calcular intervalos de repaso (`stability`, `difficulty`, `due`) localmente sin depender de llamadas al servidor, ideal para el modo offline.
-
-### Validación y Rating
-- **Levenshtein**: Uso de `fast-levenshtein` para tolerar typos y no penalizar al usuario por errores de dedo.
-- **Manejo de Tiempos**: 
-    - **< 4s**: Easy (si es correcto).
-    - **Ajuste de Ingeniería**: El temporizador debe **detenerse** en cuanto el usuario presiona la primera tecla para evitar penalizar la velocidad de escritura.
+2.  **Cálculo de Rating Automático**:
+    - **Easy (3)**: Correcto + Tiempo < 4s.
+    - **Good (2)**: Correcto + Tiempo 4s - 8s.
+    - **Hard (1)**: Correcto + Tiempo > 8s.
+    - **Again (0)**: Incorrecto o Fallo.
+    - *Nota*: La medición de tiempo se optimizó para no penalizar la velocidad de escritura lenta.
 
 
 ### Modelo de Datos (Base de Datos)
@@ -108,13 +95,10 @@ Información extendida del usuario.
 
 Para resolver el conflicto entre el backend en la nube y la falta de señal:
 
-1. **Local-First**: Toda acción de estudio se registra primero en `Dexie.js`.
-2. **Sincronización (Sync)**: La app detecta el estado de red. Al recuperar conexión, envía los cambios acumulados de `user_progress` a Supabase.
-3. **Versionado de Contenido**: La tabla `verbs` incluye un campo `vsn` (versionado). La app solo descarga actualizaciones de mazos si la versión remota es superior a la local.
-
-## 7. Multimedia y Almacenamiento
-- **Online**: Carga perezosa (Lazy Loading) de imágenes y pre-fetching de audios desde Supabase Storage.
-- **Offline**: Almacenamiento de archivos multimedia como Blobs en IndexedDB para asegurar que las tarjetas tengan audio e imagen sin internet.
+1. **Local-First**: Toda acción de estudio se lee de Supabase pero se persiste y utiliza desde `Dexie.js` como fuente primaria.
+2. **Sincronización (Syncing)**: La app utiliza un hook `useSync` que gestiona una `syncQueue` en Dexie. Al recuperar conexión, sincroniza cambios pendientes.
+3. **Indicador de Estado**: Un botón flotante (`SyncManager`) indica visualmente el estado de la red y permite forzar la sincronización de datos con un clic.
+4. **Multimedia Offline**: Reservado para V2 (Almacenamiento de Blobs en IndexedDB).
 
 ---
 *Nota: Se mantiene Next.js como núcleo para facilitar la escalabilidad hacia una plataforma web completa y permitir su futuro empaquetado como aplicación móvil nativa.*

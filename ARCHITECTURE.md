@@ -65,22 +65,21 @@ Al enviar una respuesta, el sistema realiza tres acciones en paralelo:
 
 ## 4. Estado Actual del Producto (Product Level)
 
-A fecha de febrero 2026, la app cuenta con:
-- **Flujo de Estudio Completo**: Desde la carga del mazo hasta la pantalla de resumen ("Misión Cumplida").
-- **Dashboard Estadístico**: Visualización de racha, tiempo total de estudio y % de maestría.
-- **Inventario de Vocabulario**: Explorador de los 93 verbos con su estado de aprendizaje actual.
-- **Gestión de Cuenta**: Funcionalidad de cambio de contraseña y cierre de sesión integrada.
-- **Preparación PWA**: Manifiesto configurado para instalación en dispositivos móviles.
+A fecha de febrero 2026, la app (V1) cuenta con:
+- **Offline-First Engine**: Sincronización robusta con Dexie.js y Supabase.
+- **Flujo de Estudio Completo**: Interfaz Zen con FSRS integrado y slots dinámicos.
+- **Dashboard Estadístico**: Estadísticas reales, actividad y racha de estudio.
+- **Vocabulario**: Explorador de verbos con estado de maestría visual.
+- **PWA Full**: Instalable y funcional sin red (datos previos cacheados).
 
 ---
 
-## 5. Roadmap y Próximos Pasos
+## 5. Roadmap y Próximos Pasos (V2)
 
-Para que el proyecto escale a un producto profesional masivo:
-1.  **Multimedia Offline**: Implementar IndexedDB para cachear audios e imágenes.
-2.  **Notificaciones PWA**: Recordatorios automáticos cuando las tarjetas estén `due`.
-3.  **Gamificación**: Rankings de usuarios (Leaderboard) basados en la precisión y racha.
-4.  **Expansión de Contenido**: Herramienta de importación masiva para nuevos mazos (phrasal verbs, idioms).
+1.  **Multimedia Offline**: Almacenamiento de audios y miniaturas en IndexedDB.
+2.  **Gamificación**: Leaderboard global y metas personalizables.
+3.  **Editor de Mazos**: Permitir a los usuarios crear sus propias flashcards desde la UI.
+4.  **Notificaciones**: Recordatorios inteligentes basados en la curva del olvido.
 
 ---
 *Documentación generada para asegurar la continuidad del desarrollo entre sesiones.*
