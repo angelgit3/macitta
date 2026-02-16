@@ -1,5 +1,1 @@
-{
-  "/auth/login/page": "app/auth/login/page.js",
-  "/(app)/estudio/page": "app/(app)/estudio/page.js",
-  "/(app)/dashboard/page": "app/(app)/dashboard/page.js"
-}
+{}

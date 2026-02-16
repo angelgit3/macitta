@@ -1,0 +1,1 @@
+bash: línea 1: git: orden no encontrada

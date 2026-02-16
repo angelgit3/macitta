@@ -1,0 +1,22 @@
+apps
+ARCHITECTURE.md
+build_output_auth.txt
+build_output_brand.txt
+build_output_dash.txt
+build_output_v3.txt
+CHANGELOG.md
+config_git.txt
+CONTEXT.md
+debug_git.txt
+distro_test.txt
+Documentos extra
+git_status_out.txt
+Macita.md
+node_modules
+package.json
+package-lock.json
+packages
+README.md
+reset_output.txt
+status_git.txt
+turbo.json
