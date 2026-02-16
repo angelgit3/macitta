@@ -1,11 +1,9 @@
-
 "use client";
 
 import { useStudySession } from "@/hooks/useStudySession";
 import { StudyCard } from "@/components/ui/StudyCard";
-import { Loader2, CheckCircle } from "lucide-react";
-import Link from "next/link";
-import { ZenButton } from "@/components/ui/ZenButton";
+import { Loader2 } from "lucide-react";
+import { StudySummary } from "./StudySummary";
 
 export default function StudyPage() {
     const {
@@ -19,7 +17,8 @@ export default function StudyPage() {
         submitAnswer,
         nextCard,
         progress,
-        totalCards
+        totalCards,
+        stats
     } = useStudySession();
 
     if (loading) {
@@ -33,18 +32,11 @@ export default function StudyPage() {
 
     if (sessionComplete) {
         return (
-            <div className="h-full flex flex-col items-center justify-center gap-6 text-center animate-in zoom-in-95 duration-500">
-                <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mb-2">
-                    <CheckCircle className="w-12 h-12 text-green-500" />
-                </div>
-                <div className="space-y-2">
-                    <h1 className="text-3xl font-black text-white">¡Sesión Completada!</h1>
-                    <p className="text-zinc-400">Has repasado {totalCards} tarjetas hoy.</p>
-                </div>
-                <Link href="/home">
-                    <ZenButton variant="primary">Volver al Inicio</ZenButton>
-                </Link>
-            </div>
+            <StudySummary
+                totalCards={stats.total}
+                correctCards={stats.correct}
+                totalTimeMs={stats.durationMs}
+            />
         );
     }
 

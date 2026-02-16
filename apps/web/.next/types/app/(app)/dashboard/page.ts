@@ -1,4 +1,4 @@
-// File: /home/aanaya/Escritorio/Maccita_god/apps/web/app/(app)/dashboard/page.tsx
+// File: /var/home/aanaya/Escritorio/Maccita_god/apps/web/app/(app)/dashboard/page.tsx
 import * as entry from '../../../../../app/(app)/dashboard/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

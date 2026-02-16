@@ -1,9 +1,24 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { ClientProviders } from "@/components/providers/ClientProviders";
 
 export const metadata: Metadata = {
     title: "Macitta",
     description: "Active Recall & Spaced Repetition System",
+    manifest: "/manifest.json",
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "black-translucent",
+        title: "Macitta",
+    },
+};
+
+export const viewport: Viewport = {
+    themeColor: "#000000",
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
 };
 
 export default function RootLayout({
@@ -14,9 +29,10 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark">
             <body className="bg-void text-stone-100 min-h-screen flex justify-center selection:bg-accent-focus selection:text-white">
-                {/* Mobile Tunnel Constraint */}
                 <main className="w-full max-w-[480px] min-h-screen relative bg-void shadow-2xl shadow-void/50 border-x border-white/5">
-                    {children}
+                    <ClientProviders>
+                        {children}
+                    </ClientProviders>
                 </main>
             </body>
         </html>

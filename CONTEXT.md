@@ -39,5 +39,14 @@
 |Global Styles| `apps/web/app/globals.css` |
 |Layout Config| `apps/web/app/layout.tsx` |
 
+## 5. Agent Skills Workflow
+1.  **Mandatory Brainstorming**: Before ANY creative work (new features, component changes, or logic updates), I MUST use the `brainstorming` skill.
+    *   *Hard Gate*: No code writing until a design is presented and approved.
+2.  **Implementation Excellence**:
+    *   Follow `supabase-postgres-best-practices` for any database schema or query changes.
+    *   Follow `vercel-react-best-practices` for React/Next.js performance and patterns.
+3.  **Verification**: Use `agent-browser` for verifying UI changes or testing complex user flows.
+4.  **Discovery**: Use `find-skills` if a requested task seems common and might have an existing automated workflow.
+
 ---
-**Last Updated**: Feb 2026
+**Last Updated**: Feb 15, 2026

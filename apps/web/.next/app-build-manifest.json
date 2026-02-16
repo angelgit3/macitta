@@ -6,16 +6,6 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/auth/login/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/auth/login/page.js"
-    ],
-    "/auth/signup/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/auth/signup/page.js"
-    ],
     "/(app)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -26,20 +16,30 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/dashboard/page.js"
     ],
+    "/auth/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/auth/login/page.js"
+    ],
     "/(app)/estudio/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/estudio/page.js"
     ],
-    "/(app)/mazos/page": [
+    "/(app)/usuario/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(app)/mazos/page.js"
+      "static/chunks/app/(app)/usuario/page.js"
     ],
-    "/_not-found/page": [
+    "/(app)/vocabulario/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/(app)/vocabulario/page.js"
+    ],
+    "/(app)/home/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/home/page.js"
     ]
   }
 }

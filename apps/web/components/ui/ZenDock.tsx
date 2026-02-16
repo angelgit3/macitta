@@ -11,7 +11,7 @@ export function ZenDock() {
     const allNavItems = [
         { icon: Home, label: "Home", href: "/home" },
         { icon: Play, label: "Estudio", href: "/estudio" },
-        { icon: Layers, label: "Mazos", href: "/mazos" },
+        { icon: Layers, label: "Inventario", href: "/vocabulario" },
         { icon: User, label: "Usuario", href: "/usuario" },
     ];
 

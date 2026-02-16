@@ -1,24 +1,50 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
-const jsonPath = path.resolve(__dirname, "../../../Documentos extra/verbos_tarjetas.json");
-const rawData = fs.readFileSync(jsonPath, "utf-8");
-const data = JSON.parse(rawData);
+const jsonPath = path.resolve(__dirname, '../../../Documentos extra/verbos_tarjetas.json');
+const outputPath = path.resolve(__dirname, 'migration.sql');
+const deckId = 'd07573b2-7c4a-451b-a487-f8d8f4afc1f2';
 
-let sql = "TRUNCATE TABLE verbs RESTART IDENTITY;\n";
-sql += "INSERT INTO verbs (translation, infinitive, simple_past, past_participle, category, difficulty_level) VALUES\n";
+const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 
-const values = data.cards.map(card => {
-    const infinitive = JSON.stringify(card.answers.find(a => a.field === "Infinitivo")?.text);
-    const simplePast = JSON.stringify(card.answers.find(a => a.field === "Pasado Simple")?.text);
-    const pastParticiple = JSON.stringify(card.answers.find(a => a.field === "Pasado Participio")?.text);
+let sql = `-- Migration SQL for 93 Verbs\n`;
+sql += `BEGIN;\n\n`;
+sql += `-- Clear existing cards for this mazo\n`;
+sql += `DELETE FROM public.cards WHERE deck_id = '${deckId}';\n\n`;
 
-    // Escape single quotes in translation
-    const translation = card.front_text.replace(/'/g, "''");
+data.cards.forEach((card, cardIndex) => {
+    const cardId = crypto.randomUUID();
+    const question = card.front_text.replace(/'/g, "''");
 
-    return `('${translation}', '${infinitive}'::jsonb, '${simplePast}'::jsonb, '${pastParticiple}'::jsonb, 'irregular', 1)`;
+    sql += `-- Card: ${question}\n`;
+    sql += `INSERT INTO public.cards (id, deck_id, question) VALUES ('${cardId}', '${deckId}', '${question}');\n`;
+
+    card.answers.forEach((answer, slotIndex) => {
+        let matchType = 'any';
+        let acceptedAnswers = [];
+
+        if (typeof answer.text === 'string') {
+            acceptedAnswers = [answer.text];
+            matchType = 'any';
+        } else if (answer.text.anyOf) {
+            acceptedAnswers = answer.text.anyOf;
+            matchType = 'any';
+        } else if (answer.text.allOf) {
+            acceptedAnswers = answer.text.allOf;
+            matchType = 'all';
+        }
+
+        const label = answer.field.replace(/'/g, "''");
+        const answersSql = acceptedAnswers.map(a => `'${a.replace(/'/g, "''")}'`).join(',');
+
+        sql += `INSERT INTO public.card_slots (card_id, label, accepted_answers, order_index, match_type) `;
+        sql += `VALUES ('${cardId}', '${label}', ARRAY[${answersSql}], ${slotIndex}, '${matchType}');\n`;
+    });
+    sql += `\n`;
 });
 
-sql += values.join(",\n") + ";";
+sql += `COMMIT;`;
 
-console.log(sql);
+fs.writeFileSync(outputPath, sql);
+console.log(`Successfully generated SQL for ${data.cards.length} cards at ${outputPath}`);
