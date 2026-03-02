@@ -6,7 +6,7 @@ export default async function Dashboard() {
     const supabase = await createClient();
 
     const { count } = await supabase
-        .from("verbs")
+        .from("cards")
         .select("*", { count: "exact", head: true });
 
     return (

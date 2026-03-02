@@ -1,1 +1,0 @@
-/home/aanaya/.config/nvm/versions/node/v24.13.0/bin:/home/aanaya/.local/bin:/home/aanaya/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/usr/local/bin:/usr/bin:/sbin:/bin

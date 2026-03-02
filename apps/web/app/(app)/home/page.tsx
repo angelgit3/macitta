@@ -8,7 +8,7 @@ export default async function HomePage() {
     const supabase = await createClient();
 
     const { count } = await supabase
-        .from("verbs")
+        .from("cards")
         .select("*", { count: "exact", head: true });
 
     return (

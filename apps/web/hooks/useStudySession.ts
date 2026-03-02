@@ -1,7 +1,17 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { validateAnswer, Grade, createEmptyCard, type Card as FSRSCard, fsrs } from "@maccita/shared";
+import { validateAnswer } from "@maccita/shared";
+import {
+    evaluateSEM,
+    calculateSlotAccuracy,
+    createEmptySEMState,
+    migrateFromFSRS,
+    SEMGrade,
+    type SEMCardState,
+} from "@maccita/shared";
 import { db, type LocalCard, type LocalUserItem } from "@/lib/db";
+
+// ─── Types ──────────────────────────────────────────────────────────
 
 export interface Slot {
     id: string;
@@ -15,7 +25,7 @@ export interface CardData {
     id: string;
     question: string;
     slots: Slot[];
-    srs?: FSRSCard;
+    sem: SEMCardState;
 }
 
 export interface SlotFeedback {
@@ -23,24 +33,34 @@ export interface SlotFeedback {
     message?: string;
 }
 
+// ─── Hook ───────────────────────────────────────────────────────────
+
 export function useStudySession() {
     const supabase = createClient();
+
+    // Queue state
     const [queue, setQueue] = useState<CardData[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
     const [sessionComplete, setSessionComplete] = useState(false);
     const [isOffline, setIsOffline] = useState(typeof navigator !== 'undefined' ? !navigator.onLine : false);
 
-    // Session state
+    // Session tracking
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [deckId, setDeckId] = useState<string | null>(null);
 
-    // Current interaction state
+    // Rush mode
+    const [isRushMode, setIsRushMode] = useState(false);
+    const [remainingDueCount, setRemainingDueCount] = useState<number | null>(null);
+    const isRushModeRef = useRef(false);
+
+    // Interaction state
     const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
     const [feedback, setFeedback] = useState<Record<string, SlotFeedback>>({});
     const [isRevealed, setIsRevealed] = useState(false);
+    const [lastGrade, setLastGrade] = useState<SEMGrade | null>(null);
 
-    // Timer state
+    // Timers
     const [startTime, setStartTime] = useState<number | null>(null);
     const sessionStartTime = useRef<number>(Date.now());
 
@@ -48,40 +68,42 @@ export function useStudySession() {
     const [sessionStats, setSessionStats] = useState({
         correct: 0,
         total: 0,
-        durationMs: 0
+        durationMs: 0,
     });
 
-    // Device status listeners
+    // ─── Network Listeners ──────────────────────────────────────────
+
     useEffect(() => {
-        const handleOnline = () => setIsOffline(false);
-        const handleOffline = () => setIsOffline(true);
-        window.addEventListener('online', handleOnline);
-        window.addEventListener('offline', handleOffline);
+        const h1 = () => setIsOffline(false);
+        const h2 = () => setIsOffline(true);
+        window.addEventListener('online', h1);
+        window.addEventListener('offline', h2);
         return () => {
-            window.removeEventListener('online', handleOnline);
-            window.removeEventListener('offline', handleOffline);
+            window.removeEventListener('online', h1);
+            window.removeEventListener('offline', h2);
         };
     }, []);
+
+    // ─── Session Management ─────────────────────────────────────────
 
     const startSession = async (dId: string) => {
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return;
+            if (!user || !navigator.onLine) return;
 
-            if (navigator.onLine) {
-                const { data } = await supabase
-                    .from('study_sessions')
-                    .insert({
-                        user_id: user.id,
-                        deck_id: dId,
-                        started_at: new Date().toISOString(),
-                    })
-                    .select()
-                    .single();
-                if (data) setSessionId(data.id);
-            }
+            const { data } = await supabase
+                .from('study_sessions')
+                .insert({
+                    user_id: user.id,
+                    deck_id: dId,
+                    started_at: new Date().toISOString(),
+                })
+                .select()
+                .single();
+
+            if (data) setSessionId(data.id);
         } catch (err) {
-            console.error("Error starting study session:", err);
+            console.error("[SEM] Error starting session:", err);
         }
     };
 
@@ -95,55 +117,136 @@ export function useStudySession() {
                     ended_at: new Date().toISOString(),
                     total_cards: sessionStats.total,
                     correct_cards: sessionStats.correct,
-                    total_time_ms: totalDuration
+                    total_time_ms: totalDuration,
                 })
                 .eq('id', sessionId);
 
             setSessionStats(prev => ({ ...prev, durationMs: totalDuration }));
         } catch (err) {
-            console.error("Error ending study session:", err);
+            console.error("[SEM] Error ending session:", err);
         }
     };
 
-    // Offline-First Fetching
+    // ─── Rush Mode: Count Remaining Due ─────────────────────────────
+
+    const countRemainingDue = async (): Promise<number> => {
+        if (!deckId) return 0;
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return 0;
+            const now = new Date().toISOString();
+            const deckCards = await db.cards.where('deck_id').equals(deckId).toArray();
+            const userProgress = await db.userItems.where('user_id').equals(user.id).toArray();
+            const progressMap = new Map(userProgress.map(p => [p.card_id, p]));
+            let count = 0;
+            for (const card of deckCards) {
+                const progress = progressMap.get(card.id);
+                if (!progress || progress.due_date <= now) count++;
+            }
+            return count;
+        } catch { return 0; }
+    };
+
+    // ─── Rush Mode: Load Weakest Cards ──────────────────────────────
+
+    const loadRushCards = async () => {
+        setLoading(true);
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user || !deckId) return;
+
+            const allCards = await db.cards.where('deck_id').equals(deckId).toArray();
+            const userProgress = await db.userItems.where('user_id').equals(user.id).toArray();
+            const progressMap = new Map(userProgress.map(p => [p.card_id, p]));
+
+            // Score by weakness: more lapses + higher difficulty = weaker
+            const cardsWithScore = allCards.map(card => {
+                const progress = progressMap.get(card.id);
+                const weaknessScore = progress
+                    ? (progress.lapses * 3) + (progress.difficulty * 2) + (1 / Math.max(progress.stability, 0.1))
+                    : 5;
+                return { card, progress, weaknessScore };
+            });
+
+            // Sort by weakness, shuffle top 30, pick 10 for variety
+            cardsWithScore.sort((a, b) => b.weaknessScore - a.weaknessScore);
+            const pool = cardsWithScore.slice(0, 30);
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+
+            const formatted: CardData[] = pool.slice(0, 10).map(({ card, progress }) => ({
+                id: card.id,
+                question: card.question,
+                slots: (card.slots as any[]).sort((a: any, b: any) => a.order_index - b.order_index),
+                sem: progress ? migrateFromFSRS(progress) : createEmptySEMState(),
+            }));
+
+            setQueue(formatted);
+            setCurrentIndex(0);
+            setSessionComplete(false);
+            setSessionStats({ correct: 0, total: 0, durationMs: 0 });
+            setUserAnswers({});
+            setFeedback({});
+            setIsRevealed(false);
+            setLastGrade(null);
+            sessionStartTime.current = Date.now();
+            await startSession(deckId);
+        } catch (err) {
+            console.error("[SEM] Rush load error:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const startRushMode = async () => {
+        setIsRushMode(true);
+        isRushModeRef.current = true;
+        await loadRushCards();
+    };
+
+    // ─── Initial Content Load ───────────────────────────────────────
+
     useEffect(() => {
         let isMounted = true;
         const timeout = setTimeout(() => {
             if (isMounted && loading) {
-                console.warn("[useStudySession] Failsafe timeout reached. Forcing loading false.");
+                console.warn("[SEM] Failsafe timeout. Forcing loading false.");
                 setLoading(false);
             }
-        }, 8000); // 8 second failsafe
+        }, 8000);
 
         async function loadContent() {
             setLoading(true);
             try {
                 const { data: authData, error: authError } = await supabase.auth.getUser();
                 if (authError || !authData?.user) {
-                    console.warn("[useStudySession] Auth check failed, attempting local-only mode");
+                    console.warn("[SEM] Auth check failed, local-only mode");
                 }
                 const user = authData?.user;
 
                 // 1. Resolve Deck
-                const { data: deck, error: deckErr } = await supabase.from('decks').select('id').eq('title', 'Verbos Irregulares').single();
-                let dId = deck?.id;
+                const { data: deck, error: deckErr } = await supabase
+                    .from('decks')
+                    .select('id')
+                    .eq('title', 'Verbos Irregulares')
+                    .single();
 
+                let dId = deck?.id;
                 if (deckErr || !dId) {
-                    console.warn("[useStudySession] Deck not found in cloud, checking local...");
                     const localCards = await db.cards.limit(1).toArray();
                     if (localCards.length > 0) dId = localCards[0].deck_id;
                 }
-
-                if (!dId) throw new Error("Deck not found and no local cache available");
+                if (!dId) throw new Error("Deck not found");
 
                 setDeckId(dId);
                 await startSession(dId);
 
                 let cardsForState: any[] = [];
 
-                // 2. Refresh from Hub if Online
+                // 2. Refresh from Supabase if Online
                 if (navigator.onLine) {
-                    console.log("[useStudySession] Online: Refreshing content from Supabase...");
                     const { data: remoteCards, error: fetchError } = await supabase
                         .from('cards')
                         .select(`
@@ -153,20 +256,16 @@ export function useStudySession() {
                         `)
                         .eq('deck_id', dId);
 
-                    if (fetchError) {
-                        console.error("[useStudySession] Supabase fetch error:", fetchError);
-                    }
+                    if (fetchError) console.error("[SEM] Fetch error:", fetchError);
 
                     if (remoteCards && remoteCards.length > 0) {
-                        console.log(`[useStudySession] Syncing ${remoteCards.length} cards to local cache...`);
-
                         try {
                             const localCards: LocalCard[] = remoteCards.map(c => ({
                                 id: c.id,
                                 deck_id: dId,
                                 question: c.question,
                                 slots: c.card_slots,
-                                updated_at: new Date().toISOString()
+                                updated_at: new Date().toISOString(),
                             }));
 
                             const localUserItems: LocalUserItem[] = remoteCards
@@ -182,7 +281,7 @@ export function useStudySession() {
                                         lapses: ui.lapses,
                                         state: ui.state,
                                         last_review: ui.last_review,
-                                        due_date: ui.due_date
+                                        due_date: ui.due_date,
                                     };
                                 });
 
@@ -190,66 +289,62 @@ export function useStudySession() {
                             if (localUserItems.length > 0) {
                                 await db.userItems.bulkPut(localUserItems);
                             }
-                            console.log("[useStudySession] Local cache updated successfully.");
                             cardsForState = remoteCards;
                         } catch (dbErr) {
-                            console.error("[useStudySession] Dexie bulkPut failed:", dbErr);
+                            console.error("[SEM] Dexie bulkPut failed:", dbErr);
                         }
                     }
                 }
 
-                // 3. Fallback/Load from Local Dexie
+                // 3. Fallback: Load from Dexie
                 if (cardsForState.length === 0) {
-                    console.log("[useStudySession] Loading from local storage...");
                     const localCards = await db.cards.where('deck_id').equals(dId).toArray();
-                    const localItems = user ? await db.userItems.where('user_id').equals(user.id).toArray() : [];
+                    const localItems = user
+                        ? await db.userItems.where('user_id').equals(user.id).toArray()
+                        : [];
 
                     if (localCards.length > 0) {
                         cardsForState = localCards.map(lc => ({
                             ...lc,
                             card_slots: lc.slots,
-                            user_items: [localItems.find(li => li.card_id === lc.id)]
+                            user_items: [localItems.find(li => li.card_id === lc.id)],
                         }));
                     }
                 }
 
                 if (cardsForState.length === 0) {
-                    console.warn("[useStudySession] No cards available!");
                     setQueue([]);
                     return;
                 }
 
-                // 4. Sort and Format
+                // 4. Sort by due_date (most overdue first) and take 10
                 cardsForState.sort((a, b) => {
-                    const dueA = a.user_items?.[0]?.due_date ? new Date(a.user_items[0].due_date).getTime() : 0;
-                    const dueB = b.user_items?.[0]?.due_date ? new Date(b.user_items[0].due_date).getTime() : 0;
+                    const dueA = a.user_items?.[0]?.due_date
+                        ? new Date(a.user_items[0].due_date).getTime()
+                        : 0;
+                    const dueB = b.user_items?.[0]?.due_date
+                        ? new Date(b.user_items[0].due_date).getTime()
+                        : 0;
                     return dueA - dueB;
                 });
 
-                const formatted = cardsForState.slice(0, 10).map((c: any) => {
+                const formatted: CardData[] = cardsForState.slice(0, 10).map((c: any) => {
                     const progress = c.user_items?.[0];
-                    const srs: FSRSCard = progress ? {
-                        ...createEmptyCard(),
-                        stability: progress.stability,
-                        difficulty: progress.difficulty,
-                        reps: progress.reps,
-                        lapses: progress.lapses,
-                        state: progress.state === 'new' ? 0 : progress.state === 'learning' ? 1 : progress.state === 'review' ? 2 : 3,
-                        last_review: progress.last_review ? new Date(progress.last_review) : new Date(0),
-                        due: progress.due_date ? new Date(progress.due_date) : new Date(),
-                    } : createEmptyCard();
+                    const sem: SEMCardState = progress
+                        ? migrateFromFSRS(progress)
+                        : createEmptySEMState();
 
                     return {
                         id: c.id,
                         question: c.question,
                         slots: c.card_slots.sort((a: any, b: any) => a.order_index - b.order_index),
-                        srs
+                        sem,
                     };
                 });
 
                 setQueue(formatted);
             } catch (err) {
-                console.error("[useStudySession] Initialization error:", err);
+                console.error("[SEM] Init error:", err);
             } finally {
                 if (isMounted) {
                     setLoading(false);
@@ -257,9 +352,12 @@ export function useStudySession() {
                 }
             }
         }
+
         loadContent();
         return () => { isMounted = false; clearTimeout(timeout); };
     }, []);
+
+    // ─── Card Navigation ────────────────────────────────────────────
 
     const currentCard = queue[currentIndex];
 
@@ -268,102 +366,130 @@ export function useStudySession() {
             setUserAnswers({});
             setFeedback({});
             setIsRevealed(false);
+            setLastGrade(null);
             setStartTime(Date.now());
         }
     }, [currentCard]);
 
-    const saveReview = async (cardId: string, oldSrs: FSRSCard, grade: Grade, timeTakenMs: number) => {
+    // ─── SEM Review: Save with Proportional Scheduling ──────────────
+
+    const saveReview = async (
+        cardId: string,
+        semState: SEMCardState,
+        accuracy: number,
+        timeTakenMs: number,
+    ) => {
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;
 
-            const scheduling = fsrs.repeat(oldSrs, new Date());
-            const finalResult = scheduling[grade];
-            const newState = finalResult.card.state === 0 ? 'new' : finalResult.card.state === 1 ? 'learning' : finalResult.card.state === 2 ? 'review' : 'relearning';
+            // Calculate SEM result
+            const semResult = evaluateSEM(semState, accuracy, timeTakenMs);
+            setLastGrade(semResult.grade);
 
-            // 1. Local Cache Update
-            await db.userItems.put({
-                user_id: user.id,
-                card_id: cardId,
-                stability: finalResult.card.stability,
-                difficulty: finalResult.card.difficulty,
-                reps: finalResult.card.reps,
-                lapses: finalResult.card.lapses,
-                state: newState,
-                last_review: new Date().toISOString(),
-                due_date: finalResult.card.due.toISOString()
-            });
+            // Only update SRS in normal mode (protect from cramming in rush)
+            if (!isRushModeRef.current) {
+                const ns = semResult.nextState;
 
-            // 2. Queue for Sychronization
-            await db.syncQueue.add({
-                type: 'upsert_user_item',
-                data: {
+                // 1. Update local Dexie cache
+                await db.userItems.put({
                     user_id: user.id,
                     card_id: cardId,
-                    stability: finalResult.card.stability,
-                    difficulty: finalResult.card.difficulty,
-                    reps: finalResult.card.reps,
-                    lapses: finalResult.card.lapses,
-                    state: newState,
-                    last_review: new Date().toISOString(),
-                    due_date: finalResult.card.due.toISOString()
-                },
-                created_at: new Date().toISOString()
-            });
+                    stability: ns.interval,       // SEM: interval in days
+                    difficulty: ns.difficulty,
+                    reps: ns.step,                 // SEM: growth curve step (0-7)
+                    lapses: ns.lapses,
+                    state: ns.state,
+                    last_review: ns.lastReview,
+                    due_date: ns.dueDate,
+                });
 
+                // 2. Queue for sync to Supabase
+                await db.syncQueue.add({
+                    type: 'upsert_user_item',
+                    data: {
+                        user_id: user.id,
+                        card_id: cardId,
+                        stability: ns.interval,
+                        difficulty: ns.difficulty,
+                        reps: ns.step,
+                        lapses: ns.lapses,
+                        state: ns.state,
+                        last_review: ns.lastReview,
+                        due_date: ns.dueDate,
+                    },
+                    created_at: new Date().toISOString(),
+                });
+            }
+
+            // 3. Always log study activity (counts toward stats/streak)
             await db.syncQueue.add({
                 type: 'insert_study_log',
                 data: {
                     user_id: user.id,
                     card_id: cardId,
                     session_id: sessionId,
-                    grade: grade,
+                    grade: semResult.grade,
                     time_taken_ms: timeTakenMs,
-                    accuracy: grade === Grade.Again ? 0 : 1,
-                    review_date: new Date().toISOString()
+                    accuracy,
+                    review_date: new Date().toISOString(),
                 },
-                created_at: new Date().toISOString()
+                created_at: new Date().toISOString(),
             });
-
         } catch (err) {
-            console.error("[useStudySession] Save review error:", err);
+            console.error("[SEM] Save review error:", err);
         }
     };
+
+    // ─── Submit Answer (SEM Granular Grading) ───────────────────────
 
     const submitAnswer = async () => {
         if (!currentCard || !startTime) return;
         const timeTakenMs = Date.now() - startTime;
-        const newFeedback: Record<string, SlotFeedback> = {};
-        let allCorrect = true;
 
+        // Evaluate each slot individually
+        const newFeedback: Record<string, SlotFeedback> = {};
         currentCard.slots.forEach(slot => {
             const input = userAnswers[slot.id] || "";
-            const isCorrect = validateAnswer(input, slot.match_type === 'all' ? { allOf: slot.accepted_answers } : slot.accepted_answers);
+            const target = slot.match_type === 'all'
+                ? { allOf: slot.accepted_answers }
+                : slot.accepted_answers;
+            const isCorrect = validateAnswer(input, target);
             newFeedback[slot.id] = { status: isCorrect ? 'correct' : 'incorrect' };
-            if (!isCorrect) allCorrect = false;
         });
 
         setFeedback(newFeedback);
         setIsRevealed(true);
-        setSessionStats(prev => ({ ...prev, total: prev.total + 1, correct: prev.correct + (allCorrect ? 1 : 0) }));
 
-        let grade: Grade;
-        if (!allCorrect) grade = Grade.Again;
-        else if (timeTakenMs < 4000) grade = Grade.Easy;
-        else if (timeTakenMs < 8000) grade = Grade.Good;
-        else grade = Grade.Hard;
+        // SEM: Calculate granular slot accuracy (e.g., 2/3 = 0.666)
+        const accuracy = calculateSlotAccuracy(newFeedback);
+        const allCorrect = accuracy === 1.0;
 
-        await saveReview(currentCard.id, currentCard.srs || createEmptyCard(), grade, timeTakenMs);
+        setSessionStats(prev => ({
+            ...prev,
+            total: prev.total + 1,
+            correct: prev.correct + (allCorrect ? 1 : 0),
+        }));
+
+        await saveReview(currentCard.id, currentCard.sem, accuracy, timeTakenMs);
     };
+
+    // ─── Next Card ──────────────────────────────────────────────────
 
     const nextCard = async () => {
         if (currentIndex < queue.length - 1) {
             setCurrentIndex(prev => prev + 1);
         } else {
             await endSession();
+            if (!isRushModeRef.current) {
+                const remaining = await countRemainingDue();
+                setRemainingDueCount(remaining);
+            }
             setSessionComplete(true);
         }
     };
+
+    // ─── Public API ─────────────────────────────────────────────────
 
     return {
         loading,
@@ -372,12 +498,17 @@ export function useStudySession() {
         userAnswers,
         feedback,
         isRevealed,
-        handleInputChange: (slotId: string, value: string) => !isRevealed && setUserAnswers(prev => ({ ...prev, [slotId]: value })),
+        lastGrade,
+        handleInputChange: (slotId: string, value: string) =>
+            !isRevealed && setUserAnswers(prev => ({ ...prev, [slotId]: value })),
         submitAnswer,
         nextCard,
         totalCards: queue.length,
         progress: currentIndex + 1,
         stats: sessionStats,
-        isOffline
+        isOffline,
+        isRushMode,
+        remainingDueCount,
+        startRushMode,
     };
 }

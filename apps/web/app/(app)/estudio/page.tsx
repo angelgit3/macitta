@@ -2,7 +2,7 @@
 
 import { useStudySession } from "@/hooks/useStudySession";
 import { StudyCard } from "@/components/ui/StudyCard";
-import { Loader2 } from "lucide-react";
+import { Loader2, Flame } from "lucide-react";
 import { StudySummary } from "./StudySummary";
 
 export default function StudyPage() {
@@ -18,7 +18,10 @@ export default function StudyPage() {
         nextCard,
         progress,
         totalCards,
-        stats
+        stats,
+        isRushMode,
+        remainingDueCount,
+        startRushMode
     } = useStudySession();
 
     if (loading) {
@@ -36,6 +39,9 @@ export default function StudyPage() {
                 totalCards={stats.total}
                 correctCards={stats.correct}
                 totalTimeMs={stats.durationMs}
+                isRushMode={isRushMode}
+                remainingDueCount={remainingDueCount}
+                onStartRushMode={startRushMode}
             />
         );
     }
@@ -52,8 +58,14 @@ export default function StudyPage() {
         <div className="flex flex-col gap-6 max-w-xl mx-auto pb-24">
             {/* Header / Progress */}
             <div className="flex justify-between items-center px-2">
-                <h1 className="text-xl font-bold text-white">Estudio Diario</h1>
-                <div className="text-xs font-bold text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full border border-white/5">
+                <h1 className="text-xl font-bold text-white flex items-center gap-2">
+                    {isRushMode && <Flame size={20} className="text-orange-500" />}
+                    {isRushMode ? 'Modo Maratón' : 'Estudio Diario'}
+                </h1>
+                <div className={`text-xs font-bold px-3 py-1 rounded-full border ${isRushMode
+                        ? 'text-orange-400 bg-orange-500/10 border-orange-500/20'
+                        : 'text-zinc-500 bg-zinc-900 border-white/5'
+                    }`}>
                     {progress} / {totalCards}
                 </div>
             </div>

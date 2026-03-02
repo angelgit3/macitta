@@ -21,6 +21,7 @@ export default async function VocabularioPage() {
 
     const getStatusColor = (state: string | undefined) => {
         switch (state) {
+            case 'mastered': return 'text-yellow-400 bg-yellow-400/10';
             case 'review': return 'text-green-400 bg-green-400/10';
             case 'learning': return 'text-blue-400 bg-blue-400/10';
             case 'relearning': return 'text-orange-400 bg-orange-400/10';
@@ -30,6 +31,7 @@ export default async function VocabularioPage() {
 
     const getStatusIcon = (state: string | undefined) => {
         switch (state) {
+            case 'mastered': return <CheckCircle2 size={12} />;
             case 'review': return <CheckCircle2 size={12} />;
             case 'learning': return <Brain size={12} />;
             case 'relearning': return <Clock size={12} />;
@@ -41,7 +43,7 @@ export default async function VocabularioPage() {
         <div className="flex flex-col gap-6 pb-24">
             <header className="space-y-1">
                 <h1 className="text-2xl font-black text-white px-2">Inventario</h1>
-                <p className="text-sm text-zinc-500 px-2">Explora tus verbos e inteligencia FSRS</p>
+                <p className="text-sm text-zinc-500 px-2">Explora tus verbos y su estado SEM</p>
             </header>
 
             {/* Sticky Search (Fake for now, logic can be added with a Client component later) */}
@@ -67,7 +69,7 @@ export default async function VocabularioPage() {
                                 <div className="flex items-center gap-2">
                                     <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full flex items-center gap-1 ${getStatusColor(status)}`}>
                                         {getStatusIcon(status)}
-                                        {status === 'new' ? 'Nuevo' : status === 'review' ? 'Dominado' : 'Aprendiendo'}
+                                        {status === 'mastered' ? 'Dominado 🏆' : status === 'review' ? 'Repaso' : status === 'new' ? 'Nuevo' : 'Aprendiendo'}
                                     </span>
                                     {verb.user_items?.[0]?.difficulty && (
                                         <span className="text-[10px] text-zinc-600 font-medium">Dif: {Math.round(verb.user_items[0].difficulty * 10) / 10}</span>

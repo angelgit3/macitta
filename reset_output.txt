@@ -1,7 +1,0 @@
-fatal: No se puede crear '/home/aanaya/Escritorio/Maccita_god/.git/index.lock': El fichero ya existe.
-
-Otro proceso git parece estar ejecutando en el repositorio, es decir
-un editor abierto con 'git commit'. Por favor asegúrate de que todos los procesos
-estén terminados y vuelve a intentar. Si el fallo permanece, un proceso git
-puede haber roto el repositorio antes:
-borra el archivo manualmente para continuar.
