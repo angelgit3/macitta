@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Check, X, ArrowRight, CornerDownLeft } from "lucide-react";
-import type { CardData, SlotFeedback } from "@/hooks/useStudySession";
+import type { CardData, SlotFeedback } from "@/types/study";
 
 interface StudyCardProps {
     card: CardData;
