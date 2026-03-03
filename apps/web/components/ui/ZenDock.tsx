@@ -9,13 +9,13 @@ export function ZenDock() {
     const pathname = usePathname();
 
     const allNavItems = [
-        { icon: Home, label: "Home", href: "/home" },
+        { icon: Home, label: "Home", href: "/dashboard" },
         { icon: Play, label: "Estudio", href: "/estudio" },
         { icon: Layers, label: "Inventario", href: "/vocabulario" },
         { icon: User, label: "Usuario", href: "/usuario" },
     ];
 
-    const isActive = (path: string) => pathname === path || (path === "/home" && pathname === "/") || (pathname?.startsWith(path) && path !== "/home");
+    const isActive = (path: string) => pathname === path || (path === "/dashboard" && pathname === "/") || (pathname?.startsWith(path) && path !== "/dashboard");
 
     return (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">

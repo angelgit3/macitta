@@ -1,10 +1,13 @@
 import Dexie, { type Table } from 'dexie';
+import type { Slot } from '@/types/study';
+
+// ─── Interfaces ─────────────────────────────────────────────────────
 
 export interface LocalCard {
     id: string;
     deck_id: string;
     question: string;
-    slots: any[];
+    slots: Slot[];
     updated_at: string;
 }
 
@@ -31,12 +34,63 @@ export interface LocalStudyLog {
     review_date: string;
 }
 
-export interface SyncOperation {
+// ─── Sync Operations (Discriminated Union) ──────────────────────────
+
+interface UpsertUserItemOp {
     id?: number;
-    type: 'upsert_user_item' | 'insert_study_log' | 'increment_session_time' | 'start_session' | 'end_session';
-    data: any;
+    type: 'upsert_user_item';
+    data: Omit<LocalUserItem, never>;
     created_at: string;
 }
+
+interface InsertStudyLogOp {
+    id?: number;
+    type: 'insert_study_log';
+    data: {
+        user_id: string;
+        card_id: string;
+        session_id: string | null;
+        grade: number;
+        time_taken_ms: number;
+        accuracy: number;
+        review_date: string;
+    };
+    created_at: string;
+}
+
+interface SessionOp {
+    id?: number;
+    type: 'start_session' | 'end_session';
+    data: {
+        session_id: string;
+        user_id: string;
+        deck_id?: string;
+        started_at?: string;
+        ended_at?: string;
+        total_cards?: number;
+        correct_cards?: number;
+        total_time_ms?: number;
+    };
+    created_at: string;
+}
+
+interface IncrementSessionTimeOp {
+    id?: number;
+    type: 'increment_session_time';
+    data: {
+        session_id: string;
+        time_ms: number;
+    };
+    created_at: string;
+}
+
+export type SyncOperation =
+    | UpsertUserItemOp
+    | InsertStudyLogOp
+    | SessionOp
+    | IncrementSessionTimeOp;
+
+// ─── Database ───────────────────────────────────────────────────────
 
 export class MaccitaDB extends Dexie {
     cards!: Table<LocalCard>;

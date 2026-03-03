@@ -1,23 +1,44 @@
 
-
 > web@0.1.0 build
 > next build
 
-[1G[0K   [1m[38;2;173;127;168m▲ Next.js 15.1.0[39m[22m
-   - Experiments (use with caution):
-     · reactCompiler
+   ▲ Next.js 15.5.11
+   - Environments: .env.local
 
- [37m[1m [22m[39m Creating an optimized production build ...
+   Creating an optimized production build ...
+ ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+ ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+ ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+ ✓ Compiled successfully in 6.5s
+   Linting and checking validity of types ...
+   Collecting page data ...
+ ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+   Generating static pages (0/11) ...
+   Generating static pages (2/11) 
+   Generating static pages (5/11) 
+   Generating static pages (8/11) 
+ ✓ Generating static pages (11/11)
+   Finalizing page optimization ...
+   Collecting build traces ...
 
-> Build error occurred
-[Error: Failed to load the `babel-plugin-react-compiler`. It is required to use the React Compiler. Please install it.] {
-  type: [32m'Error'[39m
-}
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcode[39m [33m1[39m
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mpath[39m /home/aanaya/Escritorio/Maccita_god/apps/web
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mworkspace[39m web@0.1.0
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mlocation[39m /home/aanaya/Escritorio/Maccita_god/apps/web
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m command failed
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcommand[39m sh -c next build
-[1G[0K⠙[1G[0K
+Route (app)                                 Size  First Load JS
+┌ ○ /                                      161 B         106 kB
+├ ○ /_not-found                            988 B         103 kB
+├ ○ /auth/login                          2.09 kB         161 kB
+├ ○ /auth/signup                          2.5 kB         162 kB
+├ ƒ /dashboard                           2.61 kB         159 kB
+├ ○ /estudio                             14.1 kB         204 kB
+├ ○ /mazos                                 128 B         102 kB
+├ ƒ /usuario                             2.26 kB         158 kB
+└ ƒ /vocabulario                           128 B         102 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/18-14e6895f59bfbbff.js          46 kB
+  ├ chunks/87c73c54-24122e7b92478d00.js  54.2 kB
+  └ other shared chunks (total)          2.08 kB
+
+
+ƒ Middleware                             80.7 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

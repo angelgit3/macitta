@@ -1,1 +1,8 @@
-{}
+{
+  "/auth/login/page": "app/auth/login/page.js",
+  "/(marketing)/page": "app/(marketing)/page.js",
+  "/(app)/dashboard/page": "app/(app)/dashboard/page.js",
+  "/(app)/estudio/page": "app/(app)/estudio/page.js",
+  "/(app)/usuario/page": "app/(app)/usuario/page.js",
+  "/(app)/vocabulario/page": "app/(app)/vocabulario/page.js"
+}

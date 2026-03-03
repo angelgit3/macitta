@@ -7,13 +7,13 @@ interface StatsGraphProps {
 export function StatsGraph({ data = [] }: StatsGraphProps) {
     // If no data, show empty placeholders
     const displayData = data.length > 0 ? data : [
+        { day: "L", value: 5 },
         { day: "M", value: 5 },
-        { day: "T", value: 5 },
-        { day: "W", value: 5 },
-        { day: "T", value: 5 },
-        { day: "F", value: 5 },
+        { day: "X", value: 5 },
+        { day: "J", value: 5 },
+        { day: "V", value: 5 },
         { day: "S", value: 5 },
-        { day: "S", value: 5 },
+        { day: "D", value: 5 },
     ];
 
     return (
