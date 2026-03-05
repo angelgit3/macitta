@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
-import { Cloud, User, Mail, Lock, Loader2, CheckCircle2 } from "lucide-react";
+import { Cloud, User, Mail, Lock, Loader2, CheckCircle2, Send } from "lucide-react";
 
 export default function SignupPage() {
     const [loading, setLoading] = useState(false);
@@ -58,16 +58,16 @@ export default function SignupPage() {
     if (success) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
-                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-accent-success animate-in zoom-in">
-                    <CheckCircle2 size={32} />
+                <div className="w-16 h-16 bg-accent-focus/20 rounded-full flex items-center justify-center mb-6 text-accent-focus animate-in zoom-in">
+                    <Send size={28} />
                 </div>
-                <h2 className="text-3xl font-bold mb-3">¡Usuario Creado!</h2>
+                <h2 className="text-3xl font-bold mb-3">Revisa tu correo</h2>
                 <p className="text-text-dim max-w-xs leading-relaxed">
-                    Tu cuenta ha sido registrada correctamente. Inicia sesión para comenzar tu entrenamiento.
+                    Te hemos enviado un enlace de verificación. Haz clic en él para activar tu cuenta. Revisa también tu carpeta de spam.
                 </p>
                 <Link href="/auth/login" className="mt-8">
-                    <ZenButton variant="primary" className="w-full px-8">
-                        Ir al Login
+                    <ZenButton variant="ghost" className="gap-2 text-text-dim">
+                        Ya verifiqué → Ir al Login
                     </ZenButton>
                 </Link>
             </div>

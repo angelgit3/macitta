@@ -8,29 +8,34 @@
    Creating an optimized production build ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (133kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ✓ Compiled successfully in 6.5s
+ ✓ Compiled successfully in 5.1s
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
-   Generating static pages (0/11) ...
-   Generating static pages (2/11) 
-   Generating static pages (5/11) 
-   Generating static pages (8/11) 
- ✓ Generating static pages (11/11)
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                 Size  First Load JS
-┌ ○ /                                      161 B         106 kB
+┌ ○ /                                      163 B         106 kB
 ├ ○ /_not-found                            988 B         103 kB
-├ ○ /auth/login                          2.09 kB         161 kB
-├ ○ /auth/signup                          2.5 kB         162 kB
+├ ○ /auth/auth-code-error                  163 B         106 kB
+├ ƒ /auth/confirm                          132 B         102 kB
+├ ○ /auth/forgot-password                2.29 kB         162 kB
+├ ○ /auth/login                          2.13 kB         162 kB
+├ ○ /auth/signup                          2.6 kB         162 kB
+├ ○ /auth/update-password                2.24 kB         162 kB
 ├ ƒ /dashboard                           2.61 kB         159 kB
 ├ ○ /estudio                             14.1 kB         204 kB
-├ ○ /mazos                                 128 B         102 kB
+├ ○ /mazos                                 132 B         102 kB
 ├ ƒ /usuario                             2.26 kB         158 kB
-└ ƒ /vocabulario                           128 B         102 kB
+└ ƒ /vocabulario                           132 B         102 kB
 + First Load JS shared by all             102 kB
   ├ chunks/18-14e6895f59bfbbff.js          46 kB
   ├ chunks/87c73c54-24122e7b92478d00.js  54.2 kB

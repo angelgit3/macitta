@@ -91,7 +91,13 @@ export default function LoginPage() {
                     </ZenButton>
                 </form>
 
-                <div className="mt-8 text-center text-sm text-text-dim">
+                <div className="mt-6 text-center">
+                    <Link href="/auth/forgot-password" className="text-sm text-text-dim hover:text-white transition-colors">
+                        ¿Olvidaste tu contraseña?
+                    </Link>
+                </div>
+
+                <div className="mt-4 text-center text-sm text-text-dim">
                     ¿No tienes cuenta? <Link href="/auth/signup" className="text-white font-medium hover:underline">Regístrate</Link>
                 </div>
             </div>

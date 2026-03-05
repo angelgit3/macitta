@@ -48,7 +48,8 @@ export async function middleware(request: NextRequest) {
     }
 
     // 2. Auth Redirect: If logged in and trying to access Landing or Auth -> Go to Dashboard
-    if (user && (path === "/" || path.startsWith("/auth"))) {
+    //    EXCEPTION: /auth/update-password must remain accessible (user arrives authenticated via recovery token)
+    if (user && (path === "/" || (path.startsWith("/auth") && path !== "/auth/update-password"))) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 
