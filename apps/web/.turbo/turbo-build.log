@@ -9,7 +9,7 @@
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ✓ Compiled successfully in 2.4s
+ ✓ Compiled successfully in 2.5s
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
@@ -30,7 +30,7 @@ Route (app)                                 Size  First Load JS
 ├ ○ /auth/login                          2.13 kB         162 kB
 ├ ○ /auth/signup                         3.18 kB         163 kB
 ├ ○ /auth/update-password                2.24 kB         162 kB
-├ ƒ /dashboard                           2.65 kB         159 kB
+├ ƒ /dashboard                           2.74 kB         159 kB
 ├ ○ /estudio                             14.1 kB         204 kB
 ├ ○ /mazos                                 132 B         102 kB
 ├ ƒ /usuario                             2.26 kB         158 kB

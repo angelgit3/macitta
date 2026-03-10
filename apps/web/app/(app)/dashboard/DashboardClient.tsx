@@ -8,12 +8,20 @@ import { useUserStats } from "@/hooks/useUserStats";
 export function DashboardClient({ initialCount }: { initialCount: number }) {
     const { stats, loading } = useUserStats();
 
-    // Map daily activity to graph data
-    const graphData = stats?.dailyActivity.map(a => ({
-        day: new Date(a.date).toLocaleDateString('es-ES', { weekday: 'short' })[0].toUpperCase(),
-        value: Math.min((a.minutes / 20) * 100, 100), // Percent of a 20min goal
-        active: new Date(a.date).toDateString() === new Date().toDateString()
-    })) || [];
+    // Map daily activity to graph data (parse dates as LOCAL, not UTC)
+    const todayLocal = new Date();
+    const todayStr = `${todayLocal.getFullYear()}-${String(todayLocal.getMonth() + 1).padStart(2, '0')}-${String(todayLocal.getDate()).padStart(2, '0')}`;
+
+    const graphData = stats?.dailyActivity.map(a => {
+        // Parse YYYY-MM-DD as local date (avoid new Date("YYYY-MM-DD") which is UTC)
+        const [y, m, d] = a.date.split('-').map(Number);
+        const localDate = new Date(y, m - 1, d);
+        return {
+            day: localDate.toLocaleDateString('es-ES', { weekday: 'short' })[0].toUpperCase(),
+            value: Math.min((a.minutes / 20) * 100, 100),
+            active: a.date === todayStr,
+        };
+    }) || [];
 
     const totalTimeFormatted = stats
         ? stats.totalTimeMs >= 3600000

@@ -25,7 +25,7 @@ export function StatsGraph({ data = [] }: StatsGraphProps) {
                             ? "bg-accent-focus shadow-[0_0_15px_rgba(59,130,246,0.5)]"
                             : "bg-white/10 hover:bg-white/20"
                             }`}
-                        style={{ height: `${Math.max(item.value, 5)}%` }}
+                        style={{ height: `${Math.max(item.value, item.value > 0 ? 15 : 5)}%` }}
                     />
                     <span className={`text-xs font-bold ${item.active ? "text-accent-focus" : "text-text-dim"}`}>
                         {item.day}

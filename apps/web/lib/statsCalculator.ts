@@ -10,6 +10,16 @@ interface DailyActivity {
     minutes: number;
 }
 
+// ─── Helpers ────────────────────────────────────────────────────────
+
+/** Returns YYYY-MM-DD in LOCAL timezone (not UTC) */
+function toLocalDateStr(d: Date): string {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+}
+
 // ─── Streak Calculation ─────────────────────────────────────────────
 
 /**
@@ -19,11 +29,11 @@ interface DailyActivity {
  */
 export function calculateStreak(activityMap: Record<string, number>): number {
     let streak = 0;
-    const today = new Date().toISOString().split("T")[0];
+    const today = toLocalDateStr(new Date());
     const cursor = new Date();
 
     while (true) {
-        const checkDate = cursor.toISOString().split("T")[0];
+        const checkDate = toLocalDateStr(cursor);
 
         if (activityMap[checkDate]) {
             streak++;
@@ -43,7 +53,7 @@ export function calculateStreak(activityMap: Record<string, number>): number {
 
 /**
  * Transforms raw session records into a daily activity map (date → minutes)
- * and a sorted array of the last N days.
+ * and a sorted array of the last N days. Uses LOCAL timezone for all dates.
  */
 export function aggregateActivity(
     sessions: SessionRecord[],
@@ -53,17 +63,16 @@ export function aggregateActivity(
 
     for (const s of sessions) {
         const ms = s.total_time_ms || 0;
-        const date = new Date(s.started_at).toISOString().split("T")[0];
+        const date = toLocalDateStr(new Date(s.started_at));
         activityMap[date] = (activityMap[date] || 0) + ms / 60000;
     }
 
     // Always generate the last N days, filling gaps with 0
     const dailyActivity: DailyActivity[] = [];
-    const cursor = new Date();
     for (let i = lastNDays - 1; i >= 0; i--) {
-        const d = new Date(cursor);
+        const d = new Date();
         d.setDate(d.getDate() - i);
-        const dateStr = d.toISOString().split("T")[0];
+        const dateStr = toLocalDateStr(d);
         dailyActivity.push({ date: dateStr, minutes: activityMap[dateStr] || 0 });
     }
 
