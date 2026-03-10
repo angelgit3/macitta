@@ -50,19 +50,22 @@ export function aggregateActivity(
     lastNDays = 7,
 ): { activityMap: Record<string, number>; dailyActivity: DailyActivity[] } {
     const activityMap: Record<string, number> = {};
-    let totalTimeMs = 0;
 
     for (const s of sessions) {
         const ms = s.total_time_ms || 0;
-        totalTimeMs += ms;
         const date = new Date(s.started_at).toISOString().split("T")[0];
         activityMap[date] = (activityMap[date] || 0) + ms / 60000;
     }
 
-    const dailyActivity = Object.entries(activityMap)
-        .map(([date, minutes]) => ({ date, minutes }))
-        .sort((a, b) => a.date.localeCompare(b.date))
-        .slice(-lastNDays);
+    // Always generate the last N days, filling gaps with 0
+    const dailyActivity: DailyActivity[] = [];
+    const cursor = new Date();
+    for (let i = lastNDays - 1; i >= 0; i--) {
+        const d = new Date(cursor);
+        d.setDate(d.getDate() - i);
+        const dateStr = d.toISOString().split("T")[0];
+        dailyActivity.push({ date: dateStr, minutes: activityMap[dateStr] || 0 });
+    }
 
     return { activityMap, dailyActivity };
 }
