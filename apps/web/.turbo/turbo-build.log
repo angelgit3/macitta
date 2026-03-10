@@ -9,15 +9,15 @@
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ✓ Compiled successfully in 5.2s
+ ✓ Compiled successfully in 9.7s
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
-   Generating static pages (0/13) ...
-   Generating static pages (3/13) 
-   Generating static pages (6/13) 
-   Generating static pages (9/13) 
- ✓ Generating static pages (13/13)
+   Generating static pages (0/14) ...
+   Generating static pages (3/14) 
+   Generating static pages (6/14) 
+   Generating static pages (10/14) 
+ ✓ Generating static pages (14/14)
    Finalizing page optimization ...
    Collecting build traces ...
 
@@ -27,13 +27,14 @@ Route (app)                                 Size  First Load JS
 ├ ○ /auth/auth-code-error                  163 B         106 kB
 ├ ƒ /auth/confirm                          132 B         102 kB
 ├ ○ /auth/forgot-password                2.29 kB         162 kB
-├ ○ /auth/login                          2.13 kB         162 kB
-├ ○ /auth/signup                         3.18 kB         163 kB
-├ ○ /auth/update-password                2.24 kB         162 kB
+├ ○ /auth/login                          2.28 kB         162 kB
+├ ○ /auth/signup                         2.99 kB         162 kB
+├ ○ /auth/update-password                2.26 kB         162 kB
+├ ○ /auth/verify-otp                     2.95 kB         162 kB
 ├ ƒ /dashboard                           2.74 kB         159 kB
 ├ ○ /estudio                             14.1 kB         204 kB
 ├ ○ /mazos                                 132 B         102 kB
-├ ƒ /usuario                             4.16 kB         160 kB
+├ ƒ /usuario                             4.18 kB         160 kB
 └ ƒ /vocabulario                           132 B         102 kB
 + First Load JS shared by all             102 kB
   ├ chunks/18-14e6895f59bfbbff.js          46 kB

@@ -146,6 +146,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/auth/verify-otp/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/auth/verify-otp">> = Specific
+  const handler = {} as typeof import("../../app/auth/verify-otp/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/auth/confirm/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/auth/confirm">> = Specific

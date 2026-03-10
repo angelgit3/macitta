@@ -1,0 +1,8 @@
+2026-03-10T03:54:27Z 38.49.143.70 /verify 303 2330414@upt.edu.mx user_signedup
+2026-03-10T03:52:04Z 45.7.65.53 /verify 303 2330609@upt.edu.mx login
+2026-03-10T03:51:04Z 45.7.65.53 /verify 303 2330609@upt.edu.mx user_signedup
+2026-03-10T03:31:40Z 201.130.54.133 /verify 400 none request
+2026-03-10T03:31:40Z 201.130.54.133 /verify 400: Verify requires a verification type none request
+2026-03-10T03:30:39Z 189.199.71.7 /verify 400 none request
+2026-03-10T03:30:39Z 189.199.71.7 /verify 400: Verify requires a verification type none request
+2026-03-10T03:27:41Z 187.189.33.200 /verify 303 2334017@upt.edu.mx user_signedup

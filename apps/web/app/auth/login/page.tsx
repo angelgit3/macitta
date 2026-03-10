@@ -11,6 +11,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [lastAttemptedEmail, setLastAttemptedEmail] = useState("");
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -20,6 +21,8 @@ export default function LoginPage() {
         const formData = new FormData(e.currentTarget);
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
+
+        setLastAttemptedEmail(email);
 
         const supabase = createClient();
         const { error } = await supabase.auth.signInWithPassword({
@@ -50,6 +53,14 @@ export default function LoginPage() {
                 {error && (
                     <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">
                         {error}
+                        {error.toLowerCase().includes('not confirmed') && (
+                            <Link
+                                href={`/auth/verify-otp?email=${encodeURIComponent(lastAttemptedEmail)}`}
+                                className="block mt-2 font-bold underline hover:text-red-400"
+                            >
+                                Introducir código de verificación
+                            </Link>
+                        )}
                     </div>
                 )}
 
@@ -62,6 +73,7 @@ export default function LoginPage() {
                                 name="email"
                                 type="email"
                                 required
+                                defaultValue={lastAttemptedEmail}
                                 className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all"
                                 placeholder="you@example.com"
                             />
