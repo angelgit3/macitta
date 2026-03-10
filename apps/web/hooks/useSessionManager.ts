@@ -38,7 +38,7 @@ export function useSessionManager() {
             }
             return null;
         } catch (err) {
-            console.error("[SEM] Error starting session:", err);
+            console.error("[SREM] Error starting session:", err);
             return null;
         }
     }, [supabase]);
@@ -65,7 +65,7 @@ export function useSessionManager() {
 
             return totalDuration;
         } catch (err) {
-            console.error("[SEM] Error ending session:", err);
+            console.error("[SREM] Error ending session:", err);
             return 0;
         }
     }, [supabase]);

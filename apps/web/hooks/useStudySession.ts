@@ -82,7 +82,7 @@ export function useStudySession() {
 
         const timeout = setTimeout(() => {
             if (isMounted && loading) {
-                console.warn("[SEM] Failsafe timeout. Forcing loading false.");
+                console.warn("[SREM] Failsafe timeout. Forcing loading false.");
                 setLoading(false);
             }
         }, LOAD_TIMEOUT_MS);
@@ -102,7 +102,7 @@ export function useStudySession() {
                 const cards = await loadDueCards(dId, userId, BATCH_SIZE);
                 setQueue(cards);
             } catch (err) {
-                console.error("[SEM] Init error:", err);
+                console.error("[SREM] Init error:", err);
             } finally {
                 if (isMounted) {
                     setLoading(false);
@@ -174,7 +174,7 @@ export function useStudySession() {
 
             setLastGrade(result.grade);
         } catch (err) {
-            console.error("[SEM] Save review error:", err);
+            console.error("[SREM] Save review error:", err);
         }
     }, [currentCard, startTime, userAnswers, sessionId, supabase]);
 
@@ -219,7 +219,7 @@ export function useStudySession() {
             resetSession();
             await startSession(deckId);
         } catch (err) {
-            console.error("[SEM] Rush load error:", err);
+            console.error("[SREM] Rush load error:", err);
         } finally {
             setLoading(false);
         }

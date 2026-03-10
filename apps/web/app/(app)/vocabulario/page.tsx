@@ -48,7 +48,7 @@ export default async function VocabularioPage() {
         <div className="flex flex-col gap-6 pb-24">
             <header className="space-y-1">
                 <h1 className="text-2xl font-black text-white px-2">Inventario</h1>
-                <p className="text-sm text-zinc-500 px-2">Explora tus verbos y su estado SEM</p>
+                <p className="text-sm text-zinc-500 px-2">Explora tus verbos y su estado SREM</p>
             </header>
 
             {/* Sticky Search (placeholder — needs client component for interactivity) */}

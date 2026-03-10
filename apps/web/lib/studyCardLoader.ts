@@ -79,7 +79,7 @@ export async function loadDueCards(
             `)
             .eq("deck_id", deckId);
 
-        if (error) console.error("[SEM] Fetch error:", error);
+        if (error) console.error("[SREM] Fetch error:", error);
 
         if (remoteCards && remoteCards.length > 0) {
             try {
@@ -114,7 +114,7 @@ export async function loadDueCards(
                 }
                 rawCards = remoteCards;
             } catch (dbErr) {
-                console.error("[SEM] Dexie bulkPut failed:", dbErr);
+                console.error("[SREM] Dexie bulkPut failed:", dbErr);
             }
         }
     }

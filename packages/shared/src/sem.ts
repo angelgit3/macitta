@@ -1,8 +1,8 @@
 /**
- * SEM — Sistema Espaciado Macitta
+ * SREM — Sistema de Repetición Espaciada Macitta
  * "Low Friction, Long Term"
  *
- * Custom spaced repetition engine. Unlike generic FSRS, SEM uses:
+ * Custom spaced repetition engine. Unlike generic FSRS, SREM uses:
  * - Granular slot accuracy (2/3 ≠ 0/3)
  * - Proportional penalties instead of hard resets
  * - An 8-step growth curve toward mastery (365 days)
@@ -55,7 +55,7 @@ export function createEmptySEMState(): SEMCardState {
 
 // ─── Grade Calculation ──────────────────────────────────────────────
 /**
- * Determines the SEM grade from slot accuracy and response time.
+ * Determines the SREM grade from slot accuracy and response time.
  *
  * | Accuracy | Time     | Grade |
  * |----------|----------|-------|
@@ -97,7 +97,7 @@ export function calculateSlotAccuracy(
 
 // ─── Core Scheduling Engine ─────────────────────────────────────────
 /**
- * The heart of SEM. Takes the current card state + performance,
+ * The heart of SREM. Takes the current card state + performance,
  * returns the next state with updated interval and due date.
  */
 export function evaluateSEM(
@@ -187,8 +187,8 @@ export function evaluateSEM(
 
 // ─── Migration Helper ───────────────────────────────────────────────
 /**
- * Converts existing FSRS user_items data to SEM state.
- * Maps FSRS stability (days) to the nearest SEM growth step.
+ * Converts existing FSRS user_items data to SREM state.
+ * Maps FSRS stability (days) to the nearest SREM growth step.
  */
 export function migrateFromFSRS(fsrsData: {
     stability: number;
@@ -210,7 +210,7 @@ export function migrateFromFSRS(fsrsData: {
         }
     }
 
-    // Map FSRS difficulty (0-10 ish) to SEM difficulty (1-10)
+    // Map FSRS difficulty (0-10 ish) to SREM difficulty (1-10)
     const difficulty = Math.max(1, Math.min(10, fsrsData.difficulty));
 
     // Map state

@@ -12,7 +12,7 @@ Macitta utiliza una estructura de **Monorepo** gestionada con **Turborepo** para
   - Estilos: Tailwind CSS v4 (Estética Obsidian Zen).
   - Autenticación: Supabase Auth.
 - **Shared Logic (`packages/shared`)**:
-  - **SEM Core**: Sistema Espaciado Macitta — algoritmo custom de repetición espaciada.
+  - **SREM Core**: Sistema Espaciado Macitta — algoritmo custom de repetición espaciada.
   - **Validación**: Lógica de Levenshtein para tolerancia de typos y validación de respuestas complejas (`anyOf`, `allOf`).
 - **Backend & DB (Supabase)**:
   - Base de Datos: PostgreSQL.
@@ -35,11 +35,11 @@ El corazón del sistema de aprendizaje es la relación entre el contenido estát
 - **`cards`**: Contenido estático (la pregunta/verbo).
 - **`card_slots`**: Define los campos de entrada para cada tarjeta (Infinitive, Past, Participle). Permite múltiples respuestas válidas y tipos de comparación (`any` / `all`).
 
-### Progreso y SEM
-- **`user_items`**: El estado real de la memoria del usuario para una tarjeta. Contiene parámetros SEM:
+### Progreso y SREM
+- **`user_items`**: El estado real de la memoria del usuario para una tarjeta. Contiene parámetros SREM:
   - `stability`: Intervalo actual en días.
   - `difficulty`: Dificultad running (1-10).
-  - `reps`: Paso en la curva de crecimiento SEM (0-7).
+  - `reps`: Paso en la curva de crecimiento SREM (0-7).
   - `lapses`: Conteo de olvidos (Again).
   - `state`: `new` | `learning` | `review` | `mastered`.
   - `due_date`: Fecha del próximo repaso.
@@ -48,12 +48,12 @@ El corazón del sistema de aprendizaje es la relación entre el contenido estát
 
 ---
 
-## 3. Lógica de Aprendizaje (SEM — Sistema Espaciado Macitta)
+## 3. Lógica de Aprendizaje (SREM — Sistema Espaciado Macitta)
 
 > Filosofía: "Low Friction, Long Term" — Una sesión diaria de pocos minutos basta para dominar el material a largo plazo.
 
-### Diferenciadores del SEM
-A diferencia de sistemas tradicionales (Anki/SM-2) que tratan cada respuesta como binaria, SEM entiende que el conocimiento tiene **matices**:
+### Diferenciadores del SREM
+A diferencia de sistemas tradicionales (Anki/SM-2) que tratan cada respuesta como binaria, SREM entiende que el conocimiento tiene **matices**:
 - **Precisión granular**: Mide accuracy por slots (2/3 ≠ 0/3).
 - **Penalizaciones proporcionales**: No resetea en cada error; penaliza según gravedad.
 - **Curva de dominio**: 8 pasos hacia la maestría (365 días = Dominado 🏆).
@@ -79,14 +79,14 @@ Paso 6: 150 días → Paso 7: 365 días → DOMINADO 🏆
 
 ### Persistencia Automática
 Al enviar una respuesta, el sistema realiza tres acciones:
-1. Actualiza `user_items` con los nuevos valores SEM (local Dexie).
+1. Actualiza `user_items` con los nuevos valores SREM (local Dexie).
 2. Inserta un registro en `study_logs` (cola de sync).
 3. Sincroniza con Supabase cuando hay conexión.
 
 ### Modo Maratón (Rush Mode) 🔥
 Disponible cuando el usuario completa **todas sus tarjetas pendientes** del día:
 - Selecciona tarjetas por **debilidad** (mayor lapses + difficulty).
-- **No modifica el SEM** — protege la memoria de largo plazo.
+- **No modifica el SREM** — protege la memoria de largo plazo.
 - **Sí registra logs** — la racha, tiempo y stats siguen contando.
 - Diseñado para "cramming" antes de exámenes sin destruir el scheduling.
 
@@ -96,8 +96,8 @@ Disponible cuando el usuario completa **todas sus tarjetas pendientes** del día
 
 A fecha de marzo 2026, la app cuenta con:
 - **Offline-First Engine**: Sincronización robusta con Dexie.js y Supabase.
-- **SEM Integrado**: Sistema Espaciado Macitta con grading granular y curva de 8 pasos.
-- **Modo Maratón**: Estudio sin límites post-sesión, sin contaminar el SEM.
+- **SREM Integrado**: Sistema Espaciado Macitta con grading granular y curva de 8 pasos.
+- **Modo Maratón**: Estudio sin límites post-sesión, sin contaminar el SREM.
 - **Dashboard Estadístico**: Estadísticas reales, actividad y racha de estudio.
 - **Inventario**: Explorador de verbos con estado de maestría visual.
 - **PWA Full**: Instalable y funcional sin red (datos previos cacheados).
