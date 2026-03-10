@@ -9,7 +9,7 @@
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ✓ Compiled successfully in 2.5s
+ ✓ Compiled successfully in 3.2s
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
@@ -33,7 +33,7 @@ Route (app)                                 Size  First Load JS
 ├ ƒ /dashboard                           2.74 kB         159 kB
 ├ ○ /estudio                             14.1 kB         204 kB
 ├ ○ /mazos                                 132 B         102 kB
-├ ƒ /usuario                             2.26 kB         158 kB
+├ ƒ /usuario                             4.16 kB         160 kB
 └ ƒ /vocabulario                           132 B         102 kB
 + First Load JS shared by all             102 kB
   ├ chunks/18-14e6895f59bfbbff.js          46 kB

@@ -104,7 +104,7 @@ export default function SignupPage() {
             </Link>
 
             <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
-                <h2 className="text-2xl font-bold mb-2 text-center">Únete al Culto</h2>
+                <h2 className="text-2xl font-bold mb-2 text-center">Bienvenido a Macitta</h2>
                 <p className="text-text-dim text-center mb-6 text-sm">Usa tu correo institucional @upt.edu.mx</p>
 
                 {error && (
