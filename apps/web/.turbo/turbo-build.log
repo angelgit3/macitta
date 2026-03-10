@@ -8,9 +8,8 @@
    Creating an optimized production build ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (133kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ✓ Compiled successfully in 5.1s
+ ✓ Compiled successfully in 4.2s
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
@@ -29,9 +28,9 @@ Route (app)                                 Size  First Load JS
 ├ ƒ /auth/confirm                          132 B         102 kB
 ├ ○ /auth/forgot-password                2.29 kB         162 kB
 ├ ○ /auth/login                          2.13 kB         162 kB
-├ ○ /auth/signup                          2.6 kB         162 kB
+├ ○ /auth/signup                         3.18 kB         163 kB
 ├ ○ /auth/update-password                2.24 kB         162 kB
-├ ƒ /dashboard                           2.61 kB         159 kB
+├ ƒ /dashboard                           2.62 kB         159 kB
 ├ ○ /estudio                             14.1 kB         204 kB
 ├ ○ /mazos                                 132 B         102 kB
 ├ ƒ /usuario                             2.26 kB         158 kB
@@ -42,7 +41,7 @@ Route (app)                                 Size  First Load JS
   └ other shared chunks (total)          2.08 kB
 
 
-ƒ Middleware                             80.7 kB
+ƒ Middleware                             80.8 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand

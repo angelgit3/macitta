@@ -39,11 +39,9 @@ export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
 
     // 1. Protected Routes: Any path inside (app) - effectively anything not auth or landing
-    // We identify "app" routes by checking if they are NOT public
     const isPublicRoute = path === "/" || path.startsWith("/auth") || path.startsWith("/api");
 
     if (!user && !isPublicRoute) {
-        // If trying to access dashboard/estudio/etc without login -> Redirect to Login
         return NextResponse.redirect(new URL("/auth/login", request.url));
     }
 
@@ -51,6 +49,19 @@ export async function middleware(request: NextRequest) {
     //    EXCEPTION: /auth/update-password must remain accessible (user arrives authenticated via recovery token)
     if (user && (path === "/" || (path.startsWith("/auth") && path !== "/auth/update-password"))) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+
+    // 3. Role-based protection: /docente/* requires teacher or admin role
+    if (user && path.startsWith("/docente")) {
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", user.id)
+            .single();
+
+        if (!profile || !["teacher", "admin"].includes(profile.role)) {
+            return NextResponse.redirect(new URL("/dashboard", request.url));
+        }
     }
 
     return response;
