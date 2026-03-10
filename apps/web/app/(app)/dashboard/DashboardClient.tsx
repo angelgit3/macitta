@@ -15,8 +15,13 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
         active: new Date(a.date).toDateString() === new Date().toDateString()
     })) || [];
 
-    const totalHours = stats ? (stats.totalTimeMs / 3600000).toFixed(1) : "0.0";
+    const totalTimeFormatted = stats
+        ? stats.totalTimeMs >= 3600000
+            ? `${(stats.totalTimeMs / 3600000).toFixed(1)}h`
+            : `${Math.round(stats.totalTimeMs / 60000)}min`
+        : "0min";
     const masteryPercent = stats ? Math.round((stats.masteredCards / stats.totalCards) * 100) : 0;
+    const streakDays = stats?.streak || 0;
 
     return (
         <>
@@ -46,14 +51,14 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
                         <div className="text-xs uppercase tracking-wider text-text-dim flex items-center gap-1">
                             <Flame size={12} className="text-orange-500" /> Racha
                         </div>
-                        <div className="text-2xl font-bold">{stats?.streak || 0} Días</div>
+                        <div className="text-2xl font-bold">{streakDays} {streakDays === 1 ? 'Día' : 'Días'}</div>
                     </div>
                     <div className="text-right">
                         <div className="text-xs uppercase tracking-wider text-text-dim flex items-center justify-end gap-1">
                             <Clock size={12} /> Tiempo Total
                         </div>
                         <div className="text-2xl font-bold">
-                            {totalHours}h
+                            {totalTimeFormatted}
                         </div>
                     </div>
                 </div>
