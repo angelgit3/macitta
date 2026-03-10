@@ -4,13 +4,16 @@ import type { SessionStats } from "@/types/study";
 
 /**
  * Manages Supabase `study_sessions` lifecycle (start → end).
- * Encapsulates the session ID and timing so the parent hook
- * doesn't need to track them.
+ * Uses refs for sessionId and startTime to avoid stale closures
+ * in React callbacks.
  */
 export function useSessionManager() {
     const supabase = createClient();
-    const [sessionId, setSessionId] = useState<string | null>(null);
+    const sessionIdRef = useRef<string | null>(null);
     const sessionStartTime = useRef<number>(Date.now());
+
+    // Expose sessionId as state for consumers that need reactivity
+    const [sessionId, setSessionId] = useState<string | null>(null);
 
     const startSession = useCallback(async (deckId: string) => {
         try {
@@ -28,6 +31,7 @@ export function useSessionManager() {
                 .single();
 
             if (data) {
+                sessionIdRef.current = data.id;
                 setSessionId(data.id);
                 sessionStartTime.current = Date.now();
                 return data.id as string;
@@ -40,7 +44,8 @@ export function useSessionManager() {
     }, [supabase]);
 
     const endSession = useCallback(async (stats: SessionStats) => {
-        if (!sessionId || !navigator.onLine) return;
+        const currentSessionId = sessionIdRef.current;
+        if (!currentSessionId || !navigator.onLine) return 0;
 
         const totalDuration = Date.now() - sessionStartTime.current;
         try {
@@ -52,14 +57,18 @@ export function useSessionManager() {
                     correct_cards: stats.correct,
                     total_time_ms: totalDuration,
                 })
-                .eq("id", sessionId);
+                .eq("id", currentSessionId);
+
+            // Clear ref after ending
+            sessionIdRef.current = null;
+            setSessionId(null);
 
             return totalDuration;
         } catch (err) {
             console.error("[SEM] Error ending session:", err);
             return 0;
         }
-    }, [sessionId, supabase]);
+    }, [supabase]);
 
     return {
         sessionId,

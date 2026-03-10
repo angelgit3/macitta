@@ -2,6 +2,9 @@ import { createClient } from "@/utils/supabase/server";
 import { Search } from "lucide-react";
 import { VerbCard } from "@/components/ui/VerbCard";
 
+// Force dynamic rendering — this page depends on user auth context
+export const dynamic = 'force-dynamic';
+
 // ─── Types ──────────────────────────────────────────────────────────
 
 interface VerbRow {
@@ -20,7 +23,8 @@ interface VerbRow {
 export default async function VocabularioPage() {
     const supabase = await createClient();
 
-    const { data: verbs } = await supabase
+    // First, get cards (public table — always accessible)
+    const { data: verbs, error } = await supabase
         .from('cards')
         .select(`
             id,
@@ -33,6 +37,10 @@ export default async function VocabularioPage() {
             )
         `)
         .order('question', { ascending: true });
+
+    if (error) {
+        console.error("[Vocabulario] Error fetching cards:", error);
+    }
 
     const typedVerbs = (verbs || []) as VerbRow[];
 
@@ -56,16 +64,23 @@ export default async function VocabularioPage() {
             </div>
 
             {/* Verb List */}
-            <div className="grid gap-3 px-2">
-                {typedVerbs.map(verb => (
-                    <VerbCard
-                        key={verb.id}
-                        id={verb.id}
-                        question={verb.question}
-                        userItem={verb.user_items?.[0] ?? null}
-                    />
-                ))}
-            </div>
+            {typedVerbs.length === 0 ? (
+                <div className="text-center text-zinc-500 py-12">
+                    <p className="text-sm">No se encontraron verbos.</p>
+                    {error && <p className="text-xs text-red-400 mt-2">Error: {error.message}</p>}
+                </div>
+            ) : (
+                <div className="grid gap-3 px-2">
+                    {typedVerbs.map(verb => (
+                        <VerbCard
+                            key={verb.id}
+                            id={verb.id}
+                            question={verb.question}
+                            userItem={verb.user_items?.[0] ?? null}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

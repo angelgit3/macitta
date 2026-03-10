@@ -185,7 +185,7 @@ export function useStudySession() {
             setCurrentIndex(prev => prev + 1);
         } else {
             const duration = await endSession(sessionStats);
-            if (duration) {
+            if (duration > 0) {
                 setSessionStats(prev => ({ ...prev, durationMs: duration }));
             }
 
