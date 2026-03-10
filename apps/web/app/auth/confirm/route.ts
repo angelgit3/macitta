@@ -4,34 +4,44 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
 /**
- * PKCE Token Exchange Endpoint
- * Handles both email verification (signup) and password recovery flows.
+ * Auth Confirmation Endpoint
+ * Handles token exchange for both email verification and password recovery.
  *
- * Query params:
- *  - token_hash: the hashed token from the email link
- *  - type: 'email' (signup) | 'recovery' (password reset) | etc.
- *  - next: where to redirect after success (defaults to '/')
+ * Supports two flows:
+ *  1. PKCE flow: receives `code` param → exchanges for session
+ *  2. Token hash flow: receives `token_hash` + `type` → verifies OTP
  */
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
+    const next = searchParams.get('next') ?? '/';
+
+    // Flow 1: PKCE code exchange (used by Supabase email links in production)
+    const code = searchParams.get('code');
+    if (code) {
+        const supabase = await createClient();
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+        if (!error) {
+            redirect(next);
+        }
+    }
+
+    // Flow 2: Token hash verification (email confirmation links)
     const token_hash = searchParams.get('token_hash');
     const type = searchParams.get('type') as EmailOtpType | null;
-    const next = searchParams.get('next') ?? '/';
 
     if (token_hash && type) {
         const supabase = await createClient();
-
         const { error } = await supabase.auth.verifyOtp({
             type,
             token_hash,
         });
 
         if (!error) {
-            // Redirect user to specified redirect URL or root of app
             redirect(next);
         }
     }
 
-    // Redirect the user to an error page with instructions
+    // If nothing worked, send to error page
     redirect('/auth/auth-code-error');
 }
