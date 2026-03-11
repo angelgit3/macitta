@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
             <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
                 <h2 className="text-2xl font-bold mb-2 text-center">¿Olvidaste tu contraseña?</h2>
                 <p className="text-text-dim text-center mb-8 text-sm">
-                    Ingresa tu correo y te enviaremos un código de 6 dígitos para restablecerla.
+                    Ingresa tu correo y te enviaremos un código de 8 dígitos para restablecerla.
                 </p>
 
                 {error && (

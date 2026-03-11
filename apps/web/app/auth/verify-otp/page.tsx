@@ -12,7 +12,7 @@ function VerifyOTPClient() {
     const router = useRouter();
     const email = searchParams.get('email') || '';
 
-    const [otp, setOtp] = useState(['', '', '', '', '', '']);
+    const [otp, setOtp] = useState(['', '', '', '', '', '', '', '']);
     const [loading, setLoading] = useState(false);
     const [resending, setResending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,7 @@ function VerifyOTPClient() {
         setOtp(newOtp);
 
         // Move to next input automatically
-        if (value && index < 5) {
+        if (value && index < 7) {
             inputRefs.current[index + 1]?.focus();
         }
     };
@@ -51,7 +51,7 @@ function VerifyOTPClient() {
 
     const handlePaste = (e: React.ClipboardEvent) => {
         e.preventDefault();
-        const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+        const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 8);
         if (pastedData) {
             const newOtp = [...otp];
             for (let i = 0; i < pastedData.length; i++) {
@@ -60,7 +60,7 @@ function VerifyOTPClient() {
             setOtp(newOtp);
 
             // Focus on the next empty input or the last one
-            const nextIndex = Math.min(pastedData.length, 5);
+            const nextIndex = Math.min(pastedData.length, 7);
             inputRefs.current[nextIndex]?.focus();
         }
     };
@@ -69,8 +69,8 @@ function VerifyOTPClient() {
         if (e) e.preventDefault();
 
         const code = otp.join('');
-        if (code.length < 6) {
-            setError('Ingresa el código completo de 6 dígitos.');
+        if (code.length < 8) {
+            setError('Ingresa el código completo de 8 dígitos.');
             return;
         }
 
@@ -119,7 +119,7 @@ function VerifyOTPClient() {
         } else {
             setMessage('Se ha reenviado un nuevo código a tu correo.');
             // Clear inputs
-            setOtp(['', '', '', '', '', '']);
+            setOtp(['', '', '', '', '', '', '', '']);
             inputRefs.current[0]?.focus();
         }
         setResending(false);
@@ -141,7 +141,7 @@ function VerifyOTPClient() {
 
                 <h2 className="text-2xl font-bold mb-2">Verifica tu correo</h2>
                 <p className="text-text-dim mb-6 text-sm leading-relaxed">
-                    Ingresa el código de 6 dígitos que enviamos a <br />
+                    Ingresa el código de 8 dígitos que enviamos a <br />
                     <strong className="text-white">{email || 'tu correo'}</strong>
                 </p>
 
