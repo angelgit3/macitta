@@ -252,7 +252,7 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
             <div className="text-center space-y-1 py-4">
                 <p className="text-[11px] text-zinc-600 flex items-center justify-center gap-1.5">
                     <Code2 size={12} />
-                    Desarrollado por <span className="text-zinc-400 font-medium">Ángel Anaya</span>
+                    Desarrollado por <span className="text-zinc-400 font-medium">Angel Anaya</span>
                 </p>
                 <p className="text-[10px] text-zinc-700">
                     Macitta v1.0 — UPT 2026
