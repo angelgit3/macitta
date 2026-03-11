@@ -12,7 +12,7 @@ function VerifyRecoveryClient() {
     const router = useRouter();
     const email = searchParams.get('email') || '';
 
-    const [otp, setOtp] = useState(['', '', '', '', '', '', '', '']);
+    const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [loading, setLoading] = useState(false);
     const [resending, setResending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -34,7 +34,7 @@ function VerifyRecoveryClient() {
         newOtp[index] = value.substring(value.length - 1);
         setOtp(newOtp);
 
-        if (value && index < 7) {
+        if (value && index < 5) {
             inputRefs.current[index + 1]?.focus();
         }
     };
@@ -47,14 +47,14 @@ function VerifyRecoveryClient() {
 
     const handlePaste = (e: React.ClipboardEvent) => {
         e.preventDefault();
-        const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 8);
+        const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
         if (pastedData) {
             const newOtp = [...otp];
             for (let i = 0; i < pastedData.length; i++) {
                 newOtp[i] = pastedData[i];
             }
             setOtp(newOtp);
-            const nextIndex = Math.min(pastedData.length, 7);
+            const nextIndex = Math.min(pastedData.length, 5);
             inputRefs.current[nextIndex]?.focus();
         }
     };
@@ -63,8 +63,8 @@ function VerifyRecoveryClient() {
         if (e) e.preventDefault();
 
         const code = otp.join('');
-        if (code.length < 8) {
-            setError('Ingresa el código completo de 8 dígitos.');
+        if (code.length < 6) {
+            setError('Ingresa el código completo de 6 dígitos.');
             return;
         }
 
@@ -113,7 +113,7 @@ function VerifyRecoveryClient() {
             setError(error.message);
         } else {
             setMessage('Se ha reenviado un nuevo código a tu correo.');
-            setOtp(['', '', '', '', '', '', '', '']);
+            setOtp(['', '', '', '', '', '']);
             inputRefs.current[0]?.focus();
         }
         setResending(false);
@@ -135,7 +135,7 @@ function VerifyRecoveryClient() {
 
                 <h2 className="text-2xl font-bold mb-2">Recupera tu cuenta</h2>
                 <p className="text-text-dim mb-6 text-sm leading-relaxed">
-                    Ingresa el código de 8 dígitos que enviamos a <br />
+                    Ingresa el código de 6 dígitos que enviamos a <br />
                     <strong className="text-white">{email || 'tu correo'}</strong>
                 </p>
 
