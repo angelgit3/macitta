@@ -100,7 +100,14 @@ function VerifyRecoveryClient() {
         setError(null);
         setMessage(null);
 
-        const { error } = await supabase.auth.resetPasswordForEmail(email);
+        const { createClient: createSupabaseClient } = await import('@supabase/supabase-js');
+        const supabaseImplicit = createSupabaseClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            { auth: { flowType: 'implicit' } }
+        );
+
+        const { error } = await supabaseImplicit.auth.resetPasswordForEmail(email);
 
         if (error) {
             setError(error.message);

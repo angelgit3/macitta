@@ -20,10 +20,15 @@ export default function ForgotPasswordPage() {
         const formData = new FormData(e.currentTarget);
         const email = formData.get("email") as string;
 
-        const supabase = createClient();
+        // We must use the implicit flow here to force Supabase to generate a 6-digit OTP 
+        // instead of a long PKCE token, because our UI expects a 6-digit code.
+        const { createClient: createSupabaseClient } = await import('@supabase/supabase-js');
+        const supabase = createSupabaseClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            { auth: { flowType: 'implicit' } }
+        );
 
-        // This sends a recovery OTP code (6-digit) instead of a magic link
-        // as long as the Supabase email template uses {{ .Token }}
         const { error } = await supabase.auth.resetPasswordForEmail(email);
 
         if (error) {
