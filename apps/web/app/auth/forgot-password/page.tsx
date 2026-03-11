@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { ZenButton } from "@/components/ui/ZenButton";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Cloud, Mail, Loader2, Send, ArrowLeft } from "lucide-react";
+import { Cloud, Mail, Loader2, ArrowLeft } from "lucide-react";
 
 export default function ForgotPasswordPage() {
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [sent, setSent] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -21,37 +22,17 @@ export default function ForgotPasswordPage() {
 
         const supabase = createClient();
 
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${location.origin}/auth/confirm?next=/auth/update-password`,
-        });
+        // This sends a recovery OTP code (6-digit) instead of a magic link
+        // as long as the Supabase email template uses {{ .Token }}
+        const { error } = await supabase.auth.resetPasswordForEmail(email);
 
         if (error) {
             setError(error.message);
             setLoading(false);
         } else {
-            setSent(true);
-            setLoading(false);
+            // Redirect to the recovery OTP page
+            router.push(`/auth/verify-recovery?email=${encodeURIComponent(email)}`);
         }
-    }
-
-    if (sent) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
-                <div className="w-16 h-16 bg-accent-focus/20 rounded-full flex items-center justify-center mb-6 text-accent-focus animate-in zoom-in">
-                    <Send size={28} />
-                </div>
-                <h2 className="text-3xl font-bold mb-3">Revisa tu correo</h2>
-                <p className="text-text-dim max-w-xs leading-relaxed">
-                    Si tu email está registrado, recibirás un enlace para restablecer tu contraseña. Revisa también tu carpeta de spam.
-                </p>
-                <Link href="/auth/login" className="mt-8">
-                    <ZenButton variant="ghost" className="gap-2">
-                        <ArrowLeft size={16} />
-                        Volver al Login
-                    </ZenButton>
-                </Link>
-            </div>
-        );
     }
 
     return (
@@ -64,7 +45,7 @@ export default function ForgotPasswordPage() {
             <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
                 <h2 className="text-2xl font-bold mb-2 text-center">¿Olvidaste tu contraseña?</h2>
                 <p className="text-text-dim text-center mb-8 text-sm">
-                    Ingresa el email asociado a tu cuenta y te enviaremos un enlace para restablecerla.
+                    Ingresa tu correo y te enviaremos un código de 6 dígitos para restablecerla.
                 </p>
 
                 {error && (
@@ -83,7 +64,7 @@ export default function ForgotPasswordPage() {
                                 type="email"
                                 required
                                 className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all"
-                                placeholder="you@example.com"
+                                placeholder="tu_correo@upt.edu.mx"
                                 autoFocus
                             />
                         </div>
@@ -94,7 +75,7 @@ export default function ForgotPasswordPage() {
                         className="w-full mt-2 h-12"
                         disabled={loading}
                     >
-                        {loading ? <Loader2 className="animate-spin" /> : "Enviar enlace"}
+                        {loading ? <Loader2 className="animate-spin" /> : "Enviar código"}
                     </ZenButton>
                 </form>
 

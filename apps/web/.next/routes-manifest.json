@@ -75,6 +75,12 @@
       "namedRegex": "^/auth/verify\\-otp(?:/)?$"
     },
     {
+      "page": "/auth/verify-recovery",
+      "regex": "^/auth/verify\\-recovery(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/verify\\-recovery(?:/)?$"
+    },
+    {
       "page": "/dashboard",
       "regex": "^/dashboard(?:/)?$",
       "routeKeys": {},
