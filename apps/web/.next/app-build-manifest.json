@@ -35,6 +35,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/docente/page.js"
+    ],
+    "/(app)/docente/grupo/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/docente/grupo/[id]/page.js"
     ]
   }
 }
