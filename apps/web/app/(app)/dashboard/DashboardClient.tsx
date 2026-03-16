@@ -2,20 +2,42 @@
 
 import { BentoCard } from "@/components/ui/BentoCard";
 import { StatsGraph } from "@/components/ui/StatsGraph";
+import { OnboardingModal } from "@/components/ui/OnboardingModal";
 import { BookOpen, Target, Cloud, Flame, Clock, Users, Loader2, CheckCircle2 } from "lucide-react";
 import { useUserStats } from "@/hooks/useUserStats";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 export function DashboardClient({ initialCount }: { initialCount: number }) {
     const { stats, loading } = useUserStats();
+    const supabase = createClient();
+    const [userId, setUserId] = useState<string | null>(null);
+    const [showOnboarding, setShowOnboarding] = useState(false);
 
-    // Map daily activity to graph data (parse dates as LOCAL, not UTC)
+    // Check if this user needs onboarding
+    useEffect(() => {
+        async function checkOnboarding() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+            setUserId(user.id);
+
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('onboarding_done')
+                .eq('id', user.id)
+                .single();
+
+            if (profile && !profile.onboarding_done) {
+                setShowOnboarding(true);
+            }
+        }
+        checkOnboarding();
+    }, []);
+
     const todayLocal = new Date();
     const todayStr = `${todayLocal.getFullYear()}-${String(todayLocal.getMonth() + 1).padStart(2, '0')}-${String(todayLocal.getDate()).padStart(2, '0')}`;
 
     const graphData = stats?.dailyActivity.map(a => {
-        // Parse YYYY-MM-DD as local date (avoid new Date("YYYY-MM-DD") which is UTC)
         const [y, m, d] = a.date.split('-').map(Number);
         const localDate = new Date(y, m - 1, d);
         return {
@@ -30,11 +52,19 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
             ? `${(stats.totalTimeMs / 3600000).toFixed(1)}h`
             : `${Math.round(stats.totalTimeMs / 60000)}min`
         : "0min";
-    const masteryPercent = stats ? Math.round((stats.masteredCards / stats.totalCards) * 100) : 0;
+    const masteryPercent = stats ? Math.round((stats.masteredCards / Math.max(stats.totalCards, 1)) * 100) : 0;
     const streakDays = stats?.streak || 0;
 
     return (
         <>
+            {/* Onboarding modal — renders only on first login */}
+            {showOnboarding && userId && (
+                <OnboardingModal
+                    userId={userId}
+                    onDone={() => setShowOnboarding(false)}
+                />
+            )}
+
             {/* Top Stats Row */}
             <div className="grid grid-cols-2 gap-4">
                 <BentoCard icon={<BookOpen size={20} />} title="Verbos" value={initialCount} />
@@ -67,9 +97,7 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
                         <div className="text-xs uppercase tracking-wider text-text-dim flex items-center justify-end gap-1">
                             <Clock size={12} /> Tiempo Total
                         </div>
-                        <div className="text-2xl font-bold">
-                            {totalTimeFormatted}
-                        </div>
+                        <div className="text-2xl font-bold">{totalTimeFormatted}</div>
                     </div>
                 </div>
                 <StatsGraph data={graphData} />
@@ -94,7 +122,6 @@ function JoinClassCard() {
         setLoading(true);
         setError(null);
 
-        // Find classroom by join_code
         const { data: classroom } = await supabase
             .from("classrooms")
             .select("id")

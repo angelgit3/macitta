@@ -6,7 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
     ArrowLeft, Users, Clock, Flame, Target, Loader2, Trash2,
-    BookOpen, AlertTriangle, BarChart2, TrendingDown
+    BookOpen, AlertTriangle, BarChart2, TrendingDown, Trophy, Medal
 } from "lucide-react";
 
 type Classroom = { id: string; name: string; join_code: string };
@@ -38,6 +38,7 @@ export default function ClassroomPage() {
     const [difficultCards, setDifficultCards] = useState<DifficultCard[]>([]);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
+    const [tab, setTab] = useState<'students' | 'leaderboard'>('students');
 
     useEffect(() => { loadData(); }, [id]);
 
@@ -355,7 +356,29 @@ export default function ClassroomPage() {
                     </div>
                 )}
 
-                {/* Students table */}
+                {/* ── Tab switcher (only when there are students) ── */}
+                {students.length > 0 && (
+                    <div className="flex gap-1 bg-stone-surface border border-border-subtle rounded-xl p-1">
+                        {([
+                            { key: 'students', label: 'Alumnos', icon: Users },
+                            { key: 'leaderboard', label: 'Ranking', icon: Trophy },
+                        ] as const).map(t => (
+                            <button
+                                key={t.key}
+                                onClick={() => setTab(t.key)}
+                                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-semibold transition-all ${tab === t.key
+                                    ? 'bg-white/10 text-white'
+                                    : 'text-text-dim hover:text-white'
+                                    }`}
+                            >
+                                <t.icon size={13} />
+                                {t.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {/* ── Students table ── */}
                 {students.length === 0 ? (
                     <div className="text-center py-20 bg-stone-surface/50 rounded-2xl border border-border-subtle border-dashed">
                         <Users size={48} className="mx-auto text-text-dim mb-4 opacity-30" />
@@ -366,7 +389,7 @@ export default function ClassroomPage() {
                             {" "}con tus alumnos.
                         </p>
                     </div>
-                ) : (
+                ) : tab === 'students' ? (
                     <div className="bg-stone-surface border border-border-subtle rounded-2xl overflow-hidden">
                         <div className="flex items-center gap-2 px-5 py-3 border-b border-border-subtle">
                             <Users size={14} className="text-text-dim" />
@@ -432,6 +455,91 @@ export default function ClassroomPage() {
                             </div>
                         ))}
                     </div>
+                ) : (
+                    // ── Leaderboard ──────────────────────────────────────────
+                    (() => {
+                        const ranked = [...students]
+                            .filter(s => s.total_reviews > 0 || s.streak_current > 0)
+                            .sort((a, b) => {
+                                // Primary: precision desc (null goes last)
+                                const pa = a.precision ?? -1;
+                                const pb = b.precision ?? -1;
+                                if (pb !== pa) return pb - pa;
+                                // Secondary: streak desc
+                                return b.streak_current - a.streak_current;
+                            });
+
+                        const MEDALS = [
+                            { icon: Trophy, color: 'text-yellow-400', bg: 'bg-yellow-400/10' },
+                            { icon: Medal, color: 'text-zinc-400', bg: 'bg-zinc-400/10' },
+                            { icon: Medal, color: 'text-amber-700', bg: 'bg-amber-700/10' },
+                        ];
+
+                        if (ranked.length === 0) {
+                            return (
+                                <div className="text-center py-12 bg-stone-surface/50 rounded-2xl border border-border-subtle border-dashed">
+                                    <Trophy size={36} className="mx-auto text-text-dim mb-3 opacity-30" />
+                                    <p className="text-sm text-text-dim/60">El ranking aparecerá cuando los alumnos comiencen a estudiar.</p>
+                                </div>
+                            );
+                        }
+
+                        return (
+                            <div className="bg-stone-surface border border-border-subtle rounded-2xl overflow-hidden">
+                                <div className="flex items-center gap-2 px-5 py-3 border-b border-border-subtle">
+                                    <Trophy size={14} className="text-yellow-400" />
+                                    <h2 className="text-xs font-semibold uppercase tracking-widest text-text-dim">Ranking del grupo</h2>
+                                    <span className="ml-auto text-[10px] text-text-dim/50">por precisión</span>
+                                </div>
+
+                                {ranked.map((s, i) => {
+                                    const medal = MEDALS[i] ?? null;
+                                    return (
+                                        <div
+                                            key={s.student_id}
+                                            className={`flex items-center gap-4 px-5 py-4 ${i < ranked.length - 1 ? "border-b border-border-subtle/40" : ""} ${i === 0 ? "bg-yellow-400/[0.03]" : ""} hover:bg-white/[0.02] transition-colors`}
+                                        >
+                                            {/* Rank # */}
+                                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${medal ? medal.bg : 'bg-white/5'}`}>
+                                                {medal
+                                                    ? <medal.icon size={15} className={medal.color} />
+                                                    : <span className="text-xs font-bold text-text-dim/50">{i + 1}</span>
+                                                }
+                                            </div>
+
+                                            {/* Avatar */}
+                                            {s.avatar_url ? (
+                                                <img src={s.avatar_url} alt={s.username} className="w-9 h-9 rounded-full shrink-0" />
+                                            ) : (
+                                                <div className="w-9 h-9 rounded-full bg-accent-focus/15 flex items-center justify-center text-sm font-bold text-accent-focus shrink-0">
+                                                    {s.username?.[0]?.toUpperCase() ?? '?'}
+                                                </div>
+                                            )}
+
+                                            {/* Name */}
+                                            <div className="flex-1 min-w-0">
+                                                <p className={`font-semibold text-sm truncate ${i === 0 ? 'text-yellow-400' : ''}`}>{s.username}</p>
+                                                <p className="text-[10px] text-text-dim">{s.total_reviews} reviews · racha {s.streak_current}d</p>
+                                            </div>
+
+                                            {/* Precision */}
+                                            <div className="text-right shrink-0">
+                                                <div className={`text-lg font-black ${s.precision !== null
+                                                    ? s.precision >= 80 ? 'text-green-400'
+                                                        : s.precision >= 60 ? 'text-yellow-400'
+                                                            : 'text-red-400'
+                                                    : 'text-text-dim'
+                                                    }`}>
+                                                    {s.precision !== null ? `${s.precision}%` : '—'}
+                                                </div>
+                                                <div className="text-[9px] uppercase tracking-wider text-text-dim/50">precisión</div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        );
+                    })()
                 )}
 
                 {/* No activity notice */}
@@ -445,3 +553,4 @@ export default function ClassroomPage() {
         </div>
     );
 }
+
