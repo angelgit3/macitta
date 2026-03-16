@@ -1,19 +1,37 @@
 "use client";
 
-import React from "react";
-import { Home, Layers, Play, User } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Home, Layers, Play, User, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export function ZenDock() {
     const pathname = usePathname();
+    const [role, setRole] = useState<string>("student");
 
-    const allNavItems = [
+    useEffect(() => {
+        const supabase = createClient();
+        supabase.auth.getUser().then(({ data: { user } }) => {
+            if (user?.user_metadata?.role) {
+                setRole(user.user_metadata.role);
+            }
+        });
+    }, []);
+
+    const studentItems = [
         { icon: Home, label: "Home", href: "/dashboard" },
         { icon: Play, label: "Estudio", href: "/estudio" },
         { icon: Layers, label: "Inventario", href: "/vocabulario" },
         { icon: User, label: "Usuario", href: "/usuario" },
     ];
+
+    const teacherItems = [
+        { icon: BookOpen, label: "Grupos", href: "/docente" },
+        { icon: User, label: "Usuario", href: "/usuario" },
+    ];
+
+    const allNavItems = role === "teacher" ? teacherItems : studentItems;
 
     const isActive = (path: string) => pathname === path || (path === "/dashboard" && pathname === "/") || (pathname?.startsWith(path) && path !== "/dashboard");
 
