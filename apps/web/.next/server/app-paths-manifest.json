@@ -1,17 +1,6 @@
 {
-  "/auth/confirm/route": "app/auth/confirm/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/auth/auth-code-error/page": "app/auth/auth-code-error/page.js",
-  "/auth/forgot-password/page": "app/auth/forgot-password/page.js",
-  "/auth/update-password/page": "app/auth/update-password/page.js",
   "/auth/login/page": "app/auth/login/page.js",
-  "/auth/verify-otp/page": "app/auth/verify-otp/page.js",
-  "/auth/signup/page": "app/auth/signup/page.js",
-  "/auth/verify-recovery/page": "app/auth/verify-recovery/page.js",
-  "/(app)/usuario/page": "app/(app)/usuario/page.js",
-  "/(app)/estudio/page": "app/(app)/estudio/page.js",
   "/(marketing)/page": "app/(marketing)/page.js",
-  "/(app)/mazos/page": "app/(app)/mazos/page.js",
-  "/(app)/vocabulario/page": "app/(app)/vocabulario/page.js",
-  "/(app)/dashboard/page": "app/(app)/dashboard/page.js"
+  "/(app)/docente/grupo/[id]/page": "app/(app)/docente/grupo/[id]/page.js",
+  "/(app)/docente/page": "app/(app)/docente/page.js"
 }

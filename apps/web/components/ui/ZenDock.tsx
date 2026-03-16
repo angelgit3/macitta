@@ -1,21 +1,49 @@
 "use client";
 
-import React from "react";
-import { Home, Layers, Play, User } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Home, Layers, Play, User, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export function ZenDock() {
     const pathname = usePathname();
+    const [role, setRole] = useState<string | null>(null);
 
-    const allNavItems = [
+    useEffect(() => {
+        const supabase = createClient();
+        supabase.auth.getUser().then(async ({ data: { user } }) => {
+            if (!user) return;
+            const { data: profile } = await supabase
+                .from("profiles")
+                .select("role")
+                .eq("id", user.id)
+                .single();
+            if (profile?.role) setRole(profile.role);
+        });
+    }, []);
+
+    const studentItems = [
         { icon: Home, label: "Home", href: "/dashboard" },
         { icon: Play, label: "Estudio", href: "/estudio" },
         { icon: Layers, label: "Inventario", href: "/vocabulario" },
         { icon: User, label: "Usuario", href: "/usuario" },
     ];
 
-    const isActive = (path: string) => pathname === path || (path === "/dashboard" && pathname === "/") || (pathname?.startsWith(path) && path !== "/dashboard");
+    const teacherItems = [
+        { icon: BookOpen, label: "Grupos", href: "/docente" },
+        { icon: User, label: "Usuario", href: "/usuario" },
+    ];
+
+    const allNavItems = role === "teacher" ? teacherItems : studentItems;
+
+    const isActive = (path: string) => {
+        if (path === "/dashboard") return pathname === path || pathname === "/";
+        return pathname === path || Boolean(pathname?.startsWith(path + "/"));
+    };
+
+    // Don't render until role is confirmed to avoid flicker
+    if (role === null) return null;
 
     return (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">
@@ -24,8 +52,9 @@ export function ZenDock() {
                     <Link
                         key={item.label}
                         href={item.href}
-                        className={`flex flex-col items-center justify-center gap-1 transition-colors ${isActive(item.href) ? "text-accent-focus" : "text-text-dim hover:text-white"
-                            }`}
+                        className={`flex flex-col items-center justify-center gap-1 transition-colors ${
+                            isActive(item.href) ? "text-accent-focus" : "text-text-dim hover:text-white"
+                        }`}
                     >
                         <item.icon size={24} strokeWidth={isActive(item.href) ? 2.5 : 2} />
                     </Link>

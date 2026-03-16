@@ -24,7 +24,7 @@ export function SyncManager() {
         <button
             onClick={() => performSync()}
             disabled={isSyncing}
-            className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-full border bg-void/80 backdrop-blur-md transition-all active:scale-95 ${!navigator.onLine
+            className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-full border bg-void/80 backdrop-blur-md transition-all active:scale-95 ${!online
                 ? 'border-red-500/20 text-red-400'
                 : isSyncing
                     ? 'border-blue-500/20 text-blue-400 animate-pulse'
@@ -32,7 +32,7 @@ export function SyncManager() {
                 }`}>
             {isSyncing ? <RefreshCw size={14} className="animate-spin" /> : <Cloud size={14} />}
             <span className="text-[10px] font-bold uppercase tracking-wider">
-                {!navigator.onLine ? 'Offline' : isSyncing ? 'Sincronizando' : 'Sincronizado'}
+                {!online ? 'Offline' : isSyncing ? 'Sincronizando' : 'Sincronizado'}
             </span>
         </button>
     );

@@ -9,7 +9,7 @@
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ✓ Compiled successfully in 7.4s
+ ✓ Compiled successfully in 10.2s
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
@@ -25,22 +25,22 @@ Route (app)                                 Size  First Load JS
 ┌ ○ /                                      163 B         106 kB
 ├ ○ /_not-found                            988 B         103 kB
 ├ ○ /auth/auth-code-error                  163 B         106 kB
-├ ƒ /auth/confirm                          132 B         102 kB
-├ ○ /auth/forgot-password                2.07 kB         161 kB
-├ ○ /auth/login                          2.28 kB         162 kB
-├ ○ /auth/signup                         2.99 kB         162 kB
-├ ○ /auth/update-password                2.26 kB         162 kB
-├ ○ /auth/verify-otp                     2.95 kB         162 kB
-├ ○ /auth/verify-recovery                2.97 kB         162 kB
-├ ƒ /dashboard                           2.74 kB         159 kB
-├ ○ /estudio                             14.1 kB         204 kB
-├ ○ /mazos                                 132 B         102 kB
-├ ƒ /usuario                             4.18 kB         160 kB
-└ ƒ /vocabulario                           132 B         102 kB
+├ ƒ /auth/confirm                          132 B         103 kB
+├ ○ /auth/forgot-password                2.68 kB         108 kB
+├ ○ /auth/login                          2.29 kB         163 kB
+├ ○ /auth/signup                            3 kB         163 kB
+├ ○ /auth/update-password                2.26 kB         163 kB
+├ ○ /auth/verify-otp                     2.96 kB         163 kB
+├ ○ /auth/verify-recovery                3.03 kB         163 kB
+├ ƒ /dashboard                           2.75 kB         160 kB
+├ ○ /estudio                             14.1 kB         205 kB
+├ ○ /mazos                                 132 B         103 kB
+├ ƒ /usuario                             4.18 kB         161 kB
+└ ƒ /vocabulario                           132 B         103 kB
 + First Load JS shared by all             102 kB
   ├ chunks/18-14e6895f59bfbbff.js          46 kB
   ├ chunks/87c73c54-24122e7b92478d00.js  54.2 kB
-  └ other shared chunks (total)          2.08 kB
+  └ other shared chunks (total)          2.11 kB
 
 
 ƒ Middleware                             80.8 kB

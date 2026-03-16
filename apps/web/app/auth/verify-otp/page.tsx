@@ -83,10 +83,10 @@ function VerifyOTPClient() {
         setError(null);
         setMessage(null);
 
-        const { error } = await supabase.auth.verifyOtp({
+        const { data: authData, error } = await supabase.auth.verifyOtp({
             email,
             token: code,
-            type: 'signup' // or 'email' depending on context, but 'signup' covers initial verification
+            type: 'signup'
         });
 
         if (error) {
@@ -95,8 +95,17 @@ function VerifyOTPClient() {
                 : error.message);
             setLoading(false);
         } else {
-            // Success! The session is now active.
-            router.push('/dashboard');
+            // Auto-assign role (student/teacher) based on email format
+            await supabase.rpc('update_profile_role_from_email');
+
+            // Read role from profiles (NOT user_metadata — that's not set at verification time)
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', authData.user!.id)
+                .single();
+
+            router.push(profile?.role === 'teacher' ? '/docente' : '/dashboard');
         }
     };
 
