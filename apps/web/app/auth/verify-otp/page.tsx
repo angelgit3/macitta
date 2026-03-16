@@ -109,9 +109,6 @@ function VerifyOTPClient() {
         const { error } = await supabase.auth.resend({
             type: 'signup',
             email,
-            options: {
-                emailRedirectTo: `${location.origin}/auth/confirm?next=/dashboard`
-            }
         });
 
         if (error) {

@@ -56,7 +56,6 @@ export default function SignupPage() {
             email,
             password,
             options: {
-                emailRedirectTo: `${location.origin}/auth/confirm?next=/dashboard`,
                 data: {
                     user_name: username,
                     avatar_url: `https://api.dicebear.com/9.x/notionists/svg?seed=${username}`,

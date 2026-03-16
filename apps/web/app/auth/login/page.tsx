@@ -51,17 +51,22 @@ export default function LoginPage() {
                 <p className="text-text-dim text-center mb-8 text-sm">Inicia sesión para continuar tu racha.</p>
 
                 {error && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">
-                        {error}
-                        {error.toLowerCase().includes('not confirmed') && (
-                            <Link
-                                href={`/auth/verify-otp?email=${encodeURIComponent(lastAttemptedEmail)}`}
-                                className="block mt-2 font-bold underline hover:text-red-400"
-                            >
-                                Introducir código de verificación
-                            </Link>
-                        )}
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-4 text-center">
+                        {error.toLowerCase().includes('not confirmed')
+                            ? 'Tu correo aún no ha sido verificado.'
+                            : error.toLowerCase().includes('invalid login')
+                                ? 'Correo o contraseña incorrectos.'
+                                : error}
                     </div>
+                )}
+
+                {error?.toLowerCase().includes('not confirmed') && (
+                    <Link
+                        href={`/auth/verify-otp?email=${encodeURIComponent(lastAttemptedEmail)}`}
+                        className="flex items-center justify-center gap-2 w-full mb-4 py-3 rounded-xl bg-accent-focus/15 border border-accent-focus/30 text-accent-focus font-medium text-sm hover:bg-accent-focus/25 transition-colors"
+                    >
+                        Verificar mi correo →
+                    </Link>
                 )}
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
