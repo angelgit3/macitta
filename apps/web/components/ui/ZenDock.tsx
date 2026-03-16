@@ -12,10 +12,14 @@ export function ZenDock() {
 
     useEffect(() => {
         const supabase = createClient();
-        supabase.auth.getUser().then(({ data: { user } }) => {
-            if (user?.user_metadata?.role) {
-                setRole(user.user_metadata.role);
-            }
+        supabase.auth.getUser().then(async ({ data: { user } }) => {
+            if (!user) return;
+            const { data: profile } = await supabase
+                .from("profiles")
+                .select("role")
+                .eq("id", user.id)
+                .single();
+            if (profile?.role) setRole(profile.role);
         });
     }, []);
 

@@ -29,26 +29,31 @@ export default function DocentePage() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        const { data } = await supabase
+        // Query 1: Fetch classrooms
+        const { data: rooms, error } = await supabase
             .from("classrooms")
-            .select(`
-                id,
-                name,
-                join_code,
-                created_at,
-                classroom_students(count)
-            `)
+            .select("id, name, join_code, created_at")
             .eq("teacher_id", user.id)
             .order("created_at", { ascending: false });
 
-        if (data) {
-            setClassrooms(
-                data.map((c: any) => ({
-                    ...c,
-                    student_count: c.classroom_students?.[0]?.count ?? 0,
-                }))
-            );
-        }
+        if (error || !rooms) { setLoading(false); return; }
+
+        // Query 2: Fetch student counts separately to avoid RLS recursion
+        const { data: counts } = await supabase
+            .from("classroom_students")
+            .select("classroom_id");
+
+        const countMap: Record<string, number> = {};
+        (counts ?? []).forEach((r: any) => {
+            countMap[r.classroom_id] = (countMap[r.classroom_id] ?? 0) + 1;
+        });
+
+        setClassrooms(
+            rooms.map((c: any) => ({
+                ...c,
+                student_count: countMap[c.id] ?? 0,
+            }))
+        );
         setLoading(false);
     }
 
