@@ -51,6 +51,7 @@ export default function SignupPage() {
         }
 
         const supabase = createClient();
+        const role = detectRole(email) ?? 'student';
 
         const { error } = await supabase.auth.signUp({
             email,
@@ -59,6 +60,7 @@ export default function SignupPage() {
                 data: {
                     user_name: username,
                     avatar_url: `https://api.dicebear.com/9.x/notionists/svg?seed=${username}`,
+                    role,
                 },
             },
         });
