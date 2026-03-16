@@ -8,7 +8,7 @@ import { createClient } from "@/utils/supabase/client";
 
 export function ZenDock() {
     const pathname = usePathname();
-    const [role, setRole] = useState<string>("student");
+    const [role, setRole] = useState<string | null>(null);
 
     useEffect(() => {
         const supabase = createClient();
@@ -37,7 +37,13 @@ export function ZenDock() {
 
     const allNavItems = role === "teacher" ? teacherItems : studentItems;
 
-    const isActive = (path: string) => pathname === path || (path === "/dashboard" && pathname === "/") || (pathname?.startsWith(path) && path !== "/dashboard");
+    const isActive = (path: string) => {
+        if (path === "/dashboard") return pathname === path || pathname === "/";
+        return pathname === path || Boolean(pathname?.startsWith(path + "/"));
+    };
+
+    // Don't render until role is confirmed to avoid flicker
+    if (role === null) return null;
 
     return (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">
@@ -46,8 +52,9 @@ export function ZenDock() {
                     <Link
                         key={item.label}
                         href={item.href}
-                        className={`flex flex-col items-center justify-center gap-1 transition-colors ${isActive(item.href) ? "text-accent-focus" : "text-text-dim hover:text-white"
-                            }`}
+                        className={`flex flex-col items-center justify-center gap-1 transition-colors ${
+                            isActive(item.href) ? "text-accent-focus" : "text-text-dim hover:text-white"
+                        }`}
                     >
                         <item.icon size={24} strokeWidth={isActive(item.href) ? 2.5 : 2} />
                     </Link>

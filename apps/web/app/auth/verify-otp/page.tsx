@@ -98,9 +98,14 @@ function VerifyOTPClient() {
             // Auto-assign role (student/teacher) based on email format
             await supabase.rpc('update_profile_role_from_email');
 
-            // Redirect based on role from user metadata
-            const role = authData.user?.user_metadata?.role;
-            router.push(role === 'teacher' ? '/docente' : '/dashboard');
+            // Read role from profiles (NOT user_metadata — that's not set at verification time)
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', authData.user!.id)
+                .single();
+
+            router.push(profile?.role === 'teacher' ? '/docente' : '/dashboard');
         }
     };
 

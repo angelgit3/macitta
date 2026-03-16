@@ -87,7 +87,7 @@ export default function DocentePage() {
     }
 
     return (
-        <div className="min-h-screen bg-void p-6">
+        <div className="min-h-screen bg-void p-6 pb-28">
             <div className="max-w-4xl mx-auto">
 
                 {/* Header */}
