@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client"; // We will need to create this util
+import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
-import { Cloud, Lock, Mail, Loader2 } from "lucide-react";
+import { Lock, Mail, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -49,13 +49,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void">
-            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-white transition-colors">
-                <Cloud size={24} />
-                <span className="font-bold">Macitta</span>
-            </Link>
-
-            <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
+        <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
                 <h2 className="text-2xl font-bold mb-2 text-center">Bienvenido de nuevo</h2>
                 <p className="text-text-dim text-center mb-8 text-sm">Inicia sesión para continuar tu racha.</p>
 
@@ -126,7 +120,6 @@ export default function LoginPage() {
                 <div className="mt-4 text-center text-sm text-text-dim">
                     ¿No tienes cuenta? <Link href="/auth/signup" className="text-white font-medium hover:underline">Regístrate</Link>
                 </div>
-            </div>
         </div>
     );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { getStudentCounts } from "@/lib/classroomHelpers";
 import Link from "next/link";
 import { PlusCircle, BookOpen, Users, Clock, ChevronRight, Loader2 } from "lucide-react";
 
@@ -38,15 +39,7 @@ export default function DocentePage() {
 
         if (error || !rooms) { setLoading(false); return; }
 
-        // Query 2: Fetch student counts separately to avoid RLS recursion
-        const { data: counts } = await supabase
-            .from("classroom_students")
-            .select("classroom_id");
-
-        const countMap: Record<string, number> = {};
-        (counts ?? []).forEach((r: any) => {
-            countMap[r.classroom_id] = (countMap[r.classroom_id] ?? 0) + 1;
-        });
+        const countMap = await getStudentCounts(rooms.map((r: any) => r.id));
 
         setClassrooms(
             rooms.map((c: any) => ({
@@ -87,8 +80,7 @@ export default function DocentePage() {
     }
 
     return (
-        <div className="min-h-screen bg-void p-6 pb-28">
-            <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto">
 
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
@@ -178,6 +170,5 @@ export default function DocentePage() {
                     </div>
                 )}
             </div>
-        </div>
     );
 }

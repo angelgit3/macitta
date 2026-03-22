@@ -19,7 +19,4 @@
     @apply antialiased bg-void text-white;
   }
 }
-
-@utility glass-panel {
-  @apply backdrop-blur-md bg-stone-surface/90 border border-white/5;
-}
+

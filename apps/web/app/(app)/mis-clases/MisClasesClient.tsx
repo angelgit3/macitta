@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { JoinClassForm } from "@/components/ui/JoinClassForm";
 import {
-    Users, Trophy, Clock, Flame, Target, Loader2, LogOut,
+    Users, Trophy, Loader2, LogOut,
     BookOpen, GraduationCap, AlertTriangle, ChevronDown, ChevronUp
 } from "lucide-react";
 
@@ -34,11 +35,7 @@ export function MisClasesClient({ userId }: { userId: string }) {
     const [leavingId, setLeavingId] = useState<string | null>(null);
     const [confirmLeaveId, setConfirmLeaveId] = useState<string | null>(null);
 
-    // Join class state
-    const [joinCode, setJoinCode] = useState("");
-    const [joining, setJoining] = useState(false);
-    const [joinError, setJoinError] = useState<string | null>(null);
-    const [joinSuccess, setJoinSuccess] = useState(false);
+
 
     useEffect(() => { loadClasses(); }, []);
 
@@ -192,41 +189,7 @@ export function MisClasesClient({ userId }: { userId: string }) {
         setLeavingId(null);
     }
 
-    async function handleJoin(e: React.FormEvent) {
-        e.preventDefault();
-        if (!joinCode.trim()) return;
-        setJoining(true);
-        setJoinError(null);
 
-        const { data: classroom } = await supabase
-            .from("classrooms")
-            .select("id")
-            .eq("join_code", joinCode.toUpperCase().trim())
-            .single();
-
-        if (!classroom) {
-            setJoinError("Código inválido. Verifica con tu maestro.");
-            setJoining(false);
-            return;
-        }
-
-        const { error: insertErr } = await supabase
-            .from("classroom_students")
-            .insert({ classroom_id: classroom.id, student_id: userId });
-
-        if (insertErr?.code === "23505") {
-            setJoinError("Ya estás inscrito en ese grupo.");
-        } else if (insertErr) {
-            setJoinError("No se pudo unir al grupo. Intenta de nuevo.");
-        } else {
-            setJoinSuccess(true);
-            setJoinCode("");
-            // Reload classes
-            await loadClasses();
-            setTimeout(() => setJoinSuccess(false), 3000);
-        }
-        setJoining(false);
-    }
 
     function getMyRank(classroomId: string): number | null {
         const ranking = rankingData[classroomId];
@@ -258,36 +221,7 @@ export function MisClasesClient({ userId }: { userId: string }) {
             </div>
 
             {/* Join a class */}
-            <div className="bg-stone-surface border border-border-subtle rounded-2xl p-4">
-                <div className="flex items-center gap-2 text-sm font-medium mb-3">
-                    <Users size={16} className="text-emerald-400" />
-                    <span>Unirme a una clase</span>
-                </div>
-                {joinSuccess ? (
-                    <div className="flex items-center gap-2 text-sm text-green-400">
-                        <BookOpen size={16} />
-                        ¡Te uniste al grupo exitosamente!
-                    </div>
-                ) : (
-                    <form onSubmit={handleJoin} className="flex gap-2">
-                        <input
-                            value={joinCode}
-                            onChange={e => { setJoinCode(e.target.value); setJoinError(null); }}
-                            placeholder="Código del maestro"
-                            maxLength={6}
-                            className="flex-1 bg-void/50 border border-border-subtle rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-emerald-400 transition-all uppercase tracking-widest font-bold placeholder:normal-case placeholder:tracking-normal placeholder:font-normal"
-                        />
-                        <button
-                            type="submit"
-                            disabled={joining || joinCode.length < 6}
-                            className="px-4 py-2 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-xl text-sm font-medium hover:bg-emerald-500/25 transition-colors disabled:opacity-50"
-                        >
-                            {joining ? <Loader2 className="animate-spin" size={14} /> : "Unirme"}
-                        </button>
-                    </form>
-                )}
-                {joinError && <p className="text-xs text-red-400 mt-2">{joinError}</p>}
-            </div>
+            <JoinClassForm onJoined={loadClasses} />
 
             {/* Empty state */}
             {classes.length === 0 && (
