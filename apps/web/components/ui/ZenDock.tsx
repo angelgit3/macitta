@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Home, Layers, Play, User, BookOpen } from "lucide-react";
+import { Home, Layers, Play, User, BookOpen, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
@@ -27,6 +27,7 @@ export function ZenDock() {
         { icon: Home, label: "Home", href: "/dashboard" },
         { icon: Play, label: "Estudio", href: "/estudio" },
         { icon: Layers, label: "Inventario", href: "/vocabulario" },
+        { icon: GraduationCap, label: "Clases", href: "/mis-clases" },
         { icon: User, label: "Usuario", href: "/usuario" },
     ];
 

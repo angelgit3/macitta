@@ -26,20 +26,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/layout.js"
     ],
-    "/(app)/docente/layout": [
+    "/(app)/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(app)/docente/layout.js"
+      "static/chunks/app/(app)/dashboard/page.js"
     ],
-    "/(app)/docente/page": [
+    "/(app)/usuario/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(app)/docente/page.js"
+      "static/chunks/app/(app)/usuario/page.js"
     ],
-    "/(app)/docente/grupo/[id]/page": [
+    "/auth/signup/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(app)/docente/grupo/[id]/page.js"
+      "static/chunks/app/auth/signup/page.js"
     ]
   }
 }

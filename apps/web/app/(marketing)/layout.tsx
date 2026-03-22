@@ -4,8 +4,8 @@ export default function MarketingLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen bg-void flex flex-col items-center">
-            <main className="w-full flex-1 flex flex-col relative px-6 py-12">
+        <div className="min-h-screen bg-void flex flex-col items-center overflow-x-hidden">
+            <main className="w-full flex-1 flex flex-col relative">
                 {children}
             </main>
         </div>
