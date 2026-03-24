@@ -35,6 +35,26 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/dashboard/page.js"
+    ],
+    "/(app)/estudio/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/estudio/page.js"
+    ],
+    "/(app)/vocabulario/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/vocabulario/page.js"
+    ],
+    "/(app)/mis-clases/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/mis-clases/page.js"
+    ],
+    "/(app)/usuario/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/usuario/page.js"
     ]
   }
 }

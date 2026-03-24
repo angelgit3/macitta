@@ -210,7 +210,7 @@ export async function countRemainingDue(
     let count = 0;
     for (const card of deckCards) {
         const progress = progressMap.get(card.id);
-        if (!progress || progress.due_date <= now) count++;
+        if (!progress || new Date(progress.due_date) <= new Date()) count++;
     }
     return count;
 }

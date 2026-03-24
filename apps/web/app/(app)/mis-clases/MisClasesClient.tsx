@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { JoinClassForm } from "@/components/ui/JoinClassForm";
 import {
@@ -26,7 +26,7 @@ type ClassRankEntry = {
 };
 
 export function MisClasesClient({ userId }: { userId: string }) {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const [classes, setClasses] = useState<MyClass[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export function MisClasesClient({ userId }: { userId: string }) {
     async function loadClasses() {
         setLoading(true);
 
-        // Get all classroom_ids for this student
+        // 1. Get all classroom_ids for this student
         const { data: memberships } = await supabase
             .from("classroom_students")
             .select("classroom_id, joined_at")
@@ -56,7 +56,7 @@ export function MisClasesClient({ userId }: { userId: string }) {
 
         const classIds = memberships.map(m => m.classroom_id);
 
-        // Get classroom info
+        // 2. Fetch classrooms, then teachers + member counts in parallel
         const { data: classrooms } = await supabase
             .from("classrooms")
             .select("id, name, join_code, teacher_id")
@@ -64,26 +64,26 @@ export function MisClasesClient({ userId }: { userId: string }) {
 
         if (!classrooms) { setClasses([]); setLoading(false); return; }
 
-        // Get teacher profiles
         const teacherIds = [...new Set(classrooms.map(c => c.teacher_id))];
-        const { data: teachers } = await supabase
-            .from("profiles")
-            .select("id, username, full_name, email")
-            .in("id", teacherIds);
 
-        // Get student counts per classroom
-        const { data: allMembers } = await supabase
-            .from("classroom_students")
-            .select("classroom_id")
-            .in("classroom_id", classIds);
+        const [teachersRes, membersRes] = await Promise.all([
+            supabase
+                .from("profiles")
+                .select("id, username, full_name, email")
+                .in("id", teacherIds),
+            supabase
+                .from("classroom_students")
+                .select("classroom_id")
+                .in("classroom_id", classIds),
+        ]);
 
         const countMap: Record<string, number> = {};
-        allMembers?.forEach(m => {
+        membersRes.data?.forEach(m => {
             countMap[m.classroom_id] = (countMap[m.classroom_id] || 0) + 1;
         });
 
         const teacherMap: Record<string, string> = {};
-        teachers?.forEach(t => {
+        teachersRes.data?.forEach(t => {
             teacherMap[t.id] = t.username || t.full_name || t.email || "Maestro";
         });
 
@@ -123,17 +123,20 @@ export function MisClasesClient({ userId }: { userId: string }) {
 
         const studentIds = members.map(m => m.student_id);
 
-        // Get profiles
-        const { data: profiles } = await supabase
-            .from("profiles")
-            .select("id, username, streak_current")
-            .in("id", studentIds);
+        // Get profiles + study_logs in parallel
+        const [profilesRes, logsRes] = await Promise.all([
+            supabase
+                .from("profiles")
+                .select("id, username, streak_current")
+                .in("id", studentIds),
+            supabase
+                .from("study_logs")
+                .select("user_id, accuracy")
+                .in("user_id", studentIds),
+        ]);
 
-        // Get study_logs for precision
-        const { data: logs } = await supabase
-            .from("study_logs")
-            .select("user_id, accuracy")
-            .in("user_id", studentIds);
+        const profiles = profilesRes.data;
+        const logs = logsRes.data;
 
         // Calculate precision per student
         const precisionMap: Record<string, { sum: number; count: number }> = {};
@@ -178,13 +181,17 @@ export function MisClasesClient({ userId }: { userId: string }) {
 
     async function leaveClass(classroomId: string) {
         setLeavingId(classroomId);
-        await supabase
+        const { error } = await supabase
             .from("classroom_students")
             .delete()
             .eq("classroom_id", classroomId)
             .eq("student_id", userId);
 
-        setClasses(prev => prev.filter(c => c.classroom_id !== classroomId));
+        if (error) {
+            console.error("[MisClases] Error leaving class:", error);
+        } else {
+            setClasses(prev => prev.filter(c => c.classroom_id !== classroomId));
+        }
         setConfirmLeaveId(null);
         setLeavingId(null);
     }

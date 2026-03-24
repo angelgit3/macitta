@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Users, BookOpen, Loader2 } from "lucide-react";
 
@@ -10,7 +10,7 @@ interface JoinClassFormProps {
 }
 
 export function JoinClassForm({ onJoined }: JoinClassFormProps) {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const [code, setCode] = useState("");
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
