@@ -11,19 +11,24 @@ import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 export function ZenDock() {
     const pathname = usePathname();
     const [role, setRole] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
     const { isSyncing } = useSync();
     const isOnline = useNetworkStatus();
 
     useEffect(() => {
         const supabase = createClient();
         supabase.auth.getUser().then(async ({ data: { user } }) => {
-            if (!user) return;
+            if (!user) {
+                setLoading(false);
+                return;
+            }
             const { data: profile } = await supabase
                 .from("profiles")
                 .select("role")
                 .eq("id", user.id)
                 .single();
             if (profile?.role) setRole(profile.role);
+            setLoading(false);
         });
     }, []);
 
@@ -47,8 +52,18 @@ export function ZenDock() {
         return pathname === path || Boolean(pathname?.startsWith(path + "/"));
     };
 
-    // Don't render until role is confirmed to avoid flicker
-    if (role === null) return null;
+    // Mostrar skeleton mientras carga para evitar salto de layout
+    if (loading) {
+        return (
+            <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">
+                <nav className="bg-stone-surface/90 backdrop-blur-xl border border-white/10 rounded-2xl h-16 flex items-center justify-between px-8 shadow-2xl shadow-black/50">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className="w-6 h-6 rounded-full bg-white/10 animate-pulse" />
+                    ))}
+                </nav>
+            </div>
+        );
+    }
 
     return (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">
