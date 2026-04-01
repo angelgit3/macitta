@@ -95,6 +95,18 @@ export function calculateSlotAccuracy(
     return correct / entries.length;
 }
 
+// ─── Date Helper ───────────────────────────────────────────────────
+/**
+ * Returns the number of whole days between two dates.
+ * Always returns at least 0.
+ */
+function daysBetween(from: string | null, to: Date): number {
+    if (!from) return 0;
+    const msPerDay = 86_400_000;
+    const diffMs = to.getTime() - new Date(from).getTime();
+    return Math.max(0, Math.floor(diffMs / msPerDay));
+}
+
 // ─── Core Scheduling Engine ─────────────────────────────────────────
 /**
  * The heart of SREM. Takes the current card state + performance,
@@ -108,6 +120,11 @@ export function evaluateSEM(
     const grade = calculateSEMGrade(accuracy, timeMs);
     const now = new Date();
 
+    // Days the card has actually been "alive" since last review.
+    // This is the key anchor: if you studied 14 days after the due date,
+    // the system must acknowledge you survived those 14 days.
+    const elapsedDays = Math.max(1, daysBetween(current.lastReview, now));
+
     let nextStep = current.step;
     let nextInterval: number;
     let nextLapses = current.lapses;
@@ -115,25 +132,32 @@ export function evaluateSEM(
     let nextState: SEMState;
 
     switch (grade) {
-        case SEMGrade.Easy:
-            // Reward: advance 2 steps (accelerated progression)
+        case SEMGrade.Easy: {
+            // Reward: advance 2 steps
             nextStep = Math.min(current.step + 2, SEM_MAX_STEP);
-            nextInterval = SEM_GROWTH_STEPS[nextStep];
+            const curveInterval = SEM_GROWTH_STEPS[nextStep];
+            // If the user studied late, honour the elapsed time — don't shrink the interval
+            nextInterval = Math.max(curveInterval, elapsedDays + 1);
             nextDifficulty = Math.max(1, nextDifficulty - 0.3);
             break;
+        }
 
-        case SEMGrade.Good:
+        case SEMGrade.Good: {
             // Standard: advance 1 step
             nextStep = Math.min(current.step + 1, SEM_MAX_STEP);
-            nextInterval = SEM_GROWTH_STEPS[nextStep];
+            const curveInterval = SEM_GROWTH_STEPS[nextStep];
+            // Same: don't schedule sooner than elapsed + 1
+            nextInterval = Math.max(curveInterval, elapsedDays + 1);
             nextDifficulty = Math.max(1, nextDifficulty - 0.1);
             break;
+        }
 
         case SEMGrade.Hard: {
-            // Penalty depends on whether it was slow (100%) or partial (< 100%)
+            // Penalty: apply to the elapsed days (real time survived), not the stored step value.
+            // This prevents the bug where current.interval is only "3" but 14 days have passed.
             const penalty = accuracy < 1.0 ? 0.50 : 0.15;
-            nextInterval = Math.max(1, Math.round(current.interval * (1 - penalty)));
-            // Don't advance step; stay where you are
+            nextInterval = Math.max(1, Math.round(elapsedDays * (1 - penalty)));
+            // Step stays the same — the card didn't improve
             nextDifficulty = Math.min(10, nextDifficulty + 0.3);
             break;
         }
@@ -143,13 +167,13 @@ export function evaluateSEM(
             nextDifficulty = Math.min(10, nextDifficulty + 0.5);
 
             if (accuracy === 0) {
-                // Total failure (0/3): -100%, reset to step 0
+                // Total failure (0/3): reset to step 0, review tomorrow
                 nextStep = 0;
-                nextInterval = 1; // Tomorrow
+                nextInterval = 1;
             } else {
-                // Partial failure (1/3): -85%, go back 2 steps
+                // Partial failure (1/3): go back 2 steps, short cooldown
                 nextStep = Math.max(0, current.step - 2);
-                nextInterval = Math.max(1, Math.round(current.interval * 0.15));
+                nextInterval = Math.max(1, Math.round(elapsedDays * 0.15));
             }
             break;
         }
@@ -166,7 +190,7 @@ export function evaluateSEM(
         nextState = 'learning';
     }
 
-    // Calculate due date
+    // Due date is always calculated from today (now), never from lastReview or dueDate
     const dueDate = new Date(now);
     dueDate.setDate(dueDate.getDate() + nextInterval);
 
@@ -225,7 +249,15 @@ export function migrateFromFSRS(fsrsData: {
 
     return {
         step: closestStep,
-        interval: SEM_GROWTH_STEPS[closestStep],
+        // Use the real stored stability (days) as the interval base.
+        // migrateFromFSRS used to bin this to SEM_GROWTH_STEPS[closestStep],
+        // which caused Hard/Again to compute next intervals from the step value
+        // instead of from the real elapsed time. evaluateSEM now uses elapsedDays
+        // directly, so this field is kept for reference but the scheduling fix
+        // lives in evaluateSEM.
+        interval: typeof fsrsData.stability === 'number' && fsrsData.stability > 0
+            ? fsrsData.stability
+            : SEM_GROWTH_STEPS[closestStep],
         difficulty,
         lapses: fsrsData.lapses,
         state,

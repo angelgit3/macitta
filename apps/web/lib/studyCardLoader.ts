@@ -146,8 +146,14 @@ export async function loadDueCards(
         return dueA - dueB;
     });
 
-    // 4. Format and return
-    return rawCards.slice(0, batchSize).map((c: any) =>
+    // 4. Filter to only due cards (no due_date = new card, always included)
+    const now = new Date();
+    const dueCards = rawCards.filter((c: any) => {
+        const due = c.user_items?.[0]?.due_date;
+        return !due || new Date(due) <= now;
+    });
+
+    return dueCards.slice(0, batchSize).map((c: any) =>
         toCardData(c, c.card_slots, c.user_items?.[0]),
     );
 }
