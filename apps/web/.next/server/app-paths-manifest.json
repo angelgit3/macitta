@@ -1,6 +1,7 @@
 {
-  "/auth/login/page": "app/auth/login/page.js",
   "/(marketing)/page": "app/(marketing)/page.js",
-  "/(app)/docente/grupo/[id]/page": "app/(app)/docente/grupo/[id]/page.js",
-  "/(app)/docente/page": "app/(app)/docente/page.js"
+  "/(app)/estudio/page": "app/(app)/estudio/page.js",
+  "/(app)/dashboard/page": "app/(app)/dashboard/page.js",
+  "/(app)/mis-clases/page": "app/(app)/mis-clases/page.js",
+  "/(app)/usuario/page": "app/(app)/usuario/page.js"
 }

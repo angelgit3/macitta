@@ -83,10 +83,10 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../app/(app)/mazos/page.tsx
+// Validate ../../app/(app)/mis-clases/page.tsx
 {
-  type __IsExpected<Specific extends AppPageConfig<"/mazos">> = Specific
-  const handler = {} as typeof import("../../app/(app)/mazos/page.js")
+  type __IsExpected<Specific extends AppPageConfig<"/mis-clases">> = Specific
+  const handler = {} as typeof import("../../app/(app)/mis-clases/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
@@ -217,6 +217,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends LayoutConfig<"/">> = Specific
   const handler = {} as typeof import("../../app/(marketing)/layout.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/auth/layout.tsx
+{
+  type __IsExpected<Specific extends LayoutConfig<"/auth">> = Specific
+  const handler = {} as typeof import("../../app/auth/layout.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

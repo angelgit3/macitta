@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { ZenButton } from "@/components/ui/ZenButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Cloud, Mail, Loader2, ArrowLeft } from "lucide-react";
+import { Mail, Loader2, ArrowLeft } from "lucide-react";
 
 export default function ForgotPasswordPage() {
     const router = useRouter();
@@ -41,13 +41,7 @@ export default function ForgotPasswordPage() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void">
-            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-white transition-colors">
-                <Cloud size={24} />
-                <span className="font-bold">Macitta</span>
-            </Link>
-
-            <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
+        <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
                 <h2 className="text-2xl font-bold mb-2 text-center">¿Olvidaste tu contraseña?</h2>
                 <p className="text-text-dim text-center mb-8 text-sm">
                     Ingresa tu correo y te enviaremos un código de 6 dígitos para restablecerla.
@@ -90,7 +84,6 @@ export default function ForgotPasswordPage() {
                         Volver al Login
                     </Link>
                 </div>
-            </div>
         </div>
     );
 }

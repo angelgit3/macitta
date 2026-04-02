@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
-import { Cloud, User, Mail, Lock, Loader2, Send, GraduationCap, BookOpen } from "lucide-react";
+import { User, Mail, Lock, Loader2, GraduationCap, BookOpen } from "lucide-react";
 
 const ALLOWED_DOMAIN = "upt.edu.mx";
 
@@ -79,13 +79,7 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void">
-            <Link href="/" className="mb-6 flex items-center gap-2 text-text-dim hover:text-white transition-colors">
-                <Cloud size={24} />
-                <span className="font-bold">Macitta</span>
-            </Link>
-
-            <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
+        <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
                 <h2 className="text-2xl font-bold mb-2 text-center">Bienvenido a Macitta</h2>
                 <p className="text-text-dim text-center mb-6 text-sm">Usa tu correo institucional @upt.edu.mx</p>
 
@@ -191,7 +185,6 @@ export default function SignupPage() {
                 <div className="mt-6 text-center text-sm text-text-dim">
                     ¿Ya tienes cuenta? <Link href="/auth/login" className="text-white font-medium hover:underline">Inicia Sesión</Link>
                 </div>
-            </div>
         </div>
     );
 }

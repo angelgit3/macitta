@@ -66,13 +66,13 @@ export function StudyCard({
     };
 
     return (
-        <div className="w-full max-w-md mx-auto bg-zinc-900 rounded-3xl border border-white/5 p-8 relative flex flex-col gap-8 shadow-2xl shadow-black/50 overflow-hidden">
+        <div className="w-full max-w-md mx-auto bg-stone-surface rounded-3xl border border-border-subtle p-8 relative flex flex-col gap-8 shadow-2xl shadow-black/50 overflow-hidden">
             {/* Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-accent-focus/5 to-transparent pointer-events-none" />
 
             {/* Question Header */}
             <div className="z-10 text-center space-y-2">
-                <span className="text-xs font-bold tracking-[0.2em] text-blue-400 uppercase">
+                <span className="text-xs font-bold tracking-[0.2em] text-accent-focus uppercase">
                     Verbo Irregular
                 </span>
                 <h1 className="text-4xl font-black tracking-tight text-white drop-shadow-md">
@@ -90,7 +90,7 @@ export function StudyCard({
 
                     return (
                         <div key={slot.id} className="group relative">
-                            <label className="text-[10px] font-bold text-zinc-500 uppercase ml-1 mb-1 block">
+                            <label className="text-[10px] font-bold text-text-dim uppercase ml-1 mb-1 block">
                                 {slot.label}
                                 {slot.match_type === 'all' && <span className="text-blue-500/50 ml-1">(Todas las formas)</span>}
                             </label>
@@ -108,9 +108,9 @@ export function StudyCard({
                                         w-full bg-black/40 border-2 rounded-xl px-4 py-3 text-lg font-medium text-white placeholder-zinc-700 outline-none transition-all
                                         ${isRevealed
                                             ? isCorrect
-                                                ? "border-green-500/50 bg-green-500/10 text-green-200"
+                                                ? "border-accent-success/50 bg-accent-success/10 text-green-200"
                                                 : "border-red-500/50 bg-red-500/10 text-red-200"
-                                            : "border-white/10 focus:border-blue-500/50 focus:bg-white/5"
+                                            : "border-border-subtle focus:border-accent-focus/50 focus:bg-white/5"
                                         }
                                     `}
                                     placeholder="..."
@@ -144,7 +144,7 @@ export function StudyCard({
                         w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold tracking-wide transition-all transform active:scale-95
                         ${isRevealed
                             ? "bg-white text-black hover:bg-zinc-200"
-                            : "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-900/20"
+                            : "bg-accent-focus text-white hover:bg-accent-focus/90 shadow-lg shadow-accent-focus/20"
                         }
                     `}
                 >

@@ -6,6 +6,13 @@
  * - Granular slot accuracy (2/3 ≠ 0/3)
  * - Proportional penalties instead of hard resets
  * - An 8-step growth curve toward mastery (365 days)
+ *
+ * ─── Scheduling invariants ───────────────────────────────────────────
+ * 1. Due date is ALWAYS from today (now). Studying late ≠ scheduled in the past.
+ * 2. Good/Easy → interval = SEM_GROWTH_STEPS[nextStep]. The today-anchor is
+ *    the implicit fairness; elapsed time does NOT inflate the interval.
+ * 3. Hard/Again → penalty applies to elapsedDays (real time since lastReview),
+ *    not the stored interval. Prevents: stored=3d, actual=14d → penalised 2d.
  */
 
 // ─── Growth Curve ───────────────────────────────────────────────────
@@ -95,10 +102,28 @@ export function calculateSlotAccuracy(
     return correct / entries.length;
 }
 
+// ─── Date Helper ───────────────────────────────────────────────────
+/**
+ * Returns the number of whole days between two dates.
+ * Always returns at least 0.
+ */
+function daysBetween(from: string | null, to: Date): number {
+    if (!from) return 0;
+    const msPerDay = 86_400_000;
+    const diffMs = to.getTime() - new Date(from).getTime();
+    return Math.max(0, Math.floor(diffMs / msPerDay));
+}
+
 // ─── Core Scheduling Engine ─────────────────────────────────────────
 /**
  * The heart of SREM. Takes the current card state + performance,
  * returns the next state with updated interval and due date.
+ *
+ * Interval rules:
+ * - Good / Easy → SEM_GROWTH_STEPS[nextStep]. Curve drives the interval;
+ *   the today-anchor on dueDate is sufficient justice for late study.
+ * - Hard / Again → proportional penalty on elapsedDays (real time since
+ *   lastReview). Prevents penalising only 2 days when 14 have passed.
  */
 export function evaluateSEM(
     current: SEMCardState,
@@ -108,6 +133,10 @@ export function evaluateSEM(
     const grade = calculateSEMGrade(accuracy, timeMs);
     const now = new Date();
 
+    // Real days since last review — used only by Hard/Again for proportional
+    // penalties. Min 1 so brand-new cards (lastReview = null) get a sane value.
+    const elapsedDays = Math.max(1, daysBetween(current.lastReview, now));
+
     let nextStep = current.step;
     let nextInterval: number;
     let nextLapses = current.lapses;
@@ -116,24 +145,27 @@ export function evaluateSEM(
 
     switch (grade) {
         case SEMGrade.Easy:
-            // Reward: advance 2 steps (accelerated progression)
+            // Reward: advance 2 steps. Interval = curve value.
+            // Due date anchors to today, so no past-scheduling penalty exists;
+            // we don't additionally inflate the interval for late study.
             nextStep = Math.min(current.step + 2, SEM_MAX_STEP);
             nextInterval = SEM_GROWTH_STEPS[nextStep];
             nextDifficulty = Math.max(1, nextDifficulty - 0.3);
             break;
 
         case SEMGrade.Good:
-            // Standard: advance 1 step
+            // Standard: advance 1 step. Interval = curve value.
             nextStep = Math.min(current.step + 1, SEM_MAX_STEP);
             nextInterval = SEM_GROWTH_STEPS[nextStep];
             nextDifficulty = Math.max(1, nextDifficulty - 0.1);
             break;
 
         case SEMGrade.Hard: {
-            // Penalty depends on whether it was slow (100%) or partial (< 100%)
+            // Penalty on real elapsed time — not the stored interval.
+            // Fixes: stored=3d, actual=14d → old code penalised only 2 days.
             const penalty = accuracy < 1.0 ? 0.50 : 0.15;
-            nextInterval = Math.max(1, Math.round(current.interval * (1 - penalty)));
-            // Don't advance step; stay where you are
+            nextInterval = Math.max(1, Math.round(elapsedDays * (1 - penalty)));
+            // Step stays the same — no progression on struggle
             nextDifficulty = Math.min(10, nextDifficulty + 0.3);
             break;
         }
@@ -143,13 +175,13 @@ export function evaluateSEM(
             nextDifficulty = Math.min(10, nextDifficulty + 0.5);
 
             if (accuracy === 0) {
-                // Total failure (0/3): -100%, reset to step 0
+                // Total failure (0/3): reset to step 0, review tomorrow
                 nextStep = 0;
-                nextInterval = 1; // Tomorrow
+                nextInterval = 1;
             } else {
-                // Partial failure (1/3): -85%, go back 2 steps
+                // Partial failure: go back 2 steps, short cooldown on elapsed time
                 nextStep = Math.max(0, current.step - 2);
-                nextInterval = Math.max(1, Math.round(current.interval * 0.15));
+                nextInterval = Math.max(1, Math.round(elapsedDays * 0.15));
             }
             break;
         }
@@ -166,7 +198,8 @@ export function evaluateSEM(
         nextState = 'learning';
     }
 
-    // Calculate due date
+    // Due date always anchors to today — never to lastReview or stored dueDate.
+    // This guarantees no card is ever scheduled in the past.
     const dueDate = new Date(now);
     dueDate.setDate(dueDate.getDate() + nextInterval);
 
@@ -225,7 +258,15 @@ export function migrateFromFSRS(fsrsData: {
 
     return {
         step: closestStep,
-        interval: SEM_GROWTH_STEPS[closestStep],
+        // Use the real stored stability (days) as the interval base.
+        // migrateFromFSRS used to bin this to SEM_GROWTH_STEPS[closestStep],
+        // which caused Hard/Again to compute next intervals from the step value
+        // instead of from the real elapsed time. evaluateSEM now uses elapsedDays
+        // directly, so this field is kept for reference but the scheduling fix
+        // lives in evaluateSEM.
+        interval: typeof fsrsData.stability === 'number' && fsrsData.stability > 0
+            ? fsrsData.stability
+            : SEM_GROWTH_STEPS[closestStep],
         difficulty,
         lapses: fsrsData.lapses,
         state,

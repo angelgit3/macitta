@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
 import type { SessionStats } from "@/types/study";
 
@@ -8,7 +8,7 @@ import type { SessionStats } from "@/types/study";
  * in React callbacks.
  */
 export function useSessionManager() {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const sessionIdRef = useRef<string | null>(null);
     const sessionStartTime = useRef<number>(Date.now());
 
@@ -59,7 +59,6 @@ export function useSessionManager() {
                 })
                 .eq("id", currentSessionId);
 
-            // Clear ref after ending
             sessionIdRef.current = null;
             setSessionId(null);
 
@@ -70,9 +69,5 @@ export function useSessionManager() {
         }
     }, [supabase]);
 
-    return {
-        sessionId,
-        startSession,
-        endSession,
-    };
+    return { sessionId, startSession, endSession };
 }
