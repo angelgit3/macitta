@@ -1,8 +1,30 @@
 {
     "name": "@maccita/shared",
-    "version": "0.0.0",
+    "version": "0.1.0",
+    "description": "SREM — Spaced Repetition Engine for Macitta. A TypeScript scheduling algorithm for vocabulary acquisition with 9-step growth curve, difficulty modulation, and lapse-aware promotion.",
     "main": "./index.ts",
     "types": "./index.ts",
+    "keywords": [
+        "spaced-repetition",
+        "srs",
+        "flashcards",
+        "vocabulary",
+        "learning",
+        "education",
+        "algorithm",
+        "scheduling",
+        "anki",
+        "fsrs",
+        "sm2",
+        "typescript"
+    ],
+    "homepage": "https://www.macitta.app",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/angelgit3/Macitta_god.git",
+        "directory": "packages/shared"
+    },
+    "license": "MIT",
     "scripts": {
         "lint": "eslint .",
         "test": "vitest run"
