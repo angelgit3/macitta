@@ -1,0 +1,95 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@theme",
+      "description": "Tailwind CSS v4: Defines design tokens (colors, fonts, spacing, etc.) directly in CSS. These tokens are used to generate utility classes.\n\nExample:\n```css\n@theme {\n  --color-brand: #3B82F6;\n  --font-sans: 'Inter', sans-serif;\n}\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS v4 — Theme Variables",
+          "url": "https://tailwindcss.com/docs/theme"
+        }
+      ]
+    },
+    {
+      "name": "@source",
+      "description": "Tailwind CSS v4: Explicitly tells Tailwind which files to scan for class names when auto-detection is insufficient.\n\nExample:\n```css\n@source '../node_modules/@my-lib/components';\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS v4 — Detecting classes in source files",
+          "url": "https://tailwindcss.com/docs/detecting-classes-in-source-files"
+        }
+      ]
+    },
+    {
+      "name": "@utility",
+      "description": "Tailwind CSS v4: Defines a custom utility class that integrates fully with Tailwind (variants, hover, responsive, etc.).\n\nExample:\n```css\n@utility tab-4 {\n  tab-size: 4;\n}\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS v4 — Adding custom utilities",
+          "url": "https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities"
+        }
+      ]
+    },
+    {
+      "name": "@variant",
+      "description": "Tailwind CSS v4: Applies Tailwind variants (like `hover`, `lg`, `dark`) inside arbitrary CSS blocks.\n\nExample:\n```css\n@variant hover {\n  background-color: blue;\n}\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS v4 — Using variants",
+          "url": "https://tailwindcss.com/docs/hover-focus-and-other-states"
+        }
+      ]
+    },
+    {
+      "name": "@custom-variant",
+      "description": "Tailwind CSS v4: Defines a completely new custom variant that can be used like any built-in variant (hover, focus, etc.).\n\nExample:\n```css\n@custom-variant theme-ocean {\n  [data-theme='ocean'] & {\n    @slot;\n  }\n}\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS v4 — Adding custom variants",
+          "url": "https://tailwindcss.com/docs/hover-focus-and-other-states#creating-custom-variants"
+        }
+      ]
+    },
+    {
+      "name": "@apply",
+      "description": "Tailwind CSS: Inlines any Tailwind utility class directly into your custom CSS rules. Essential for applying Tailwind utilities inside component styles.\n\nExample:\n```css\n.btn {\n  @apply px-4 py-2 rounded-xl font-semibold;\n}\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS — @apply",
+          "url": "https://tailwindcss.com/docs/functions-and-directives#apply"
+        }
+      ]
+    },
+    {
+      "name": "@layer",
+      "description": "Tailwind CSS: Groups CSS into one of three layers — `base`, `components`, or `utilities` — to control specificity and order of injection.\n\nExample:\n```css\n@layer base {\n  h1 { @apply text-4xl font-bold; }\n}\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS — @layer",
+          "url": "https://tailwindcss.com/docs/functions-and-directives#layer"
+        }
+      ]
+    },
+    {
+      "name": "@config",
+      "description": "Tailwind CSS v3/v4 compat: Explicitly specifies which Tailwind config file to use for this CSS file.\n\nExample:\n```css\n@config './tailwind.config.js';\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS — @config",
+          "url": "https://tailwindcss.com/docs/functions-and-directives#config"
+        }
+      ]
+    },
+    {
+      "name": "@plugin",
+      "description": "Tailwind CSS v4: Loads a Tailwind plugin directly from a CSS file, eliminating the need for a JS config file.\n\nExample:\n```css\n@plugin '@tailwindcss/typography';\n```",
+      "references": [
+        {
+          "name": "Tailwind CSS v4 — Plugins",
+          "url": "https://tailwindcss.com/docs/plugins"
+        }
+      ]
+    }
+  ]
+}
