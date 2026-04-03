@@ -113,8 +113,7 @@ export function useStudySession() {
 
         init();
         return () => { isMounted = false; clearTimeout(timeout); };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [startSession]);
 
     // ─── Card Navigation ────────────────────────────────────────────
 

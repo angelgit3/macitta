@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import {
     calculateStreak,
@@ -19,7 +19,7 @@ export interface UserStats {
 // ─── Hook ───────────────────────────────────────────────────────────
 
 export function useUserStats() {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const [stats, setStats] = useState<UserStats | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -29,37 +29,32 @@ export function useUserStats() {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;
 
-            // 1. Fetch only needed columns from study_sessions
-            const { data: sessions } = await supabase
-                .from('study_sessions')
-                .select('started_at, total_time_ms')
-                .eq('user_id', user.id)
-                .order('started_at', { ascending: false });
+            // Run all 3 queries in parallel
+            const [sessionsRes, userItemsRes, totalCardsRes] = await Promise.all([
+                supabase
+                    .from('study_sessions')
+                    .select('started_at, total_time_ms')
+                    .eq('user_id', user.id)
+                    .order('started_at', { ascending: false }),
+                supabase
+                    .from('user_items')
+                    .select('state')
+                    .eq('user_id', user.id),
+                supabase
+                    .from('cards')
+                    .select('*', { count: 'exact', head: true }),
+            ]);
 
-            // 2. Fetch mastery state from user_items
-            const { data: userItems } = await supabase
-                .from('user_items')
-                .select('state')
-                .eq('user_id', user.id);
+            const sessions = sessionsRes.data ?? [];
+            const userItems = userItemsRes.data ?? [];
+            const totalCards = totalCardsRes.count ?? 0;
 
-            // 3. Total available cards count
-            const { count: totalCards } = await supabase
-                .from('cards')
-                .select('*', { count: 'exact', head: true });
-
-            // Calculate stats using extracted functions
-            const { activityMap, dailyActivity } = aggregateActivity(sessions || []);
+            const { activityMap, dailyActivity } = aggregateActivity(sessions);
             const streak = calculateStreak(activityMap);
-            const totalTimeMs = calculateTotalTimeMs(sessions || []);
-            const masteredCards = userItems?.filter(i => i.state === 'mastered').length || 0;
+            const totalTimeMs = calculateTotalTimeMs(sessions);
+            const masteredCards = userItems.filter(i => i.state === 'mastered').length;
 
-            setStats({
-                streak,
-                totalTimeMs,
-                masteredCards,
-                totalCards: totalCards || 0,
-                dailyActivity,
-            });
+            setStats({ streak, totalTimeMs, masteredCards, totalCards, dailyActivity });
         } catch (err) {
             console.error("[Stats] Error fetching user stats:", err);
         } finally {
