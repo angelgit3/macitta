@@ -32,14 +32,30 @@ export default function SignupPage() {
         setError(null);
 
         const formData = new FormData(e.currentTarget);
-        const email = formData.get("email") as string;
+        const email = (formData.get("email") as string).trim().toLowerCase();
         const password = formData.get("password") as string;
         const confirmPassword = formData.get("confirmPassword") as string;
-        const username = formData.get("username") as string;
+        const rawUsername = (formData.get("username") as string).trim();
+
+        // SECURITY: Sanitizar username — solo letras, números, guiones y guiones bajos.
+        // Previene inyección de caracteres especiales en user_metadata.
+        const username = rawUsername.replace(/[^a-zA-Z0-9_\-\.]/g, "").slice(0, 32);
+        if (username.length < 3) {
+            setError("El nombre de usuario debe tener al menos 3 caracteres alfanuméricos.");
+            setLoading(false);
+            return;
+        }
 
         // Validate institutional domain
-        if (!email.toLowerCase().endsWith(`@${ALLOWED_DOMAIN}`)) {
+        if (!email.endsWith(`@${ALLOWED_DOMAIN}`)) {
             setError("Usa tu correo institucional @upt.edu.mx");
+            setLoading(false);
+            return;
+        }
+
+        // SECURITY: Contraseña mínima de 8 caracteres
+        if (password.length < 8) {
+            setError("La contraseña debe tener al menos 8 caracteres.");
             setLoading(false);
             return;
         }
@@ -53,24 +69,39 @@ export default function SignupPage() {
         const supabase = createClient();
         const role = detectRole(email) ?? 'student';
 
+        // SECURITY: El avatar_url se genera desde el email (servidor-derivado),
+        // no desde el username controlado por el usuario, para evitar SSRF.
+        const avatarSeed = encodeURIComponent(email.split('@')[0]);
+
         const { error } = await supabase.auth.signUp({
             email,
             password,
             options: {
                 data: {
                     user_name: username,
-                    avatar_url: `https://api.dicebear.com/9.x/notionists/svg?seed=${username}`,
+                    avatar_url: `https://api.dicebear.com/9.x/notionists/svg?seed=${avatarSeed}`,
                     role,
                 },
             },
         });
 
         if (error) {
-            // Translate common Supabase errors
-            if (error.message.includes('upt.edu.mx')) {
-                setError("Solo se permiten correos institucionales @upt.edu.mx");
+            const msg = error.message.toLowerCase();
+            if (msg.includes('already registered') || msg.includes('already exists') || msg.includes('user_already_exists')) {
+                setError('Ya existe una cuenta con ese correo. ¿Olvidaste tu contraseña?');
+            } else if (msg.includes('email not confirmed')) {
+                setError('Este correo ya se registró pero no fue verificado. Revisa tu bandeja y busca el código de Macitta.');
+            } else if (msg.includes('rate limit') || msg.includes('too many requests')) {
+                setError('Demasiados intentos. Espera unos minutos antes de intentar de nuevo.');
+            } else if (msg.includes('invalid email') || msg.includes('unable to validate')) {
+                setError('El formato del correo no es válido. Verifica que sea un correo institucional @upt.edu.mx.');
+            } else if (msg.includes('password') && (msg.includes('short') || msg.includes('weak'))) {
+                setError('La contraseña es muy corta o débil. Usa al menos 8 caracteres.');
+            } else if (msg.includes('upt.edu.mx')) {
+                setError('Solo se permiten correos institucionales @upt.edu.mx.');
             } else {
-                setError(error.message);
+                // En producción, mensaje genérico para no filtrar detalles internos
+                setError('No se pudo crear la cuenta. Verifica tus datos e intenta de nuevo.');
             }
             setLoading(false);
         } else {
@@ -151,7 +182,7 @@ export default function SignupPage() {
                                 name="password"
                                 type="password"
                                 required
-                                minLength={6}
+                                minLength={8}
                                 className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
                                 placeholder="••••••••"
                             />
@@ -166,7 +197,7 @@ export default function SignupPage() {
                                 name="confirmPassword"
                                 type="password"
                                 required
-                                minLength={6}
+                                minLength={8}
                                 className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
                                 placeholder="••••••••"
                             />

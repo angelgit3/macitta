@@ -3,6 +3,7 @@
 import { useEffect, useCallback, useRef, useState } from 'react';
 import { db } from '@/lib/db';
 import { createClient } from '@/utils/supabase/client';
+import { logger } from '@/lib/logger';
 import type { SyncOperation } from '@/lib/db';
 
 // ─── Hook ───────────────────────────────────────────────────────────
@@ -22,7 +23,7 @@ export function useSync() {
 
         syncingRef.current = true;
         setIsSyncing(true);
-        console.log(`[Sync] Processing ${queue.length} operations...`);
+        logger.log(`[Sync] Processing ${queue.length} operations...`);
 
         try {
             for (const op of queue) {
@@ -58,7 +59,7 @@ export function useSync() {
                         p_due_date: op.data.due_date,
                     });
                     if (error) {
-                        console.error("[Sync] upsert_user_item error:", error);
+                        logger.error("[Sync] upsert_user_item error", error);
                         return false;
                     }
                     return true;
@@ -69,7 +70,7 @@ export function useSync() {
                         .from('study_logs')
                         .insert(op.data);
                     if (error) {
-                        console.error("[Sync] insert_study_log error:", error);
+                        logger.error("[Sync] insert_study_log error", error);
                         return false;
                     }
                     return true;
@@ -85,7 +86,7 @@ export function useSync() {
                             started_at: op.data.started_at,
                         });
                     if (error) {
-                        console.error("[Sync] start_session error:", error);
+                        logger.error("[Sync] start_session error", error);
                         return false;
                     }
                     return true;
@@ -102,7 +103,7 @@ export function useSync() {
                         })
                         .eq('id', op.data.session_id);
                     if (error) {
-                        console.error("[Sync] end_session error:", error);
+                        logger.error("[Sync] end_session error", error);
                         return false;
                     }
                     return true;
@@ -114,19 +115,19 @@ export function useSync() {
                         p_time_ms: op.data.time_ms,
                     });
                     if (error) {
-                        console.error("[Sync] increment_session_time error:", error);
+                        logger.error("[Sync] increment_session_time error", error);
                         return false;
                     }
                     return true;
                 }
 
                 default: {
-                    console.warn("[Sync] Unknown operation type:", (op as any).type);
+                    logger.warn("[Sync] Unknown operation type:", (op as any).type);
                     return false;
                 }
             }
         } catch (e) {
-            console.error("[Sync] Critical error processing operation:", e);
+            logger.error("[Sync] Critical error processing operation", e);
             return false;
         }
     }
