@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ZenButton } from '@/components/ui/ZenButton';
 import Link from 'next/link';
-import { Cloud, Loader2, Mail, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Atom, Loader2, Mail, CheckCircle2, AlertCircle } from 'lucide-react';
 
 function VerifyOTPClient() {
     const searchParams = useSearchParams();
@@ -136,7 +136,7 @@ function VerifyOTPClient() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
             <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-white transition-colors">
-                <Cloud size={24} />
+                <Atom size={24} />
                 <span className="font-bold">Macitta</span>
             </Link>
 

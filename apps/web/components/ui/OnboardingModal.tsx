@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { BookOpen, Flame, Users, Zap, ChevronRight, CheckCircle2, Loader2, Hash, AlertCircle } from 'lucide-react';
+import { BookOpen, Flame, Users, Atom, ChevronRight, CheckCircle2, Loader2, Hash, AlertCircle } from 'lucide-react';
 
 const SLIDES = [
     {
-        icon: Zap,
+        icon: Atom,
         color: 'text-yellow-400',
         bg: 'bg-yellow-400/10',
         title: '¡Bienvenido a Macitta!',

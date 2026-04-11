@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-    ArrowRight, Zap, Brain, Users, Trophy, BookOpen, Flame,
+    ArrowRight, Atom, Brain, Users, Trophy, BookOpen, Flame,
     BarChart2, Smartphone, GraduationCap
 } from "lucide-react";
 
@@ -13,7 +13,7 @@ export default function LandingPage() {
                 <div className="max-w-5xl mx-auto flex items-center justify-between px-6 h-16">
                     <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg bg-accent-focus/20 flex items-center justify-center">
-                            <Zap size={16} className="text-accent-focus" />
+                            <Atom size={16} className="text-accent-focus" />
                         </div>
                         <span className="text-lg font-black tracking-tight">Macitta</span>
                     </div>
@@ -146,7 +146,7 @@ export default function LandingPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {[
                             {
-                                icon: Zap,
+                                icon: Atom,
                                 color: "text-yellow-400",
                                 title: "Repetición Espaciada",
                                 desc: "Algoritmo FSRS que optimiza tu retención de memoria a largo plazo."
@@ -201,7 +201,7 @@ export default function LandingPage() {
             <section className="px-6 py-20">
                 <div className="max-w-lg mx-auto text-center">
                     <div className="w-16 h-16 rounded-2xl bg-accent-focus/20 flex items-center justify-center mx-auto mb-6">
-                        <Zap size={28} className="text-accent-focus" />
+                        <Atom size={28} className="text-accent-focus" />
                     </div>
                     <h2 className="text-3xl font-black mb-4">¿Listo para dominar tus verbos?</h2>
                     <p className="text-text-dim mb-8">Crea tu cuenta gratis y empieza a estudiar hoy.</p>
@@ -217,7 +217,7 @@ export default function LandingPage() {
                 <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded-md bg-accent-focus/20 flex items-center justify-center">
-                            <Zap size={12} className="text-accent-focus" />
+                            <Atom size={12} className="text-accent-focus" />
                         </div>
                         <span className="text-sm font-bold">Macitta</span>
                     </div>

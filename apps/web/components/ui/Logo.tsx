@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cloud } from 'lucide-react';
+import { Atom } from 'lucide-react';
 
 interface LogoProps extends React.ComponentPropsWithoutRef<'div'> {
   size?: number;
@@ -17,7 +17,7 @@ export function Logo({
   ...props 
 }: LogoProps) {
   const iconMarkup = (
-    <Cloud 
+    <Atom 
       size={size} 
       strokeWidth={2}
       className={`transition-all duration-300 ${iconClassName}`.trim()} 
