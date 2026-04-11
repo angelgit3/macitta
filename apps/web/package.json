@@ -10,10 +10,10 @@
     },
     "dependencies": {
         "@maccita/shared": "*",
+        "@serwist/next": "^9.0.0",
         "@supabase/ssr": "^0.8.0",
         "@tailwindcss/postcss": "^4.0.0",
         "babel-plugin-react-compiler": "^1.0.0",
-        "@serwist/next": "^9.0.0",
         "dexie": "^4.3.0",
         "dexie-react-hooks": "^4.2.0",
         "dotenv": "^17.2.3",
@@ -30,6 +30,7 @@
         "@types/react-dom": "^19",
         "eslint": "^8",
         "eslint-config-next": "^15.1.6",
+        "sharp": "^0.34.5",
         "typescript": "^5"
     }
 }

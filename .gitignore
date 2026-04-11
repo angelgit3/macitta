@@ -11,9 +11,8 @@
 out/
 
 # serwist
-public/sw.js
-public/sw.js.map
-public/swe-worker-*
+apps/web/public/sw.js*
+apps/web/public/swe-worker-*
 
 # turborepo
 .turbo/

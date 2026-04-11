@@ -1,6 +1,5 @@
 'use client';
 
-import { InstallPrompt } from '@/components/ui/InstallPrompt';
 import { useSync } from '@/hooks/useSync';
 import { Cloud, RefreshCw } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -50,7 +49,6 @@ export function ClientProviders({ children }: { children: React.ReactNode }) {
     return (
         <>
             <SyncManager />
-            <InstallPrompt />
             {children}
         </>
     );
