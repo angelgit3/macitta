@@ -1,9 +1,0 @@
-{
-  "/(app)/dashboard/page": "app/(app)/dashboard/page.js",
-  "/(app)/estudio/page": "app/(app)/estudio/page.js",
-  "/(app)/vocabulario/page": "app/(app)/vocabulario/page.js",
-  "/(app)/mis-clases/page": "app/(app)/mis-clases/page.js",
-  "/(app)/usuario/page": "app/(app)/usuario/page.js",
-  "/auth/login/page": "app/auth/login/page.js",
-  "/(marketing)/page": "app/(marketing)/page.js"
-}
