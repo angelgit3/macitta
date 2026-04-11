@@ -1,5 +1,5 @@
 import React from 'react';
-import { Atom } from 'lucide-react';
+
 
 interface LogoProps extends React.ComponentPropsWithoutRef<'div'> {
   size?: number;
@@ -17,11 +17,19 @@ export function Logo({
   ...props 
 }: LogoProps) {
   const iconMarkup = (
-    <Atom 
-      size={size} 
-      strokeWidth={2}
-      className={`transition-all duration-300 ${iconClassName}`.trim()} 
-    />
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth={2} 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      className={`transition-all duration-300 ${iconClassName}`.trim()}
+    >
+      <path d="M4 20V5a2 2 0 0 1 2-2h2l4 8 4-8h2a2 2 0 0 1 2 2v15" />
+    </svg>
   );
 
   if (variant === 'icon') {
