@@ -8,15 +8,17 @@ const __dirname = path.dirname(__filename);
 
 const PUBLIC_DIR = path.join(__dirname, 'apps', 'web', 'public');
 
-// A nice glowing React-like logo SVG
-const reactLogoSvg = `
-<svg width="512" height="512" viewBox="-11.5 -10.45 23 20.9" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="0" cy="0" r="2.5" fill="#38bdf8"></circle>
-  <g stroke="#38bdf8" stroke-width="1" fill="none">
-    <ellipse rx="10.5" ry="4.5"></ellipse>
-    <ellipse rx="10.5" ry="4.5" transform="rotate(60)"></ellipse>
-    <ellipse rx="10.5" ry="4.5" transform="rotate(120)"></ellipse>
-  </g>
+// Classic cloud icon SVG — Material Design style, matches Logo.tsx
+const cloudMSvg = `
+<svg width="512" height="512" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"
+    stroke="#38bdf8"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
 </svg>
 `;
 
@@ -36,7 +38,7 @@ const backgroundSvg = `
 async function generateIcons() {
   console.log('Generating PWA icons...');
   
-  const logoBuffer = Buffer.from(reactLogoSvg);
+  const logoBuffer = Buffer.from(cloudMSvg);
   const bgBuffer = Buffer.from(backgroundSvg);
 
   // Generate transparent "any" icons (192 and 512)
