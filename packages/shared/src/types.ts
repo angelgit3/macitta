@@ -30,8 +30,6 @@ export interface CardSlot {
 
 // ─── User Progress (Dynamic) ────────────────────────────────────────
 
-export type SRSState = 'new' | 'learning' | 'review' | 'relearning';
-
 export interface UserItem {
     id: string;
     user_id: string;
@@ -40,7 +38,7 @@ export interface UserItem {
     difficulty: number;
     reps: number;
     lapses: number;
-    state: SRSState;
+    state: 'new' | 'learning' | 'review' | 'mastered';
     last_review: string | null;
     due_date: string;
 }

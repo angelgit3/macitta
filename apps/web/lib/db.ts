@@ -41,6 +41,7 @@ interface UpsertUserItemOp {
     type: 'upsert_user_item';
     data: Omit<LocalUserItem, never>;
     created_at: string;
+    retryCount?: number;
 }
 
 interface InsertStudyLogOp {
@@ -56,6 +57,7 @@ interface InsertStudyLogOp {
         review_date: string;
     };
     created_at: string;
+    retryCount?: number;
 }
 
 interface SessionOp {
@@ -72,6 +74,7 @@ interface SessionOp {
         total_time_ms?: number;
     };
     created_at: string;
+    retryCount?: number;
 }
 
 interface IncrementSessionTimeOp {
@@ -82,6 +85,7 @@ interface IncrementSessionTimeOp {
         time_ms: number;
     };
     created_at: string;
+    retryCount?: number;
 }
 
 export type SyncOperation =
