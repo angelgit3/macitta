@@ -44,11 +44,14 @@ export function validateAnswer(userInput: string, target: ComplexAnswer): boolea
             return required.every((req: string) => userParts.includes(req));
         }
 
-        // 3c. kOf
+        // 3c. kOf — at least N out of K options must be present
         if ("kOf" in target) {
-            // Implementation for kOf if needed, similar to allOf but with a count check
-            // For now basics are covered.
-            return false;
+            const kOfTarget = target as { kOf: { of: string[]; atLeast: number } };
+            const { of: options, atLeast } = kOfTarget.kOf;
+            const normalizedOptions = options.map(normalize);
+            const userParts = input.split(/[,;]/).map(p => p.trim()).filter(Boolean).map(normalize);
+            const matchedCount = normalizedOptions.filter(opt => userParts.includes(opt)).length;
+            return matchedCount >= atLeast;
         }
     }
 

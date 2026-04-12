@@ -4,19 +4,22 @@ import { useEffect, useCallback, useRef, useState } from 'react';
 import { db } from '@/lib/db';
 import { createClient } from '@/utils/supabase/client';
 import { logger } from '@/lib/logger';
+import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 import type { SyncOperation } from '@/lib/db';
+
+const MAX_RETRIES = 5;
 
 // ─── Hook ───────────────────────────────────────────────────────────
 
 export function useSync() {
     const supabase = createClient();
+    const { isOnline } = useNetworkStatus();
     const [isSyncing, setIsSyncing] = useState(false);
     const [lastSync, setLastSync] = useState<Date | null>(null);
-    const syncingRef = useRef(false); // Guard against concurrent runs
+    const syncingRef = useRef(false);
 
     const performSync = useCallback(async () => {
-        // Prevent re-entrant sync
-        if (syncingRef.current || !navigator.onLine) return;
+        if (syncingRef.current || !isOnline) return;
 
         const queue = await db.syncQueue.orderBy('id').toArray();
         if (queue.length === 0) return;
@@ -27,9 +30,17 @@ export function useSync() {
 
         try {
             for (const op of queue) {
+                const retries = (op as any).retryCount ?? 0;
                 const success = await processOperation(op);
                 if (success) {
                     await db.syncQueue.delete(op.id!);
+                } else if (retries >= MAX_RETRIES) {
+                    // Give up after MAX_RETRIES to avoid infinite retry loop
+                    logger.error(`[Sync] Dropping failed operation after ${MAX_RETRIES} retries: ${op.type} (id: ${op.id})`);
+                    await db.syncQueue.delete(op.id!);
+                } else {
+                    // Increment retry count
+                    await db.syncQueue.update(op.id!, { retryCount: retries + 1 });
                 }
             }
             setLastSync(new Date());
@@ -37,7 +48,7 @@ export function useSync() {
             syncingRef.current = false;
             setIsSyncing(false);
         }
-    }, [supabase]);
+    }, [supabase, isOnline]);
 
     /**
      * Process a single sync operation.
@@ -132,21 +143,10 @@ export function useSync() {
         }
     }
 
-    // Auto-sync on online + periodic
+    // Periodic sync every 30 seconds (online status comes from useNetworkStatus)
     useEffect(() => {
-        const handleOnline = () => performSync();
-        window.addEventListener('online', handleOnline);
-
-        // Initial sync
-        performSync();
-
-        // Periodic sync every 30 seconds
         const interval = setInterval(performSync, 30000);
-
-        return () => {
-            window.removeEventListener('online', handleOnline);
-            clearInterval(interval);
-        };
+        return () => clearInterval(interval);
     }, [performSync]);
 
     return { isSyncing, lastSync, performSync };

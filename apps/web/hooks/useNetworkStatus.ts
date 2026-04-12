@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 
 /**
- * Tracks browser online/offline status reactively.
+ * Single source of truth for online/offline status.
  * SSR-safe: defaults to online when `navigator` is unavailable.
  */
 export function useNetworkStatus() {
-    const [isOffline, setIsOffline] = useState(
-        typeof navigator !== "undefined" ? !navigator.onLine : false,
+    const [isOnline, setIsOnline] = useState(
+        typeof navigator !== "undefined" ? navigator.onLine : true,
     );
 
     useEffect(() => {
-        const goOnline = () => setIsOffline(false);
-        const goOffline = () => setIsOffline(true);
+        const goOnline = () => setIsOnline(true);
+        const goOffline = () => setIsOnline(false);
 
         window.addEventListener("online", goOnline);
         window.addEventListener("offline", goOffline);
@@ -22,5 +22,5 @@ export function useNetworkStatus() {
         };
     }, []);
 
-    return { isOffline };
+    return { isOnline, isOffline: !isOnline };
 }

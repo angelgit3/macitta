@@ -10,6 +10,10 @@
 .next/
 out/
 
+# serwist
+apps/web/public/sw.js*
+apps/web/public/swe-worker-*
+
 # turborepo
 .turbo/
 

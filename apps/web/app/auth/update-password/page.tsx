@@ -5,7 +5,8 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
-import { Cloud, Lock, Loader2, CheckCircle2 } from "lucide-react";
+import { Lock, Loader2, CheckCircle2 } from "lucide-react";
+import { Logo } from "@/components/ui/Logo";
 
 export default function UpdatePasswordPage() {
     const router = useRouter();
@@ -71,7 +72,7 @@ export default function UpdatePasswordPage() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void">
             <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-white transition-colors">
-                <Cloud size={24} />
+                <Logo size={24} />
                 <span className="font-bold">Macitta</span>
             </Link>
 

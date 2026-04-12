@@ -13,7 +13,7 @@ export function ZenDock() {
     const [role, setRole] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const { isSyncing } = useSync();
-    const isOnline = useNetworkStatus();
+    const { isOnline } = useNetworkStatus();
 
     useEffect(() => {
         const supabase = createClient();

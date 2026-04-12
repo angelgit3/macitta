@@ -5,20 +5,18 @@ interface StatsGraphProps {
 }
 
 export function StatsGraph({ data = [] }: StatsGraphProps) {
-    // If no data, show empty placeholders
-    const displayData = data.length > 0 ? data : [
-        { day: "L", value: 5 },
-        { day: "M", value: 5 },
-        { day: "X", value: 5 },
-        { day: "J", value: 5 },
-        { day: "V", value: 5 },
-        { day: "S", value: 5 },
-        { day: "D", value: 5 },
-    ];
+    // Show empty state when no data
+    if (data.length === 0) {
+        return (
+            <div className="w-full h-40 flex items-center justify-center mt-4">
+                <p className="text-xs text-text-dim">No hay datos de actividad aún</p>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full h-40 flex items-end justify-between gap-2 mt-4">
-            {displayData.map((item, idx) => (
+            {data.map((item, idx) => (
                 <div key={`${item.day}-${idx}`} className="flex flex-col items-center gap-2 flex-1">
                     <div
                         className={`w-full rounded-t-lg transition-all duration-500 ${item.active

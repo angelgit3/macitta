@@ -6,6 +6,15 @@ export const metadata: Metadata = {
     title: "Macitta",
     description: "Active Recall & Spaced Repetition System",
     manifest: "/manifest.json",
+    icons: {
+        icon: [
+            { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+            { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+        ],
+        apple: [
+            { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+        ],
+    },
     appleWebApp: {
         capable: true,
         statusBarStyle: "black-translucent",
@@ -17,8 +26,6 @@ export const viewport: Viewport = {
     themeColor: "#000000",
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
 };
 
 export default function RootLayout({
@@ -34,17 +41,6 @@ export default function RootLayout({
                         {children}
                     </ClientProviders>
                 </main>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
-                            if ('serviceWorker' in navigator) {
-                                window.addEventListener('load', function() {
-                                    navigator.serviceWorker.register('/sw.js').catch(function() {});
-                                });
-                            }
-                        `,
-                    }}
-                />
             </body>
         </html>
     );
