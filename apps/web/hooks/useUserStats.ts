@@ -30,11 +30,16 @@ export function useUserStats() {
             if (!user) return;
 
             // Run all 3 queries in parallel
+            // Fetch sessions from last 90 days only (enough for streak + activity graph)
+            const ninetyDaysAgo = new Date();
+            ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
             const [sessionsRes, userItemsRes, totalCardsRes] = await Promise.all([
                 supabase
                     .from('study_sessions')
                     .select('started_at, total_time_ms')
                     .eq('user_id', user.id)
+                    .gte('started_at', ninetyDaysAgo.toISOString())
                     .order('started_at', { ascending: false }),
                 supabase
                     .from('user_items')
