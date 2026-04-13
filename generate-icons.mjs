@@ -55,9 +55,7 @@ async function generateIcons() {
 
   // Generate solid "maskable" icons (192 and 512) with background padding
   console.log('Generating maskable icons...');
-  
-  console.log('Generating maskable icons...');
-  
+
   // 512 maskable
   await sharp({
     create: { width: 512, height: 512, channels: 4, background: { r: 15, g: 23, b: 42, alpha: 1 } }
@@ -71,6 +69,32 @@ async function generateIcons() {
   }).composite([{ input: await sharp(logoBuffer).resize(144, 144).toBuffer() }])
   .png()
   .toFile(path.join(PUBLIC_DIR, 'icon-maskable-192x192.png'));
+
+  // favicon.ico (32x32 with white fill + blue stroke for dark backgrounds)
+  console.log('Generating favicon.ico...');
+  const faviconSvg = `
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"
+    stroke="#38bdf8"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="#38bdf8"
+    fill-opacity="0.15"
+  />
+</svg>`;
+  await sharp(Buffer.from(faviconSvg))
+    .resize(32, 32)
+    .toFile(path.join(PUBLIC_DIR, 'favicon.ico'));
+
+  // apple-touch-icon.png (180x180, solid background for iOS home screen)
+  console.log('Generating apple-touch-icon.png...');
+  await sharp({
+    create: { width: 180, height: 180, channels: 4, background: { r: 15, g: 23, b: 42, alpha: 1 } }
+  }).composite([{ input: await sharp(logoBuffer).resize(135, 135).toBuffer() }])
+  .png()
+  .toFile(path.join(PUBLIC_DIR, 'apple-touch-icon.png'));
 
   console.log('Done!');
 }
