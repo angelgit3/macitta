@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
 import type { SessionStats } from "@/types/study";
+import { db } from "@/lib/db";
 
 /**
  * Manages Supabase `study_sessions` lifecycle (start → end).
@@ -18,25 +19,47 @@ export function useSessionManager() {
     const startSession = useCallback(async (deckId: string) => {
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user || !navigator.onLine) return null;
+            if (!user) return null;
 
-            const { data } = await supabase
-                .from("study_sessions")
-                .insert({
-                    user_id: user.id,
-                    deck_id: deckId,
-                    started_at: new Date().toISOString(),
-                })
-                .select()
-                .single();
+            if (navigator.onLine) {
+                // Online: use existing Supabase insert path
+                const { data } = await supabase
+                    .from("study_sessions")
+                    .insert({
+                        user_id: user.id,
+                        deck_id: deckId,
+                        started_at: new Date().toISOString(),
+                    })
+                    .select()
+                    .single();
 
-            if (data) {
-                sessionIdRef.current = data.id;
-                setSessionId(data.id);
+                if (data) {
+                    sessionIdRef.current = data.id;
+                    setSessionId(data.id);
+                    sessionStartTime.current = Date.now();
+                    return data.id as string;
+                }
+                return null;
+            } else {
+                // Offline: generate sessionId and queue start_session op
+                const sessionId = crypto.randomUUID();
+                sessionIdRef.current = sessionId;
+                setSessionId(sessionId);
                 sessionStartTime.current = Date.now();
-                return data.id as string;
+
+                await db.syncQueue.add({
+                    type: "start_session",
+                    data: {
+                        session_id: sessionId,
+                        user_id: user.id,
+                        deck_id: deckId,
+                        started_at: new Date().toISOString(),
+                    },
+                    created_at: new Date().toISOString(),
+                });
+
+                return sessionId;
             }
-            return null;
         } catch (err) {
             console.error("[SREM] Error starting session:", err);
             return null;
@@ -45,27 +68,67 @@ export function useSessionManager() {
 
     const endSession = useCallback(async (stats: SessionStats) => {
         const currentSessionId = sessionIdRef.current;
-        if (!currentSessionId || !navigator.onLine) return 0;
+        if (!currentSessionId) return 0;
 
         const totalDuration = Date.now() - sessionStartTime.current;
-        try {
-            await supabase
-                .from("study_sessions")
-                .update({
-                    ended_at: new Date().toISOString(),
-                    total_cards: stats.total,
-                    correct_cards: stats.correct,
-                    total_time_ms: totalDuration,
-                })
-                .eq("id", currentSessionId);
 
-            sessionIdRef.current = null;
-            setSessionId(null);
+        if (navigator.onLine) {
+            // Online: use existing Supabase update path
+            try {
+                await supabase
+                    .from("study_sessions")
+                    .update({
+                        ended_at: new Date().toISOString(),
+                        total_cards: stats.total,
+                        correct_cards: stats.correct,
+                        total_time_ms: totalDuration,
+                    })
+                    .eq("id", currentSessionId);
 
-            return totalDuration;
-        } catch (err) {
-            console.error("[SREM] Error ending session:", err);
-            return 0;
+                sessionIdRef.current = null;
+                setSessionId(null);
+
+                return totalDuration;
+            } catch (err) {
+                console.error("[SREM] Error ending session:", err);
+                return 0;
+            }
+        } else {
+            // Offline: queue end_session + increment_session_time ops
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    await db.syncQueue.add({
+                        type: "end_session",
+                        data: {
+                            session_id: currentSessionId,
+                            user_id: user.id,
+                            ended_at: new Date().toISOString(),
+                            total_cards: stats.total,
+                            correct_cards: stats.correct,
+                            total_time_ms: totalDuration,
+                        },
+                        created_at: new Date().toISOString(),
+                    });
+                }
+
+                await db.syncQueue.add({
+                    type: "increment_session_time",
+                    data: {
+                        session_id: currentSessionId,
+                        time_ms: totalDuration,
+                    },
+                    created_at: new Date().toISOString(),
+                });
+
+                sessionIdRef.current = null;
+                setSessionId(null);
+
+                return totalDuration;
+            } catch (err) {
+                console.error("[SREM] Error ending session (offline):", err);
+                return 0;
+            }
         }
     }, [supabase]);
 

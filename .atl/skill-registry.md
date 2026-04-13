@@ -25,21 +25,47 @@
 
 ## Project-Specific Skills
 
-| Skill | Description | Notes |
-|-------|-------------|-------|
-| `srem-test` | Run SREM engine tests | `cd packages/shared && npm test` |
+| Skill | Description | Command |
+|-------|-------------|---------|
+| `srem-test` | Run SREM engine tests (Vitest) | `cd packages/shared && npm test` |
+| `validator-test` | Run answer validator tests | `cd packages/shared && npx vitest run src/validator.test.ts` |
+| `srem-test-coverage` | Run tests with coverage report | `cd packages/shared && npx vitest run --coverage` |
 | `lint-all` | Run linting across all workspaces | `turbo lint` |
-| `format-all` | Format all TypeScript/Markdown files | `npm run format` |
+| `lint-shared` | Lint shared package only | `cd packages/shared && npm run lint` |
+| `lint-web` | Lint web app only | `cd apps/web && npm run lint` |
+| `format-all` | Format all TypeScript/Markdown files | `prettier --write "**/*.{ts,tsx,md}"` |
+| `type-check-shared` | Type-check shared package | `cd packages/shared && npx tsc --noEmit` |
+| `type-check-web` | Type-check web app | `cd apps/web && npx tsc --noEmit` |
+| `dev` | Start Next.js dev server via Turborepo | `npm run dev` |
+| `build` | Build all workspaces via Turborepo | `npm run build` |
 
 ## Active Test Suite
 
-- **SREM Engine** (`packages/shared/src/sem.test.ts`)
-  - Growth curve validation
-  - Good/Easy interval calculations
-  - Hard/Again penalty logic
-  - Step recalibration
-  - Difficulty modulation
-  - Lapse-capped advancement
+- **SREM Engine** (`packages/shared/src/sem.test.ts`) — 35+ tests
+  - Growth curve validation (9 steps, max step = 8)
+  - Good/Easy interval calculations (curve-driven, no inflation)
+  - Hard/Again penalty logic (elapsed time driven)
+  - Hard step recalibration
+  - Difficulty modulation (1-10, ±27%)
+  - Lapse-capped Easy advancement
   - Configurable time thresholds
   - FSRS migration
   - State progression & bookkeeping
+  - Edge cases (interval ≥ 1, dueDate always future)
+
+- **Validator** (`packages/shared/src/validator.test.ts`) — 10+ tests
+  - `normalize()` — whitespace, case
+  - `validateAnswer()` — string, string[], anyOf, allOf, kOf
+  - Edge cases (empty input, unknown shapes)
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `packages/shared/src/sem.ts` | SREM scheduling engine (core algorithm) |
+| `packages/shared/src/validator.ts` | Answer validation with Levenshtein |
+| `packages/shared/src/types.ts` | Shared TypeScript type definitions |
+| `packages/shared/src/algorithm.ts` | Levenshtein-based fuzzy matching |
+| `apps/web/app/` | Next.js App Router pages |
+| `ARCHITECTURE.md` | Living architecture document |
+| `docs/srem-algorithm.md` | SREM algorithm documentation |

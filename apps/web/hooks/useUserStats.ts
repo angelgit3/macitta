@@ -14,6 +14,7 @@ export interface UserStats {
     masteredCards: number;
     totalCards: number;
     dailyActivity: { date: string; minutes: number }[];
+    precision: number | null;
 }
 
 // ─── Hook ───────────────────────────────────────────────────────────
@@ -34,7 +35,7 @@ export function useUserStats() {
             const ninetyDaysAgo = new Date();
             ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
-            const [sessionsRes, userItemsRes, totalCardsRes] = await Promise.all([
+            const [sessionsRes, userItemsRes, totalCardsRes, studyLogsRes] = await Promise.all([
                 supabase
                     .from('study_sessions')
                     .select('started_at, total_time_ms')
@@ -48,18 +49,30 @@ export function useUserStats() {
                 supabase
                     .from('cards')
                     .select('*', { count: 'exact', head: true }),
+                Promise.resolve(
+                    supabase
+                        .from('study_logs')
+                        .select('accuracy')
+                        .eq('user_id', user.id),
+                ).catch(() => ({ data: null, error: null })),
             ]);
 
             const sessions = sessionsRes.data ?? [];
             const userItems = userItemsRes.data ?? [];
             const totalCards = totalCardsRes.count ?? 0;
+            const studyLogs = studyLogsRes?.data ?? [];
 
             const { activityMap, dailyActivity } = aggregateActivity(sessions);
             const streak = calculateStreak(activityMap);
             const totalTimeMs = calculateTotalTimeMs(sessions);
-            const masteredCards = userItems.filter(i => i.state === 'mastered').length;
+            const masteredCards = userItems.filter((i: { state: string }) => i.state === 'mastered').length;
 
-            setStats({ streak, totalTimeMs, masteredCards, totalCards, dailyActivity });
+            // Compute precision: average accuracy across all study logs, as percentage
+            const precision = studyLogs.length > 0
+                ? Math.round((studyLogs.reduce((sum: number, log: { accuracy: number | null }) => sum + (log.accuracy ?? 0), 0) / studyLogs.length) * 100)
+                : null;
+
+            setStats({ streak, totalTimeMs, masteredCards, totalCards, dailyActivity, precision });
         } catch (err) {
             console.error("[Stats] Error fetching user stats:", err);
         } finally {

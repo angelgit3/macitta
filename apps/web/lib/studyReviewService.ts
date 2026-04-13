@@ -71,17 +71,21 @@ export async function saveReview(params: ReviewParams): Promise<ReviewResult> {
     }
 
     // 2. Always log study activity (counts toward stats/streak)
+    const logData = {
+        user_id: userId,
+        card_id: cardId,
+        session_id: sessionId,
+        grade: semResult.grade,
+        time_taken_ms: timeTakenMs,
+        accuracy,
+        review_date: new Date().toISOString(),
+    };
+
+    await db.studyLogs.add(logData);
+
     await db.syncQueue.add({
         type: "insert_study_log",
-        data: {
-            user_id: userId,
-            card_id: cardId,
-            session_id: sessionId,
-            grade: semResult.grade,
-            time_taken_ms: timeTakenMs,
-            accuracy,
-            review_date: new Date().toISOString(),
-        },
+        data: logData,
         created_at: new Date().toISOString(),
     });
 

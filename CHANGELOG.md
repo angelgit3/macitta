@@ -5,6 +5,35 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased] — feature/offline-real-and-precision
+
+### Added
+- **Offline Session Queuing:** `useSessionManager.startSession` and `endSession` now
+  queue `start_session`, `end_session`, and `increment_session_time` operations to
+  Dexie's `syncQueue` when the device is offline. Session IDs are generated client-side
+  via `crypto.randomUUID()` and replayed by `useSync` on reconnect. No session data is
+  silently dropped anymore.
+- **Local Study Logs:** `saveReview` now dual-writes to `db.studyLogs` in addition to
+  the existing `syncQueue` insert. This enables future offline reads of review history.
+- **Personal Precision Metric:** `useUserStats` now queries `study_logs` and computes
+  precision as `Math.round((sum(accuracy) / count) * 100)`. Profile page displays the
+  value as a percentage (e.g. `85%`), `"Sin datos"` when no logs exist, or `"—"` while
+  loading.
+
+### Changed
+- **useSessionManager:** Removed `navigator.onLine` early-return guards. Connectivity
+  check now branches to Supabase (online) or Dexie syncQueue (offline).
+- **ProfileClient:** Precision stat card replaced from hardcoded `"—"` to dynamic value
+  sourced from `useUserStats`.
+
+### Technical Notes
+- No Dexie schema migrations — all tables (`studyLogs`, `syncQueue`) already existed.
+- No Supabase schema changes — all tables and RLS policies already in place.
+- `study_logs` query in `useUserStats` is wrapped in its own `.catch()` to isolate
+  failures from other stats.
+
+---
+
 ## [Unreleased] — feature/css-security-hardening
 
 ### Fixed

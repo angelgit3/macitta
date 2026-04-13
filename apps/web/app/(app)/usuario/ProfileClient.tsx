@@ -167,7 +167,7 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                         { label: 'Racha', value: `${stats?.streak ?? '—'}d`, icon: Flame, color: 'text-orange-400' },
                         { label: 'Tiempo', value: statsLoading ? '—' : totalTimeFormatted, icon: Clock, color: 'text-blue-400' },
                         { label: 'Maestría', value: statsLoading ? '—' : `${masteryPct}%`, icon: Trophy, color: 'text-yellow-400' },
-                        { label: 'Precisión', value: '—', icon: Target, color: 'text-green-400' },
+                        { label: 'Precisión', value: statsLoading ? '—' : (stats?.precision !== null && stats?.precision !== undefined ? `${stats.precision}%` : 'Sin datos'), icon: Target, color: 'text-green-400' },
                     ].map(s => (
                         <div key={s.label} className="bg-black/20 rounded-2xl p-3 text-center">
                             <s.icon size={14} className={`mx-auto mb-1 ${s.color}`} />
