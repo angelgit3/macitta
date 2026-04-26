@@ -15,13 +15,21 @@ function sortSlots(slots: Slot[]): Slot[] {
  * Migrates FSRS data to SEM state when progress exists.
  */
 function toCardData(
-    card: { id: string; question: string },
+    card: { id: string; front_text: string },
     slots: Slot[],
-    progress?: LocalUserItem | null,
+    progress?: {
+        stability: number;
+        difficulty: number;
+        reps: number;
+        lapses: number;
+        state: string;
+        last_review: string | null;
+        due_date: string;
+    }
 ): CardData {
     return {
         id: card.id,
-        question: card.question,
+        front_text: card.front_text,
         slots: sortSlots(slots),
         sem: progress ? migrateFromFSRS(progress) : createEmptySEMState(),
     };
@@ -73,7 +81,7 @@ export async function loadDueCards(
         const { data: remoteCards, error } = await supabase
             .from("cards")
             .select(`
-                id, question,
+                id, front_text,
                 card_slots (id, label, accepted_answers, match_type, order_index),
                 user_items (stability, difficulty, reps, lapses, state, last_review, due_date)
             `)
@@ -86,7 +94,7 @@ export async function loadDueCards(
                 const localCards: LocalCard[] = remoteCards.map(c => ({
                     id: c.id,
                     deck_id: deckId,
-                    question: c.question,
+                    front_text: c.front_text,
                     slots: c.card_slots,
                     updated_at: new Date().toISOString(),
                 }));

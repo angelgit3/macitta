@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function createCard(deck_id: string, question: string, slots: { label: string, accepted_answers: string[] }[]) {
+export async function createCard(deck_id: string, front_text: string, slots: { label: string, accepted_answers: string[] }[]) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("Unauthorized");
@@ -10,7 +10,7 @@ export async function createCard(deck_id: string, question: string, slots: { lab
     // Start transaction: insert card
     const { data: card, error: cardError } = await supabase.from("cards").insert({
         deck_id,
-        question
+        front_text
     }).select().single();
 
     if (cardError || !card) throw new Error(cardError?.message || "Failed to create card");

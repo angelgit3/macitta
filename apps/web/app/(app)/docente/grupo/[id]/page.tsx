@@ -24,7 +24,7 @@ type Student = {
 };
 
 type DayActivity = { date: string; reviews: number };
-type DifficultCard = { card_id: string; question: string; avg_accuracy: number; review_count: number };
+type DifficultCard = { card_id: string; front_text: string; avg_accuracy: number; review_count: number };
 
 export default function ClassroomPage() {
     const params = useParams();
@@ -144,7 +144,7 @@ export default function ClassroomPage() {
         setActivityData(days);
 
         // ── Difficult cards: lowest avg accuracy with >2 reviews ─────
-        const cardStatsMap: Record<string, { sum: number; count: number; question?: string }> = {};
+        const cardStatsMap: Record<string, { sum: number; count: number; front_text?: string }> = {};
 
         (logs ?? []).forEach((l: any) => {
             if (!l.card_id) return;
@@ -153,7 +153,7 @@ export default function ClassroomPage() {
             cardStatsMap[l.card_id].count++;
         });
 
-        // Fetch questions for cards that have enough reviews
+        // Fetch front_text for cards that have enough reviews
         const difficultCardIds = Object.entries(cardStatsMap)
             .filter(([, v]) => v.count >= 3)
             .sort(([, a], [, b]) => (a.sum / a.count) - (b.sum / b.count))
@@ -163,15 +163,17 @@ export default function ClassroomPage() {
         if (difficultCardIds.length > 0) {
             const { data: cardData } = await supabase
                 .from("cards")
-                .select("id, question")
+                .select("id, front_text")
                 .in("id", difficultCardIds);
 
             const cardQuestionMap: Record<string, string> = {};
-            (cardData ?? []).forEach((c: any) => { cardQuestionMap[c.id] = c.question; });
+            (cardData ?? []).forEach((c: any) => { cardQuestionMap[c.id] = c.front_text; });
 
-            const difficult: DifficultCard[] = difficultCardIds.map(cid => ({
-                card_id: cid,
-                question: cardQuestionMap[cid] ?? "Desconocido",
+            const difficult = Object.entries(cardStatsMap)
+                .filter(([cid, stats]) => stats.count >= 3 && stats.sum / stats.count < 0.6)
+                .map(([cid, stats]) => ({
+                    card_id: cid,
+                    front_text: cardQuestionMap[cid] ?? "Desconocido",
                 avg_accuracy: Math.round((cardStatsMap[cid].sum / cardStatsMap[cid].count)),
                 review_count: cardStatsMap[cid].count,
             }));
@@ -329,7 +331,7 @@ export default function ClassroomPage() {
                             {difficultCards.map((card) => (
                                 <div key={card.card_id} className="flex items-center gap-3">
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium truncate">{card.question}</p>
+                                        <p className="text-sm font-medium truncate">{card.front_text}</p>
                                         <p className="text-xs text-text-dim">{card.review_count} intentos</p>
                                     </div>
                                     {/* Accuracy bar */}

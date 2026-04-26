@@ -16,7 +16,7 @@ interface Slot {
 
 interface Card {
     id: string;
-    question: string;
+    front_text: string;
     created_at: string;
     card_slots: Slot[];
 }
@@ -142,7 +142,7 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                         {cards.map(card => (
                             <div key={card.id} className="bg-stone-surface border border-border-subtle rounded-2xl p-4 flex items-start justify-between group">
                                 <div>
-                                    <h3 className="font-bold text-white">{card.question}</h3>
+                                    <h3 className="font-bold text-white">{card.front_text}</h3>
                                     <div className="mt-2 space-y-1">
                                         {card.card_slots.map(slot => (
                                             <p key={slot.id} className="text-xs text-text-dim">
@@ -197,18 +197,18 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
 }
 
 function AddCardModal({ deckId, onClose, onSuccess }: { deckId: string; onClose: () => void; onSuccess: () => void }) {
-    const [question, setQuestion] = useState("");
+    const [frontText, setFrontText] = useState("");
     const [label, setLabel] = useState("");
     const [answer, setAnswer] = useState("");
     const [saving, setSaving] = useState(false);
 
-    async function handleAdd(e: React.FormEvent) {
+    const handleAdd = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!question.trim() || !label.trim() || !answer.trim()) return;
+        if (!frontText.trim() || !label.trim() || !answer.trim()) return;
 
         setSaving(true);
         try {
-            await createCard(deckId, question, [
+            await createCard(deckId, frontText, [
                 { label, accepted_answers: [answer] }
             ]);
             onSuccess();
@@ -231,20 +231,20 @@ function AddCardModal({ deckId, onClose, onSuccess }: { deckId: string; onClose:
                 </div>
                 <form onSubmit={handleAdd} className="p-5 space-y-4">
                     <div>
-                        <label className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Pregunta / Trmino</label>
-                        <input type="text" value={question} onChange={e => setQuestion(e.target.value)} placeholder="Ej: To eat" className="w-full bg-void/50 border border-border-subtle rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-accent-focus text-sm mt-1" autoFocus />
+                        <label className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Frente / Término</label>
+                        <input type="text" value={frontText} onChange={e => setFrontText(e.target.value)} placeholder="Ej: To eat" className="w-full bg-void/50 border border-border-subtle rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-accent-focus text-sm mt-1" autoFocus />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <div>
                             <label className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Etiqueta</label>
-                            <input type="text" value={label} onChange={e => setLabel(e.target.value)} placeholder="Ej: Espaol" className="w-full bg-void/50 border border-border-subtle rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-accent-focus text-sm mt-1" />
+                            <input type="text" value={label} onChange={e => setLabel(e.target.value)} placeholder="Ej: Español" className="w-full bg-void/50 border border-border-subtle rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-accent-focus text-sm mt-1" />
                         </div>
                         <div>
                             <label className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Respuesta</label>
                             <input type="text" value={answer} onChange={e => setAnswer(e.target.value)} placeholder="Ej: Comer" className="w-full bg-void/50 border border-border-subtle rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-accent-focus text-sm mt-1" />
                         </div>
                     </div>
-                    <button type="submit" disabled={saving || !question || !answer || !label} className="w-full py-3.5 bg-accent-focus text-white font-bold rounded-2xl disabled:opacity-50 mt-2">
+                    <button type="submit" disabled={saving || !frontText || !answer || !label} className="w-full py-3.5 bg-accent-focus text-white font-bold rounded-2xl disabled:opacity-50 mt-2">
                         {saving ? <Loader2 className="animate-spin mx-auto" size={20} /> : "Agregar"}
                     </button>
                 </form>

@@ -42,7 +42,7 @@ export default async function DeckDetailsPage({ params }: { params: Promise<{ de
         .from('cards')
         .select(`
             id,
-            question,
+            front_text,
             created_at,
             card_slots (
                 id,

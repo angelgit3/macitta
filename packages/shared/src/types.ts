@@ -10,6 +10,9 @@ export interface Deck {
     author_id: string | null;
     title: string;
     description: string | null;
+    color: string | null;
+    question_labels: string[];
+    answer_labels: string[];
     created_at: string;
 }
 
@@ -22,7 +25,8 @@ export interface ClassroomDeck {
 export interface CardRow {
     id: string;
     deck_id: string;
-    question: string;
+    front_text: string;
+    front_media: { image?: string; audio?: string } | null;
     created_at: string;
 }
 
@@ -33,6 +37,8 @@ export interface CardSlot {
     accepted_answers: string[];
     match_type: 'any' | 'all';
     order_index: number;
+    advanced_rules: any | null; // ComplexAnswer JSON equivalent
+    media: { image?: string; audio?: string } | null;
 }
 
 // ─── User Progress (Dynamic) ────────────────────────────────────────

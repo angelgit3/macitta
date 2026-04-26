@@ -6,8 +6,8 @@ import type { Slot } from '@/types/study';
 export interface LocalCard {
     id: string;
     deck_id: string;
-    question: string;
-    slots: Slot[];
+    front_text: string;
+    slots: any[]; // Complex json types
     updated_at: string;
 }
 

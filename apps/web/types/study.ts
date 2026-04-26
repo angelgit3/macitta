@@ -13,7 +13,7 @@ export interface Slot {
 
 export interface CardData {
     id: string;
-    question: string;
+    front_text: string;
     slots: Slot[];
     sem: SEMCardState;
 }

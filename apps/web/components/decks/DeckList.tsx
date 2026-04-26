@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import { Search, Library, Users, Plus, LayoutGrid } from "lucide-react";
+import { Search, Library, Users, Plus, LayoutGrid, FileJson } from "lucide-react";
 import Link from "next/link";
 import { CreateDeckDialog } from "./CreateDeckDialog";
+import { ImportDeckDialog } from "./ImportDeckDialog";
 
 interface Deck {
     id: string;
@@ -29,6 +30,7 @@ interface DeckListProps {
 export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
     const [search, setSearch] = useState("");
     const [showCreate, setShowCreate] = useState(false);
+    const [showImport, setShowImport] = useState(false);
 
     const filteredPersonal = personalDecks.filter(d => 
         d.title.toLowerCase().includes(search.toLowerCase())
@@ -44,12 +46,21 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
                     <h1 className="text-2xl font-black text-white">Mis Mazos</h1>
                     <p className="text-sm text-text-dim">Gestiona y estudia tus colecciones</p>
                 </div>
-                <button 
-                    onClick={() => setShowCreate(true)}
-                    className="w-10 h-10 rounded-full bg-accent-focus text-white flex items-center justify-center hover:bg-accent-focus/90 transition-colors"
-                >
-                    <Plus size={20} />
-                </button>
+                <div className="flex items-center gap-2">
+                    <button 
+                        onClick={() => setShowImport(true)}
+                        className="w-10 h-10 rounded-full bg-void border border-border-subtle text-text-dim flex items-center justify-center hover:text-white transition-colors"
+                        title="Importar JSON"
+                    >
+                        <FileJson size={20} />
+                    </button>
+                    <button 
+                        onClick={() => setShowCreate(true)}
+                        className="w-10 h-10 rounded-full bg-accent-focus text-white flex items-center justify-center hover:bg-accent-focus/90 transition-colors"
+                    >
+                        <Plus size={20} />
+                    </button>
+                </div>
             </header>
 
             {/* Search */}
@@ -103,6 +114,7 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
             </div>
 
             {showCreate && <CreateDeckDialog onClose={() => setShowCreate(false)} />}
+            {showImport && <ImportDeckDialog onClose={() => setShowImport(false)} />}
         </div>
     );
 }

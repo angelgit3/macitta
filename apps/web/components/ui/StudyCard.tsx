@@ -76,7 +76,7 @@ export function StudyCard({
                     Verbo Irregular
                 </span>
                 <h1 className="text-4xl font-black tracking-tight text-white drop-shadow-lg">
-                    {card.question}
+                    {card.front_text}
                 </h1>
             </div>
 

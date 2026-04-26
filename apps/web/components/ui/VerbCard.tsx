@@ -14,7 +14,7 @@ interface VerbUserItem {
 
 interface VerbCardProps {
     id: string;
-    question: string;
+    front_text: string;
     userItem?: VerbUserItem | null;
 }
 
@@ -50,7 +50,7 @@ const STATUS_CONFIG: Record<SEMState, { color: string; icon: React.ReactNode | n
 
 // ─── Component ──────────────────────────────────────────────────────
 
-export function VerbCard({ id, question, userItem }: VerbCardProps) {
+export function VerbCard({ id, front_text, userItem }: VerbCardProps) {
     const state = (userItem?.state || 'new') as SEMState;
     const config = STATUS_CONFIG[state] ?? STATUS_CONFIG.new;
 
@@ -64,7 +64,7 @@ export function VerbCard({ id, question, userItem }: VerbCardProps) {
     return (
         <div className="bg-stone-surface border border-border-subtle rounded-2xl p-4 flex justify-between items-center hover:border-white/10 transition-colors">
             <div className="flex flex-col gap-0.5">
-                <span className="text-lg font-bold text-white capitalize">{question}</span>
+                <span className="text-lg font-bold text-white capitalize">{front_text}</span>
                 <div className="flex items-center gap-2">
                     <span
                         className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full flex items-center gap-1 ${config.color}`}
