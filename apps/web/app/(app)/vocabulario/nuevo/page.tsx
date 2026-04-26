@@ -8,7 +8,7 @@ function BuilderWizard() {
   const { state } = useDeckBuilder();
 
   return (
-    <div className="min-h-screen bg-gray-50 text-black">
+    <div className="min-h-screen bg-void text-white">
       {state.activeStep === "METADATA" ? <MetadataStep /> : <WorkspaceStep />}
     </div>
   );

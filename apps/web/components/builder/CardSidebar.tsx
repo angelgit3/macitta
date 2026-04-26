@@ -8,12 +8,12 @@ export function CardSidebar() {
   const { cards, activeCardIndex } = state;
 
   return (
-    <div className="w-full border-b bg-white flex flex-col shrink-0">
-      <div className="p-3 border-b flex justify-between items-center bg-gray-50">
-        <h3 className="font-semibold text-gray-700 text-sm">Tarjetas ({cards.length})</h3>
+    <div className="w-full border-b border-border-subtle bg-stone-surface/30 flex flex-col shrink-0 relative z-10">
+      <div className="p-4 border-b border-border-subtle flex justify-between items-center bg-void/40 backdrop-blur-md">
+        <h3 className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Tarjetas ({cards.length})</h3>
         <button
           onClick={() => dispatch({ type: "ADD_CARD" })}
-          className="flex items-center text-xs font-medium px-2 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded transition-colors"
+          className="flex items-center text-xs font-bold px-3 py-1.5 bg-accent-focus text-white hover:bg-accent-focus/90 rounded-xl transition-all hover:shadow-[0_0_10px_rgba(59,130,246,0.3)]"
           title="Añadir Tarjeta"
         >
           <Plus size={14} className="mr-1" />
@@ -22,7 +22,7 @@ export function CardSidebar() {
       </div>
       
       {/* Horizontal scrolling list of cards */}
-      <div className="flex overflow-x-auto p-2 gap-2 snap-x">
+      <div className="flex overflow-x-auto p-4 gap-4 snap-x bg-void/50 custom-scrollbar scroll-smooth">
         {cards.map((card, index) => {
           const isActive = index === activeCardIndex;
           const previewText = card.front_text.trim() || `T${index + 1}`;
@@ -31,25 +31,30 @@ export function CardSidebar() {
             <div
               key={card.id}
               onClick={() => dispatch({ type: "SET_ACTIVE_CARD", payload: { index } })}
-              className={`shrink-0 w-32 p-3 border rounded-lg cursor-pointer flex justify-between items-start group transition-colors snap-start ${
-                isActive ? "bg-blue-50 border-blue-500 shadow-sm" : "bg-white hover:bg-gray-50 border-gray-200"
+              className={`shrink-0 w-36 h-24 p-4 border rounded-2xl cursor-pointer flex flex-col justify-between group transition-all duration-300 snap-start relative ${
+                isActive 
+                  ? "bg-stone-surface border-accent-focus shadow-[0_0_15px_rgba(59,130,246,0.3)] scale-[1.02]" 
+                  : "bg-void/50 border-border-subtle hover:border-text-dim/50 hover:bg-stone-surface/50"
               }`}
             >
-              <div className="truncate text-sm font-medium text-gray-800 flex-1">
+              <div className={`truncate text-sm font-medium flex-1 ${isActive ? "text-white" : "text-text-dim"}`}>
                 {previewText}
               </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch({ type: "DELETE_CARD", payload: { index } });
-                }}
-                className={`ml-1 p-1 -m-1 rounded text-red-400 hover:text-red-600 hover:bg-red-50 transition-colors ${
-                  cards.length === 1 ? "hidden" : "opacity-0 group-hover:opacity-100 lg:opacity-100"
-                }`}
-                title="Eliminar Tarjeta"
-              >
-                <Trash2 size={14} />
-              </button>
+              <div className="flex justify-between items-end w-full">
+                <span className={`text-[10px] font-bold tracking-wider ${isActive ? "text-accent-focus" : "text-text-dim/40"}`}>#{index + 1}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch({ type: "DELETE_CARD", payload: { index } });
+                  }}
+                  className={`p-1.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors ${
+                    cards.length === 1 ? "hidden" : "opacity-0 group-hover:opacity-100 lg:opacity-100"
+                  }`}
+                  title="Eliminar Tarjeta"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
             </div>
           );
         })}

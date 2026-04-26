@@ -33,31 +33,34 @@ export function WorkspaceStep() {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-[calc(100vh-theme(spacing.16))] w-full bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <div className="flex flex-col h-full min-h-[calc(100vh-theme(spacing.16))] w-full bg-void rounded-2xl shadow-2xl border border-border-subtle overflow-hidden relative backdrop-blur-3xl">
+      {/* Glowing Edge Effect */}
+      <div className="absolute inset-x-0 -top-px h-px w-full bg-gradient-to-r from-transparent via-accent-focus/50 to-transparent"></div>
+
       {/* Header */}
-      <div className="h-16 border-b flex items-center justify-between px-6 bg-white shrink-0">
-        <div className="flex items-center gap-4">
+      <div className="h-[72px] border-b border-border-subtle flex items-center justify-between px-6 bg-stone-surface/50 shrink-0 backdrop-blur-md">
+        <div className="flex items-center gap-6">
           <button
             onClick={() => dispatch({ type: "PREV_STEP" })}
-            className="flex items-center gap-2 px-3 py-1.5 border rounded hover:bg-gray-50 text-gray-700 text-sm font-medium transition-colors"
+            className="flex items-center justify-center w-10 h-10 rounded-xl bg-void/50 border border-border-subtle hover:border-accent-focus hover:text-accent-focus text-text-dim transition-all"
+            title="Volver a Metadatos"
           >
-            <ArrowLeft size={16} />
-            Metadatos
+            <ArrowLeft size={18} />
           </button>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900 leading-none">{state.metadata.name || "Nuevo Mazo"}</h2>
-            <span className="text-xs text-gray-500">
+          <div className="flex flex-col justify-center">
+            <h2 className="text-lg font-bold text-white leading-tight tracking-wide">{state.metadata.name || "Nuevo Mazo"}</h2>
+            <span className="text-xs text-text-dim/80 font-medium tracking-wider uppercase mt-0.5">
               {state.cards.length} tarjeta{state.cards.length !== 1 ? 's' : ''}
             </span>
           </div>
         </div>
         
         <div className="flex items-center gap-4">
-          {error && <span className="text-red-500 text-sm font-medium">{error}</span>}
+          {error && <span className="text-red-400 text-sm font-medium bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-400/20">{error}</span>}
           <button
             onClick={handleSave}
             disabled={isSaving || state.cards.length === 0}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2.5 bg-accent-focus text-white rounded-xl font-bold hover:bg-accent-focus/90 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
           >
             {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
             {isSaving ? "Guardando..." : "Guardar Mazo"}
@@ -66,7 +69,7 @@ export function WorkspaceStep() {
       </div>
 
       {/* Workspace Area */}
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-col flex-1 overflow-hidden bg-void">
         <CardSidebar />
         <CardEditor />
       </div>
