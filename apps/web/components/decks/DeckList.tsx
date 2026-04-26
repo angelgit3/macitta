@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Search, Library, Users, Plus, LayoutGrid, FileJson } from "lucide-react";
 import Link from "next/link";
-import { CreateDeckDialog } from "./CreateDeckDialog";
 import { ImportDeckDialog } from "./ImportDeckDialog";
 
 interface Deck {
@@ -29,7 +28,6 @@ interface DeckListProps {
 
 export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
     const [search, setSearch] = useState("");
-    const [showCreate, setShowCreate] = useState(false);
     const [showImport, setShowImport] = useState(false);
 
     const filteredPersonal = personalDecks.filter(d => 
@@ -54,12 +52,12 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
                     >
                         <FileJson size={20} />
                     </button>
-                    <button 
-                        onClick={() => setShowCreate(true)}
+                    <Link 
+                        href="/vocabulario/nuevo"
                         className="w-10 h-10 rounded-full bg-accent-focus text-white flex items-center justify-center hover:bg-accent-focus/90 transition-colors"
                     >
                         <Plus size={20} />
-                    </button>
+                    </Link>
                 </div>
             </header>
 
@@ -113,7 +111,6 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
                 </div>
             </div>
 
-            {showCreate && <CreateDeckDialog onClose={() => setShowCreate(false)} />}
             {showImport && <ImportDeckDialog onClose={() => setShowImport(false)} />}
         </div>
     );
