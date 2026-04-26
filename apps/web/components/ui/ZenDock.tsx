@@ -55,7 +55,7 @@ export function ZenDock() {
     // Mostrar skeleton mientras carga para evitar salto de layout
     if (loading) {
         return (
-            <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">
+            <div className="sticky bottom-0 mt-auto z-50 w-full px-6 pb-6 pt-4">
                 <nav className="bg-stone-surface/90 backdrop-blur-xl border border-white/10 rounded-2xl h-16 flex items-center justify-between px-8 shadow-2xl shadow-black/50">
                     {[1, 2, 3, 4, 5].map((i) => (
                         <div key={i} className="w-6 h-6 rounded-full bg-white/10 animate-pulse" />
@@ -66,7 +66,7 @@ export function ZenDock() {
     }
 
     return (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">
+        <div className="sticky bottom-0 mt-auto z-50 w-full px-6 pb-6 pt-4">
             <nav className="bg-stone-surface/90 backdrop-blur-xl border border-white/10 rounded-2xl h-16 flex items-center justify-between px-8 shadow-2xl shadow-black/50 relative">
                 {/* Sync Indicator */}
                 <div className="absolute -top-3 right-4 flex items-center gap-1.5 px-2 py-1 bg-void border border-border-subtle rounded-full text-[10px] uppercase font-bold tracking-widest text-text-dim shadow-sm">

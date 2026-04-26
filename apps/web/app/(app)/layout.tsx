@@ -1,16 +1,13 @@
-import { ZenDock } from "@/components/ui/ZenDock";
+import { BackgroundEffects } from "@/components/ui/BackgroundEffects";
 
-export default function AppLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="min-h-screen pb-32 relative">
-            <main className="px-6 pt-6 flex flex-col gap-6">
+        <main className="w-full max-w-[480px] min-h-screen relative bg-void shadow-[0_0_40px_rgba(59,130,246,0.03)] border-x border-white/[0.02] transition-all duration-500 overflow-x-hidden">
+            <BackgroundEffects variant="constrained" />
+            
+            <div className="relative z-10 min-h-screen flex flex-col">
                 {children}
-            </main>
-            <ZenDock />
-        </div>
+            </div>
+        </main>
     );
 }

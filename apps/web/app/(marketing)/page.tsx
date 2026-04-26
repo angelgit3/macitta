@@ -10,7 +10,7 @@ export default function LandingPage() {
         <div className="flex flex-col min-h-screen">
 
             {/* ── Navbar ── */}
-            <nav className="sticky top-0 z-50 backdrop-blur-xl bg-void/80 border-b border-white/5">
+            <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10">
                 <div className="max-w-5xl mx-auto flex items-center justify-between px-6 h-16">
                     <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg bg-accent-focus/20 flex items-center justify-center">
@@ -37,7 +37,7 @@ export default function LandingPage() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent-focus/15 rounded-full blur-[120px] pointer-events-none" />
                 <div className="absolute top-32 right-0 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
 
-                <div className="max-w-2xl mx-auto text-center relative z-10">
+                <div className="max-w-2xl mx-auto text-center relative z-10 animate-fade-in-up">
                     <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs font-medium text-text-dim mb-8">
                         <Flame size={12} className="text-orange-400" />
                         Sistema de Repetición Espaciada con FSRS
@@ -45,7 +45,7 @@ export default function LandingPage() {
 
                     <h1 className="text-5xl sm:text-6xl font-black leading-[1.1] tracking-tight mb-6">
                         Domina tus{" "}
-                        <span className="bg-gradient-to-r from-accent-focus to-purple-400 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-accent-focus to-purple-400 bg-clip-text text-transparent animate-pulse">
                             verbos
                         </span>
                         {" "}en inglés
@@ -121,7 +121,7 @@ export default function LandingPage() {
                             },
                         ].map(item => (
                             <div key={item.step}
-                                className="relative bg-stone-surface border border-border-subtle rounded-2xl p-6 hover:border-white/15 transition-colors group">
+                                className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 group hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.2)]">
                                 <span className="absolute top-4 right-4 text-[10px] font-bold text-text-dim/30 tracking-wider">
                                     PASO {item.step}
                                 </span>
@@ -184,7 +184,7 @@ export default function LandingPage() {
                             },
                         ].map(f => (
                             <div key={f.title}
-                                className="flex items-start gap-4 bg-stone-surface border border-border-subtle rounded-2xl p-5 hover:border-white/15 transition-colors">
+                                className="flex items-start gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 group hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.15)]">
                                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                                     <f.icon size={18} className={f.color} />
                                 </div>
