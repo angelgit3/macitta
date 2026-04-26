@@ -7,43 +7,45 @@
 
    Creating an optimized production build ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
- ✓ Compiled successfully in 10.2s
+ ✓ (serwist) Bundling the service worker script with the URL '/sw.js' and the scope '/'...
+ ✓ Compiled successfully in 5.9s
    Linting and checking validity of types ...
    Collecting page data ...
- ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
-   Generating static pages (0/15) ...
-   Generating static pages (3/15) 
-   Generating static pages (7/15) 
-   Generating static pages (11/15) 
- ✓ Generating static pages (15/15)
+   Generating static pages (0/16) ...
+   Generating static pages (4/16) 
+   Generating static pages (8/16) 
+   Generating static pages (12/16) 
+ ✓ Generating static pages (16/16)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                 Size  First Load JS
-┌ ○ /                                      163 B         106 kB
-├ ○ /_not-found                            988 B         103 kB
-├ ○ /auth/auth-code-error                  163 B         106 kB
-├ ƒ /auth/confirm                          132 B         103 kB
-├ ○ /auth/forgot-password                2.68 kB         108 kB
-├ ○ /auth/login                          2.29 kB         163 kB
-├ ○ /auth/signup                            3 kB         163 kB
-├ ○ /auth/update-password                2.26 kB         163 kB
-├ ○ /auth/verify-otp                     2.96 kB         163 kB
-├ ○ /auth/verify-recovery                3.03 kB         163 kB
-├ ƒ /dashboard                           2.75 kB         160 kB
-├ ○ /estudio                             14.1 kB         205 kB
-├ ○ /mazos                                 132 B         103 kB
-├ ƒ /usuario                             4.18 kB         161 kB
-└ ƒ /vocabulario                           132 B         103 kB
-+ First Load JS shared by all             102 kB
-  ├ chunks/18-14e6895f59bfbbff.js          46 kB
+┌ ○ /                                      168 B         107 kB
+├ ○ /_not-found                            988 B         105 kB
+├ ○ /auth/auth-code-error                  168 B         107 kB
+├ ƒ /auth/confirm                          131 B         104 kB
+├ ○ /auth/forgot-password                2.63 kB         110 kB
+├ ○ /auth/login                          2.41 kB         164 kB
+├ ○ /auth/signup                         3.39 kB         165 kB
+├ ○ /auth/update-password                 2.7 kB         164 kB
+├ ○ /auth/verify-otp                     3.45 kB         165 kB
+├ ○ /auth/verify-recovery                3.46 kB         165 kB
+├ ƒ /dashboard                           6.88 kB         165 kB
+├ ƒ /docente                             2.65 kB         164 kB
+├ ƒ /docente/grupo/[id]                  6.08 kB         168 kB
+├ ƒ /estudio/[deckId]                    7.83 kB         200 kB
+├ ƒ /mis-clases                          4.78 kB         163 kB
+├ ○ /offline                             1.03 kB         105 kB
+├ ƒ /usuario                             5.66 kB         164 kB
+├ ƒ /vocabulario                         3.34 kB         111 kB
+└ ƒ /vocabulario/[deckId]                4.81 kB         112 kB
++ First Load JS shared by all             104 kB
+  ├ chunks/531-edd2b9df9a3cdf9d.js       47.6 kB
   ├ chunks/87c73c54-24122e7b92478d00.js  54.2 kB
-  └ other shared chunks (total)          2.11 kB
+  └ other shared chunks (total)          2.03 kB
 
 
-ƒ Middleware                             80.8 kB
+ƒ Middleware                             81.3 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand

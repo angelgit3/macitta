@@ -7,9 +7,16 @@
 
 export interface Deck {
     id: string;
+    author_id: string | null;
     title: string;
     description: string | null;
     created_at: string;
+}
+
+export interface ClassroomDeck {
+    classroom_id: string;
+    deck_id: string;
+    assigned_at: string;
 }
 
 export interface CardRow {

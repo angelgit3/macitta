@@ -1,0 +1,88 @@
+"use client";
+
+import { useStudySession } from "@/hooks/useStudySession";
+import { StudyCard } from "@/components/ui/StudyCard";
+import { Loader2, Flame } from "lucide-react";
+import { StudySummary } from "./StudySummary";
+import { use } from "react";
+
+export default function StudySessionContent({ params }: { params: Promise<{ deckId: string }> }) {
+    const { deckId } = use(params);
+
+    const {
+        loading,
+        sessionComplete,
+        currentCard,
+        userAnswers,
+        feedback,
+        isRevealed,
+        handleInputChange,
+        submitAnswer,
+        nextCard,
+        progress,
+        totalCards,
+        stats,
+        isRushMode,
+        remainingDueCount,
+        startRushMode
+    } = useStudySession(deckId);
+
+    if (loading) {
+        return (
+            <div className="h-full flex flex-col items-center justify-center gap-4 text-zinc-500">
+                <Loader2 className="animate-spin w-8 h-8 text-blue-500" />
+                <p className="text-sm tracking-wider uppercase">Cargando Mazo...</p>
+            </div>
+        );
+    }
+
+    if (sessionComplete) {
+        return (
+            <StudySummary
+                totalCards={stats.total}
+                correctCards={stats.correct}
+                totalTimeMs={stats.durationMs}
+                isRushMode={isRushMode}
+                remainingDueCount={remainingDueCount}
+                onStartRushMode={startRushMode}
+            />
+        );
+    }
+
+    if (!currentCard) {
+        return (
+            <div className="h-full flex items-center justify-center text-zinc-500">
+                No hay tarjetas disponibles para este mazo.
+            </div>
+        );
+    }
+
+    return (
+        <div className="flex flex-col gap-6 max-w-xl mx-auto pb-24">
+            {/* Header / Progress */}
+            <div className="flex justify-between items-center px-2">
+                <h1 className="text-xl font-bold text-white flex items-center gap-2">
+                    {isRushMode && <Flame size={20} className="text-orange-500" />}
+                    {isRushMode ? 'Modo Maratn' : 'Estudio Diario'}
+                </h1>
+                <div className={`text-xs font-bold px-3 py-1 rounded-full border ${isRushMode
+                        ? 'text-orange-400 bg-orange-500/10 border-orange-500/20'
+                        : 'text-zinc-500 bg-zinc-900 border-white/5'
+                    }`}>
+                    {progress} / {totalCards}
+                </div>
+            </div>
+
+            {/* Active Card */}
+            <StudyCard
+                card={currentCard}
+                userAnswers={userAnswers}
+                feedback={feedback}
+                isRevealed={isRevealed}
+                onInputChange={handleInputChange}
+                onSubmit={submitAnswer}
+                onNext={nextCard}
+            />
+        </div>
+    );
+}

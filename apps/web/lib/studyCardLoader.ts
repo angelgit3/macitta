@@ -122,14 +122,18 @@ export async function loadDueCards(
     // 2. Fallback: Dexie
     if (rawCards.length === 0) {
         const localCards = await db.cards.where("deck_id").equals(deckId).toArray();
+        const cardIds = localCards.map(c => c.id);
         const localItems = userId
-            ? await db.userItems.where("user_id").equals(userId).toArray()
+            ? await db.userItems.where("card_id").anyOf(cardIds).toArray()
             : [];
+        // Note: Dexie will return all items that match card_id. We then filter by user_id below implicitly
+        // by finding the match. Since localDB is usually per-user anyway, this is fine.
+        const userItems = localItems.filter(i => i.user_id === userId);
 
         rawCards = localCards.map(lc => ({
             ...lc,
             card_slots: lc.slots,
-            user_items: [localItems.find(li => li.card_id === lc.id)],
+            user_items: [userItems.find(li => li.card_id === lc.id)],
         }));
     }
 
@@ -172,8 +176,10 @@ export async function loadRushCards(
     poolSize = 30,
 ): Promise<CardData[]> {
     const allCards = await db.cards.where("deck_id").equals(deckId).toArray();
-    const userProgress = await db.userItems.where("user_id").equals(userId).toArray();
-    const progressMap = new Map(userProgress.map(p => [p.card_id, p]));
+    const cardIds = allCards.map(c => c.id);
+    const userProgress = await db.userItems.where("card_id").anyOf(cardIds).toArray();
+    const userProgressFiltered = userProgress.filter(p => p.user_id === userId);
+    const progressMap = new Map(userProgressFiltered.map(p => [p.card_id, p]));
 
     // Score by weakness
     const scored = allCards.map(card => {
@@ -210,8 +216,10 @@ export async function countRemainingDue(
 ): Promise<number> {
     const now = new Date().toISOString();
     const deckCards = await db.cards.where("deck_id").equals(deckId).toArray();
-    const userProgress = await db.userItems.where("user_id").equals(userId).toArray();
-    const progressMap = new Map(userProgress.map(p => [p.card_id, p]));
+    const cardIds = deckCards.map(c => c.id);
+    const userProgress = await db.userItems.where("card_id").anyOf(cardIds).toArray();
+    const userProgressFiltered = userProgress.filter(p => p.user_id === userId);
+    const progressMap = new Map(userProgressFiltered.map(p => [p.card_id, p]));
 
     let count = 0;
     for (const card of deckCards) {

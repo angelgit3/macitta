@@ -1,25 +1,38 @@
 import { createClient } from "@/utils/supabase/server";
-import { VocabularioClient } from "./VocabularioClient";
+import { DeckList } from "@/components/decks/DeckList";
 
-// Force dynamic rendering — this page depends on user auth context
 export const dynamic = 'force-dynamic';
 
-export default async function VocabularioPage() {
+export default async function DecksDashboardPage() {
     const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
-    const { data: verbs } = await supabase
-        .from('cards')
+    if (!user) {
+        return <div>No autorizado</div>;
+    }
+
+    // Fetch personal decks (where user is author)
+    const { data: personalDecks } = await supabase
+        .from('decks')
+        .select('*')
+        .eq('author_id', user.id)
+        .order('created_at', { ascending: false });
+
+    // Fetch assigned decks (via classroom_decks)
+    // User can be a student in classrooms. Let's get classrooms they are in.
+    const { data: assignedDecksData } = await supabase
+        .from('classroom_decks')
         .select(`
-            id,
-            question,
-            user_items (
-                state,
-                stability,
-                difficulty,
-                due_date
-            )
+            *,
+            decks (*)
         `)
-        .order('question', { ascending: true });
+        // RLS for classroom_decks ensures the user only sees assignments for classrooms they are a member of or own
+        .order('assigned_at', { ascending: false });
 
-    return <VocabularioClient verbs={verbs || []} />;
+    return (
+        <DeckList 
+            personalDecks={personalDecks || []} 
+            assignedDecks={assignedDecksData || []} 
+        />
+    );
 }

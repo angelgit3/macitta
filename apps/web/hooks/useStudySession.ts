@@ -18,13 +18,12 @@ export type { CardData, SlotFeedback, Slot } from "@/types/study";
 
 // ─── Constants ──────────────────────────────────────────────────────
 
-const DECK_TITLE = "Verbos Irregulares";
 const BATCH_SIZE = 10;
 const LOAD_TIMEOUT_MS = 8000;
 
 // ─── Hook ───────────────────────────────────────────────────────────
 
-export function useStudySession() {
+export function useStudySession(providedDeckId?: string) {
     const supabase = createClient();
     const { isOffline } = useNetworkStatus();
     const { sessionId, startSession, endSession } = useSessionManager();
@@ -36,7 +35,7 @@ export function useStudySession() {
     const [sessionComplete, setSessionComplete] = useState(false);
 
     // Deck
-    const [deckId, setDeckId] = useState<string | null>(null);
+    const [deckId, setDeckId] = useState<string | null>(providedDeckId || null);
 
     // Rush mode
     const [isRushMode, setIsRushMode] = useState(false);
@@ -93,8 +92,13 @@ export function useStudySession() {
                 const { data: authData } = await supabase.auth.getUser();
                 const userId = authData?.user?.id ?? null;
 
-                const dId = await resolveDeckId(DECK_TITLE);
-                if (!dId) throw new Error("Deck not found");
+                let dId = providedDeckId;
+                if (!dId) {
+                    // Fallback to resolving the default deck for backward compatibility or when no deck is provided
+                    const resolved = await resolveDeckId("Verbos Irregulares");
+                    if (!resolved) throw new Error("Deck not found");
+                    dId = resolved;
+                }
 
                 setDeckId(dId);
                 await startSession(dId);

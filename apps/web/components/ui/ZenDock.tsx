@@ -34,7 +34,6 @@ export function ZenDock() {
 
     const studentItems = [
         { icon: Home, label: "Home", href: "/dashboard" },
-        { icon: Play, label: "Estudio", href: "/estudio" },
         { icon: Layers, label: "Inventario", href: "/vocabulario" },
         { icon: GraduationCap, label: "Clases", href: "/mis-clases" },
         { icon: User, label: "Usuario", href: "/usuario" },
