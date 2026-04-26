@@ -5,17 +5,12 @@ import { createClient } from '@/utils/supabase/client';
 import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
-    MessageSquare, Bug, Lightbulb, MessageCircle, Send,
-    GraduationCap, BookOpen, Code2, User, Flame, Clock, Target, Trophy
+    GraduationCap, BookOpen, Code2, User, Flame, Clock, Target, Trophy,
+    Instagram, Twitter, Github
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStats } from '@/hooks/useUserStats';
 
-const FEEDBACK_TYPES = [
-    { value: 'bug', label: 'Bug', icon: Bug, color: 'text-red-400 bg-red-500/10 border-red-500/20' },
-    { value: 'suggestion', label: 'Sugerencia', icon: Lightbulb, color: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20' },
-    { value: 'other', label: 'Otro', icon: MessageCircle, color: 'text-blue-400 bg-blue-500/10 border-blue-500/20' },
-] as const;
 
 export function ProfileClient({ initialUser }: { initialUser: any }) {
     const supabase = createClient();
@@ -31,12 +26,6 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
     // Profile state
     const [profile, setProfile] = useState<{ username: string; role: string; created_at: string } | null>(null);
 
-    // Feedback state
-    const [feedbackOpen, setFeedbackOpen] = useState(false);
-    const [feedbackType, setFeedbackType] = useState<'bug' | 'suggestion' | 'other'>('suggestion');
-    const [feedbackMsg, setFeedbackMsg] = useState('');
-    const [feedbackLoading, setFeedbackLoading] = useState(false);
-    const [feedbackSent, setFeedbackSent] = useState(false);
 
     useEffect(() => {
         if (!initialUser?.id) return;
@@ -121,25 +110,6 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
         router.refresh();
     };
 
-    const handleFeedbackSubmit = async () => {
-        if (!feedbackMsg.trim() || !initialUser?.id) return;
-        setFeedbackLoading(true);
-        try {
-            const { error } = await supabase.from('feedback').insert({
-                user_id: initialUser.id,
-                type: feedbackType,
-                message: feedbackMsg.trim(),
-            });
-            if (error) throw error;
-            setFeedbackSent(true);
-            setFeedbackMsg('');
-            setTimeout(() => { setFeedbackSent(false); setFeedbackOpen(false); }, 2500);
-        } catch (err) {
-            console.error('[Feedback] Error:', err);
-        } finally {
-            setFeedbackLoading(false);
-        }
-    };
 
     return (
         <div className="space-y-5">
@@ -235,49 +205,44 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                 </form>
             </div>
 
-            {/* ── Feedback ── */}
+            {/* ── Creator Zone ── */}
             <div className="bg-stone-surface border border-border-subtle rounded-3xl p-5 space-y-4">
-                <button onClick={() => setFeedbackOpen(!feedbackOpen)} className="w-full flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <MessageSquare size={16} className="text-yellow-400" />
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-text-dim">Feedback & Soporte</h3>
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-accent-focus/10 flex items-center justify-center text-accent-focus font-bold border border-accent-focus/20 shrink-0">
+                        AA
                     </div>
-                    <span className={`text-text-dim text-xs transition-transform duration-200 ${feedbackOpen ? 'rotate-180' : ''}`}>▼</span>
-                </button>
-                {feedbackOpen && (
-                    <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
-                        {feedbackSent ? (
-                            <div className="flex flex-col items-center gap-2 py-6 text-green-400">
-                                <CheckCircle2 size={28} />
-                                <p className="font-bold text-sm">¡Gracias por tu feedback!</p>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="flex gap-2">
-                                    {FEEDBACK_TYPES.map(ft => (
-                                        <button
-                                            key={ft.value}
-                                            onClick={() => setFeedbackType(ft.value)}
-                                            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl border text-xs font-bold transition-all ${feedbackType === ft.value ? ft.color : 'text-zinc-500 bg-transparent border-border-subtle'}`}
-                                        >
-                                            <ft.icon size={12} /> {ft.label}
-                                        </button>
-                                    ))}
-                                </div>
-                                <textarea
-                                    value={feedbackMsg}
-                                    onChange={e => setFeedbackMsg(e.target.value)}
-                                    placeholder={feedbackType === 'bug' ? 'Describe el error...' : feedbackType === 'suggestion' ? '¿Qué te gustaría ver?' : 'Tu mensaje...'}
-                                    rows={3}
-                                    className="w-full bg-black/20 border border-border-subtle rounded-2xl py-3 px-4 text-white text-sm focus:outline-none focus:border-accent-focus transition-colors resize-none"
-                                />
-                                <ZenButton variant="primary" className="w-full h-11 gap-2" disabled={feedbackLoading || !feedbackMsg.trim()} onClick={handleFeedbackSubmit}>
-                                    {feedbackLoading ? <Loader2 className="animate-spin" size={14} /> : <><Send size={13} /> Enviar</>}
-                                </ZenButton>
-                            </>
-                        )}
+                    <div>
+                        <h3 className="text-sm font-bold text-white">Alberto Anaya</h3>
+                        <p className="text-[11px] text-zinc-500 uppercase tracking-wider">Desarrollador</p>
                     </div>
-                )}
+                </div>
+                
+                <div className="grid grid-cols-1 gap-2">
+                    <ZenButton 
+                        variant="ghost" 
+                        onClick={() => window.open('https://www.instagram.com/aalberto_anaya/', '_blank')}
+                        className="w-full flex items-center justify-start gap-3 h-12 px-4 bg-pink-500/5 hover:bg-pink-500/10 text-pink-400 border border-pink-500/20 rounded-2xl transition-colors"
+                    >
+                        <Instagram size={16} />
+                        <span className="text-xs font-bold">Instagram (Dudas o bugs)</span>
+                    </ZenButton>
+                    <ZenButton 
+                        variant="ghost"
+                        onClick={() => window.open('https://x.com/aalberto_anaya', '_blank')}
+                        className="w-full flex items-center justify-start gap-3 h-12 px-4 bg-blue-500/5 hover:bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-2xl transition-colors"
+                    >
+                        <Twitter size={16} />
+                        <span className="text-xs font-bold">Twitter (Sigue mi trabajo)</span>
+                    </ZenButton>
+                    <ZenButton 
+                        variant="ghost"
+                        onClick={() => window.open('https://github.com/angelgit3/macitta', '_blank')}
+                        className="w-full flex items-center justify-start gap-3 h-12 px-4 bg-zinc-500/10 hover:bg-zinc-500/20 text-zinc-300 border border-zinc-500/20 rounded-2xl transition-colors"
+                    >
+                        <Github size={16} />
+                        <span className="text-xs font-bold">GitHub (Código Fuente)</span>
+                    </ZenButton>
+                </div>
             </div>
 
             {/* ── Logout ── */}
