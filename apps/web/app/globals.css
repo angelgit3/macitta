@@ -1,22 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-void: #050505;
-  --color-stone-surface: #121212;
-  --color-stone-light: #1E1E1E;
+  --color-void: #000000;
+  --color-stone-surface: #0a0a0a;
+  --color-stone-light: #141414;
 
-  --color-accent-focus: #3B82F6;
-  /* Blue from image */
-  --color-accent-success: #22C55E;
-  /* Green from image */
+  --color-accent-focus: #3b82f6;
+  --color-accent-success: #10b981;
 
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-text-dim: #A1A1AA;
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-neon: rgba(59, 130, 246, 0.5);
+  --color-text-dim: #888888;
 }
 
 @layer base {
   body {
-    @apply antialiased bg-void text-white;
+    @apply antialiased bg-void text-white selection:bg-accent-focus/30 selection:text-white transition-colors duration-300;
   }
 }
 

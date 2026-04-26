@@ -66,16 +66,16 @@ export function StudyCard({
     };
 
     return (
-        <div className="w-full max-w-md mx-auto bg-stone-surface rounded-3xl border border-border-subtle p-8 relative flex flex-col gap-8 shadow-2xl shadow-black/50 overflow-hidden">
+        <div className="w-full max-w-md mx-auto bg-stone-surface rounded-3xl border border-border-subtle p-8 relative flex flex-col gap-8 shadow-2xl shadow-black/80 overflow-hidden transition-all duration-500 hover:border-white/10 hover:shadow-[0_0_40px_rgba(59,130,246,0.05)]">
             {/* Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-accent-focus/5 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-accent-focus/[0.03] to-transparent pointer-events-none" />
 
             {/* Question Header */}
-            <div className="z-10 text-center space-y-2">
-                <span className="text-xs font-bold tracking-[0.2em] text-accent-focus uppercase">
+            <div className="z-10 text-center space-y-3">
+                <span className="text-[10px] font-bold tracking-[0.3em] text-accent-focus/80 uppercase">
                     Verbo Irregular
                 </span>
-                <h1 className="text-4xl font-black tracking-tight text-white drop-shadow-md">
+                <h1 className="text-4xl font-black tracking-tight text-white drop-shadow-lg">
                     {card.question}
                 </h1>
             </div>
@@ -105,12 +105,12 @@ export function StudyCard({
                                     disabled={isRevealed}
                                     autoComplete="off"
                                     className={`
-                                        w-full bg-black/40 border-2 rounded-xl px-4 py-3 text-lg font-medium text-white placeholder-zinc-700 outline-none transition-all
+                                        w-full bg-black/60 border-2 rounded-xl px-5 py-4 text-lg font-medium text-white placeholder-zinc-800 outline-none transition-all duration-300
                                         ${isRevealed
                                             ? isCorrect
-                                                ? "border-accent-success/50 bg-accent-success/10 text-green-200"
-                                                : "border-red-500/50 bg-red-500/10 text-red-200"
-                                            : "border-border-subtle focus:border-accent-focus/50 focus:bg-white/5"
+                                                ? "border-accent-success/50 bg-accent-success/5 text-green-200 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+                                                : "border-red-500/50 bg-red-500/5 text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.15)]"
+                                            : "border-border-subtle hover:border-white/10 focus:border-accent-focus/80 focus:bg-white/[0.02] focus:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
                                         }
                                     `}
                                     placeholder="..."
@@ -141,10 +141,10 @@ export function StudyCard({
                     ref={submitButtonRef}
                     onClick={isRevealed ? onNext : onSubmit}
                     className={`
-                        w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold tracking-wide transition-all transform active:scale-95
+                        w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold tracking-wide transition-all duration-300 transform active:scale-[0.98] border border-transparent
                         ${isRevealed
-                            ? "bg-white text-black hover:bg-zinc-200"
-                            : "bg-accent-focus text-white hover:bg-accent-focus/90 shadow-lg shadow-accent-focus/20"
+                            ? "bg-white text-black hover:bg-zinc-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+                            : "bg-accent-focus text-white hover:bg-blue-500 shadow-lg shadow-blue-500/20 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] hover:border-blue-400/50"
                         }
                     `}
                 >

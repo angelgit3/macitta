@@ -20,7 +20,7 @@ export function BentoCard({
     return (
         <div
             onClick={onClick}
-            className={`bg-stone-surface border border-border-subtle rounded-3xl p-6 flex flex-col justify-between hover:border-white/10 transition-colors ${className}`}
+            className={`bg-stone-surface border border-border-subtle rounded-3xl p-6 flex flex-col justify-between hover:border-accent-focus/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 ${className}`}
         >
             <div className="flex justify-between items-start mb-2">
                 {icon && <div className="text-accent-focus">{icon}</div>}

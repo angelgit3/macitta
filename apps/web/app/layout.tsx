@@ -36,8 +36,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="dark">
-            <body className="bg-void text-stone-100 min-h-screen flex justify-center selection:bg-accent-focus selection:text-white">
-                <main className="w-full max-w-[480px] min-h-screen relative bg-void shadow-2xl shadow-void/50 border-x border-white/5">
+            <body className="bg-void text-stone-100 min-h-screen flex justify-center selection:bg-accent-focus selection:text-white transition-colors duration-300">
+                <main className="w-full max-w-[480px] min-h-screen relative bg-void shadow-[0_0_40px_rgba(59,130,246,0.03)] border-x border-white/[0.02] transition-all duration-500">
                     <ClientProviders>
                         {children}
                     </ClientProviders>
