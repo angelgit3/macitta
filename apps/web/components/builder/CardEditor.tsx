@@ -10,7 +10,7 @@ export function CardEditor() {
   const activeCard = cards[activeCardIndex];
 
   if (!activeCard) {
-    return <div className="flex-1 p-8 text-text-dim/60 font-medium flex items-center justify-center bg-void">No hay tarjeta seleccionada.</div>;
+    return <div className="flex-1 p-8 text-text-dim/60 font-medium flex items-center justify-center bg-void">No hay carta seleccionada.</div>;
   }
 
   const updateCard = (updates: Partial<typeof activeCard>) => {
@@ -34,7 +34,7 @@ export function CardEditor() {
           </div>
           
           <div className="space-y-3">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Texto Principal</label>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Texto de la Pregunta</label>
             <textarea
               value={activeCard.front_text}
               onChange={(e) => updateCard({ front_text: e.target.value })}
@@ -45,13 +45,13 @@ export function CardEditor() {
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Media (URL Opcional)</label>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Multimedia Frontal (Opcional)</label>
             <input
               type="text"
               value={activeCard.front_media || ""}
               onChange={(e) => updateCard({ front_media: e.target.value })}
               className="w-full px-5 py-3.5 bg-void/50 border border-border-subtle text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-2xl transition-all shadow-inner"
-              placeholder="https://ejemplo.com/imagen.jpg"
+              placeholder="URL de Imagen o URL de Audio (Ej: https://ejemplo.com/imagen.jpg)"
             />
           </div>
         </div>
@@ -60,7 +60,7 @@ export function CardEditor() {
         <div className="space-y-6 relative">
           <div className="flex items-center gap-3 px-2">
             <CheckCircle2 size={24} className="text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.4)]" />
-            <h2 className="text-2xl font-bold text-white tracking-wide">Respuestas Esperadas (Reverso)</h2>
+            <h2 className="text-2xl font-bold text-white tracking-wide">Respuestas a Evaluar</h2>
           </div>
           
           <div className="space-y-6">

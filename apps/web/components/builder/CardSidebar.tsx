@@ -10,14 +10,14 @@ export function CardSidebar() {
   return (
     <div className="w-full border-b border-border-subtle bg-stone-surface/30 flex flex-col shrink-0 relative z-10">
       <div className="p-4 border-b border-border-subtle flex justify-between items-center bg-void/40 backdrop-blur-md">
-        <h3 className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Tarjetas ({cards.length})</h3>
+        <h3 className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Cartas ({cards.length})</h3>
         <button
           onClick={() => dispatch({ type: "ADD_CARD" })}
           className="flex items-center text-xs font-bold px-3 py-1.5 bg-accent-focus text-white hover:bg-accent-focus/90 rounded-xl transition-all hover:shadow-[0_0_10px_rgba(59,130,246,0.3)]"
-          title="Añadir Tarjeta"
+          title="Añadir Carta"
         >
           <Plus size={14} className="mr-1" />
-          Nueva
+          Nueva Carta
         </button>
       </div>
       
@@ -25,7 +25,7 @@ export function CardSidebar() {
       <div className="flex overflow-x-auto p-4 gap-4 snap-x bg-void/50 custom-scrollbar scroll-smooth">
         {cards.map((card, index) => {
           const isActive = index === activeCardIndex;
-          const previewText = card.front_text.trim() || `T${index + 1}`;
+          const previewText = card.front_text.trim() || `Carta ${index + 1}`;
           
           return (
             <div
@@ -50,7 +50,7 @@ export function CardSidebar() {
                   className={`p-1.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors ${
                     cards.length === 1 ? "hidden" : "opacity-0 group-hover:opacity-100 lg:opacity-100"
                   }`}
-                  title="Eliminar Tarjeta"
+                  title="Eliminar Carta"
                 >
                   <Trash2 size={14} />
                 </button>

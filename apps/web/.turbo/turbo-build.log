@@ -8,7 +8,7 @@
    Creating an optimized production build ...
  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
  ✓ (serwist) Bundling the service worker script with the URL '/sw.js' and the scope '/'...
- ✓ Compiled successfully in 2.6s
+ ✓ Compiled successfully in 3.0s
    Linting and checking validity of types ...
    Collecting page data ...
    Generating static pages (0/17) ...
@@ -39,7 +39,7 @@ Route (app)                                 Size  First Load JS
 ├ ƒ /usuario                             5.66 kB         164 kB
 ├ ƒ /vocabulario                         3.55 kB         111 kB
 ├ ƒ /vocabulario/[deckId]                4.81 kB         112 kB
-└ ○ /vocabulario/nuevo                   6.89 kB         111 kB
+└ ○ /vocabulario/nuevo                   7.19 kB         111 kB
 + First Load JS shared by all             104 kB
   ├ chunks/531-edd2b9df9a3cdf9d.js       47.6 kB
   ├ chunks/87c73c54-24122e7b92478d00.js  54.2 kB

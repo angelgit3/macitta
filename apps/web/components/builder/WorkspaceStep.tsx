@@ -26,7 +26,7 @@ export function WorkspaceStep() {
         router.push("/vocabulario");
       }
     } catch (err: any) {
-      setError(err.message || "Failed to save deck.");
+      setError(err.message || "Error al guardar el mazo.");
     } finally {
       setIsSaving(false);
     }
@@ -50,7 +50,7 @@ export function WorkspaceStep() {
           <div className="flex flex-col justify-center">
             <h2 className="text-lg font-bold text-white leading-tight tracking-wide">{state.metadata.name || "Nuevo Mazo"}</h2>
             <span className="text-xs text-text-dim/80 font-medium tracking-wider uppercase mt-0.5">
-              {state.cards.length} tarjeta{state.cards.length !== 1 ? 's' : ''}
+              {state.cards.length} carta{state.cards.length !== 1 ? 's' : ''}
             </span>
           </div>
         </div>
