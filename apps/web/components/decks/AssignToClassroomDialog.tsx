@@ -38,7 +38,7 @@ export function AssignToClassroomDialog({
             }
             router.refresh();
         } catch (err: any) {
-            setError(err.message || "Error al actualizar asignacin");
+            setError(err.message || "Error al actualizar asignación");
         } finally {
             setSavingId(null);
         }
@@ -59,7 +59,7 @@ export function AssignToClassroomDialog({
                 <div className="p-5 space-y-5">
                     {classrooms.length === 0 ? (
                         <p className="text-sm text-text-dim text-center py-6">
-                            No administras ninguna clase todava.
+                            No administras ninguna clase todavía.
                         </p>
                     ) : (
                         <div className="space-y-3">

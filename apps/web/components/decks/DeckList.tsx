@@ -78,10 +78,16 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
             <div className="px-2 space-y-8">
                 {/* Assigned Decks */}
                 {assignedDecks.length > 0 && (
-                    <div className="space-y-3">
-                        <h2 className="text-sm font-bold uppercase tracking-widest text-text-dim flex items-center gap-2">
-                            <Users size={16} /> De la clase
-                        </h2>
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-3 border-b border-border-subtle pb-3">
+                            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400">
+                                <Users size={20} />
+                            </div>
+                            <div>
+                                <h2 className="font-black text-white text-lg">De la clase</h2>
+                                <p className="text-xs text-text-dim">Mazos asignados por tu profesor</p>
+                            </div>
+                        </div>
                         {filteredAssigned.length === 0 ? (
                             <p className="text-sm text-text-dim/60">No hay coincidencias.</p>
                         ) : (
@@ -95,10 +101,16 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
                 )}
 
                 {/* Personal Decks */}
-                <div className="space-y-3">
-                    <h2 className="text-sm font-bold uppercase tracking-widest text-text-dim flex items-center gap-2">
-                        <Library size={16} /> Personales
-                    </h2>
+                <div className="space-y-4 mt-4">
+                    <div className="flex items-center gap-3 border-b border-border-subtle pb-3">
+                        <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-400">
+                            <Library size={20} />
+                        </div>
+                        <div>
+                            <h2 className="font-black text-white text-lg">Personales</h2>
+                            <p className="text-xs text-text-dim">Colecciones creadas o importadas por ti</p>
+                        </div>
+                    </div>
                     {filteredPersonal.length === 0 ? (
                         <p className="text-sm text-text-dim/60">No tienes mazos personales o no hay coincidencias.</p>
                     ) : (
@@ -120,23 +132,23 @@ function DeckCard({ deck, isAssigned = false }: { deck: Deck, isAssigned?: boole
     return (
         <Link 
             href={`/vocabulario/${deck.id}`}
-            className="block bg-stone-surface border border-border-subtle rounded-2xl p-4 hover:border-accent-focus transition-colors group"
+            className="block bg-stone-surface border border-border-subtle rounded-2xl p-5 hover:border-accent-focus transition-all group shadow-sm hover:shadow-accent-focus/10 flex flex-col h-full"
         >
-            <div className="flex items-start justify-between gap-4 mb-2">
-                <h3 className="font-bold text-white group-hover:text-accent-focus transition-colors line-clamp-2">
+            <div className="flex items-start justify-between gap-4 mb-3">
+                <h3 className="font-black text-lg text-white group-hover:text-accent-focus transition-colors line-clamp-2 leading-tight">
                     {deck.title}
                 </h3>
-                <div className={`p-2 rounded-xl shrink-0 ${isAssigned ? 'bg-emerald-500/10 text-emerald-400' : 'bg-blue-500/10 text-blue-400'}`}>
+                <div className={`p-2.5 rounded-xl shrink-0 ${isAssigned ? 'bg-emerald-500/10 text-emerald-400' : 'bg-blue-500/10 text-blue-400'}`}>
                     {isAssigned ? <Users size={18} /> : <Library size={18} />}
                 </div>
             </div>
             {deck.description && (
-                <p className="text-sm text-text-dim line-clamp-2 mb-4">
+                <p className="text-sm text-text-dim line-clamp-2 mb-6 leading-relaxed">
                     {deck.description}
                 </p>
             )}
-            <div className="flex items-center justify-end text-xs font-semibold uppercase tracking-wider text-accent-focus/80 group-hover:text-accent-focus mt-auto pt-2 border-t border-border-subtle/50">
-                <span className="flex items-center gap-1">
+            <div className="flex items-center justify-end mt-auto pt-4 border-t border-border-subtle/50">
+                <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-accent-focus/80 group-hover:text-accent-focus transition-colors">
                     Ver detalles <LayoutGrid size={14} />
                 </span>
             </div>

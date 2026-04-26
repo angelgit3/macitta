@@ -28,7 +28,7 @@ export function ImportDeckDialog({ onClose, onSuccess }: { onClose: () => void; 
                 }
             }
         } catch (err: any) {
-            setError(err.message || "Error importing deck.");
+            setError(err.message || "Error al importar el mazo.");
         } finally {
             setLoading(false);
         }

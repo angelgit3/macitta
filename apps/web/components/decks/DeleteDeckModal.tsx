@@ -39,10 +39,10 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
                         
                         <div className="p-4 bg-red-500/5 rounded-2xl border border-red-500/20 text-left">
                             <p className="text-xs text-red-300 font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
-                                <AlertCircle size={14} /> Atencin: Accin Irreversible
+                                <AlertCircle size={14} /> Atención: Acción Irreversible
                             </p>
                             <p className="text-sm text-text-dim leading-relaxed">
-                                Al eliminar este mazo, <strong className="text-white">se borrarn todas sus tarjetas</strong> y el <strong className="text-white">progreso de estudio</strong> de todos los estudiantes asignados.
+                                Al eliminar este mazo, <strong className="text-white">se borrarán todas sus tarjetas</strong> y el <strong className="text-white">progreso de estudio</strong> de todos los estudiantes asignados.
                             </p>
                         </div>
                     </div>

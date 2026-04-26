@@ -5,22 +5,22 @@ import { createClient } from "@/utils/supabase/server";
 export async function importDeckFromJson(jsonString: string) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("Unauthorized");
+    if (!user) throw new Error("No autorizado");
 
     let parsed: any;
     try {
         parsed = JSON.parse(jsonString);
     } catch (err) {
-        throw new Error("Invalid JSON format");
+        throw new Error("Formato JSON inválido");
     }
 
     if (!parsed.deck || !parsed.cards || !Array.isArray(parsed.cards)) {
-        throw new Error("Invalid structure. Must have 'deck' object and 'cards' array.");
+        throw new Error("Estructura inválida. Debe tener el objeto 'deck' y el array 'cards'.");
     }
 
     const { name, description, color, question_labels, answer_labels } = parsed.deck;
     if (!name || !question_labels || !answer_labels) {
-        throw new Error("Deck must have name, question_labels, and answer_labels.");
+        throw new Error("El mazo debe tener name, question_labels, y answer_labels.");
     }
 
     let deckId: string | null = null;
@@ -41,8 +41,8 @@ export async function importDeckFromJson(jsonString: string) {
         // Prepare cards and slots
         const cardsToInsert = [];
         for (const card of parsed.cards) {
-            if (!card.front_text) throw new Error("Card missing front_text");
-            if (!card.answers || !Array.isArray(card.answers)) throw new Error("Card missing answers array");
+            if (!card.front_text) throw new Error("La tarjeta no tiene front_text");
+            if (!card.answers || !Array.isArray(card.answers)) throw new Error("La tarjeta no tiene el array answers");
             
             cardsToInsert.push({
                 deck_id: deckId,
@@ -52,7 +52,7 @@ export async function importDeckFromJson(jsonString: string) {
         }
 
         if (cardsToInsert.length === 0) {
-            throw new Error("Deck has no cards.");
+            throw new Error("El mazo no tiene tarjetas.");
         }
 
         // Insert cards
@@ -67,7 +67,7 @@ export async function importDeckFromJson(jsonString: string) {
             
             for (let j = 0; j < card.answers.length; j++) {
                 const answer = card.answers[j];
-                if (!answer.field || !answer.text) throw new Error("Answer missing field or text");
+                if (!answer.field || !answer.text) throw new Error("La respuesta no tiene field o text");
 
                 // Determine if it's simple accepted_answers or advanced_rules
                 let accepted_answers: string[] = [];
@@ -104,6 +104,6 @@ export async function importDeckFromJson(jsonString: string) {
         if (deckId) {
             await supabase.from("decks").delete().eq("id", deckId);
         }
-        throw new Error(error.message || "Failed to import deck");
+        throw new Error(error.message || "Error al importar el mazo");
     }
 }
