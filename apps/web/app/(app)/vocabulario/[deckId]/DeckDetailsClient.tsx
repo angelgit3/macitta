@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, MoreVertical, Plus, Edit2, Trash2, Users, Loader2 } from "lucide-react";
+import { ArrowLeft, MoreVertical, Plus, Edit2, Trash2, Users, Loader2, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AssignToClassroomDialog } from "@/components/decks/AssignToClassroomDialog";
@@ -224,9 +224,8 @@ function AddCardModal({ deckId, onClose, onSuccess }: { deckId: string; onClose:
             <div className="w-full max-w-sm bg-stone-surface border border-border-subtle rounded-3xl overflow-hidden shadow-2xl">
                 <div className="flex items-center justify-between p-5 border-b border-border-subtle">
                     <h2 className="text-xl font-black text-white">Nueva Tarjeta</h2>
-                    <button onClick={onClose} className="text-text-dim hover:text-white transition-colors">
-                        <Trash2 size={20} className="hidden" /> {/* Just for spacing consistency? No, X icon */}
-                        <span className="text-xl leading-none"></span>
+                    <button type="button" onClick={onClose} className="text-text-dim hover:text-white transition-colors">
+                        <X size={20} />
                     </button>
                 </div>
                 <form onSubmit={handleAdd} className="p-5 space-y-4">
