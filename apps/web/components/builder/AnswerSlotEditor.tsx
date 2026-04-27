@@ -104,14 +104,14 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot }: Props) {
     <div className="bg-stone-surface/30 backdrop-blur-sm rounded-3xl border border-border-subtle p-8 space-y-6 shadow-xl relative overflow-hidden transition-all duration-300 hover:border-text-dim/30">
       <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
       
-      <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 pb-5 border-b border-border-subtle/50">
         <div className="flex items-center gap-3">
-          <div className="bg-void/60 px-3 py-1.5 rounded-lg border border-border-subtle text-xs font-bold text-white tracking-widest uppercase">
+          <div className="bg-void/80 px-4 py-2 rounded-xl border border-border-subtle shadow-inner text-sm font-black text-white tracking-widest uppercase">
             {label}
           </div>
         </div>
-        <div className="flex flex-col items-end gap-1">
-          <label className="text-[10px] uppercase font-bold text-text-dim/60 mr-1">Tipo de Evaluación</label>
+        <div className="flex flex-col gap-1.5 w-full sm:w-auto">
+          <label className="text-[10px] uppercase font-bold text-text-dim/80 ml-1">Regla de Evaluación</label>
           <select
             value={ruleType}
             onChange={(e) => {
@@ -119,13 +119,13 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot }: Props) {
               setRuleType(rt);
               handleChange(rt, items, forbidItems, kValue, media);
             }}
-            className="border border-border-subtle rounded-xl px-4 py-2.5 text-sm bg-void text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all appearance-none cursor-pointer pr-10 font-medium"
+            className="w-full sm:w-64 border border-border-subtle rounded-xl px-4 py-3 text-sm bg-void/50 text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all appearance-none cursor-pointer pr-10 font-bold shadow-inner"
             style={{ backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1em' }}
           >
-            <option value="exact">Coincidencia Exacta (1 palabra)</option>
-            <option value="anyOf">Cualquiera (Sinónimos / Opciones)</option>
-            <option value="allOf">Todas las Opciones (Lista requerida)</option>
-            <option value="kOf">Al menos N Opciones correctas</option>
+            <option value="exact" className="bg-stone-surface text-white">Coincidencia Exacta (1 palabra)</option>
+            <option value="anyOf" className="bg-stone-surface text-white">Cualquiera (Sinónimos/Opciones)</option>
+            <option value="allOf" className="bg-stone-surface text-white">Todas las Opciones (Requeridas)</option>
+            <option value="kOf" className="bg-stone-surface text-white">Al menos N Opciones correctas</option>
           </select>
         </div>
       </div>
