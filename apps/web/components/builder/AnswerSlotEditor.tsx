@@ -1,20 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDeckBuilder } from "../../contexts/DeckBuilderContext";
 import { BuilderAnswerSlot, BuilderAdvancedRules } from "../../types/builder";
 import { buildAnswerSlot, RuleType } from "../../contexts/deckBuilderUtils";
-import { X, Plus, AlertCircle } from "lucide-react";
+import { X, Plus, AlertCircle, Settings2, ChevronDown, ChevronUp } from "lucide-react";
 
 type Props = {
-  cardIndex: number;
-  slotIndex: number;
+  cardIndex?: number;
+  slotIndex?: number;
   label: string;
   slot?: BuilderAnswerSlot;
+  onChangeSlot?: (slot: BuilderAnswerSlot) => void;
 };
 
-export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot }: Props) {
-  const { dispatch } = useDeckBuilder();
+export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSlot }: Props) {
+  // Safely attempt to get context, but don't crash if it's not there (for standalone usage)
+  let dispatch: any = null;
+  try {
+    const context = useDeckBuilder();
+    dispatch = context.dispatch;
+  } catch (e) {
+    // Ignore error if used outside provider
+  }
+
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const getInitialRuleType = (): RuleType => {
     if (!slot) return "exact";
@@ -80,10 +90,15 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot }: Props) {
       newK,
       newMedia
     );
-    dispatch({
-      type: "UPDATE_ANSWER_SLOT",
-      payload: { cardIndex, slotIndex, slot: updatedSlot }
-    });
+    
+    if (onChangeSlot) {
+      onChangeSlot(updatedSlot);
+    } else if (dispatch && cardIndex !== undefined && slotIndex !== undefined) {
+      dispatch({
+        type: "UPDATE_ANSWER_SLOT",
+        payload: { cardIndex, slotIndex, slot: updatedSlot }
+      });
+    }
   };
 
   const handleItemsChange = (index: number, value: string) => {
@@ -101,70 +116,19 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot }: Props) {
   };
 
   return (
-    <div className="bg-stone-surface/30 backdrop-blur-sm rounded-3xl border border-border-subtle p-8 space-y-6 shadow-xl relative overflow-hidden transition-all duration-300 hover:border-text-dim/30">
+    <div className="bg-stone-surface/30 backdrop-blur-sm rounded-2xl border border-border-subtle p-5 space-y-4 shadow-lg relative overflow-hidden transition-all duration-300 hover:border-text-dim/30">
       <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
       
-      <div className="flex flex-col gap-4 pb-5 border-b border-border-subtle/50">
-        <div className="bg-void/80 self-start px-4 py-2 rounded-xl border border-border-subtle shadow-inner text-sm font-black text-white tracking-widest uppercase">
+      {/* Header and Answer Fields */}
+      <div className="flex flex-col gap-3">
+        <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border-subtle shadow-inner text-xs font-black text-white tracking-widest uppercase">
           {label}
         </div>
-        <div className="flex flex-col gap-2 w-full bg-void/40 p-4 rounded-2xl border border-border-subtle/50">
-          <label className="text-[11px] uppercase font-bold text-accent-focus flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-            Modo de Evaluación
-          </label>
-          <div className="relative">
-            <select
-              value={ruleType}
-              onChange={(e) => {
-                const rt = e.target.value as RuleType;
-                setRuleType(rt);
-                handleChange(rt, items, forbidItems, kValue, media);
-              }}
-              className="w-full border border-border-subtle rounded-xl pl-4 pr-10 py-3.5 text-sm bg-stone-surface text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all appearance-none cursor-pointer font-bold shadow-lg truncate"
-            >
-              <option value="exact" className="bg-stone-surface text-white font-medium">Exacta (Escribir tal cual)</option>
-              <option value="anyOf" className="bg-stone-surface text-white font-medium">Sinónimos (Acepta cualquiera)</option>
-              <option value="allOf" className="bg-stone-surface text-white font-medium">Lista Múltiple (Todas requeridas)</option>
-              <option value="kOf" className="bg-stone-surface text-white font-medium">Parcial (Al menos N correctas)</option>
-            </select>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-dim">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
-            </div>
-          </div>
-          <p className="text-xs text-text-dim/90 mt-1 leading-relaxed">
-            {ruleType === 'exact' && 'El alumno debe escribir la respuesta exactamente como está abajo.'}
-            {ruleType === 'anyOf' && 'Útil para palabras con múltiples traducciones válidas o sinónimos.'}
-            {ruleType === 'allOf' && 'El alumno debe proporcionar todas las palabras de la lista para tenerla correcta.'}
-            {ruleType === 'kOf' && 'El alumno debe acertar un número mínimo de palabras de una lista más grande.'}
-          </p>
-        </div>
-      </div>
-
-      {ruleType === "kOf" && (
-        <div className="flex items-center space-x-4 text-sm bg-accent-focus/10 p-4 rounded-2xl border border-accent-focus/20">
-          <label className="text-white font-bold tracking-wide">Mínimo de respuestas correctas necesarias:</label>
-          <input
-            type="number"
-            min={1}
-            max={items.length || 1}
-            value={kValue}
-            onChange={(e) => {
-              const k = parseInt(e.target.value) || 1;
-              setKValue(k);
-              handleChange(ruleType, items, forbidItems, k, media);
-            }}
-            className="w-20 px-3 py-2 bg-void border border-border-subtle rounded-xl text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus font-mono text-center"
-          />
-        </div>
-      )}
-
-      {/* Allowed Items */}
-      <div className="space-y-4">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Respuesta Correcta</label>
-        <div className="space-y-3">
+        
+        {/* Main Answer Inputs */}
+        <div className="space-y-2">
           {items.map((item, idx) => (
-            <div key={idx} className="flex space-x-3 group relative">
+            <div key={idx} className="flex space-x-2 group relative">
               <input
                 type="text"
                 value={item}
@@ -177,116 +141,178 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot }: Props) {
                     handleChange(ruleType, next, forbidItems, kValue, media);
                   }
                 }}
-                className="flex-1 px-5 py-3.5 bg-void/50 border border-border-subtle rounded-2xl text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner"
+                className="flex-1 px-4 py-2.5 bg-void/50 border border-border-subtle rounded-xl text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner text-sm font-medium"
                 placeholder={
-                  ruleType === "exact" ? "Ej: Apple" :
-                  ruleType === "anyOf" ? "Añadir opción correcta y presionar Enter..." :
-                  ruleType === "allOf" ? "Añadir respuesta requerida y presionar Enter..." :
-                  "Añadir opción válida y presionar Enter..."
+                  ruleType === "exact" ? "Respuesta correcta (Ej: Apple)" :
+                  ruleType === "anyOf" ? "Opción válida y presionar Enter..." :
+                  ruleType === "allOf" ? "Respuesta requerida y presionar Enter..." :
+                  "Opción válida y presionar Enter..."
                 }
               />
               {ruleType !== "exact" && (
                 <button
                   type="button"
                   onClick={() => {
+                    if (items.length === 1) return;
                     const next = items.filter((_, i) => i !== idx);
                     setItems(next);
                     handleChange(ruleType, next, forbidItems, kValue, media);
                   }}
-                  className="p-3.5 text-red-400/50 hover:text-red-400 hover:bg-red-400/10 rounded-2xl transition-all absolute right-0 opacity-0 group-hover:opacity-100"
+                  disabled={items.length === 1}
+                  className="p-2.5 text-red-400/50 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all disabled:opacity-30 disabled:hover:bg-transparent"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
               )}
             </div>
           ))}
+          {ruleType !== "exact" && (
+            <button
+              type="button"
+              onClick={() => {
+                const next = [...items, ""];
+                setItems(next);
+                handleChange(ruleType, next, forbidItems, kValue, media);
+              }}
+              className="text-[11px] font-bold text-accent-focus hover:text-accent-focus/80 flex items-center px-1 py-1 transition-colors uppercase tracking-wider"
+            >
+              <Plus size={14} className="mr-1" /> 
+              {ruleType === "anyOf" ? "Añadir opción correcta" : 
+               ruleType === "allOf" ? "Añadir respuesta requerida" : 
+               "Añadir opción"}
+            </button>
+          )}
         </div>
-        {ruleType !== "exact" && (
-          <button
-            type="button"
-            onClick={() => {
-              const next = [...items, ""];
-              setItems(next);
-              handleChange(ruleType, next, forbidItems, kValue, media);
-            }}
-            className="text-[13px] font-bold text-accent-focus hover:text-accent-focus/80 flex items-center px-2 py-1 mt-2 transition-colors uppercase tracking-wider"
-          >
-            <Plus size={16} className="mr-1.5" /> 
-            {ruleType === "anyOf" ? "Añadir opción correcta" : 
-             ruleType === "allOf" ? "Añadir respuesta requerida" : 
-             "Añadir opción"}
-          </button>
-        )}
       </div>
 
-      {/* Forbid Items */}
-      <div className="space-y-4 pt-6 border-t border-border-subtle/50">
-        <div className="flex flex-col">
-          <label className="flex text-[11px] font-bold uppercase tracking-wider text-red-400/80 items-center ml-1">
-            <AlertCircle size={14} className="mr-1.5 text-red-400" /> Palabras Prohibidas (Invalidan la respuesta)
-          </label>
-          <span className="text-[11px] text-text-dim ml-1 mt-1">Ajustes Avanzados: Usa esto si el alumno suele confundirse con un "falso amigo".</span>
-        </div>
-        <div className="space-y-3">
-          {forbidItems.map((item, idx) => (
-            <div key={`forbid-${idx}`} className="flex space-x-3 group relative">
-              <input
-                type="text"
-                value={item}
-                onChange={(e) => handleForbidItemsChange(idx, e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    const next = [...forbidItems, ""];
-                    setForbidItems(next);
-                    handleChange(ruleType, items, next, kValue, media);
-                  }
-                }}
-                className="flex-1 px-5 py-3.5 bg-red-950/10 border border-red-500/30 rounded-2xl text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-red-400/30"
-                placeholder="Añadir palabra prohibida y presionar Enter..."
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  const next = forbidItems.filter((_, i) => i !== idx);
-                  setForbidItems(next);
-                  handleChange(ruleType, items, next, kValue, media);
-                }}
-                className="p-3.5 text-red-400/50 hover:text-red-400 hover:bg-red-400/10 rounded-2xl transition-all absolute right-0 opacity-0 group-hover:opacity-100"
-              >
-                <X size={18} />
-              </button>
-            </div>
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            const next = [...forbidItems, ""];
-            setForbidItems(next);
-            handleChange(ruleType, items, next, kValue, media);
-          }}
-          className="text-[13px] font-bold text-red-400 hover:text-red-300 flex items-center px-2 py-1 mt-2 transition-colors uppercase tracking-wider"
+      {/* Advanced Options Toggle */}
+      <div className="pt-2 border-t border-border-subtle/30">
+        <button 
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="flex items-center justify-between w-full text-[11px] font-bold uppercase tracking-wider text-text-dim hover:text-white transition-colors py-1"
         >
-          <Plus size={16} className="mr-1.5" /> Añadir palabra prohibida
+          <span className="flex items-center gap-1.5"><Settings2 size={14} /> Ajustes Avanzados</span>
+          {showAdvanced ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
       </div>
 
-      {/* Media */}
-      <div className="space-y-3 pt-6 border-t border-border-subtle/50">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Multimedia</label>
-        <input
-          type="text"
-          value={media}
-          onChange={(e) => {
-            setMedia(e.target.value);
-            handleChange(ruleType, items, forbidItems, kValue, e.target.value);
-          }}
-          className="w-full px-5 py-3.5 bg-void/50 border border-border-subtle rounded-2xl text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all shadow-inner"
-          placeholder="URL de Audio o Imagen (Opcional)"
-        />
-      </div>
+      {/* Advanced Options Content */}
+      {showAdvanced && (
+        <div className="space-y-5 pt-3 pb-1 animate-in fade-in slide-in-from-top-2 duration-200">
+          
+          {/* Evaluation Mode */}
+          <div className="flex flex-col gap-2 w-full bg-void/40 p-3 rounded-xl border border-border-subtle/50">
+            <label className="text-[10px] uppercase font-bold text-accent-focus">
+              Modo de Evaluación
+            </label>
+            <select
+              value={ruleType}
+              onChange={(e) => {
+                const rt = e.target.value as RuleType;
+                setRuleType(rt);
+                if (rt === "exact" && items.length > 1) {
+                  // Reset to single item if switching to exact
+                  const next = [items[0] || ""];
+                  setItems(next);
+                  handleChange(rt, next, forbidItems, kValue, media);
+                } else {
+                  handleChange(rt, items, forbidItems, kValue, media);
+                }
+              }}
+              className="w-full border border-border-subtle rounded-lg pl-3 pr-8 py-2 text-sm bg-stone-surface text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all font-medium"
+            >
+              <option value="exact">Exacta (Una sola respuesta)</option>
+              <option value="anyOf">Sinónimos (Acepta cualquiera)</option>
+              <option value="allOf">Múltiple (Todas requeridas)</option>
+              <option value="kOf">Parcial (Al menos N correctas)</option>
+            </select>
+          </div>
 
+          {ruleType === "kOf" && (
+            <div className="flex items-center justify-between text-sm bg-accent-focus/10 p-3 rounded-xl border border-accent-focus/20">
+              <label className="text-white font-bold text-xs">Aciertos mínimos necesarios:</label>
+              <input
+                type="number"
+                min={1}
+                max={items.length || 1}
+                value={kValue}
+                onChange={(e) => {
+                  const k = parseInt(e.target.value) || 1;
+                  setKValue(k);
+                  handleChange(ruleType, items, forbidItems, k, media);
+                }}
+                className="w-16 px-2 py-1.5 bg-void border border-border-subtle rounded-lg text-white text-center text-sm font-mono focus:border-accent-focus focus:outline-none"
+              />
+            </div>
+          )}
+
+          {/* Forbid Items */}
+          <div className="space-y-2">
+            <label className="flex text-[10px] font-bold uppercase tracking-wider text-red-400/80 items-center ml-1">
+              <AlertCircle size={12} className="mr-1.5 text-red-400" /> Palabras Prohibidas
+            </label>
+            <div className="space-y-2">
+              {forbidItems.map((item, idx) => (
+                <div key={`forbid-${idx}`} className="flex space-x-2 group relative">
+                  <input
+                    type="text"
+                    value={item}
+                    onChange={(e) => handleForbidItemsChange(idx, e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        const next = [...forbidItems, ""];
+                        setForbidItems(next);
+                        handleChange(ruleType, items, next, kValue, media);
+                      }
+                    }}
+                    className="flex-1 px-3 py-2 bg-red-950/10 border border-red-500/30 rounded-xl text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-red-400/30"
+                    placeholder="Palabra que invalida..."
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = forbidItems.filter((_, i) => i !== idx);
+                      setForbidItems(next);
+                      handleChange(ruleType, items, next, kValue, media);
+                    }}
+                    className="p-2 text-red-400/50 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const next = [...forbidItems, ""];
+                setForbidItems(next);
+                handleChange(ruleType, items, next, kValue, media);
+              }}
+              className="text-[11px] font-bold text-red-400 hover:text-red-300 flex items-center px-1 transition-colors uppercase tracking-wider mt-1"
+            >
+              <Plus size={14} className="mr-1" /> Añadir prohibida
+            </button>
+          </div>
+
+          {/* Media */}
+          <div className="space-y-2">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Multimedia de Respuesta</label>
+            <input
+              type="text"
+              value={media}
+              onChange={(e) => {
+                setMedia(e.target.value);
+                handleChange(ruleType, items, forbidItems, kValue, e.target.value);
+              }}
+              className="w-full px-3 py-2 bg-void/50 border border-border-subtle rounded-xl text-white text-sm focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all shadow-inner"
+              placeholder="URL de Audio o Imagen (Opcional)"
+            />
+          </div>
+
+        </div>
+      )}
     </div>
   );
 }

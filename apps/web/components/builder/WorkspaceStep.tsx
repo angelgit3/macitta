@@ -26,6 +26,7 @@ export function WorkspaceStep() {
         router.push("/vocabulario");
       }
     } catch (err: any) {
+      console.error("Full Deck Import Error:", err);
       setError(err.message || "Error al guardar el mazo.");
     } finally {
       setIsSaving(false);

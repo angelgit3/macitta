@@ -26,16 +26,26 @@ export async function importDeckFromJson(jsonString: string) {
     let deckId: string | null = null;
 
     try {
+        // Fix: Postgres arrays expect proper string arrays. Ensure they are mapped as pure strings.
+        const cleanQuestionLabels = Array.isArray(question_labels) ? question_labels.map(String).filter(Boolean) : [];
+        const cleanAnswerLabels = Array.isArray(answer_labels) ? answer_labels.map(String).filter(Boolean) : [];
+
+        // Log to server console so we can see what we are sending
+        console.log("Saving deck with labels:", { cleanQuestionLabels, cleanAnswerLabels });
+
         const { data: deckData, error: deckError } = await supabase.from("decks").insert({
             author_id: user.id,
             title: name,
             description: description || null,
             color: color || null,
-            question_labels: question_labels,
-            answer_labels: answer_labels
+            question_labels: cleanQuestionLabels,
+            answer_labels: cleanAnswerLabels
         }).select("id").single();
 
-        if (deckError) throw deckError;
+        if (deckError) {
+            console.error("Deck Insert Error:", deckError);
+            throw new Error(`Error en DB: ${deckError.message} / Details: ${deckError.details || 'none'} / Hint: ${deckError.hint || 'none'}`);
+        }
         deckId = deckData.id;
 
         // Prepare cards and slots

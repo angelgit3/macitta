@@ -10,15 +10,17 @@ export function exportDeckJson(state: DeckBuilderState): string {
       question_labels: metadata.question_labels,
       answer_labels: metadata.answer_labels,
     },
-    cards: cards.map((card) => ({
-      front_text: card.front_text,
-      front_media: card.front_media,
-      answers: card.answers.map((answer) => ({
-        field: answer.field,
-        text: answer.text,
-        media: answer.media,
+    cards: cards
+      .filter((card) => card.front_text.trim() !== "") // Ignorar cartas completamente vacías
+      .map((card) => ({
+        front_text: card.front_text,
+        front_media: card.front_media,
+        answers: card.answers.map((answer) => ({
+          field: answer.field,
+          text: answer.text,
+          media: answer.media,
+        })),
       })),
-    })),
   };
 
   return JSON.stringify(exportedDeck);

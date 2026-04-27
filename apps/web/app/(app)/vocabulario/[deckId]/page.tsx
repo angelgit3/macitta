@@ -43,12 +43,16 @@ export default async function DeckDetailsPage({ params }: { params: Promise<{ de
         .select(`
             id,
             front_text,
+            front_media,
             created_at,
             card_slots (
                 id,
                 label,
                 accepted_answers,
-                order_index
+                match_type,
+                order_index,
+                advanced_rules,
+                media
             )
         `)
         .eq('deck_id', deckId)

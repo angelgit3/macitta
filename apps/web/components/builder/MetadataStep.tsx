@@ -96,7 +96,7 @@ export function MetadataStep() {
           className="w-full px-4 py-3 bg-void/50 border border-border-subtle text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-2xl transition-all"
         />
         <p className="text-xs text-text-dim ml-1 mt-1">
-          ¿Qué campos deberá responder el alumno? El sistema creará una caja de respuesta por cada campo que escribas aquí. (Ej. "Significado", "Sinónimos", "Pasado Simple"). Sepáralos por comas.
+          ¿Qué campos se deberán responder? El sistema creará una caja de texto por cada campo que escribas aquí. (Ej. "Significado", "Sinónimos", "Pasado Simple"). Sepáralos por comas.
         </p>
       </div>
 
