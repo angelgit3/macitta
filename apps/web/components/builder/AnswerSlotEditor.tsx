@@ -104,29 +104,40 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot }: Props) {
     <div className="bg-stone-surface/30 backdrop-blur-sm rounded-3xl border border-border-subtle p-8 space-y-6 shadow-xl relative overflow-hidden transition-all duration-300 hover:border-text-dim/30">
       <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
       
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 pb-5 border-b border-border-subtle/50">
-        <div className="flex items-center gap-3">
-          <div className="bg-void/80 px-4 py-2 rounded-xl border border-border-subtle shadow-inner text-sm font-black text-white tracking-widest uppercase">
-            {label}
-          </div>
+      <div className="flex flex-col gap-4 pb-5 border-b border-border-subtle/50">
+        <div className="bg-void/80 self-start px-4 py-2 rounded-xl border border-border-subtle shadow-inner text-sm font-black text-white tracking-widest uppercase">
+          {label}
         </div>
-        <div className="flex flex-col gap-1.5 w-full sm:w-auto">
-          <label className="text-[10px] uppercase font-bold text-text-dim/80 ml-1">Regla de Evaluación</label>
-          <select
-            value={ruleType}
-            onChange={(e) => {
-              const rt = e.target.value as RuleType;
-              setRuleType(rt);
-              handleChange(rt, items, forbidItems, kValue, media);
-            }}
-            className="w-full sm:w-64 border border-border-subtle rounded-xl px-4 py-3 text-sm bg-void/50 text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all appearance-none cursor-pointer pr-10 font-bold shadow-inner"
-            style={{ backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1em' }}
-          >
-            <option value="exact" className="bg-stone-surface text-white">Coincidencia Exacta (1 palabra)</option>
-            <option value="anyOf" className="bg-stone-surface text-white">Cualquiera (Sinónimos/Opciones)</option>
-            <option value="allOf" className="bg-stone-surface text-white">Todas las Opciones (Requeridas)</option>
-            <option value="kOf" className="bg-stone-surface text-white">Al menos N Opciones correctas</option>
-          </select>
+        <div className="flex flex-col gap-2 w-full bg-void/40 p-4 rounded-2xl border border-border-subtle/50">
+          <label className="text-[11px] uppercase font-bold text-accent-focus flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            Modo de Evaluación
+          </label>
+          <div className="relative">
+            <select
+              value={ruleType}
+              onChange={(e) => {
+                const rt = e.target.value as RuleType;
+                setRuleType(rt);
+                handleChange(rt, items, forbidItems, kValue, media);
+              }}
+              className="w-full border border-border-subtle rounded-xl pl-4 pr-10 py-3.5 text-sm bg-stone-surface text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all appearance-none cursor-pointer font-bold shadow-lg truncate"
+            >
+              <option value="exact" className="bg-stone-surface text-white font-medium">Exacta (Escribir tal cual)</option>
+              <option value="anyOf" className="bg-stone-surface text-white font-medium">Sinónimos (Acepta cualquiera)</option>
+              <option value="allOf" className="bg-stone-surface text-white font-medium">Lista Múltiple (Todas requeridas)</option>
+              <option value="kOf" className="bg-stone-surface text-white font-medium">Parcial (Al menos N correctas)</option>
+            </select>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-dim">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+            </div>
+          </div>
+          <p className="text-xs text-text-dim/90 mt-1 leading-relaxed">
+            {ruleType === 'exact' && 'El alumno debe escribir la respuesta exactamente como está abajo.'}
+            {ruleType === 'anyOf' && 'Útil para palabras con múltiples traducciones válidas o sinónimos.'}
+            {ruleType === 'allOf' && 'El alumno debe proporcionar todas las palabras de la lista para tenerla correcta.'}
+            {ruleType === 'kOf' && 'El alumno debe acertar un número mínimo de palabras de una lista más grande.'}
+          </p>
         </div>
       </div>
 
