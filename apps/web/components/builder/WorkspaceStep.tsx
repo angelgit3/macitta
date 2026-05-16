@@ -8,6 +8,7 @@ import { CardSidebar } from "./CardSidebar";
 import { CardEditor } from "./CardEditor";
 import { exportDeckJson } from "../../contexts/deckBuilderUtils";
 import { importDeckFromJson } from "../../app/actions/decks-import";
+import { ZenButton } from "@/components/ui/ZenButton";
 
 export function WorkspaceStep() {
   const { state, dispatch } = useDeckBuilder();
@@ -58,14 +59,14 @@ export function WorkspaceStep() {
         
         <div className="flex items-center gap-4">
           {error && <span className="text-red-400 text-sm font-medium bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-400/20">{error}</span>}
-          <button
+          <ZenButton
             onClick={handleSave}
             disabled={isSaving || state.cards.length === 0}
-            className="flex items-center gap-2 px-6 py-2.5 bg-accent-focus text-white rounded-xl font-bold hover:bg-accent-focus/90 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
+            className="px-6 py-2.5 gap-2"
           >
             {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
             {isSaving ? "Guardando..." : "Guardar Mazo"}
-          </button>
+          </ZenButton>
         </div>
       </div>
 

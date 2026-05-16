@@ -5,6 +5,7 @@ import { useDeckBuilder } from "../../contexts/DeckBuilderContext";
 import { BuilderAnswerSlot, BuilderAdvancedRules } from "../../types/builder";
 import { buildAnswerSlot, RuleType } from "../../contexts/deckBuilderUtils";
 import { X, Plus, AlertCircle, Settings2, ChevronDown, ChevronUp } from "lucide-react";
+import { ZenInput } from "@/components/ui/ZenInput";
 
 type Props = {
   cardIndex?: number;
@@ -129,26 +130,26 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
         <div className="space-y-2">
           {items.map((item, idx) => (
             <div key={idx} className="flex space-x-2 group relative">
-              <input
-                type="text"
-                value={item}
-                onChange={(e) => handleItemsChange(idx, e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && ruleType !== "exact") {
-                    e.preventDefault();
-                    const next = [...items, ""];
-                    setItems(next);
-                    handleChange(ruleType, next, forbidItems, kValue, media);
+                <ZenInput
+                  value={item}
+                  onChange={(e) => handleItemsChange(idx, e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && ruleType !== "exact") {
+                      e.preventDefault();
+                      const next = [...items, ""];
+                      setItems(next);
+                      handleChange(ruleType, next, forbidItems, kValue, media);
+                    }
+                  }}
+                  className="flex-1"
+                  inputClassName="py-2.5 focus:border-emerald-500 focus:ring-emerald-500"
+                  placeholder={
+                    ruleType === "exact" ? "Respuesta correcta (Ej: Apple)" :
+                    ruleType === "anyOf" ? "Opción válida y presionar Enter..." :
+                    ruleType === "allOf" ? "Respuesta requerida y presionar Enter..." :
+                    "Opción válida y presionar Enter..."
                   }
-                }}
-                className="flex-1 px-4 py-2.5 bg-void/50 border border-border-subtle rounded-xl text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner text-sm font-medium"
-                placeholder={
-                  ruleType === "exact" ? "Respuesta correcta (Ej: Apple)" :
-                  ruleType === "anyOf" ? "Opción válida y presionar Enter..." :
-                  ruleType === "allOf" ? "Respuesta requerida y presionar Enter..." :
-                  "Opción válida y presionar Enter..."
-                }
-              />
+                />
               {ruleType !== "exact" && (
                 <button
                   type="button"
@@ -231,7 +232,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
           {ruleType === "kOf" && (
             <div className="flex items-center justify-between text-sm bg-accent-focus/10 p-3 rounded-xl border border-accent-focus/20">
               <label className="text-white font-bold text-xs">Aciertos mínimos necesarios:</label>
-              <input
+              <ZenInput
                 type="number"
                 min={1}
                 max={items.length || 1}
@@ -241,7 +242,8 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                   setKValue(k);
                   handleChange(ruleType, items, forbidItems, k, media);
                 }}
-                className="w-16 px-2 py-1.5 bg-void border border-border-subtle rounded-lg text-white text-center text-sm font-mono focus:border-accent-focus focus:outline-none"
+                className="w-24"
+                inputClassName="py-1.5 text-center font-mono"
               />
             </div>
           )}
@@ -254,8 +256,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
             <div className="space-y-2">
               {forbidItems.map((item, idx) => (
                 <div key={`forbid-${idx}`} className="flex space-x-2 group relative">
-                  <input
-                    type="text"
+                  <ZenInput
                     value={item}
                     onChange={(e) => handleForbidItemsChange(idx, e.target.value)}
                     onKeyDown={(e) => {
@@ -266,7 +267,8 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                         handleChange(ruleType, items, next, kValue, media);
                       }
                     }}
-                    className="flex-1 px-3 py-2 bg-red-950/10 border border-red-500/30 rounded-xl text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-red-400/30"
+                    className="flex-1"
+                    inputClassName="py-2 bg-red-950/10 border-red-500/30 focus:border-red-500 focus:ring-red-500 placeholder:text-red-400/30"
                     placeholder="Palabra que invalida..."
                   />
                   <button
@@ -297,16 +299,15 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
           </div>
 
           {/* Media */}
-          <div className="space-y-2">
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Multimedia de Respuesta</label>
-            <input
-              type="text"
+          <div className="pt-2">
+            <ZenInput
+              label="Multimedia de Respuesta"
               value={media}
               onChange={(e) => {
                 setMedia(e.target.value);
                 handleChange(ruleType, items, forbidItems, kValue, e.target.value);
               }}
-              className="w-full px-3 py-2 bg-void/50 border border-border-subtle rounded-xl text-white text-sm focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all shadow-inner"
+              inputClassName="py-2"
               placeholder="URL de Audio o Imagen (Opcional)"
             />
           </div>

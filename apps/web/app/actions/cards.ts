@@ -26,10 +26,13 @@ export async function createCard(deck_id: string, front_text: string, slots: any
 
             if (typeof s.text === "string") {
                 accepted_answers = [s.text];
+                match_type = 'exact';
             } else if (Array.isArray(s.text)) {
                 accepted_answers = s.text;
+                match_type = 'any';
             } else if (typeof s.text === "object" && s.text !== null) {
                 advanced_rules = s.text;
+                match_type = 'advanced';
             }
 
             return {
@@ -78,10 +81,13 @@ export async function editCard(card_id: string, front_text: string, slots: any[]
 
             if (typeof s.text === "string") {
                 accepted_answers = [s.text];
+                match_type = 'exact';
             } else if (Array.isArray(s.text)) {
                 accepted_answers = s.text;
+                match_type = 'any';
             } else if (typeof s.text === "object" && s.text !== null) {
                 advanced_rules = s.text;
+                match_type = 'advanced';
             }
 
             return {

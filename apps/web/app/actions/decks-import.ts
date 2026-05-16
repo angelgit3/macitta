@@ -82,20 +82,24 @@ export async function importDeckFromJson(jsonString: string) {
                 // Determine if it's simple accepted_answers or advanced_rules
                 let accepted_answers: string[] = [];
                 let advanced_rules: any = null;
+                let match_type = 'any';
 
                 if (typeof answer.text === "string") {
                     accepted_answers = [answer.text];
+                    match_type = 'exact';
                 } else if (Array.isArray(answer.text)) {
                     accepted_answers = answer.text; // Assuming simple array means any of these
+                    match_type = 'any';
                 } else if (typeof answer.text === "object" && answer.text !== null) {
                     advanced_rules = answer.text;
+                    match_type = 'advanced';
                 }
 
                 slotsToInsert.push({
                     card_id: dbCard.id,
                     label: answer.field,
                     accepted_answers,
-                    match_type: 'any', // Default for simple answers
+                    match_type,
                     order_index: j,
                     advanced_rules,
                     media: answer.media || null

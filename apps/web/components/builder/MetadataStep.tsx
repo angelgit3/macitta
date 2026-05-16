@@ -4,6 +4,8 @@ import { useDeckBuilder } from "../../contexts/DeckBuilderContext";
 import { parseLabels, formatLabels } from "./metadataUtils";
 import { useState, FormEvent } from "react";
 import { Save } from "lucide-react";
+import { ZenInput } from "@/components/ui/ZenInput";
+import { ZenButton } from "@/components/ui/ZenButton";
 
 export function MetadataStep() {
   const { state, dispatch } = useDeckBuilder();
@@ -39,23 +41,19 @@ export function MetadataStep() {
         <h2 className="text-2xl font-bold text-white">Configuración del Mazo</h2>
       </div>
       
-      <div className="space-y-2">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1 mb-2">Nombre del Mazo</label>
-        <input 
-          type="text" 
-          required 
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          className="w-full px-4 py-3 bg-void/50 border border-border-subtle text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-2xl transition-all"
-        />
-      </div>
+      <ZenInput
+        label="Nombre del Mazo"
+        required
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+      />
 
       <div className="space-y-2">
         <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1 mb-2">Descripción (Opcional)</label>
         <textarea 
           value={description}
           onChange={e => setDescription(e.target.value)}
-          className="w-full px-4 py-3 bg-void/50 border border-border-subtle h-28 text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-2xl transition-all resize-none"
+          className="w-full px-4 py-3 bg-void/50 border border-border-subtle h-28 text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-xl transition-all resize-none shadow-inner"
         />
       </div>
 
@@ -72,41 +70,26 @@ export function MetadataStep() {
         </div>
       </div>
 
-      <div className="space-y-2">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1 mb-2">Etiquetas del Frente (Pregunta)</label>
-        <input 
-          type="text" 
-          placeholder="Palabra en Inglés, Imagen..."
-          value={questionLabelsStr}
-          onChange={e => setQuestionLabelsStr(e.target.value)}
-          className="w-full px-4 py-3 bg-void/50 border border-border-subtle text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-2xl transition-all"
-        />
-        <p className="text-xs text-text-dim ml-1 mt-1">
-          ¿Qué información va en el frente de la tarjeta? (Ej. "Palabra en Inglés", "Imagen"). Sepáralas por comas.
-        </p>
-      </div>
+      <ZenInput
+        label="Etiquetas del Frente (Pregunta)"
+        placeholder="Palabra en Inglés, Imagen..."
+        value={questionLabelsStr}
+        onChange={e => setQuestionLabelsStr(e.target.value)}
+        helperText='¿Qué información va en el frente de la tarjeta? (Ej. "Palabra en Inglés", "Imagen"). Sepáralas por comas.'
+      />
 
-      <div className="space-y-2">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1 mb-2">Campos a Evaluar (Respuestas)</label>
-        <input 
-          type="text" 
-          placeholder="Traducción, Sinónimos, Pasado..."
-          value={answerLabelsStr}
-          onChange={e => setAnswerLabelsStr(e.target.value)}
-          className="w-full px-4 py-3 bg-void/50 border border-border-subtle text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-2xl transition-all"
-        />
-        <p className="text-xs text-text-dim ml-1 mt-1">
-          ¿Qué campos se deberán responder? El sistema creará una caja de texto por cada campo que escribas aquí. (Ej. "Significado", "Sinónimos", "Pasado Simple"). Sepáralos por comas.
-        </p>
-      </div>
+      <ZenInput
+        label="Campos a Evaluar (Respuestas)"
+        placeholder="Traducción, Sinónimos, Pasado..."
+        value={answerLabelsStr}
+        onChange={e => setAnswerLabelsStr(e.target.value)}
+        helperText='¿Qué campos se deberán responder? El sistema creará una caja de texto por cada campo que escribas aquí. (Ej. "Significado", "Sinónimos", "Pasado Simple"). Sepáralos por comas.'
+      />
 
-      <button 
-        type="submit" 
-        className="w-full mt-8 bg-accent-focus text-white rounded-2xl py-3.5 font-bold hover:bg-accent-focus/90 transition-colors flex items-center justify-center gap-2"
-      >
+      <ZenButton type="submit" fullWidth className="mt-8 gap-2">
         <Save size={20} />
         Continuar al Creador de Cartas
-      </button>
+      </ZenButton>
     </form>
   );
 }

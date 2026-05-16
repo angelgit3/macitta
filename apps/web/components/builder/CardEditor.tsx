@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDeckBuilder } from "../../contexts/DeckBuilderContext";
 import { AnswerSlotEditor } from "./AnswerSlotEditor";
 import { HelpCircle, CheckCircle2, Image as ImageIcon } from "lucide-react";
+import { ZenInput } from "@/components/ui/ZenInput";
 
 export function CardEditor() {
   const { state, dispatch } = useDeckBuilder();
@@ -30,37 +31,32 @@ export function CardEditor() {
         <div className="bg-stone-surface/30 backdrop-blur-sm rounded-2xl border border-border-subtle p-5 space-y-4 shadow-lg relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-accent-focus"></div>
           
-          <div className="flex items-center gap-2 border-b border-border-subtle/50 pb-3">
+          <div className="flex items-center gap-2 border-b border-border-subtle/50 pb-3 mb-2">
             <HelpCircle size={18} className="text-accent-focus" />
             <h2 className="text-lg font-bold text-white tracking-wide">Pregunta (Frente)</h2>
           </div>
           
-          <div className="space-y-2">
-            <input
-              type="text"
-              value={activeCard.front_text}
-              onChange={(e) => updateCard({ front_text: e.target.value })}
-              className="w-full px-4 py-3 bg-void/50 border border-border-subtle text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-xl transition-all shadow-inner font-medium text-lg placeholder:font-normal"
-              placeholder="Ej: ¿Cómo se dice 'Manzana' en inglés?"
-              autoFocus
-            />
-          </div>
+          <ZenInput
+            value={activeCard.front_text}
+            onChange={(e) => updateCard({ front_text: e.target.value })}
+            placeholder="Ej: ¿Cómo se dice 'Manzana' en inglés?"
+            inputClassName="text-lg"
+            autoFocus
+          />
 
           {!showFrontMedia && !activeCard.front_media ? (
             <button 
               onClick={() => setShowFrontMedia(true)}
-              className="text-xs font-bold text-text-dim hover:text-accent-focus flex items-center gap-1.5 transition-colors uppercase tracking-wider"
+              className="text-xs font-bold text-text-dim hover:text-accent-focus flex items-center gap-1.5 transition-colors uppercase tracking-wider mt-2"
             >
               <ImageIcon size={14} /> Añadir Imagen o Audio
             </button>
           ) : (
-            <div className="space-y-2 pt-2">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Multimedia Frontal</label>
-              <input
-                type="text"
+            <div className="pt-2">
+              <ZenInput
+                label="Multimedia Frontal"
                 value={activeCard.front_media || ""}
                 onChange={(e) => updateCard({ front_media: e.target.value })}
-                className="w-full px-4 py-2.5 bg-void/50 border border-border-subtle text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-xl transition-all shadow-inner text-sm"
                 placeholder="URL de Imagen o Audio (Ej: https://...)"
               />
             </div>
