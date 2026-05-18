@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Edit2, X, HelpCircle, CheckCircle2, Image as ImageIcon, Loader2 } from "lucide-react";
-import { createCard, editCard } from "@/app/actions/cards";
+import { Edit2, X, HelpCircle, CheckCircle2, Image as ImageIcon, Loader2, Trash2 } from "lucide-react";
+import { createCard, editCard, deleteCard } from "@/app/actions/cards";
 import { AnswerSlotEditor } from "@/components/builder/AnswerSlotEditor";
 import { ZenInput } from "@/components/ui/ZenInput";
 import { ZenButton } from "@/components/ui/ZenButton";
@@ -66,11 +66,12 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
     const [frontText, setFrontText] = useState(card?.front_text || "");
     const [frontMedia, setFrontMedia] = useState(card?.front_media || "");
     const [saving, setSaving] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const [showFrontMedia, setShowFrontMedia] = useState(!!card?.front_media);
 
     const labelsToAsk = (deck.answer_labels && deck.answer_labels.length > 0) 
         ? deck.answer_labels 
-        : (card ? card.card_slots.map(s => s.label) : ["Respuesta"]);
+        : (card && card.card_slots && card.card_slots.length > 0 ? card.card_slots.map(s => s.label) : ["Respuesta"]);
 
     const [slots, setSlots] = useState<any[]>(() => {
         return labelsToAsk.map(label => {
@@ -83,6 +84,21 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
         const next = [...slots];
         next[index] = updatedSlot;
         setSlots(next);
+    };
+
+    const handleDelete = async () => {
+        if (!card) return;
+        if (!window.confirm("¿Seguro que deseas eliminar esta tarjeta? Esta acción no se puede deshacer.")) return;
+        
+        setDeleting(true);
+        try {
+            await deleteCard(card.id);
+            onSuccess();
+        } catch (e: any) {
+            alert(e.message || "Error al eliminar tarjeta");
+        } finally {
+            setDeleting(false);
+        }
     };
 
     const handleSave = async (e: React.FormEvent) => {
@@ -173,10 +189,23 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                         </div>
                     </div>
 
-                    <div className="pt-4 flex justify-end sticky bottom-0 z-10 bg-void/80 backdrop-blur-md pb-2">
+                    <div className="pt-4 flex justify-between sticky bottom-0 z-10 bg-void/80 backdrop-blur-md pb-2">
+                        {card ? (
+                            <button
+                                type="button"
+                                onClick={handleDelete}
+                                disabled={deleting || saving}
+                                className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-xl transition-all disabled:opacity-50"
+                            >
+                                {deleting ? <Loader2 className="animate-spin" size={18} /> : <Trash2 size={18} />}
+                                Eliminar
+                            </button>
+                        ) : (
+                            <div></div>
+                        )}
                         <ZenButton 
                             onClick={handleSave}
-                            disabled={saving || !frontText} 
+                            disabled={saving || deleting || !frontText} 
                             className="px-8 py-3.5"
                         >
                             {saving ? <Loader2 className="animate-spin" size={20} /> : <CheckCircle2 size={20} />}
