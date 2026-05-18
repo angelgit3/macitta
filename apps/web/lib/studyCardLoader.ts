@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/client";
 import { migrateFromFSRS, createEmptySEMState } from "@maccita/shared";
 import { db, type LocalCard, type LocalUserItem } from "@/lib/db";
 import type { CardData, Slot } from "@/types/study";
+import { APP_CONFIG } from "@/config/constants";
 
 // ─── Helpers ─────────────────────────────────────────────────────────
 
@@ -71,7 +72,7 @@ export async function resolveDeckId(
 export async function loadDueCards(
     deckId: string,
     userId: string | null,
-    batchSize = 10,
+    batchSize = APP_CONFIG.STUDY_SESSION.BATCH_SIZE,
 ): Promise<CardData[]> {
     const supabase = createClient();
     let rawCards: any[] = [];
@@ -180,8 +181,8 @@ export async function loadDueCards(
 export async function loadRushCards(
     deckId: string,
     userId: string,
-    batchSize = 10,
-    poolSize = 30,
+    batchSize = APP_CONFIG.STUDY_SESSION.BATCH_SIZE,
+    poolSize = APP_CONFIG.STUDY_SESSION.RUSH_POOL_SIZE,
 ): Promise<CardData[]> {
     const allCards = await db.cards.where("deck_id").equals(deckId).toArray();
     const cardIds = allCards.map(c => c.id);
@@ -194,7 +195,7 @@ export async function loadRushCards(
         const progress = progressMap.get(card.id);
         const weaknessScore = progress
             ? (progress.lapses * 3) + (progress.difficulty * 2) + (1 / Math.max(progress.stability, 0.1))
-            : 5; // New cards get a moderate score
+            : APP_CONFIG.STUDY_SESSION.NEW_CARD_WEAKNESS_SCORE; // New cards get a moderate score
         return { card, progress, weaknessScore };
     });
 

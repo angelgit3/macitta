@@ -12,14 +12,10 @@ import {
     countRemainingDue,
 } from "@/lib/studyCardLoader";
 import { saveReview } from "@/lib/studyReviewService";
+import { APP_CONFIG } from "@/config/constants";
 
 // Re-export types for backward compatibility with consumers
 export type { CardData, SlotFeedback, Slot } from "@/types/study";
-
-// ─── Constants ──────────────────────────────────────────────────────
-
-const BATCH_SIZE = 10;
-const LOAD_TIMEOUT_MS = 8000;
 
 // ─── Hook ───────────────────────────────────────────────────────────
 
@@ -84,7 +80,7 @@ export function useStudySession(providedDeckId?: string) {
                 console.warn("[SREM] Failsafe timeout. Forcing loading false.");
                 setLoading(false);
             }
-        }, LOAD_TIMEOUT_MS);
+        }, APP_CONFIG.STUDY_SESSION.LOAD_TIMEOUT_MS);
 
         async function init() {
             setLoading(true);
@@ -92,18 +88,14 @@ export function useStudySession(providedDeckId?: string) {
                 const { data: authData } = await supabase.auth.getUser();
                 const userId = authData?.user?.id ?? null;
 
-                let dId = providedDeckId;
                 if (!dId) {
-                    // Fallback to resolving the default deck for backward compatibility or when no deck is provided
-                    const resolved = await resolveDeckId("Verbos Irregulares");
-                    if (!resolved) throw new Error("Deck not found");
-                    dId = resolved;
+                    throw new Error("No deck ID provided to study session.");
                 }
 
                 setDeckId(dId);
                 await startSession(dId);
 
-                const cards = await loadDueCards(dId, userId, BATCH_SIZE);
+                const cards = await loadDueCards(dId, userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
                 setQueue(cards);
             } catch (err) {
                 console.error("[SREM] Init error:", err);
@@ -218,7 +210,7 @@ export function useStudySession(providedDeckId?: string) {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user || !deckId) return;
 
-            const cards = await loadRushCards(deckId, user.id, BATCH_SIZE);
+            const cards = await loadRushCards(deckId, user.id, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
             setQueue(cards);
             resetSession();
             await startSession(deckId);
