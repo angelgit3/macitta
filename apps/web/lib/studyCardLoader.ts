@@ -82,7 +82,7 @@ export async function loadDueCards(
             .from("cards")
             .select(`
                 id, front_text,
-                card_slots (id, label, accepted_answers, match_type, order_index),
+                card_slots (id, label, accepted_answers, match_type, order_index, advanced_rules, media),
                 user_items (stability, difficulty, reps, lapses, state, last_review, due_date)
             `)
             .eq("deck_id", deckId);

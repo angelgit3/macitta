@@ -24,7 +24,7 @@ create table public.card_slots (
   card_id uuid references public.cards(id) on delete cascade not null,
   label text not null, -- Ej: "Infinitivo"
   accepted_answers text[] not null, -- Array de respuestas válidas. Ej: ['be', 'to be']
-  match_type text not null default 'any' check (match_type in ('any', 'all')), -- 'any': Basta con una. 'all': Se requieren todas.
+  match_type text not null default 'any' check (match_type in ('any', 'all', 'exact', 'advanced')),
   order_index integer not null default 0 -- Para mostrar en orden (1, 2, 3)
 );
 

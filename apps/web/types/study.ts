@@ -7,8 +7,10 @@ export interface Slot {
     id: string;
     label: string;
     accepted_answers: string[];
-    match_type: 'any' | 'all';
+    match_type: 'any' | 'all' | 'exact' | 'advanced';
     order_index: number;
+    advanced_rules?: any;
+    media?: string | null;
 }
 
 export interface CardData {

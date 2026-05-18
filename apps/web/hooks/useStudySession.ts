@@ -140,9 +140,10 @@ export function useStudySession(providedDeckId?: string) {
         const newFeedback: Record<string, SlotFeedback> = {};
         currentCard.slots.forEach(slot => {
             const input = userAnswers[slot.id] || "";
-            const target = slot.match_type === "all"
-                ? { allOf: slot.accepted_answers }
-                : slot.accepted_answers;
+            let target: any = slot.accepted_answers;
+            if (slot.match_type === "all") target = { allOf: slot.accepted_answers };
+            else if (slot.match_type === "advanced" && slot.advanced_rules) target = slot.advanced_rules;
+            
             const isCorrect = validateAnswer(input, target);
             newFeedback[slot.id] = { status: isCorrect ? "correct" : "incorrect" };
         });
