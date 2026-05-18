@@ -10,37 +10,7 @@ import { deleteCard, createCard, editCard } from "@/app/actions/cards";
 import { AnswerSlotEditor } from "@/components/builder/AnswerSlotEditor";
 
 import { CardFormModal } from "@/components/decks/CardFormModal";
-
-interface Slot {
-    id: string;
-    label: string;
-    accepted_answers: string[];
-    match_type?: string;
-    advanced_rules?: any;
-    media?: string;
-}
-
-interface Card {
-    id: string;
-    front_text: string;
-    front_media?: string | null;
-    created_at: string;
-    card_slots: Slot[];
-}
-
-interface Deck {
-    id: string;
-    title: string;
-    description: string | null;
-    author_id: string;
-    answer_labels?: string[];
-}
-
-interface Classroom {
-    id: string;
-    name: string;
-    join_code: string;
-}
+import type { Deck, Card, Classroom } from "@/types/models";
 
 interface Props {
     deck: Deck;

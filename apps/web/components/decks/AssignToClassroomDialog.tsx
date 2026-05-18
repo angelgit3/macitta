@@ -4,12 +4,7 @@ import { useState } from "react";
 import { Loader2, Users, X, Link as LinkIcon, Unlink } from "lucide-react";
 import { assignDeckToClassroom, unassignDeckFromClassroom } from "@/app/actions/decks";
 import { useRouter } from "next/navigation";
-
-interface Classroom {
-    id: string;
-    name: string;
-    join_code: string;
-}
+import type { Classroom } from "@/types/models";
 
 export function AssignToClassroomDialog({ 
     deckId, 

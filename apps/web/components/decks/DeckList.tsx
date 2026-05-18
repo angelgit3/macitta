@@ -3,23 +3,7 @@ import { useState } from "react";
 import { Search, Library, Users, Plus, LayoutGrid, FileJson, Globe } from "lucide-react";
 import Link from "next/link";
 import { ImportDeckDialog } from "./ImportDeckDialog";
-
-interface Deck {
-    id: string;
-    title: string;
-    description: string | null;
-    author_id: string;
-    created_at: string;
-}
-
-interface AssignedDeck {
-    id: string;
-    deck_id: string;
-    classroom_id: string;
-    assigned_by: string;
-    assigned_at: string;
-    decks: Deck; // Joined deck info
-}
+import type { Deck, AssignedDeck } from "@/types/models";
 
 interface DeckListProps {
     personalDecks: Deck[];

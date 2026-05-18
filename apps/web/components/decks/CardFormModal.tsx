@@ -6,31 +6,7 @@ import { createCard, editCard, deleteCard } from "@/app/actions/cards";
 import { AnswerSlotEditor } from "@/components/builder/AnswerSlotEditor";
 import { ZenInput } from "@/components/ui/ZenInput";
 import { ZenButton } from "@/components/ui/ZenButton";
-
-interface Slot {
-    id: string;
-    label: string;
-    accepted_answers: string[];
-    match_type?: string;
-    advanced_rules?: any;
-    media?: string;
-}
-
-interface Card {
-    id: string;
-    front_text: string;
-    front_media?: string | null;
-    created_at: string;
-    card_slots: Slot[];
-}
-
-interface Deck {
-    id: string;
-    title: string;
-    description: string | null;
-    author_id: string;
-    answer_labels?: string[];
-}
+import type { Deck, Card } from "@/types/models";
 
 interface CardFormModalProps {
     deck: Deck;
