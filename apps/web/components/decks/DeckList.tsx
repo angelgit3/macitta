@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Search, Library, Users, Plus, LayoutGrid, FileJson } from "lucide-react";
+import { Search, Library, Users, Plus, LayoutGrid, FileJson, Globe } from "lucide-react";
 import Link from "next/link";
 import { ImportDeckDialog } from "./ImportDeckDialog";
 
@@ -24,9 +24,10 @@ interface AssignedDeck {
 interface DeckListProps {
     personalDecks: Deck[];
     assignedDecks: AssignedDeck[];
+    globalDecks?: Deck[];
 }
 
-export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
+export function DeckList({ personalDecks, assignedDecks, globalDecks = [] }: DeckListProps) {
     const [search, setSearch] = useState("");
     const [showImport, setShowImport] = useState(false);
 
@@ -35,6 +36,9 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
     );
     const filteredAssigned = assignedDecks.filter(ad => 
         ad.decks.title.toLowerCase().includes(search.toLowerCase())
+    );
+    const filteredGlobal = globalDecks.filter(d => 
+        d.title.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
@@ -76,9 +80,33 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
             </div>
 
             <div className="px-2 space-y-8">
+                {/* Global Decks */}
+                {globalDecks.length > 0 && (
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-3 border-b border-border-subtle pb-3">
+                            <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400">
+                                <Globe size={20} />
+                            </div>
+                            <div>
+                                <h2 className="font-black text-white text-lg">Predeterminados</h2>
+                                <p className="text-xs text-text-dim">Colecciones globales para todos</p>
+                            </div>
+                        </div>
+                        {filteredGlobal.length === 0 ? (
+                            <p className="text-sm text-text-dim/60">No hay coincidencias.</p>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                {filteredGlobal.map(deck => (
+                                    <DeckCard key={deck.id} deck={deck} isGlobal={true} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {/* Assigned Decks */}
                 {assignedDecks.length > 0 && (
-                    <div className="space-y-4">
+                    <div className="space-y-4 mt-4">
                         <div className="flex items-center gap-3 border-b border-border-subtle pb-3">
                             <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400">
                                 <Users size={20} />
@@ -128,7 +156,7 @@ export function DeckList({ personalDecks, assignedDecks }: DeckListProps) {
     );
 }
 
-function DeckCard({ deck, isAssigned = false }: { deck: Deck, isAssigned?: boolean }) {
+function DeckCard({ deck, isAssigned = false, isGlobal = false }: { deck: Deck, isAssigned?: boolean, isGlobal?: boolean }) {
     return (
         <Link 
             href={`/vocabulario/${deck.id}`}
@@ -138,8 +166,8 @@ function DeckCard({ deck, isAssigned = false }: { deck: Deck, isAssigned?: boole
                 <h3 className="font-black text-lg text-white group-hover:text-accent-focus transition-colors line-clamp-2 leading-tight">
                     {deck.title}
                 </h3>
-                <div className={`p-2.5 rounded-xl shrink-0 ${isAssigned ? 'bg-emerald-500/10 text-emerald-400' : 'bg-blue-500/10 text-blue-400'}`}>
-                    {isAssigned ? <Users size={18} /> : <Library size={18} />}
+                <div className={`p-2.5 rounded-xl shrink-0 ${isAssigned ? 'bg-emerald-500/10 text-emerald-400' : isGlobal ? 'bg-purple-500/10 text-purple-400' : 'bg-blue-500/10 text-blue-400'}`}>
+                    {isAssigned ? <Users size={18} /> : isGlobal ? <Globe size={18} /> : <Library size={18} />}
                 </div>
             </div>
             {deck.description && (

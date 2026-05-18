@@ -18,6 +18,13 @@ export default async function DecksDashboardPage() {
         .eq('author_id', user.id)
         .order('created_at', { ascending: false });
 
+    // Fetch global decks (where author_id is null)
+    const { data: globalDecks } = await supabase
+        .from('decks')
+        .select('*')
+        .is('author_id', null)
+        .order('created_at', { ascending: false });
+
     // Fetch assigned decks (via classroom_decks)
     // User can be a student in classrooms. Let's get classrooms they are in.
     const { data: assignedDecksData } = await supabase
@@ -32,7 +39,8 @@ export default async function DecksDashboardPage() {
     return (
         <DeckList 
             personalDecks={personalDecks || []} 
-            assignedDecks={assignedDecksData || []} 
+            assignedDecks={assignedDecksData || []}
+            globalDecks={globalDecks || []}
         />
     );
 }
