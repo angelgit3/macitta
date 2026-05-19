@@ -17,7 +17,7 @@ export function StatsGraph({ data = [] }: StatsGraphProps) {
     return (
         <div className="w-full h-40 flex items-end justify-between gap-2 mt-4">
             {data.map((item, idx) => (
-                <div key={`${item.day}-${idx}`} className="flex flex-col items-center gap-2 flex-1">
+                <div key={`${item.day}-${idx}`} className="h-full flex flex-col items-center justify-end gap-2 flex-1">
                     <div
                         className={`w-full rounded-t-lg transition-all duration-500 ${item.active
                             ? "bg-accent-focus shadow-[0_0_15px_rgba(59,130,246,0.5)]"

@@ -3,7 +3,6 @@
 import { BentoCard } from "@/components/ui/BentoCard";
 import { StatsGraph } from "@/components/ui/StatsGraph";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
-import { JoinClassForm } from "@/components/ui/JoinClassForm";
 import { BookOpen, Target, Cloud, Flame, Clock } from "lucide-react";
 import { useUserStats } from "@/hooks/useUserStats";
 import { useState, useEffect } from "react";
@@ -104,9 +103,6 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
                 </div>
                 <StatsGraph data={graphData} />
             </BentoCard>
-
-            {/* Join a Class */}
-            <JoinClassForm />
         </>
     );
 }
