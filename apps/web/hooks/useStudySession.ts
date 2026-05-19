@@ -87,6 +87,8 @@ export function useStudySession(providedDeckId?: string) {
             try {
                 const { data: authData } = await supabase.auth.getUser();
                 const userId = authData?.user?.id ?? null;
+                
+                const dId = providedDeckId;
 
                 if (!dId) {
                     throw new Error("No deck ID provided to study session.");
