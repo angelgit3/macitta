@@ -33,6 +33,7 @@ export interface Card {
     front_media?: string | null;
     created_at: string;
     card_slots: CardSlot[];
+    user_items?: { due_date: string }[];
 }
 
 export interface AssignedDeck {

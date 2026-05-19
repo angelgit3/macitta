@@ -53,6 +53,9 @@ export default async function DeckDetailsPage({ params }: { params: Promise<{ de
                 order_index,
                 advanced_rules,
                 media
+            ),
+            user_items (
+                due_date
             )
         `)
         .eq('deck_id', deckId)
