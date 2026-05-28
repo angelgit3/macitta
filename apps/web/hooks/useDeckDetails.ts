@@ -7,7 +7,6 @@ export function useDeckDetails() {
     const router = useRouter();
     
     // Modal states
-    const [showAssign, setShowAssign] = useState(false);
     const [showDeleteDeck, setShowDeleteDeck] = useState(false);
     const [showAddCard, setShowAddCard] = useState(false);
     
@@ -31,14 +30,12 @@ export function useDeckDetails() {
 
     return {
         state: {
-            showAssign,
             showDeleteDeck,
             showAddCard,
             editingCard,
             deletingCardId,
         },
         actions: {
-            setShowAssign,
             setShowDeleteDeck,
             setShowAddCard,
             setEditingCard,

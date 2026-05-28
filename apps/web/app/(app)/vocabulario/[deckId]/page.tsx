@@ -28,15 +28,6 @@ export default async function DeckDetailsPage({ params }: { params: Promise<{ de
     // Is the user the owner?
     const isOwner = deck.author_id === user.id;
 
-    // Is the user a teacher?
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-    
-    const isTeacher = profile?.role === 'teacher';
-
     // Fetch cards for this deck
     const { data: cards } = await supabase
         .from('cards')
@@ -61,36 +52,11 @@ export default async function DeckDetailsPage({ params }: { params: Promise<{ de
         .eq('deck_id', deckId)
         .order('created_at', { ascending: false });
 
-    // Fetch classrooms the user teaches, if teacher and owner
-    let classrooms: any[] = [];
-    let assignedClassroomIds: string[] = [];
-    if (isOwner && isTeacher) {
-        const { data: clsData } = await supabase
-            .from('classrooms')
-            .select('id, name, join_code')
-            .eq('teacher_id', user.id);
-        
-        if (clsData) classrooms = clsData;
-
-        // Fetch assigned classrooms for this deck
-        const { data: assignments } = await supabase
-            .from('classroom_decks')
-            .select('classroom_id')
-            .eq('deck_id', deckId);
-        
-        if (assignments) {
-            assignedClassroomIds = assignments.map(a => a.classroom_id);
-        }
-    }
-
     return (
         <DeckDetailsClient 
             deck={deck} 
             cards={cards || []} 
             isOwner={isOwner}
-            isTeacher={isTeacher}
-            classrooms={classrooms}
-            assignedClassroomIds={assignedClassroomIds}
         />
     );
 }

@@ -25,21 +25,9 @@ export default async function DecksDashboardPage() {
         .is('author_id', null)
         .order('created_at', { ascending: false });
 
-    // Fetch assigned decks (via classroom_decks)
-    // User can be a student in classrooms. Let's get classrooms they are in.
-    const { data: assignedDecksData } = await supabase
-        .from('classroom_decks')
-        .select(`
-            *,
-            decks (*)
-        `)
-        // RLS for classroom_decks ensures the user only sees assignments for classrooms they are a member of or own
-        .order('assigned_at', { ascending: false });
-
     return (
         <DeckList 
             personalDecks={personalDecks || []} 
-            assignedDecks={assignedDecksData || []}
             globalDecks={globalDecks || []}
         />
     );

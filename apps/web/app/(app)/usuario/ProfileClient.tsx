@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
-    GraduationCap, BookOpen, Code2, User, Flame, Clock, Target, Trophy,
+    Code2, User, Flame, Clock, Target, Trophy,
     Instagram, Twitter, Github
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -24,14 +24,14 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
     // Profile state
-    const [profile, setProfile] = useState<{ username: string; role: string; created_at: string } | null>(null);
+    const [profile, setProfile] = useState<{ username: string; created_at: string } | null>(null);
 
 
     useEffect(() => {
         if (!initialUser?.id) return;
         supabase
             .from('profiles')
-            .select('username, role, created_at')
+            .select('username, created_at')
             .eq('id', initialUser.id)
             .single()
             .then(({ data }) => {
@@ -41,12 +41,6 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                 }
             });
     }, [initialUser?.id, supabase]);
-
-    const roleDisplay = profile?.role === 'teacher'
-        ? { label: 'Docente', icon: BookOpen, className: 'text-emerald-400 bg-emerald-400/10' }
-        : profile?.role === 'admin'
-            ? { label: 'Admin', icon: Code2, className: 'text-purple-400 bg-purple-400/10' }
-            : { label: 'Estudiante', icon: GraduationCap, className: 'text-blue-400 bg-blue-400/10' };
 
     const avatarLetter = profile?.username?.[0]?.toUpperCase() || initialUser?.email?.[0]?.toUpperCase() || '?';
 
@@ -124,10 +118,6 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                     <div className="min-w-0">
                         <h2 className="text-lg font-bold text-white truncate">{profile?.username || initialUser?.email}</h2>
                         <p className="text-xs text-text-dim truncate">{initialUser?.email}</p>
-                        <span className={`inline-flex items-center gap-1 mt-1.5 text-xs font-bold px-2 py-0.5 rounded-full ${roleDisplay.className}`}>
-                            <roleDisplay.icon size={11} />
-                            {roleDisplay.label}
-                        </span>
                     </div>
                 </div>
 

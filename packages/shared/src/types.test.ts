@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Deck, ClassroomDeck, CardRow, CardSlot } from './types';
+import type { Deck, CardRow, CardSlot } from './types';
 
 describe('Database Types', () => {
     it('Deck should support author_id (global or specific user)', () => {
@@ -30,17 +30,6 @@ describe('Database Types', () => {
         expect(privateDeck.color).toBe('#FF0000');
     });
 
-    it('ClassroomDeck should map a classroom to a deck', () => {
-        const assignment: ClassroomDeck = {
-            classroom_id: 'class-1',
-            deck_id: 'deck-1',
-            assigned_at: new Date().toISOString(),
-        };
-
-        expect(assignment.classroom_id).toBe('class-1');
-        expect(assignment.deck_id).toBe('deck-1');
-    });
-
     it('CardRow should support front_text and front_media', () => {
         const card: CardRow = {
             id: 'card-1',
@@ -64,7 +53,7 @@ describe('Database Types', () => {
             advanced_rules: { anyOf: ['Hola', 'Qué tal'] },
             media: { audio: 'hola.mp3' },
         };
-        expect(slot.advanced_rules.anyOf).toContain('Hola');
+        expect((slot.advanced_rules as { anyOf: string[] }).anyOf).toContain('Hola');
         expect(slot.media?.audio).toBe('hola.mp3');
     });
 });

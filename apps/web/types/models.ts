@@ -21,7 +21,7 @@ export interface CardSlot {
     label: string;
     accepted_answers: string[];
     match_type?: 'any' | 'all' | 'exact' | 'advanced' | string;
-    advanced_rules?: any;
+    advanced_rules?: unknown;
     media?: string | null;
     order_index?: number;
 }
@@ -36,26 +36,8 @@ export interface Card {
     user_items?: { due_date: string }[];
 }
 
-export interface AssignedDeck {
-    id: string;
-    deck_id: string;
-    classroom_id: string;
-    assigned_by: string;
-    assigned_at: string;
-    decks: Deck; // When joined
-}
-
-export interface Classroom {
-    id: string;
-    name: string;
-    join_code: string;
-    teacher_id?: string;
-    created_at?: string;
-}
-
 export interface Profile {
     id: string;
-    role: 'teacher' | 'student' | string;
     email?: string;
     full_name?: string;
     created_at?: string;

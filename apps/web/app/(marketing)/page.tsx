@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import {
-    ArrowRight, Brain, Users, Trophy, BookOpen, Flame,
-    BarChart2, Smartphone, GraduationCap
+    ArrowRight, Brain, Trophy, BookOpen, Flame,
+    BarChart2, Smartphone, Library, FileJson
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -141,7 +141,7 @@ export default function LandingPage() {
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-black mb-3">Todo lo que necesitas</h2>
-                        <p className="text-text-dim">Diseñado para estudiantes y maestros.</p>
+                        <p className="text-text-dim">Disenado para estudiar a tu ritmo.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -159,16 +159,16 @@ export default function LandingPage() {
                                 desc: "Racha, tiempo de estudio, maestría y gráfica de actividad en tiempo real."
                             },
                             {
-                                icon: GraduationCap,
+                                icon: Library,
                                 color: "text-purple-400",
-                                title: "Portal Docente",
-                                desc: "Los maestros ven el progreso de cada alumno, crean grupos y analizan datos."
+                                title: "Mazos personales",
+                                desc: "Crea colecciones propias para estudiar exactamente el vocabulario que necesitas."
                             },
                             {
-                                icon: Users,
+                                icon: FileJson,
                                 color: "text-emerald-400",
-                                title: "Grupos y Ranking",
-                                desc: "Compite con tus compañeros. Ve tu posición en el leaderboard de cada clase."
+                                title: "Importacion flexible",
+                                desc: "Carga mazos desde JSON y adapta Macitta a tus materiales de estudio."
                             },
                             {
                                 icon: Smartphone,

@@ -1,29 +1,22 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ArrowLeft, MoreVertical, Plus, Edit2, Trash2, Users, Loader2, X, HelpCircle, CheckCircle2, Image as ImageIcon, Search, ArrowUpDown, Calendar } from "lucide-react";
+import { ArrowLeft, Plus, Edit2, Trash2, Loader2, Search, ArrowUpDown, Calendar } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { AssignToClassroomDialog } from "@/components/decks/AssignToClassroomDialog";
 import { DeleteDeckModal } from "@/components/decks/DeleteDeckModal";
-import { deleteCard, createCard, editCard } from "@/app/actions/cards";
-import { AnswerSlotEditor } from "@/components/builder/AnswerSlotEditor";
 
 import { CardFormModal } from "@/components/decks/CardFormModal";
-import type { Deck, Card, Classroom } from "@/types/models";
+import type { Deck, Card } from "@/types/models";
 
 interface Props {
     deck: Deck;
     cards: Card[];
     isOwner: boolean;
-    isTeacher: boolean;
-    classrooms: Classroom[];
-    assignedClassroomIds: string[];
 }
 
 import { useDeckDetails } from "@/hooks/useDeckDetails";
 
-export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms, assignedClassroomIds }: Props) {
+export function DeckDetailsClient({ deck, cards, isOwner }: Props) {
     const { state, actions, router } = useDeckDetails();
     
     const [searchQuery, setSearchQuery] = useState("");
@@ -67,24 +60,11 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                             <span className="text-xs font-bold text-text-dim bg-void/50 px-2 py-1 rounded-lg border border-border-subtle">
                                 {cards.length} Tarjetas
                             </span>
-                            {isOwner && isTeacher && assignedClassroomIds.length > 0 && (
-                                <span className="text-xs font-bold text-accent-focus bg-accent-focus/10 px-2 py-1 rounded-lg flex items-center gap-1">
-                                    <Users size={12} /> Asignado a {assignedClassroomIds.length} clases
-                                </span>
-                            )}
                         </div>
                     </div>
 
                     {isOwner && (
                         <div className="flex items-center gap-2">
-                            {isTeacher && (
-                                <button 
-                                    onClick={() => actions.setShowAssign(true)}
-                                    className="p-2 rounded-xl bg-stone-surface border border-border-subtle text-text-dim hover:text-white transition-colors"
-                                >
-                                    <Users size={18} />
-                                </button>
-                            )}
                             <button 
                                 onClick={() => actions.setShowDeleteDeck(true)}
                                 className="p-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500/20 transition-colors"
@@ -212,15 +192,6 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
             </div>
 
             {/* Modals */}
-            {state.showAssign && (
-                <AssignToClassroomDialog 
-                    deckId={deck.id}
-                    classrooms={classrooms}
-                    assignedClassroomIds={assignedClassroomIds}
-                    onClose={() => actions.setShowAssign(false)}
-                />
-            )}
-
             {state.showDeleteDeck && (
                 <DeleteDeckModal 
                     deckId={deck.id}
