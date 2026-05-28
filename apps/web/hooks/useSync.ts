@@ -100,6 +100,28 @@ export function useSync() {
                     return true;
                 }
 
+                case 'insert_toefl_attempt': {
+                    const { error } = await supabase
+                        .from('user_exam_attempts')
+                        .upsert(op.data, { onConflict: 'id' });
+                    if (error) {
+                        logger.error("[Sync] insert_toefl_attempt error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'insert_toefl_answers': {
+                    const { error } = await supabase
+                        .from('user_question_answers')
+                        .upsert(op.data, { onConflict: 'attempt_id,question_id' });
+                    if (error) {
+                        logger.error("[Sync] insert_toefl_answers error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
                 default: {
                     logger.warn("[Sync] Unknown operation type:", (op as any).type);
                     return false;

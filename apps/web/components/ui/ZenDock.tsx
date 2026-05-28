@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Layers, User, CloudOff, Loader2 } from "lucide-react";
+import { GraduationCap, Home, Layers, User, CloudOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSync } from "@/hooks/useSync";
@@ -8,6 +8,7 @@ import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 
 const navItems = [
     { icon: Home, label: "Home", href: "/dashboard" },
+    { icon: GraduationCap, label: "TOEFL", href: "/toefl" },
     { icon: Layers, label: "Inventario", href: "/vocabulario" },
     { icon: User, label: "Usuario", href: "/usuario" },
 ];
@@ -23,7 +24,7 @@ export function ZenDock() {
     };
 
     return (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[360px] px-6">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[420px] px-6">
             <nav className="bg-stone-surface/90 backdrop-blur-xl border border-white/10 rounded-2xl h-16 flex items-center justify-between px-8 shadow-2xl shadow-black/50 relative">
                 {(isSyncing || !isOnline) && (
                     <div className="absolute -top-3 right-4 flex items-center gap-1.5 px-2 py-1 bg-void border border-border-subtle rounded-full text-[10px] uppercase font-bold tracking-widest text-text-dim shadow-sm">

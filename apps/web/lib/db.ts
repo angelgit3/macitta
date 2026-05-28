@@ -1,5 +1,11 @@
 import Dexie, { type Table } from 'dexie';
-import type { Slot } from '@/types/study';
+import type {
+    SremInboxItem,
+    TOEFLAttempt,
+    TOEFLExam,
+    TOEFLQuestion,
+    TOEFLQuestionAnswer,
+} from '@/types/models';
 
 // ─── Interfaces ─────────────────────────────────────────────────────
 
@@ -33,6 +39,12 @@ export interface LocalStudyLog {
     accuracy: number;
     review_date: string;
 }
+
+export type LocalTOEFLExam = TOEFLExam;
+export type LocalTOEFLQuestion = TOEFLQuestion;
+export type LocalTOEFLAttempt = TOEFLAttempt;
+export type LocalTOEFLQuestionAnswer = TOEFLQuestionAnswer;
+export type LocalSremInboxItem = SremInboxItem;
 
 // ─── Sync Operations (Discriminated Union) ──────────────────────────
 
@@ -88,11 +100,29 @@ interface IncrementSessionTimeOp {
     retryCount?: number;
 }
 
+interface InsertTOEFLAttemptOp {
+    id?: number;
+    type: 'insert_toefl_attempt';
+    data: LocalTOEFLAttempt;
+    created_at: string;
+    retryCount?: number;
+}
+
+interface InsertTOEFLAnswersOp {
+    id?: number;
+    type: 'insert_toefl_answers';
+    data: LocalTOEFLQuestionAnswer[];
+    created_at: string;
+    retryCount?: number;
+}
+
 export type SyncOperation =
     | UpsertUserItemOp
     | InsertStudyLogOp
     | SessionOp
-    | IncrementSessionTimeOp;
+    | IncrementSessionTimeOp
+    | InsertTOEFLAttemptOp
+    | InsertTOEFLAnswersOp;
 
 // ─── Database ───────────────────────────────────────────────────────
 
@@ -101,6 +131,11 @@ export class MaccitaDB extends Dexie {
     userItems!: Table<LocalUserItem>;
     studyLogs!: Table<LocalStudyLog>;
     syncQueue!: Table<SyncOperation>;
+    toeflExams!: Table<LocalTOEFLExam>;
+    toeflQuestions!: Table<LocalTOEFLQuestion>;
+    toeflAttempts!: Table<LocalTOEFLAttempt>;
+    toeflAnswers!: Table<LocalTOEFLQuestionAnswer>;
+    sremInbox!: Table<LocalSremInboxItem>;
 
     constructor() {
         super('MaccitaOfflineV1');
@@ -109,6 +144,18 @@ export class MaccitaDB extends Dexie {
             userItems: '[user_id+card_id], card_id, due_date',
             studyLogs: '++id, user_id, card_id, session_id',
             syncQueue: '++id, type, created_at'
+        });
+
+        this.version(2).stores({
+            cards: 'id, deck_id',
+            userItems: '[user_id+card_id], card_id, due_date',
+            studyLogs: '++id, user_id, card_id, session_id',
+            syncQueue: '++id, type, created_at',
+            toeflExams: 'id, section, type',
+            toeflQuestions: 'id, exam_id, [exam_id+order_index]',
+            toeflAttempts: 'id, user_id, exam_id, completed_at',
+            toeflAnswers: '[attempt_id+question_id], attempt_id, question_id',
+            sremInbox: 'id, user_id, created_at'
         });
     }
 }

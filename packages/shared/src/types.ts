@@ -74,3 +74,63 @@ export interface StudySession {
     total_time_ms: number;
     created_at: string;
 }
+
+// ─── TOEFL Practice ─────────────────────────────────────────────
+
+export type TOEFLSection = 'reading' | 'listening' | 'grammar';
+export type TOEFLMode = 'strict' | 'flexible';
+
+export interface TOEFLAnswerOption {
+    id: string;
+    text: string;
+}
+
+export interface TOEFLExam {
+    id: string;
+    title: string;
+    section: TOEFLSection;
+    type: string;
+    passage_text: string | null;
+    audio_path: string | null;
+    transcript: string | null;
+    scale_mapping: Record<string, number>;
+    created_at: string;
+}
+
+export interface TOEFLQuestion {
+    id: string;
+    exam_id: string;
+    question_text: string;
+    options: TOEFLAnswerOption[];
+    correct_option_id: string;
+    order_index: number;
+    points_weight: number;
+    explanation: string;
+    created_at: string;
+}
+
+export interface TOEFLAttempt {
+    id: string;
+    user_id: string;
+    exam_id: string;
+    raw_score: number;
+    scaled_score: number;
+    time_taken: number;
+    mode: TOEFLMode;
+    completed_at: string;
+}
+
+export interface TOEFLQuestionAnswer {
+    attempt_id: string;
+    question_id: string;
+    user_choice: string | null;
+    is_correct: boolean;
+}
+
+export interface SremInboxItem {
+    id: string;
+    user_id: string;
+    word: string;
+    context: string;
+    created_at: string;
+}
