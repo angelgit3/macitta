@@ -5,12 +5,12 @@ import { StatsGraph } from "@/components/ui/StatsGraph";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
 import { BookOpen, Target, Cloud, Flame, Clock } from "lucide-react";
 import { useUserStats } from "@/hooks/useUserStats";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 export function DashboardClient({ initialCount }: { initialCount: number }) {
     const { stats, loading } = useUserStats();
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const [userId, setUserId] = useState<string | null>(null);
     const [showOnboarding, setShowOnboarding] = useState(false);
 
@@ -32,7 +32,7 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
             }
         }
         checkOnboarding();
-    }, []);
+    }, [supabase]);
 
     const todayLocal = new Date();
     const todayStr = `${todayLocal.getFullYear()}-${String(todayLocal.getMonth() + 1).padStart(2, '0')}-${String(todayLocal.getDate()).padStart(2, '0')}`;

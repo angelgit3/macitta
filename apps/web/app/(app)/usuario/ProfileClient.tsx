@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { ZenButton } from '@/components/ui/ZenButton';
 import {
@@ -13,7 +13,7 @@ import { useUserStats } from '@/hooks/useUserStats';
 
 
 export function ProfileClient({ initialUser }: { initialUser: any }) {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const router = useRouter();
     const { stats, loading: statsLoading } = useUserStats();
 
@@ -40,7 +40,7 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                     setUsername(data.username ?? '');
                 }
             });
-    }, [initialUser?.id]);
+    }, [initialUser?.id, supabase]);
 
     const roleDisplay = profile?.role === 'teacher'
         ? { label: 'Docente', icon: BookOpen, className: 'text-emerald-400 bg-emerald-400/10' }

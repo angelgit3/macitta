@@ -37,7 +37,7 @@ export interface CardSlot {
     accepted_answers: string[];
     match_type: 'any' | 'all';
     order_index: number;
-    advanced_rules: any | null; // ComplexAnswer JSON equivalent
+    advanced_rules: unknown | null; // ComplexAnswer JSON equivalent
     media: { image?: string; audio?: string } | null;
 }
 

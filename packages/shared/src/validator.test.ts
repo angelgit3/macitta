@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { validateAnswer, normalize } from "./validator";
+import { validateAnswer, normalize, type ComplexAnswer } from "./validator";
 
 describe("normalize", () => {
     it("trims whitespace and lowercases", () => {
@@ -87,6 +87,6 @@ describe("validateAnswer — edge cases", () => {
         expect(validateAnswer("   ", "algo")).toBe(false);
     });
     it("rejects null/unknown target shape", () => {
-        expect(validateAnswer("x", {} as any)).toBe(false);
+        expect(validateAnswer("x", {} as unknown as ComplexAnswer)).toBe(false);
     });
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { JoinClassForm } from "@/components/ui/JoinClassForm";
 import {
@@ -37,9 +37,7 @@ export function MisClasesClient({ userId }: { userId: string }) {
 
 
 
-    useEffect(() => { loadClasses(); }, []);
-
-    async function loadClasses() {
+    const loadClasses = useCallback(async () => {
         setLoading(true);
 
         // 1. Get all classroom_ids for this student
@@ -103,7 +101,9 @@ export function MisClasesClient({ userId }: { userId: string }) {
 
         setClasses(result);
         setLoading(false);
-    }
+    }, [supabase, userId]);
+
+    useEffect(() => { loadClasses(); }, [loadClasses]);
 
     async function loadRanking(classroomId: string) {
         if (rankingData[classroomId]) return; // cached

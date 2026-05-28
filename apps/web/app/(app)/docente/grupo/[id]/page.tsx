@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -30,7 +30,7 @@ export default function ClassroomPage() {
     const params = useParams();
     const router = useRouter();
     const id = params.id as string;
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
 
     const [classroom, setClassroom] = useState<Classroom | null>(null);
     const [students, setStudents] = useState<Student[]>([]);
@@ -40,9 +40,7 @@ export default function ClassroomPage() {
     const [deleting, setDeleting] = useState(false);
     const [tab, setTab] = useState<'students' | 'leaderboard'>('students');
 
-    useEffect(() => { loadData(); }, [id]);
-
-    async function loadData() {
+    const loadData = useCallback(async () => {
         setLoading(true);
 
         // ── Classroom info ──────────────────────────────────────────
@@ -181,7 +179,9 @@ export default function ClassroomPage() {
         }
 
         setLoading(false);
-    }
+    }, [id, router, supabase]);
+
+    useEffect(() => { loadData(); }, [loadData]);
 
     async function removeStudent(studentId: string) {
         if (!confirm("¿Eliminar al alumno del grupo?")) return;
@@ -414,6 +414,7 @@ export default function ClassroomPage() {
                             >
                                 <div className="flex items-center gap-3 min-w-0">
                                     {s.avatar_url ? (
+                                        // eslint-disable-next-line @next/next/no-img-element -- Profile avatars can come from dynamic external providers not covered by next/image remotePatterns.
                                         <img src={s.avatar_url} alt={s.username} className="w-9 h-9 rounded-full shrink-0 bg-void" />
                                     ) : (
                                         <div className="w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
@@ -511,6 +512,7 @@ export default function ClassroomPage() {
 
                                             {/* Avatar */}
                                             {s.avatar_url ? (
+                                                // eslint-disable-next-line @next/next/no-img-element -- Profile avatars can come from dynamic external providers not covered by next/image remotePatterns.
                                                 <img src={s.avatar_url} alt={s.username} className="w-9 h-9 rounded-full shrink-0" />
                                             ) : (
                                                 <div className="w-9 h-9 rounded-full bg-accent-focus/15 flex items-center justify-center text-sm font-bold text-accent-focus shrink-0">

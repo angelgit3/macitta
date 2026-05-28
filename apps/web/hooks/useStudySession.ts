@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { validateAnswer, calculateSlotAccuracy, SEMGrade } from "@maccita/shared";
 
@@ -20,7 +20,7 @@ export type { CardData, SlotFeedback, Slot } from "@/types/study";
 // ─── Hook ───────────────────────────────────────────────────────────
 
 export function useStudySession(providedDeckId?: string) {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const { isOffline } = useNetworkStatus();
     const { sessionId, startSession, endSession } = useSessionManager();
 
@@ -76,7 +76,7 @@ export function useStudySession(providedDeckId?: string) {
         let isMounted = true;
 
         const timeout = setTimeout(() => {
-            if (isMounted && loading) {
+            if (isMounted) {
                 console.warn("[SREM] Failsafe timeout. Forcing loading false.");
                 setLoading(false);
             }
@@ -88,16 +88,14 @@ export function useStudySession(providedDeckId?: string) {
                 const { data: authData } = await supabase.auth.getUser();
                 const userId = authData?.user?.id ?? null;
                 
-                const dId = providedDeckId;
-
-                if (!dId) {
+                if (!providedDeckId) {
                     throw new Error("No deck ID provided to study session.");
                 }
 
-                setDeckId(dId);
-                await startSession(dId);
+                setDeckId(providedDeckId);
+                await startSession(providedDeckId);
 
-                const cards = await loadDueCards(dId, userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
+                const cards = await loadDueCards(providedDeckId, userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
                 setQueue(cards);
             } catch (err) {
                 console.error("[SREM] Init error:", err);
@@ -111,7 +109,7 @@ export function useStudySession(providedDeckId?: string) {
 
         init();
         return () => { isMounted = false; clearTimeout(timeout); };
-    }, [startSession]);
+    }, [providedDeckId, startSession, supabase]);
 
     // ─── Card Navigation ────────────────────────────────────────────
 

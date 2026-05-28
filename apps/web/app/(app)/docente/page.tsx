@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { getStudentCounts } from "@/lib/classroomHelpers";
 import Link from "next/link";
@@ -20,13 +20,9 @@ export default function DocentePage() {
     const [creating, setCreating] = useState(false);
     const [newName, setNewName] = useState("");
     const [showForm, setShowForm] = useState(false);
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
 
-    useEffect(() => {
-        loadClassrooms();
-    }, []);
-
-    async function loadClassrooms() {
+    const loadClassrooms = useCallback(async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
@@ -48,7 +44,11 @@ export default function DocentePage() {
             }))
         );
         setLoading(false);
-    }
+    }, [supabase]);
+
+    useEffect(() => {
+        loadClassrooms();
+    }, [loadClassrooms]);
 
     function generateCode() {
         const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";

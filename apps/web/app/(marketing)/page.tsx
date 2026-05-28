@@ -40,7 +40,7 @@ export default function LandingPage() {
                 <div className="max-w-2xl mx-auto text-center relative z-10 animate-fade-in-up">
                     <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs font-medium text-text-dim mb-8">
                         <Flame size={12} className="text-orange-400" />
-                        Sistema de Repetición Espaciada con FSRS
+                        Sistema de Repetición Espaciada Macitta
                     </div>
 
                     <h1 className="text-5xl sm:text-6xl font-black leading-[1.1] tracking-tight mb-6">
@@ -74,7 +74,7 @@ export default function LandingPage() {
                 <div className="max-w-4xl mx-auto grid grid-cols-3 divide-x divide-white/5">
                     {[
                         { value: "93", label: "Verbos disponibles" },
-                        { value: "FSRS", label: "Algoritmo adaptativo" },
+                        { value: "SREM", label: "Algoritmo adaptativo" },
                         { value: "24/7", label: "Estudia sin horario" },
                     ].map(stat => (
                         <div key={stat.label} className="py-8 text-center">
@@ -109,7 +109,7 @@ export default function LandingPage() {
                                 color: "text-purple-400",
                                 bg: "bg-purple-400/10",
                                 title: "El algoritmo aprende",
-                                desc: "FSRS calcula cuándo empezarás a olvidar y programa el repaso ideal."
+                                desc: "SREM calcula cuándo empezarás a olvidar y programa el repaso ideal."
                             },
                             {
                                 step: "03",
@@ -150,7 +150,7 @@ export default function LandingPage() {
                                 icon: Logo,
                                 color: "text-yellow-400",
                                 title: "Repetición Espaciada",
-                                desc: "Algoritmo FSRS que optimiza tu retención de memoria a largo plazo."
+                                desc: "Algoritmo SREM que optimiza tu retención de memoria a largo plazo."
                             },
                             {
                                 icon: BarChart2,
