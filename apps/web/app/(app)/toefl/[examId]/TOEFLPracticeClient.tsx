@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { calculateTOEFLScore } from "@maccita/shared";
 import { createClient } from "@/utils/supabase/client";
@@ -19,18 +19,33 @@ function optionLabel(option: TOEFLAnswerOption) {
     return `${option.id}) ${option.text}`;
 }
 
+function formatTime(totalSeconds: number) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
 export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeClientProps) {
     const router = useRouter();
     const supabase = useMemo(() => createClient(), []);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [startedAt] = useState(() => Date.now());
+    const [elapsedSeconds, setElapsedSeconds] = useState(0);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const currentQuestion = questions[currentIndex];
     const answeredCount = Object.keys(answers).length;
     const progress = questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0;
+
+    useEffect(() => {
+        const interval = window.setInterval(() => {
+            setElapsedSeconds(Math.max(0, Math.floor((Date.now() - startedAt) / 1000)));
+        }, 1000);
+
+        return () => window.clearInterval(interval);
+    }, [startedAt]);
 
     async function handleSubmit() {
         if (submitting || questions.length === 0) return;
@@ -40,7 +55,7 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
 
         const attemptId = crypto.randomUUID();
         const completedAt = new Date().toISOString();
-        const timeTaken = Math.max(1, Math.round((Date.now() - startedAt) / 1000));
+        const timeTaken = Math.max(1, elapsedSeconds || Math.round((Date.now() - startedAt) / 1000));
         const score = calculateTOEFLScore(questions, answers, exam.scale_mapping);
         const answerRows = questions.map((question) => ({
             attempt_id: attemptId,
@@ -113,7 +128,7 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                         </div>
                         <div className="flex items-center gap-1.5 text-xs text-text-dim bg-void rounded-full px-3 py-1.5 border border-border-subtle">
                             <Clock size={13} />
-                            Sin límite
+                            {formatTime(elapsedSeconds)}
                         </div>
                     </div>
                     <div className="h-2 rounded-full bg-void overflow-hidden">
@@ -123,46 +138,48 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                 </div>
             </header>
 
-            {exam.passage_text && (
-                <section className="bg-void/60 border border-border-subtle rounded-3xl p-5 max-h-[260px] overflow-y-auto">
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-text-dim mb-3">Texto de referencia</h2>
-                    <p className="text-sm leading-7 text-zinc-200">{exam.passage_text}</p>
+            <div className={exam.passage_text ? "grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start" : ""}>
+                {exam.passage_text && (
+                    <section className="bg-void/60 border border-border-subtle rounded-3xl p-5 max-h-[360px] overflow-y-auto lg:sticky lg:top-4 lg:max-h-[calc(100vh-10rem)]">
+                        <h2 className="text-xs font-bold uppercase tracking-wider text-text-dim mb-3">Texto de referencia</h2>
+                        <p className="text-sm leading-7 text-zinc-200">{exam.passage_text}</p>
+                    </section>
+                )}
+
+                <section className="bg-stone-surface border border-border-subtle rounded-3xl p-5">
+                    <div className="flex items-center justify-between gap-3 mb-5">
+                        <span className="text-xs font-bold uppercase tracking-wider text-text-dim">
+                            Pregunta {currentIndex + 1} / {questions.length}
+                        </span>
+                        <span className="text-xs font-bold text-accent-focus bg-accent-focus/10 px-2 py-1 rounded-lg">
+                            {currentQuestion.points_weight} pt
+                        </span>
+                    </div>
+
+                    <h2 className="text-lg font-black text-white leading-snug mb-5">{currentQuestion.question_text}</h2>
+
+                    <div className="space-y-3">
+                        {currentQuestion.options.map((option) => {
+                            const selected = answers[currentQuestion.id] === option.id;
+
+                            return (
+                                <button
+                                    key={option.id}
+                                    type="button"
+                                    onClick={() => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: option.id }))}
+                                    className={`w-full text-left rounded-2xl border p-4 transition-all ${
+                                        selected
+                                            ? "border-accent-focus bg-accent-focus/12 text-white"
+                                            : "border-border-subtle bg-void/40 text-text-dim hover:text-white hover:border-white/20"
+                                    }`}
+                                >
+                                    <span className="text-sm font-semibold leading-relaxed">{optionLabel(option)}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
                 </section>
-            )}
-
-            <section className="bg-stone-surface border border-border-subtle rounded-3xl p-5">
-                <div className="flex items-center justify-between gap-3 mb-5">
-                    <span className="text-xs font-bold uppercase tracking-wider text-text-dim">
-                        Pregunta {currentIndex + 1} / {questions.length}
-                    </span>
-                    <span className="text-xs font-bold text-accent-focus bg-accent-focus/10 px-2 py-1 rounded-lg">
-                        {currentQuestion.points_weight} pt
-                    </span>
-                </div>
-
-                <h2 className="text-lg font-black text-white leading-snug mb-5">{currentQuestion.question_text}</h2>
-
-                <div className="space-y-3">
-                    {currentQuestion.options.map((option) => {
-                        const selected = answers[currentQuestion.id] === option.id;
-
-                        return (
-                            <button
-                                key={option.id}
-                                type="button"
-                                onClick={() => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: option.id }))}
-                                className={`w-full text-left rounded-2xl border p-4 transition-all ${
-                                    selected
-                                        ? "border-accent-focus bg-accent-focus/12 text-white"
-                                        : "border-border-subtle bg-void/40 text-text-dim hover:text-white hover:border-white/20"
-                                }`}
-                            >
-                                <span className="text-sm font-semibold leading-relaxed">{optionLabel(option)}</span>
-                            </button>
-                        );
-                    })}
-                </div>
-            </section>
+            </div>
 
             {error && (
                 <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-2xl p-4">
