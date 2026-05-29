@@ -16,7 +16,7 @@ export function useSessionManager() {
     // Expose sessionId as state for consumers that need reactivity
     const [sessionId, setSessionId] = useState<string | null>(null);
 
-    const startSession = useCallback(async (deckId: string) => {
+    const startSession = useCallback(async (deckId: string | null) => {
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return null;
