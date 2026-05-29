@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AppHeader } from "@/components/ui/AppHeader";
 import { createClient } from "@/utils/supabase/server";
 import type { TOEFLExam, TOEFLQuestion } from "@/types/models";
-import { ArrowRight, BookOpen, GraduationCap, Headphones, PenTool } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, Headphones, PenTool, Timer } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +40,7 @@ export default async function TOEFLPracticePage() {
                     </div>
                     <h1 className="text-3xl font-black leading-tight text-white">Prácticas TOEFL</h1>
                     <p className="text-sm text-text-dim mt-2 leading-relaxed">
-                        Entrena Reading, Grammar y Listening flexible con score inmediato y una revisión lista para tu tutor de IA.
+                        Entrena Reading, Grammar y Listening con modo flexible o simulacro estricto.
                     </p>
                 </header>
 
@@ -51,9 +51,8 @@ export default async function TOEFLPracticePage() {
                         const questionCount = exam.questions?.length ?? 0;
 
                         return (
-                            <Link
+                            <article
                                 key={exam.id}
-                                href={`/toefl/${exam.id}`}
                                 className="group bg-stone-surface border border-border-subtle rounded-3xl p-5 transition-all hover:border-accent-focus/50 hover:-translate-y-0.5"
                             >
                                 <div className="flex items-start justify-between gap-4">
@@ -64,14 +63,26 @@ export default async function TOEFLPracticePage() {
                                         </span>
                                         <h2 className="text-lg font-black text-white mt-3 leading-tight">{exam.title}</h2>
                                         <p className="text-xs text-text-dim mt-1 uppercase tracking-wider">
-                                            {questionCount} preguntas · modo flexible
+                                            {questionCount} preguntas · flexible o estricto
                                         </p>
                                     </div>
-                                    <div className="w-10 h-10 rounded-2xl bg-void border border-border-subtle flex items-center justify-center text-text-dim group-hover:text-accent-focus transition-colors shrink-0">
-                                        <ArrowRight size={18} />
-                                    </div>
                                 </div>
-                            </Link>
+
+                                <div className="grid grid-cols-2 gap-2 mt-5">
+                                    <Link
+                                        href={`/toefl/${exam.id}?mode=flexible`}
+                                        className="h-11 rounded-2xl bg-void border border-border-subtle text-text-dim hover:text-white hover:border-white/20 transition-colors flex items-center justify-center gap-2 text-sm font-bold"
+                                    >
+                                        Flexible <ArrowRight size={15} />
+                                    </Link>
+                                    <Link
+                                        href={`/toefl/${exam.id}?mode=strict`}
+                                        className="h-11 rounded-2xl bg-accent-focus text-white transition-colors flex items-center justify-center gap-2 text-sm font-bold"
+                                    >
+                                        <Timer size={15} /> Estricto
+                                    </Link>
+                                </div>
+                            </article>
                         );
                     })}
                 </section>

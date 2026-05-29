@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { calculateTOEFLScore } from "@maccita/shared";
 import { createClient } from "@/utils/supabase/client";
 import { db } from "@/lib/db";
-import type { TOEFLAnswerOption, TOEFLExam, TOEFLQuestion } from "@/types/models";
+import type { TOEFLAnswerOption, TOEFLExam, TOEFLMode, TOEFLQuestion } from "@/types/models";
 import { ArrowLeft, ArrowRight, CheckCircle2, Clock, Gauge, Loader2, Pause, Play, RotateCcw, Send, Volume2 } from "lucide-react";
 import Link from "next/link";
 
@@ -13,10 +13,16 @@ interface TOEFLPracticeClientProps {
     userId: string;
     exam: TOEFLExam;
     questions: TOEFLQuestion[];
+    mode: TOEFLMode;
 }
 
 const TOEFL_AUDIO_BUCKET = "toefl-audio";
 const PLAYBACK_RATES = [0.8, 1, 1.2];
+const STRICT_LIMITS_SECONDS: Record<string, number> = {
+    reading: 600,
+    grammar: 300,
+    listening: 120,
+};
 
 function optionLabel(option: TOEFLAnswerOption) {
     return `${option.id}) ${option.text}`;
@@ -28,10 +34,12 @@ function formatTime(totalSeconds: number) {
     return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeClientProps) {
+export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPracticeClientProps) {
     const router = useRouter();
     const supabase = useMemo(() => createClient(), []);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const submittedRef = useRef(false);
+    const strictAudioAttemptedRef = useRef(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [startedAt] = useState(() => Date.now());
@@ -40,12 +48,18 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
     const [audioDuration, setAudioDuration] = useState(0);
     const [playbackRate, setPlaybackRate] = useState(1);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [strictAudioStarted, setStrictAudioStarted] = useState(false);
+    const [strictAudioEnded, setStrictAudioEnded] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const isStrict = mode === "strict";
     const currentQuestion = questions[currentIndex];
     const answeredCount = Object.keys(answers).length;
     const progress = questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0;
+    const strictLimitSeconds = STRICT_LIMITS_SECONDS[exam.section] ?? 600;
+    const remainingSeconds = Math.max(0, strictLimitSeconds - elapsedSeconds);
+    const displayedTime = isStrict ? remainingSeconds : elapsedSeconds;
     const audioUrl = useMemo(() => {
         if (!exam.audio_path) return null;
         return supabase.storage.from(TOEFL_AUDIO_BUCKET).getPublicUrl(exam.audio_path).data.publicUrl;
@@ -59,9 +73,15 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
         return () => window.clearInterval(interval);
     }, [startedAt]);
 
-    async function handleSubmit() {
-        if (submitting || questions.length === 0) return;
+    useEffect(() => {
+        if (!isStrict || remainingSeconds > 0 || submittedRef.current) return;
+        handleSubmit();
+    });
 
+    async function handleSubmit() {
+        if (submitting || submittedRef.current || questions.length === 0) return;
+
+        submittedRef.current = true;
         setSubmitting(true);
         setError(null);
 
@@ -83,7 +103,7 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
             raw_score: score.rawScore,
             scaled_score: score.scaledScore,
             time_taken: timeTaken,
-            mode: "flexible" as const,
+            mode,
             completed_at: completedAt,
         };
 
@@ -143,6 +163,27 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
         }
     }
 
+    async function startStrictAudio() {
+        const audio = audioRef.current;
+        if (!audio || strictAudioStarted) return;
+
+        audio.currentTime = 0;
+        audio.playbackRate = 1;
+        try {
+            await audio.play();
+            setStrictAudioStarted(true);
+            setIsPlaying(true);
+        } catch {
+            setError("El navegador bloqueó el inicio automático del audio. Pulsa iniciar para comenzar el audio una sola vez.");
+        }
+    }
+
+    useEffect(() => {
+        if (!isStrict || exam.section !== "listening" || !audioUrl || strictAudioStarted || strictAudioAttemptedRef.current) return;
+        strictAudioAttemptedRef.current = true;
+        startStrictAudio();
+    });
+
     if (!currentQuestion) {
         return (
             <div className="text-center py-16 text-text-dim">
@@ -161,18 +202,25 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                 <div className="bg-stone-surface border border-border-subtle rounded-3xl p-5">
                     <div className="flex items-center justify-between gap-3 mb-4">
                         <div>
-                            <p className="text-[11px] uppercase tracking-wider text-accent-focus font-bold">{exam.section} · flexible</p>
+                            <p className="text-[11px] uppercase tracking-wider text-accent-focus font-bold">
+                                {exam.section} · {isStrict ? "estricto" : "flexible"}
+                            </p>
                             <h1 className="text-xl font-black text-white leading-tight mt-1">{exam.title}</h1>
                         </div>
                         <div className="flex items-center gap-1.5 text-xs text-text-dim bg-void rounded-full px-3 py-1.5 border border-border-subtle">
                             <Clock size={13} />
-                            {formatTime(elapsedSeconds)}
+                            {formatTime(displayedTime)}
                         </div>
                     </div>
                     <div className="h-2 rounded-full bg-void overflow-hidden">
                         <div className="h-full bg-accent-focus transition-all duration-300" style={{ width: `${progress}%` }} />
                     </div>
                     <p className="text-xs text-text-dim mt-2">{answeredCount} de {questions.length} respondidas</p>
+                    {isStrict && (
+                        <p className="text-xs text-amber-200 mt-2">
+                            Simulacro estricto: cuenta regresiva, navegación hacia atrás bloqueada y envío automático al llegar a cero.
+                        </p>
+                    )}
                 </div>
             </header>
 
@@ -183,9 +231,13 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                             <Volume2 size={22} />
                         </div>
                         <div className="min-w-0 flex-1">
-                            <p className="text-xs font-bold uppercase tracking-wider text-amber-300">Audio flexible</p>
+                            <p className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                                Audio {isStrict ? "estricto" : "flexible"}
+                            </p>
                             <h2 className="text-lg font-black text-white mt-1">Escucha el diálogo antes de responder</h2>
-                            <p className="text-xs text-text-dim mt-1">La transcripción se mostrará solo en la revisión.</p>
+                            <p className="text-xs text-text-dim mt-1">
+                                {isStrict ? "El audio se reproduce una sola vez y sin controles." : "La transcripción se mostrará solo en la revisión."}
+                            </p>
                         </div>
                     </div>
 
@@ -195,12 +247,18 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                                 ref={audioRef}
                                 src={audioUrl}
                                 preload="metadata"
-                                onLoadedMetadata={(event) => setAudioDuration(event.currentTarget.duration || 0)}
+                                onLoadedMetadata={(event) => {
+                                    event.currentTarget.playbackRate = playbackRate;
+                                    setAudioDuration(event.currentTarget.duration || 0);
+                                }}
                                 onTimeUpdate={(event) => {
                                     const audio = event.currentTarget;
                                     setAudioProgress(audio.duration ? (audio.currentTime / audio.duration) * 100 : 0);
                                 }}
-                                onEnded={() => setIsPlaying(false)}
+                                onEnded={() => {
+                                    setIsPlaying(false);
+                                    if (isStrict) setStrictAudioEnded(true);
+                                }}
                                 onPause={() => setIsPlaying(false)}
                                 onPlay={() => setIsPlaying(true)}
                             />
@@ -213,42 +271,62 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                                     />
                                 ))}
                             </div>
-                            <div className="mt-4 flex flex-wrap items-center gap-2">
-                                <button
-                                    type="button"
-                                    onClick={toggleAudio}
-                                    className="h-11 px-4 rounded-2xl bg-amber-500 text-void font-black flex items-center gap-2"
-                                >
-                                    {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-                                    {isPlaying ? "Pausar" : "Reproducir"}
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={rewindAudio}
-                                    className="h-11 px-3 rounded-2xl bg-void border border-border-subtle text-text-dim hover:text-white flex items-center gap-2"
-                                >
-                                    <RotateCcw size={16} />
-                                    5s
-                                </button>
-                                <div className="h-11 rounded-2xl bg-void border border-border-subtle px-2 flex items-center gap-1">
-                                    <Gauge size={15} className="text-text-dim ml-1" />
-                                    {PLAYBACK_RATES.map((rate) => (
+                            {isStrict ? (
+                                <div className="mt-4 flex flex-wrap items-center gap-2">
+                                    {!strictAudioStarted && !strictAudioEnded && (
                                         <button
-                                            key={rate}
                                             type="button"
-                                            onClick={() => changePlaybackRate(rate)}
-                                            className={`h-8 px-2 rounded-xl text-xs font-bold transition-colors ${
-                                                playbackRate === rate ? "bg-amber-500 text-void" : "text-text-dim hover:text-white"
-                                            }`}
+                                            onClick={startStrictAudio}
+                                            className="h-11 px-4 rounded-2xl bg-amber-500 text-void font-black flex items-center gap-2"
                                         >
-                                            {rate}x
+                                            <Play size={18} /> Iniciar audio
                                         </button>
-                                    ))}
+                                    )}
+                                    <div className="h-11 px-4 rounded-2xl bg-void border border-border-subtle text-text-dim flex items-center gap-2 text-sm">
+                                        {strictAudioEnded ? "Audio finalizado" : "Sin pausa, velocidad ni retroceso"}
+                                    </div>
+                                    <span className="text-xs text-text-dim ml-auto">
+                                        {formatTime(Math.floor((audioProgress / 100) * audioDuration))} / {formatTime(Math.floor(audioDuration || 0))}
+                                    </span>
                                 </div>
-                                <span className="text-xs text-text-dim ml-auto">
-                                    {formatTime(Math.floor((audioProgress / 100) * audioDuration))} / {formatTime(Math.floor(audioDuration || 0))}
-                                </span>
-                            </div>
+                            ) : (
+                                <div className="mt-4 flex flex-wrap items-center gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={toggleAudio}
+                                        className="h-11 px-4 rounded-2xl bg-amber-500 text-void font-black flex items-center gap-2"
+                                    >
+                                        {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                                        {isPlaying ? "Pausar" : "Reproducir"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={rewindAudio}
+                                        className="h-11 px-3 rounded-2xl bg-void border border-border-subtle text-text-dim hover:text-white flex items-center gap-2"
+                                    >
+                                        <RotateCcw size={16} />
+                                        5s
+                                    </button>
+                                    <div className="h-11 rounded-2xl bg-void border border-border-subtle px-2 flex items-center gap-1">
+                                        <Gauge size={15} className="text-text-dim ml-1" />
+                                        {PLAYBACK_RATES.map((rate) => (
+                                            <button
+                                                key={rate}
+                                                type="button"
+                                                onClick={() => changePlaybackRate(rate)}
+                                                className={`h-8 px-2 rounded-xl text-xs font-bold transition-colors ${
+                                                    playbackRate === rate ? "bg-amber-500 text-void" : "text-text-dim hover:text-white"
+                                                }`}
+                                            >
+                                                {rate}x
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <span className="text-xs text-text-dim ml-auto">
+                                        {formatTime(Math.floor((audioProgress / 100) * audioDuration))} / {formatTime(Math.floor(audioDuration || 0))}
+                                    </span>
+                                </div>
+                            )}
                         </>
                     ) : (
                         <div className="mt-5 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 text-sm text-amber-100">
@@ -311,7 +389,7 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                 <button
                     type="button"
                     onClick={() => setCurrentIndex((idx) => Math.max(0, idx - 1))}
-                    disabled={currentIndex === 0}
+                    disabled={currentIndex === 0 || isStrict}
                     className="h-12 px-4 rounded-2xl bg-stone-surface border border-border-subtle text-text-dim disabled:opacity-40 hover:text-white transition-colors"
                 >
                     <ArrowLeft size={18} />
@@ -332,7 +410,7 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                         className="flex-1 h-12 rounded-2xl bg-emerald-500 text-white font-bold flex items-center justify-center gap-2 disabled:opacity-60"
                     >
                         {submitting ? <Loader2 className="animate-spin" size={18} /> : answeredCount === questions.length ? <CheckCircle2 size={18} /> : <Send size={18} />}
-                        Enviar práctica
+                        {isStrict && submitting ? "Cerrando simulacro" : "Enviar práctica"}
                     </button>
                 )}
             </footer>
