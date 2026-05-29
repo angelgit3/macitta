@@ -29,14 +29,14 @@ create table public.card_slots (
 );
 
 -- 4. PROGRESO DEL USUARIO (USER_ITEMS)
--- Almacena el estado mental del usuario para cada tarjeta usando métricas FSRS.
+-- Almacena el estado SREM del usuario para cada tarjeta.
 create table public.user_items (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) on delete cascade not null,
   card_id uuid references public.cards(id) on delete cascade not null,
   
-  -- Campos FSRS (Sistema de Repetición Espaciada)
-  stability real default 0, -- Fortaleza de la memoria (días)
+  -- Campos SREM (Sistema de Repetición Espaciada Macitta)
+  stability real default 0, -- Intervalo actual en días
   difficulty real default 0, -- Dificultad intrínseca (1-10)
   reps integer default 0, -- Cuántas veces la ha visto
   lapses integer default 0, -- Cuántas veces la ha olvidado

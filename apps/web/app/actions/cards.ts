@@ -1,7 +1,21 @@
+/**
+ * Server Actions for Card & Slot Management
+ * Responsible for parsing complex JSON slots into relational DB rows.
+ */
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
 
+/**
+ * Creates a new flashcard and its associated answer slots.
+ * Automatically infers the correct `match_type` based on the payload structure.
+ * 
+ * @param deck_id - UUID of the parent deck
+ * @param front_text - The visible question/prompt
+ * @param slots - Array of builder-formatted slot objects
+ * @param front_media - Optional URL for image/audio attached to the question
+ * @returns The created card object
+ */
 export async function createCard(deck_id: string, front_text: string, slots: any[], front_media?: string | null) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -55,6 +69,16 @@ export async function createCard(deck_id: string, front_text: string, slots: any
     return card;
 }
 
+/**
+ * Updates an existing card and replaces all its answer slots.
+ * Currently uses a drop-and-replace strategy for `card_slots` to ensure cleanly synced arrays.
+ * 
+ * @param card_id - UUID of the card to update
+ * @param front_text - The new question/prompt
+ * @param slots - Array of new builder-formatted slot objects
+ * @param front_media - Optional new URL for image/audio
+ * @returns The updated card object
+ */
 export async function editCard(card_id: string, front_text: string, slots: any[], front_media?: string | null) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -110,6 +134,12 @@ export async function editCard(card_id: string, front_text: string, slots: any[]
     return card;
 }
 
+/**
+ * Permanently deletes a card and all its child slots.
+ * 
+ * @param card_id - UUID of the card to delete
+ * @returns Success boolean object
+ */
 export async function deleteCard(card_id: string) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();

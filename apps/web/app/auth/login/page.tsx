@@ -34,16 +34,7 @@ export default function LoginPage() {
             setError(error.message);
             setLoading(false);
         } else {
-            // Get the user ID from the session and look up their role
-            const { data: { user } } = await supabase.auth.getUser();
-            const { data: profile } = await supabase
-                .from("profiles")
-                .select("role")
-                .eq("id", user?.id)
-                .single();
-
-            const destination = profile?.role === "teacher" ? "/docente" : "/dashboard";
-            router.push(destination);
+            router.push("/dashboard");
             router.refresh();
         }
     }

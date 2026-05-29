@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useCallback, useMemo, useRef, useState } from 'react';
 import { db } from '@/lib/db';
 import { createClient } from '@/utils/supabase/client';
 import { logger } from '@/lib/logger';
@@ -12,49 +12,17 @@ const MAX_RETRIES = 5;
 // ─── Hook ───────────────────────────────────────────────────────────
 
 export function useSync() {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const { isOnline } = useNetworkStatus();
     const [isSyncing, setIsSyncing] = useState(false);
     const [lastSync, setLastSync] = useState<Date | null>(null);
     const syncingRef = useRef(false);
 
-    const performSync = useCallback(async () => {
-        if (syncingRef.current || !isOnline) return;
-
-        const queue = await db.syncQueue.orderBy('id').toArray();
-        if (queue.length === 0) return;
-
-        syncingRef.current = true;
-        setIsSyncing(true);
-        logger.log(`[Sync] Processing ${queue.length} operations...`);
-
-        try {
-            for (const op of queue) {
-                const retries = (op as any).retryCount ?? 0;
-                const success = await processOperation(op);
-                if (success) {
-                    await db.syncQueue.delete(op.id!);
-                } else if (retries >= MAX_RETRIES) {
-                    // Give up after MAX_RETRIES to avoid infinite retry loop
-                    logger.error(`[Sync] Dropping failed operation after ${MAX_RETRIES} retries: ${op.type} (id: ${op.id})`);
-                    await db.syncQueue.delete(op.id!);
-                } else {
-                    // Increment retry count
-                    await db.syncQueue.update(op.id!, { retryCount: retries + 1 });
-                }
-            }
-            setLastSync(new Date());
-        } finally {
-            syncingRef.current = false;
-            setIsSyncing(false);
-        }
-    }, [supabase, isOnline]);
-
     /**
      * Process a single sync operation.
      * Handles all 5 SyncOperation types.
      */
-    async function processOperation(op: SyncOperation): Promise<boolean> {
+    const processOperation = useCallback(async (op: SyncOperation): Promise<boolean> => {
         try {
             switch (op.type) {
                 case 'upsert_user_item': {
@@ -132,6 +100,28 @@ export function useSync() {
                     return true;
                 }
 
+                case 'insert_toefl_attempt': {
+                    const { error } = await supabase
+                        .from('user_exam_attempts')
+                        .upsert(op.data, { onConflict: 'id' });
+                    if (error) {
+                        logger.error("[Sync] insert_toefl_attempt error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'insert_toefl_answers': {
+                    const { error } = await supabase
+                        .from('user_question_answers')
+                        .upsert(op.data, { onConflict: 'attempt_id,question_id' });
+                    if (error) {
+                        logger.error("[Sync] insert_toefl_answers error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
                 default: {
                     logger.warn("[Sync] Unknown operation type:", (op as any).type);
                     return false;
@@ -141,7 +131,39 @@ export function useSync() {
             logger.error("[Sync] Critical error processing operation", e);
             return false;
         }
-    }
+    }, [supabase]);
+
+    const performSync = useCallback(async () => {
+        if (syncingRef.current || !isOnline) return;
+
+        const queue = await db.syncQueue.orderBy('id').toArray();
+        if (queue.length === 0) return;
+
+        syncingRef.current = true;
+        setIsSyncing(true);
+        logger.log(`[Sync] Processing ${queue.length} operations...`);
+
+        try {
+            for (const op of queue) {
+                const retries = (op as any).retryCount ?? 0;
+                const success = await processOperation(op);
+                if (success) {
+                    await db.syncQueue.delete(op.id!);
+                } else if (retries >= MAX_RETRIES) {
+                    // Give up after MAX_RETRIES to avoid infinite retry loop
+                    logger.error(`[Sync] Dropping failed operation after ${MAX_RETRIES} retries: ${op.type} (id: ${op.id})`);
+                    await db.syncQueue.delete(op.id!);
+                } else {
+                    // Increment retry count
+                    await db.syncQueue.update(op.id!, { retryCount: retries + 1 });
+                }
+            }
+            setLastSync(new Date());
+        } finally {
+            syncingRef.current = false;
+            setIsSyncing(false);
+        }
+    }, [isOnline, processOperation]);
 
     // Periodic sync every 30 seconds (online status comes from useNetworkStatus)
     useEffect(() => {

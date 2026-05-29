@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
-    GraduationCap, BookOpen, Code2, User, Flame, Clock, Target, Trophy,
+    Code2, User, Flame, Clock, Target, Trophy,
     Instagram, Twitter, Github
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -13,7 +13,7 @@ import { useUserStats } from '@/hooks/useUserStats';
 
 
 export function ProfileClient({ initialUser }: { initialUser: any }) {
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const router = useRouter();
     const { stats, loading: statsLoading } = useUserStats();
 
@@ -24,14 +24,14 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
     // Profile state
-    const [profile, setProfile] = useState<{ username: string; role: string; created_at: string } | null>(null);
+    const [profile, setProfile] = useState<{ username: string; created_at: string } | null>(null);
 
 
     useEffect(() => {
         if (!initialUser?.id) return;
         supabase
             .from('profiles')
-            .select('username, role, created_at')
+            .select('username, created_at')
             .eq('id', initialUser.id)
             .single()
             .then(({ data }) => {
@@ -40,13 +40,7 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                     setUsername(data.username ?? '');
                 }
             });
-    }, [initialUser?.id]);
-
-    const roleDisplay = profile?.role === 'teacher'
-        ? { label: 'Docente', icon: BookOpen, className: 'text-emerald-400 bg-emerald-400/10' }
-        : profile?.role === 'admin'
-            ? { label: 'Admin', icon: Code2, className: 'text-purple-400 bg-purple-400/10' }
-            : { label: 'Estudiante', icon: GraduationCap, className: 'text-blue-400 bg-blue-400/10' };
+    }, [initialUser?.id, supabase]);
 
     const avatarLetter = profile?.username?.[0]?.toUpperCase() || initialUser?.email?.[0]?.toUpperCase() || '?';
 
@@ -124,10 +118,6 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                     <div className="min-w-0">
                         <h2 className="text-lg font-bold text-white truncate">{profile?.username || initialUser?.email}</h2>
                         <p className="text-xs text-text-dim truncate">{initialUser?.email}</p>
-                        <span className={`inline-flex items-center gap-1 mt-1.5 text-xs font-bold px-2 py-0.5 rounded-full ${roleDisplay.className}`}>
-                            <roleDisplay.icon size={11} />
-                            {roleDisplay.label}
-                        </span>
                     </div>
                 </div>
 
@@ -205,56 +195,48 @@ export function ProfileClient({ initialUser }: { initialUser: any }) {
                 </form>
             </div>
 
-            {/* ── Creator Zone ── */}
-            <div className="bg-stone-surface border border-border-subtle rounded-3xl p-5 space-y-4">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-accent-focus/10 flex items-center justify-center text-accent-focus font-bold border border-accent-focus/20 shrink-0">
-                        AA
-                    </div>
-                    <div>
-                        <h3 className="text-sm font-bold text-white">Alberto Anaya</h3>
-                        <p className="text-[11px] text-zinc-500 uppercase tracking-wider">Desarrollador</p>
-                    </div>
-                </div>
-                
-                <div className="grid grid-cols-1 gap-2">
-                    <ZenButton 
-                        variant="ghost" 
-                        onClick={() => window.open('https://www.instagram.com/aalberto_anaya/', '_blank')}
-                        className="w-full flex items-center justify-start gap-3 h-12 px-4 bg-pink-500/5 hover:bg-pink-500/10 text-pink-400 border border-pink-500/20 rounded-2xl transition-colors"
-                    >
-                        <Instagram size={16} />
-                        <span className="text-xs font-bold">Instagram (Dudas o bugs)</span>
-                    </ZenButton>
-                    <ZenButton 
-                        variant="ghost"
-                        onClick={() => window.open('https://x.com/aalberto_anaya', '_blank')}
-                        className="w-full flex items-center justify-start gap-3 h-12 px-4 bg-blue-500/5 hover:bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-2xl transition-colors"
-                    >
-                        <Twitter size={16} />
-                        <span className="text-xs font-bold">Twitter (Sigue mi trabajo)</span>
-                    </ZenButton>
-                    <ZenButton 
-                        variant="ghost"
-                        onClick={() => window.open('https://github.com/angelgit3/macitta', '_blank')}
-                        className="w-full flex items-center justify-start gap-3 h-12 px-4 bg-zinc-500/10 hover:bg-zinc-500/20 text-zinc-300 border border-zinc-500/20 rounded-2xl transition-colors"
-                    >
-                        <Github size={16} />
-                        <span className="text-xs font-bold">GitHub (Código Fuente)</span>
-                    </ZenButton>
-                </div>
+            {/* 🚪 Logout 🚪 */}
+            <div className="pt-2">
+                <button onClick={handleLogout} className="w-full bg-red-500/5 hover:bg-red-500/10 border border-red-500/20 text-red-400 font-bold py-4 rounded-3xl transition-all flex items-center justify-center gap-2 text-sm">
+                    <LogOut size={16} /> Cerrar Sesión
+                </button>
             </div>
 
-            {/* ── Logout ── */}
-            <button onClick={handleLogout} className="w-full bg-red-500/5 hover:bg-red-500/10 border border-red-500/20 text-red-400 font-bold py-4 rounded-3xl transition-all flex items-center justify-center gap-2 text-sm">
-                <LogOut size={16} /> Cerrar Sesión
-            </button>
-
-            {/* ── Credit ── */}
-            <div className="text-center py-2">
-                <p className="text-[10px] text-zinc-700 flex items-center justify-center gap-1">
-                    <Code2 size={10} /> Macitta v1.0 — UPT 2026 — Angel Anaya
-                </p>
+            {/* 👨‍💻 Subtle Creator Zone & Credit 👨‍💻 */}
+            <div className="pt-6 pb-2 text-center space-y-4 border-t border-border-subtle/30">
+                <div className="flex justify-center gap-4">
+                    <button 
+                        onClick={() => window.open('https://www.instagram.com/aalberto_anaya/', '_blank')}
+                        className="p-2.5 rounded-full text-zinc-600 hover:text-pink-400 hover:bg-pink-400/10 transition-colors"
+                        title="Instagram (Dudas o bugs)"
+                    >
+                        <Instagram size={18} />
+                    </button>
+                    <button 
+                        onClick={() => window.open('https://x.com/aalberto_anaya', '_blank')}
+                        className="p-2.5 rounded-full text-zinc-600 hover:text-blue-400 hover:bg-blue-400/10 transition-colors"
+                        title="Twitter (Sigue mi trabajo)"
+                    >
+                        <Twitter size={18} />
+                    </button>
+                    <button 
+                        onClick={() => window.open('https://github.com/angelgit3/macitta', '_blank')}
+                        className="p-2.5 rounded-full text-zinc-600 hover:text-zinc-300 hover:bg-zinc-500/20 transition-colors"
+                        title="GitHub (Código Fuente)"
+                    >
+                        <Github size={18} />
+                    </button>
+                </div>
+                
+                <div className="flex flex-col items-center justify-center gap-1">
+                    <p className="text-[10px] font-medium text-zinc-500 uppercase tracking-widest flex items-center gap-1.5">
+                        <Code2 size={12} className="text-zinc-600" />
+                        Creado por Alberto Anaya
+                    </p>
+                    <p className="text-[10px] text-zinc-700">
+                        Macitta v1.0 • UPT 2026
+                    </p>
+                </div>
             </div>
         </div>
     );

@@ -35,7 +35,7 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
                     
                     <div className="text-center space-y-2">
                         <h2 className="text-xl font-black text-white">Eliminar Mazo</h2>
-                        <p className="text-sm font-semibold text-white/80 pb-2">"{deckTitle}"</p>
+                        <p className="text-sm font-semibold text-white/80 pb-2">&quot;{deckTitle}&quot;</p>
                         
                         <div className="p-4 bg-red-500/5 rounded-2xl border border-red-500/20 text-left">
                             <p className="text-xs text-red-300 font-bold uppercase tracking-wider mb-1 flex items-center gap-1">

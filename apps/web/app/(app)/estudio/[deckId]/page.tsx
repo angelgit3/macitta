@@ -63,7 +63,7 @@ export default function StudySessionContent({ params }: { params: Promise<{ deck
             <div className="flex justify-between items-center px-2">
                 <h1 className="text-xl font-bold text-white flex items-center gap-2">
                     {isRushMode && <Flame size={20} className="text-orange-500" />}
-                    {isRushMode ? 'Modo Maratn' : 'Estudio Diario'}
+                    {isRushMode ? 'Modo Maratón' : 'Estudio Diario'}
                 </h1>
                 <div className={`text-xs font-bold px-3 py-1 rounded-full border ${isRushMode
                         ? 'text-orange-400 bg-orange-500/10 border-orange-500/20'

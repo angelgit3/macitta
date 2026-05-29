@@ -1,76 +1,49 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowLeft, MoreVertical, Plus, Edit2, Trash2, Users, Loader2, X, HelpCircle, CheckCircle2, Image as ImageIcon } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ArrowLeft, Plus, Edit2, Trash2, Loader2, Search, ArrowUpDown, Calendar } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { AssignToClassroomDialog } from "@/components/decks/AssignToClassroomDialog";
 import { DeleteDeckModal } from "@/components/decks/DeleteDeckModal";
-import { deleteCard, createCard, editCard } from "@/app/actions/cards";
-import { AnswerSlotEditor } from "@/components/builder/AnswerSlotEditor";
 
 import { CardFormModal } from "@/components/decks/CardFormModal";
-
-interface Slot {
-    id: string;
-    label: string;
-    accepted_answers: string[];
-    match_type?: string;
-    advanced_rules?: any;
-    media?: string;
-}
-
-interface Card {
-    id: string;
-    front_text: string;
-    front_media?: string | null;
-    created_at: string;
-    card_slots: Slot[];
-}
-
-interface Deck {
-    id: string;
-    title: string;
-    description: string | null;
-    author_id: string;
-    answer_labels?: string[];
-}
-
-interface Classroom {
-    id: string;
-    name: string;
-    join_code: string;
-}
+import type { Deck, Card } from "@/types/models";
 
 interface Props {
     deck: Deck;
     cards: Card[];
     isOwner: boolean;
-    isTeacher: boolean;
-    classrooms: Classroom[];
-    assignedClassroomIds: string[];
 }
 
-export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms, assignedClassroomIds }: Props) {
-    const router = useRouter();
-    const [showAssign, setShowAssign] = useState(false);
-    const [showDeleteDeck, setShowDeleteDeck] = useState(false);
-    const [showAddCard, setShowAddCard] = useState(false);
-    const [deletingCardId, setDeletingCardId] = useState<string | null>(null);
-    const [editingCard, setEditingCard] = useState<Card | null>(null);
+import { useDeckDetails } from "@/hooks/useDeckDetails";
 
-    async function handleDeleteCard(cardId: string) {
-        if (!confirm("¿Eliminar esta tarjeta de forma permanente?")) return;
-        setDeletingCardId(cardId);
-        try {
-            await deleteCard(cardId);
-            router.refresh();
-        } catch (e) {
-            alert("Error al eliminar la tarjeta");
-        } finally {
-            setDeletingCardId(null);
+export function DeckDetailsClient({ deck, cards, isOwner }: Props) {
+    const { state, actions, router } = useDeckDetails();
+    
+    const [searchQuery, setSearchQuery] = useState("");
+    const [sortOrder, setSortOrder] = useState<"default" | "alpha">("default");
+
+    const processedCards = useMemo(() => {
+        let result = [...cards];
+        
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase();
+            result = result.filter(c => c.front_text.toLowerCase().includes(query));
         }
-    }
+
+        if (sortOrder === "alpha") {
+            result.sort((a, b) => a.front_text.localeCompare(b.front_text));
+        }
+
+        return result;
+    }, [cards, searchQuery, sortOrder]);
+
+    const formatNextReview = (dateStr?: string) => {
+        if (!dateStr) return "Nueva tarjeta";
+        const date = new Date(dateStr);
+        const now = new Date();
+        if (date <= now) return "Programada para repasar ahora";
+        return `Próximo repaso: ${date.toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" })}`;
+    };
 
     return (
         <div className="flex flex-col gap-6 pb-24">
@@ -87,26 +60,13 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                             <span className="text-xs font-bold text-text-dim bg-void/50 px-2 py-1 rounded-lg border border-border-subtle">
                                 {cards.length} Tarjetas
                             </span>
-                            {isOwner && isTeacher && assignedClassroomIds.length > 0 && (
-                                <span className="text-xs font-bold text-accent-focus bg-accent-focus/10 px-2 py-1 rounded-lg flex items-center gap-1">
-                                    <Users size={12} /> Asignado a {assignedClassroomIds.length} clases
-                                </span>
-                            )}
                         </div>
                     </div>
 
                     {isOwner && (
                         <div className="flex items-center gap-2">
-                            {isTeacher && (
-                                <button 
-                                    onClick={() => setShowAssign(true)}
-                                    className="p-2 rounded-xl bg-stone-surface border border-border-subtle text-text-dim hover:text-white transition-colors"
-                                >
-                                    <Users size={18} />
-                                </button>
-                            )}
                             <button 
-                                onClick={() => setShowDeleteDeck(true)}
+                                onClick={() => actions.setShowDeleteDeck(true)}
                                 className="p-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500/20 transition-colors"
                             >
                                 <Trash2 size={18} />
@@ -124,7 +84,7 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                     </Link>
                     {isOwner && (
                         <button
-                            onClick={() => setShowAddCard(true)}
+                            onClick={() => actions.setShowAddCard(true)}
                             className="flex items-center justify-center gap-2 px-6 py-4 bg-accent-focus hover:bg-accent-focus/90 text-white font-bold rounded-2xl transition-all shadow-lg shadow-accent-focus/20"
                         >
                             <Plus size={20} strokeWidth={3} />
@@ -133,6 +93,37 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                     )}
                 </div>
             </header>
+
+            {cards.length > 0 && (
+                <div className="px-2 flex flex-col sm:flex-row gap-3">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" size={18} />
+                        <input
+                            type="text"
+                            placeholder="Buscar tarjeta..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 bg-stone-surface border border-border-subtle rounded-xl text-white placeholder:text-text-dim/60 focus:outline-none focus:border-accent-focus/50 transition-colors"
+                        />
+                    </div>
+                    <div className="relative shrink-0">
+                        <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" size={18} />
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value as "default" | "alpha")}
+                            className="w-full sm:w-auto appearance-none pl-10 pr-10 py-3 bg-stone-surface border border-border-subtle rounded-xl text-white focus:outline-none focus:border-accent-focus/50 transition-colors"
+                        >
+                            <option value="default">Por defecto</option>
+                            <option value="alpha">A-Z (Alfabético)</option>
+                        </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-dim"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="px-2 space-y-3">
                 {cards.length === 0 ? (
@@ -144,7 +135,7 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                         <p className="text-sm text-text-dim mb-6 max-w-sm mx-auto">No hay tarjetas en este mazo todavía. Comienza a agregar contenido para estudiar.</p>
                         {isOwner && (
                             <button 
-                                onClick={() => setShowAddCard(true)}
+                                onClick={() => actions.setShowAddCard(true)}
                                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-focus text-white font-bold rounded-2xl hover:bg-accent-focus/90 transition-all shadow-lg shadow-accent-focus/20"
                             >
                                 <Plus size={18} strokeWidth={3} />
@@ -152,26 +143,32 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                             </button>
                         )}
                     </div>
+                ) : processedCards.length === 0 ? (
+                    <div className="text-center py-12 bg-stone-surface rounded-3xl border border-border-subtle border-dashed">
+                        <Search size={24} className="text-text-dim mx-auto mb-4" />
+                        <h3 className="text-lg font-bold text-white mb-2">Sin resultados</h3>
+                        <p className="text-sm text-text-dim">No se encontraron tarjetas que coincidan con tu búsqueda.</p>
+                    </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {cards.map(card => (
+                        {processedCards.map(card => (
                             <div key={card.id} className="bg-stone-surface border border-border-subtle rounded-2xl p-5 flex flex-col justify-between group hover:border-accent-focus/50 transition-all">
                                 <div className="flex items-start justify-between gap-4 mb-4">
                                     <h3 className="font-black text-lg text-white leading-tight break-words">{card.front_text}</h3>
                                     {isOwner && (
                                         <div className="flex items-center gap-1 shrink-0">
                                             <button 
-                                                onClick={() => setEditingCard(card)}
+                                                onClick={() => actions.setEditingCard(card)}
                                                 className="text-text-dim/40 hover:text-accent-focus hover:bg-accent-focus/10 rounded-xl p-2 transition-all"
                                             >
                                                 <Edit2 size={18} />
                                             </button>
                                             <button 
-                                                onClick={() => handleDeleteCard(card.id)}
-                                                disabled={deletingCardId === card.id}
+                                                onClick={() => actions.handleDeleteCard(card.id)}
+                                                disabled={state.deletingCardId === card.id}
                                                 className="text-text-dim/40 hover:text-red-400 hover:bg-red-400/10 rounded-xl p-2 transition-all"
                                             >
-                                                {deletingCardId === card.id ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
+                                                {state.deletingCardId === card.id ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
                                             </button>
                                         </div>
                                     )}
@@ -184,6 +181,10 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
                                         </div>
                                     ))}
                                 </div>
+                                <div className="mt-4 pt-3 border-t border-border-subtle/50 flex items-center gap-1.5 text-[11px] font-medium text-text-dim/60">
+                                    <Calendar size={12} className="shrink-0" />
+                                    <span>{formatNextReview(card.user_items?.[0]?.due_date)}</span>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -191,29 +192,20 @@ export function DeckDetailsClient({ deck, cards, isOwner, isTeacher, classrooms,
             </div>
 
             {/* Modals */}
-            {showAssign && (
-                <AssignToClassroomDialog 
-                    deckId={deck.id}
-                    classrooms={classrooms}
-                    assignedClassroomIds={assignedClassroomIds}
-                    onClose={() => setShowAssign(false)}
-                />
-            )}
-
-            {showDeleteDeck && (
+            {state.showDeleteDeck && (
                 <DeleteDeckModal 
                     deckId={deck.id}
                     deckTitle={deck.title}
-                    onClose={() => setShowDeleteDeck(false)}
+                    onClose={() => actions.setShowDeleteDeck(false)}
                 />
             )}
 
-            {(showAddCard || editingCard) && (
+            {(state.showAddCard || state.editingCard) && (
                 <CardFormModal 
                     deck={deck} 
-                    card={editingCard || undefined}
-                    onClose={() => { setShowAddCard(false); setEditingCard(null); }} 
-                    onSuccess={() => { setShowAddCard(false); setEditingCard(null); router.refresh(); }} 
+                    card={state.editingCard || undefined}
+                    onClose={() => { actions.setShowAddCard(false); actions.setEditingCard(null); }} 
+                    onSuccess={() => { actions.setShowAddCard(false); actions.setEditingCard(null); router.refresh(); }} 
                 />
             )}
         </div>

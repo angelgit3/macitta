@@ -4,7 +4,7 @@
 
 **Open-source spaced repetition platform for public universities in Latin America.**
 
-Built for the students who can't afford Duolingo Premium. Deployable by any school, at near-zero cost.
+Built for learners who need a focused, installable vocabulary tool. Deployable by any school, team, or self-hosted project at near-zero cost.
 
 [![Live at macitta.app](https://img.shields.io/badge/Live%20Demo-macitta.app-6366f1?style=flat-square&logo=vercel)](https://www.macitta.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org/)
@@ -31,7 +31,7 @@ Fork this repo and deploy a full instance in minutes:
 
 ## What is Macitta?
 
-Macitta is a **production-grade, open-source vocabulary learning platform** originally built as a social service project at a public university in Mexico. It is now live at [macitta.app](https://www.macitta.app) and serves as **digital public infrastructure**: any school, teacher, or institution can fork it, deploy it, and adapt it at near-zero operational cost.
+Macitta is a **production-grade, open-source vocabulary learning platform** originally built as a social service project at a public university in Mexico. It is now live at [macitta.app](https://www.macitta.app) and serves as **digital public infrastructure**: any school, team, or learner can fork it, deploy it, and adapt it at near-zero operational cost.
 
 ### The problem it solves
 
@@ -44,8 +44,8 @@ Engineering and robotics students in Latin America are systematically excluded f
 | Feature | Description |
 |---|---|
 | 🧠 **Custom SREM Engine** | 9-step growth curve with difficulty modulation, Hard-grade recalibration, and lapse-capped advancement. [Read the algorithm docs →](docs/srem-algorithm.md) |
-| 👨‍🏫 **Role-Based Access** | Separate, secure portals for Students and Teachers |
-| 📊 **Study Analytics** | Session tracking, activity streaks, performance stats, and group reports for teachers |
+| 📚 **Personal Decks** | Create, import, and study custom vocabulary collections |
+| Study Analytics | Session tracking, activity streaks, performance stats, and mastery summaries |
 | 📱 **PWA / Offline-First** | Installable app with offline study via Service Workers and IndexedDB (Dexie.js) |
 | 🔐 **Secure by Default** | Supabase Row Level Security (RLS) on every table |
 | 🌙 **Modern UI** | Tailwind CSS v4, dark-mode first |
@@ -143,7 +143,7 @@ Macitta_god/
 
 ## 🌱 The Vision
 
-The open-source ecosystem is rich with developer tooling but severely lacks accessible, deployable educational software for underfunded institutions. Macitta is the first step toward a replicable model: a **fork-and-deploy educational stack** that any school, teacher, or local consultant can operationalize.
+The open-source ecosystem is rich with developer tooling but severely lacks accessible, deployable educational software for underfunded institutions. Macitta is the first step toward a replicable model: a **fork-and-deploy educational stack** that any school, learner, or local consultant can operationalize.
 
 The SREM engine in `packages/shared` is designed to be framework-agnostic — eventually publishable as a standalone npm package usable by any developer building language learning, flashcard, or adaptive training applications.
 

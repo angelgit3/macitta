@@ -3,15 +3,15 @@
 import { BentoCard } from "@/components/ui/BentoCard";
 import { StatsGraph } from "@/components/ui/StatsGraph";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
-import { JoinClassForm } from "@/components/ui/JoinClassForm";
-import { BookOpen, Target, Cloud, Flame, Clock } from "lucide-react";
+import { BookOpen, Target, Cloud, Flame, Clock, GraduationCap, ArrowRight } from "lucide-react";
 import { useUserStats } from "@/hooks/useUserStats";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
 
 export function DashboardClient({ initialCount }: { initialCount: number }) {
     const { stats, loading } = useUserStats();
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
     const [userId, setUserId] = useState<string | null>(null);
     const [showOnboarding, setShowOnboarding] = useState(false);
 
@@ -33,7 +33,7 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
             }
         }
         checkOnboarding();
-    }, []);
+    }, [supabase]);
 
     const todayLocal = new Date();
     const todayStr = `${todayLocal.getFullYear()}-${String(todayLocal.getMonth() + 1).padStart(2, '0')}-${String(todayLocal.getDate()).padStart(2, '0')}`;
@@ -86,6 +86,22 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
                 <span className="text-sm font-bold text-accent-success">Sincronizado</span>
             </div>
 
+            <Link
+                href="/toefl"
+                className="bg-stone-surface border border-border-subtle rounded-3xl p-5 flex items-center justify-between gap-4 hover:border-accent-focus/50 transition-all group"
+            >
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-accent-focus/15 text-accent-focus flex items-center justify-center">
+                        <GraduationCap size={22} />
+                    </div>
+                    <div>
+                        <h2 className="text-base font-black text-white">Prácticas TOEFL</h2>
+                        <p className="text-xs text-text-dim mt-0.5">Reading y Grammar con score inmediato</p>
+                    </div>
+                </div>
+                <ArrowRight size={18} className="text-text-dim group-hover:text-accent-focus transition-colors" />
+            </Link>
+
             {/* Activity Graph */}
             <BentoCard title="Actividad" className="h-[320px]">
                 <div className="flex justify-between items-end mb-4">
@@ -104,9 +120,6 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
                 </div>
                 <StatsGraph data={graphData} />
             </BentoCard>
-
-            {/* Join a Class */}
-            <JoinClassForm />
         </>
     );
 }

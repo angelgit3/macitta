@@ -5,26 +5,13 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
-import { User, Mail, Lock, Loader2, GraduationCap, BookOpen } from "lucide-react";
-
-const ALLOWED_DOMAIN = "upt.edu.mx";
-
-function detectRole(email: string): "student" | "teacher" | null {
-    const parts = email.split("@");
-    if (parts.length !== 2) return null;
-    const [local, domain] = parts;
-    if (domain.toLowerCase() !== ALLOWED_DOMAIN) return null;
-    return /^\d+$/.test(local) ? "student" : "teacher";
-}
+import { User, Mail, Lock, Loader2 } from "lucide-react";
 
 export default function SignupPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [emailValue, setEmailValue] = useState("");
-
-    const detectedRole = emailValue ? detectRole(emailValue) : null;
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -37,41 +24,27 @@ export default function SignupPage() {
         const confirmPassword = formData.get("confirmPassword") as string;
         const rawUsername = (formData.get("username") as string).trim();
 
-        // SECURITY: Sanitizar username — solo letras, números, guiones y guiones bajos.
-        // Previene inyección de caracteres especiales en user_metadata.
-        const username = rawUsername.replace(/[^a-zA-Z0-9_\-\.]/g, "").slice(0, 32);
+        const username = rawUsername.replace(/[^a-zA-Z0-9_\-.]/g, "").slice(0, 32);
         if (username.length < 3) {
-            setError("El nombre de usuario debe tener al menos 3 caracteres alfanuméricos.");
+            setError("El nombre de usuario debe tener al menos 3 caracteres alfanumericos.");
             setLoading(false);
             return;
         }
 
-        // Validate institutional domain
-        if (!email.endsWith(`@${ALLOWED_DOMAIN}`)) {
-            setError("Usa tu correo institucional @upt.edu.mx");
-            setLoading(false);
-            return;
-        }
-
-        // SECURITY: Contraseña mínima de 8 caracteres
         if (password.length < 8) {
-            setError("La contraseña debe tener al menos 8 caracteres.");
+            setError("La contrasena debe tener al menos 8 caracteres.");
             setLoading(false);
             return;
         }
 
         if (password !== confirmPassword) {
-            setError("Las contraseñas no coinciden");
+            setError("Las contrasenas no coinciden");
             setLoading(false);
             return;
         }
 
         const supabase = createClient();
-        const role = detectRole(email) ?? 'student';
-
-        // SECURITY: El avatar_url se genera desde el email (servidor-derivado),
-        // no desde el username controlado por el usuario, para evitar SSRF.
-        const avatarSeed = encodeURIComponent(email.split('@')[0]);
+        const avatarSeed = encodeURIComponent(email.split("@")[0]);
 
         const { error } = await supabase.auth.signUp({
             email,
@@ -80,28 +53,24 @@ export default function SignupPage() {
                 data: {
                     user_name: username,
                     avatar_url: `https://api.dicebear.com/9.x/notionists/svg?seed=${avatarSeed}`,
-                    role,
                 },
             },
         });
 
         if (error) {
             const msg = error.message.toLowerCase();
-            if (msg.includes('already registered') || msg.includes('already exists') || msg.includes('user_already_exists')) {
-                setError('Ya existe una cuenta con ese correo. ¿Olvidaste tu contraseña?');
-            } else if (msg.includes('email not confirmed')) {
-                setError('Este correo ya se registró pero no fue verificado. Revisa tu bandeja y busca el código de Macitta.');
-            } else if (msg.includes('rate limit') || msg.includes('too many requests')) {
-                setError('Demasiados intentos. Espera unos minutos antes de intentar de nuevo.');
-            } else if (msg.includes('invalid email') || msg.includes('unable to validate')) {
-                setError('El formato del correo no es válido. Verifica que sea un correo institucional @upt.edu.mx.');
-            } else if (msg.includes('password') && (msg.includes('short') || msg.includes('weak'))) {
-                setError('La contraseña es muy corta o débil. Usa al menos 8 caracteres.');
-            } else if (msg.includes('upt.edu.mx')) {
-                setError('Solo se permiten correos institucionales @upt.edu.mx.');
+            if (msg.includes("already registered") || msg.includes("already exists") || msg.includes("user_already_exists")) {
+                setError("Ya existe una cuenta con ese correo. Olvidaste tu contrasena?");
+            } else if (msg.includes("email not confirmed")) {
+                setError("Este correo ya se registro pero no fue verificado. Revisa tu bandeja y busca el codigo de Macitta.");
+            } else if (msg.includes("rate limit") || msg.includes("too many requests")) {
+                setError("Demasiados intentos. Espera unos minutos antes de intentar de nuevo.");
+            } else if (msg.includes("invalid email") || msg.includes("unable to validate")) {
+                setError("El formato del correo no es valido. Verifica tus datos e intenta de nuevo.");
+            } else if (msg.includes("password") && (msg.includes("short") || msg.includes("weak"))) {
+                setError("La contrasena es muy corta o debil. Usa al menos 8 caracteres.");
             } else {
-                // En producción, mensaje genérico para no filtrar detalles internos
-                setError('No se pudo crear la cuenta. Verifica tus datos e intenta de nuevo.');
+                setError("No se pudo crear la cuenta. Verifica tus datos e intenta de nuevo.");
             }
             setLoading(false);
         } else {
@@ -111,111 +80,84 @@ export default function SignupPage() {
 
     return (
         <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
-                <h2 className="text-2xl font-bold mb-2 text-center">Bienvenido a Macitta</h2>
-                <p className="text-text-dim text-center mb-6 text-sm">Usa tu correo institucional @upt.edu.mx</p>
+            <h2 className="text-2xl font-bold mb-2 text-center">Bienvenido a Macitta</h2>
+            <p className="text-text-dim text-center mb-6 text-sm">Crea tu cuenta con cualquier correo.</p>
 
-                {error && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">
-                        {error}
-                    </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-
-                    <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Usuario</label>
-                        <div className="relative">
-                            <User className="absolute left-4 top-3 text-text-dim" size={16} />
-                            <input
-                                name="username"
-                                required
-                                minLength={3}
-                                className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                                placeholder="neo_anderson"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Email Institucional</label>
-                        <div className="relative">
-                            <Mail className="absolute left-4 top-3 text-text-dim" size={16} />
-                            <input
-                                name="email"
-                                type="email"
-                                required
-                                value={emailValue}
-                                onChange={(e) => setEmailValue(e.target.value)}
-                                className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                                placeholder="matricula@upt.edu.mx"
-                            />
-                        </div>
-                        {/* Role detection badge */}
-                        {emailValue && (
-                            <div className="mt-1.5 ml-1">
-                                {detectedRole === "student" && (
-                                    <span className="inline-flex items-center gap-1.5 text-xs text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-lg">
-                                        <GraduationCap size={12} />
-                                        Estudiante
-                                    </span>
-                                )}
-                                {detectedRole === "teacher" && (
-                                    <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
-                                        <BookOpen size={12} />
-                                        Docente
-                                    </span>
-                                )}
-                                {detectedRole === null && emailValue.includes("@") && (
-                                    <span className="inline-flex items-center gap-1.5 text-xs text-red-400 bg-red-500/10 px-2.5 py-1 rounded-lg">
-                                        Solo correos @upt.edu.mx
-                                    </span>
-                                )}
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Contraseña</label>
-                        <div className="relative">
-                            <Lock className="absolute left-4 top-3 text-text-dim" size={16} />
-                            <input
-                                name="password"
-                                type="password"
-                                required
-                                minLength={8}
-                                className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                                placeholder="••••••••"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Repetir Contraseña</label>
-                        <div className="relative">
-                            <Lock className="absolute left-4 top-3 text-text-dim" size={16} />
-                            <input
-                                name="confirmPassword"
-                                type="password"
-                                required
-                                minLength={8}
-                                className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                                placeholder="••••••••"
-                            />
-                        </div>
-                    </div>
-
-                    <ZenButton
-                        variant="primary"
-                        className="w-full mt-4 h-12"
-                        disabled={loading || (emailValue.includes("@") && !detectedRole)}
-                    >
-                        {loading ? <Loader2 className="animate-spin" /> : "Crear Cuenta"}
-                    </ZenButton>
-                </form>
-
-                <div className="mt-6 text-center text-sm text-text-dim">
-                    ¿Ya tienes cuenta? <Link href="/auth/login" className="text-white font-medium hover:underline">Inicia Sesión</Link>
+            {error && (
+                <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">
+                    {error}
                 </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Usuario</label>
+                    <div className="relative">
+                        <User className="absolute left-4 top-3 text-text-dim" size={16} />
+                        <input
+                            name="username"
+                            required
+                            minLength={3}
+                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
+                            placeholder="neo_anderson"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Email</label>
+                    <div className="relative">
+                        <Mail className="absolute left-4 top-3 text-text-dim" size={16} />
+                        <input
+                            name="email"
+                            type="email"
+                            required
+                            value={emailValue}
+                            onChange={(e) => setEmailValue(e.target.value)}
+                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
+                            placeholder="tu_correo@example.com"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Contrasena</label>
+                    <div className="relative">
+                        <Lock className="absolute left-4 top-3 text-text-dim" size={16} />
+                        <input
+                            name="password"
+                            type="password"
+                            required
+                            minLength={8}
+                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
+                            placeholder="********"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Repetir Contrasena</label>
+                    <div className="relative">
+                        <Lock className="absolute left-4 top-3 text-text-dim" size={16} />
+                        <input
+                            name="confirmPassword"
+                            type="password"
+                            required
+                            minLength={8}
+                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
+                            placeholder="********"
+                        />
+                    </div>
+                </div>
+
+                <ZenButton variant="primary" className="w-full mt-4 h-12" disabled={loading}>
+                    {loading ? <Loader2 className="animate-spin" /> : "Crear Cuenta"}
+                </ZenButton>
+            </form>
+
+            <div className="mt-6 text-center text-sm text-text-dim">
+                Ya tienes cuenta? <Link href="/auth/login" className="text-white font-medium hover:underline">Inicia Sesion</Link>
+            </div>
         </div>
     );
 }

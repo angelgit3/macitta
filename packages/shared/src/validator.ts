@@ -5,6 +5,8 @@ export type ComplexAnswer =
     | { allOf: string[]; ordered?: boolean }
     | { kOf: { of: string[]; atLeast: number } };
 
+type AnswerRuleObject = Exclude<ComplexAnswer, string | string[]>;
+
 export function normalize(text: string): string {
     return text.trim().toLowerCase().replace(/\s+/g, " ");
 }
@@ -26,14 +28,16 @@ export function validateAnswer(userInput: string, target: ComplexAnswer): boolea
 
     // Case 3: Object with rules
     if (typeof target === "object" && target !== null) {
+        const rule = target as AnswerRuleObject;
+
         // 3a. anyOf
-        if ("anyOf" in target && Array.isArray((target as any).anyOf)) {
-            return (target as any).anyOf.some((t: string) => normalize(t) === input);
+        if ("anyOf" in rule && Array.isArray(rule.anyOf)) {
+            return rule.anyOf.some((t: string) => normalize(t) === input);
         }
 
         // 3b. allOf
-        if ("allOf" in target && Array.isArray((target as any).allOf)) {
-            const required = (target as any).allOf.map(normalize);
+        if ("allOf" in rule && Array.isArray(rule.allOf)) {
+            const required = rule.allOf.map(normalize);
             // User input is a single string. For allOf, we generally expect the user to provide
             // multiple answers? Or does the user provide a comma-separated list?
             // The docs say: Example: "rojo, azul, amarillo" is correct.
@@ -45,9 +49,8 @@ export function validateAnswer(userInput: string, target: ComplexAnswer): boolea
         }
 
         // 3c. kOf — at least N out of K options must be present
-        if ("kOf" in target) {
-            const kOfTarget = target as { kOf: { of: string[]; atLeast: number } };
-            const { of: options, atLeast } = kOfTarget.kOf;
+        if ("kOf" in rule) {
+            const { of: options, atLeast } = rule.kOf;
             const normalizedOptions = options.map(normalize);
             const userParts = input.split(/[,;]/).map(p => p.trim()).filter(Boolean).map(normalize);
             const matchedCount = normalizedOptions.filter(opt => userParts.includes(opt)).length;
