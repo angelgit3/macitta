@@ -221,6 +221,13 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                 </div>
             </section>
 
+            {exam.section === "listening" && exam.transcript && (
+                <section className="bg-void/60 border border-border-subtle rounded-3xl p-5">
+                    <h2 className="text-sm font-bold uppercase tracking-wider text-text-dim">Transcripción</h2>
+                    <p className="text-sm text-zinc-200 leading-7 mt-3">{exam.transcript}</p>
+                </section>
+            )}
+
             <section className="space-y-3">
                 <div className="flex items-center justify-between px-1">
                     <h2 className="text-sm font-bold uppercase tracking-wider text-text-dim">Revisión</h2>

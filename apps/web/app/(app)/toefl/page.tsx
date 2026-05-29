@@ -40,7 +40,7 @@ export default async function TOEFLPracticePage() {
                     </div>
                     <h1 className="text-3xl font-black leading-tight text-white">Prácticas TOEFL</h1>
                     <p className="text-sm text-text-dim mt-2 leading-relaxed">
-                        Entrena Reading y Grammar con score inmediato y una revisión lista para tu tutor de IA.
+                        Entrena Reading, Grammar y Listening flexible con score inmediato y una revisión lista para tu tutor de IA.
                     </p>
                 </header>
 

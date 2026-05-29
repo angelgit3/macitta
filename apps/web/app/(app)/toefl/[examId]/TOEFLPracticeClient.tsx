@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { calculateTOEFLScore } from "@maccita/shared";
 import { createClient } from "@/utils/supabase/client";
 import { db } from "@/lib/db";
 import type { TOEFLAnswerOption, TOEFLExam, TOEFLQuestion } from "@/types/models";
-import { ArrowLeft, ArrowRight, CheckCircle2, Clock, Loader2, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock, Gauge, Loader2, Pause, Play, RotateCcw, Send, Volume2 } from "lucide-react";
 import Link from "next/link";
 
 interface TOEFLPracticeClientProps {
@@ -14,6 +14,9 @@ interface TOEFLPracticeClientProps {
     exam: TOEFLExam;
     questions: TOEFLQuestion[];
 }
+
+const TOEFL_AUDIO_BUCKET = "toefl-audio";
+const PLAYBACK_RATES = [0.8, 1, 1.2];
 
 function optionLabel(option: TOEFLAnswerOption) {
     return `${option.id}) ${option.text}`;
@@ -28,16 +31,25 @@ function formatTime(totalSeconds: number) {
 export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeClientProps) {
     const router = useRouter();
     const supabase = useMemo(() => createClient(), []);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [startedAt] = useState(() => Date.now());
     const [elapsedSeconds, setElapsedSeconds] = useState(0);
+    const [audioProgress, setAudioProgress] = useState(0);
+    const [audioDuration, setAudioDuration] = useState(0);
+    const [playbackRate, setPlaybackRate] = useState(1);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const currentQuestion = questions[currentIndex];
     const answeredCount = Object.keys(answers).length;
     const progress = questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0;
+    const audioUrl = useMemo(() => {
+        if (!exam.audio_path) return null;
+        return supabase.storage.from(TOEFL_AUDIO_BUCKET).getPublicUrl(exam.audio_path).data.publicUrl;
+    }, [exam.audio_path, supabase]);
 
     useEffect(() => {
         const interval = window.setInterval(() => {
@@ -105,6 +117,32 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
         router.push(`/toefl/result/${attemptId}`);
     }
 
+    async function toggleAudio() {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        if (audio.paused) {
+            await audio.play();
+            setIsPlaying(true);
+        } else {
+            audio.pause();
+            setIsPlaying(false);
+        }
+    }
+
+    function rewindAudio() {
+        const audio = audioRef.current;
+        if (!audio) return;
+        audio.currentTime = Math.max(0, audio.currentTime - 5);
+    }
+
+    function changePlaybackRate(rate: number) {
+        setPlaybackRate(rate);
+        if (audioRef.current) {
+            audioRef.current.playbackRate = rate;
+        }
+    }
+
     if (!currentQuestion) {
         return (
             <div className="text-center py-16 text-text-dim">
@@ -137,6 +175,88 @@ export function TOEFLPracticeClient({ userId, exam, questions }: TOEFLPracticeCl
                     <p className="text-xs text-text-dim mt-2">{answeredCount} de {questions.length} respondidas</p>
                 </div>
             </header>
+
+            {exam.section === "listening" && (
+                <section className="bg-stone-surface border border-border-subtle rounded-3xl p-5">
+                    <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-300 flex items-center justify-center shrink-0">
+                            <Volume2 size={22} />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-xs font-bold uppercase tracking-wider text-amber-300">Audio flexible</p>
+                            <h2 className="text-lg font-black text-white mt-1">Escucha el diálogo antes de responder</h2>
+                            <p className="text-xs text-text-dim mt-1">La transcripción se mostrará solo en la revisión.</p>
+                        </div>
+                    </div>
+
+                    {audioUrl ? (
+                        <>
+                            <audio
+                                ref={audioRef}
+                                src={audioUrl}
+                                preload="metadata"
+                                onLoadedMetadata={(event) => setAudioDuration(event.currentTarget.duration || 0)}
+                                onTimeUpdate={(event) => {
+                                    const audio = event.currentTarget;
+                                    setAudioProgress(audio.duration ? (audio.currentTime / audio.duration) * 100 : 0);
+                                }}
+                                onEnded={() => setIsPlaying(false)}
+                                onPause={() => setIsPlaying(false)}
+                                onPlay={() => setIsPlaying(true)}
+                            />
+                            <div className="mt-5 h-14 rounded-2xl bg-void/70 border border-border-subtle px-4 flex items-center gap-1 overflow-hidden">
+                                {Array.from({ length: 36 }).map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className={`flex-1 rounded-full transition-colors ${isPlaying ? "bg-amber-300" : "bg-text-dim/40"}`}
+                                        style={{ height: `${28 + ((index * 17) % 22)}%`, opacity: index < Math.round(audioProgress / 3) ? 1 : 0.35 }}
+                                    />
+                                ))}
+                            </div>
+                            <div className="mt-4 flex flex-wrap items-center gap-2">
+                                <button
+                                    type="button"
+                                    onClick={toggleAudio}
+                                    className="h-11 px-4 rounded-2xl bg-amber-500 text-void font-black flex items-center gap-2"
+                                >
+                                    {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                                    {isPlaying ? "Pausar" : "Reproducir"}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={rewindAudio}
+                                    className="h-11 px-3 rounded-2xl bg-void border border-border-subtle text-text-dim hover:text-white flex items-center gap-2"
+                                >
+                                    <RotateCcw size={16} />
+                                    5s
+                                </button>
+                                <div className="h-11 rounded-2xl bg-void border border-border-subtle px-2 flex items-center gap-1">
+                                    <Gauge size={15} className="text-text-dim ml-1" />
+                                    {PLAYBACK_RATES.map((rate) => (
+                                        <button
+                                            key={rate}
+                                            type="button"
+                                            onClick={() => changePlaybackRate(rate)}
+                                            className={`h-8 px-2 rounded-xl text-xs font-bold transition-colors ${
+                                                playbackRate === rate ? "bg-amber-500 text-void" : "text-text-dim hover:text-white"
+                                            }`}
+                                        >
+                                            {rate}x
+                                        </button>
+                                    ))}
+                                </div>
+                                <span className="text-xs text-text-dim ml-auto">
+                                    {formatTime(Math.floor((audioProgress / 100) * audioDuration))} / {formatTime(Math.floor(audioDuration || 0))}
+                                </span>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="mt-5 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 text-sm text-amber-100">
+                            Esta práctica todavía no tiene un audio configurado.
+                        </div>
+                    )}
+                </section>
+            )}
 
             <div className={exam.passage_text ? "grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start" : ""}>
                 {exam.passage_text && (
