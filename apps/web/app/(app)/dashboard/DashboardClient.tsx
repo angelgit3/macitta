@@ -3,7 +3,7 @@
 import { BentoCard } from "@/components/ui/BentoCard";
 import { StatsGraph } from "@/components/ui/StatsGraph";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
-import { BookOpen, Target, Cloud, Flame, Clock, GraduationCap, ArrowRight } from "lucide-react";
+import { BookOpen, Target, Cloud, Flame, Clock, GraduationCap, ArrowRight, Shuffle } from "lucide-react";
 import { useUserStats } from "@/hooks/useUserStats";
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -85,6 +85,22 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
                 </div>
                 <span className="text-sm font-bold text-accent-success">Sincronizado</span>
             </div>
+
+            <Link
+                href="/estudio/global"
+                className="bg-accent-focus text-white rounded-3xl p-5 flex items-center justify-between gap-4 hover:brightness-110 transition-all group"
+            >
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center">
+                        <Shuffle size={22} />
+                    </div>
+                    <div>
+                        <h2 className="text-base font-black">Estudiar con un botón</h2>
+                        <p className="text-xs text-white/75 mt-0.5">Repasa tarjetas vencidas de todos tus mazos</p>
+                    </div>
+                </div>
+                <ArrowRight size={18} className="text-white/70 group-hover:text-white transition-colors" />
+            </Link>
 
             <Link
                 href="/toefl"

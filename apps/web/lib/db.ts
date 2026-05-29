@@ -78,7 +78,7 @@ interface SessionOp {
     data: {
         session_id: string;
         user_id: string;
-        deck_id?: string;
+        deck_id?: string | null;
         started_at?: string;
         ended_at?: string;
         total_cards?: number;

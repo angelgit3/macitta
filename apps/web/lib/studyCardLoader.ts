@@ -36,6 +36,23 @@ function toCardData(
     };
 }
 
+function isDueCard(card: any, now = new Date()) {
+    const due = card.user_items?.[0]?.due_date;
+    return !due || new Date(due) <= now;
+}
+
+function sortByDueDate(rawCards: any[]) {
+    rawCards.sort((a, b) => {
+        const dueA = a.user_items?.[0]?.due_date
+            ? new Date(a.user_items[0].due_date).getTime()
+            : 0;
+        const dueB = b.user_items?.[0]?.due_date
+            ? new Date(b.user_items[0].due_date).getTime()
+            : 0;
+        return dueA - dueB;
+    });
+}
+
 // ─── Deck Resolution ─────────────────────────────────────────────────
 
 /**
@@ -149,26 +166,96 @@ export async function loadDueCards(
     if (rawCards.length === 0) return [];
 
     // 3. Sort by due_date (most overdue first)
-    rawCards.sort((a, b) => {
-        const dueA = a.user_items?.[0]?.due_date
-            ? new Date(a.user_items[0].due_date).getTime()
-            : 0;
-        const dueB = b.user_items?.[0]?.due_date
-            ? new Date(b.user_items[0].due_date).getTime()
-            : 0;
-        return dueA - dueB;
-    });
+    sortByDueDate(rawCards);
 
     // 4. Filter to only due cards (no due_date = new card, always included)
     const now = new Date();
-    const dueCards = rawCards.filter((c: any) => {
-        const due = c.user_items?.[0]?.due_date;
-        return !due || new Date(due) <= now;
-    });
+    const dueCards = rawCards.filter((c: any) => isDueCard(c, now));
 
     return dueCards.slice(0, batchSize).map((c: any) =>
         toCardData(c, c.card_slots, c.user_items?.[0]),
     );
+}
+
+export async function loadGlobalDueCards(
+    userId: string | null,
+    batchSize = APP_CONFIG.STUDY_SESSION.BATCH_SIZE,
+): Promise<CardData[]> {
+    const supabase = createClient();
+    let rawCards: any[] = [];
+
+    if (navigator.onLine) {
+        const { data: remoteCards, error } = await supabase
+            .from("cards")
+            .select(`
+                id, deck_id, front_text,
+                card_slots (id, label, accepted_answers, match_type, order_index, advanced_rules, media),
+                user_items (stability, difficulty, reps, lapses, state, last_review, due_date)
+            `);
+
+        if (error) console.error("[SREM] Global fetch error:", error);
+
+        if (remoteCards && remoteCards.length > 0) {
+            try {
+                const localCards: LocalCard[] = remoteCards.map(c => ({
+                    id: c.id,
+                    deck_id: c.deck_id,
+                    front_text: c.front_text,
+                    slots: c.card_slots,
+                    updated_at: new Date().toISOString(),
+                }));
+
+                const localUserItems: LocalUserItem[] = remoteCards
+                    .filter(c => c.user_items?.[0] && userId)
+                    .map(c => {
+                        const ui = c.user_items[0];
+                        return {
+                            user_id: userId!,
+                            card_id: c.id,
+                            stability: ui.stability,
+                            difficulty: ui.difficulty,
+                            reps: ui.reps,
+                            lapses: ui.lapses,
+                            state: ui.state,
+                            last_review: ui.last_review,
+                            due_date: ui.due_date,
+                        };
+                    });
+
+                await db.cards.bulkPut(localCards);
+                if (localUserItems.length > 0) {
+                    await db.userItems.bulkPut(localUserItems);
+                }
+                rawCards = remoteCards;
+            } catch (dbErr) {
+                console.error("[SREM] Global Dexie bulkPut failed:", dbErr);
+            }
+        }
+    }
+
+    if (rawCards.length === 0) {
+        const localCards = await db.cards.toArray();
+        const cardIds = localCards.map(c => c.id);
+        const localItems = userId && cardIds.length > 0
+            ? await db.userItems.where("card_id").anyOf(cardIds).toArray()
+            : [];
+        const userItems = localItems.filter(i => i.user_id === userId);
+
+        rawCards = localCards.map(lc => ({
+            ...lc,
+            card_slots: lc.slots,
+            user_items: [userItems.find(li => li.card_id === lc.id)],
+        }));
+    }
+
+    if (rawCards.length === 0) return [];
+
+    sortByDueDate(rawCards);
+    const now = new Date();
+    return rawCards
+        .filter((c: any) => isDueCard(c, now))
+        .slice(0, batchSize)
+        .map((c: any) => toCardData(c, c.card_slots, c.user_items?.[0]));
 }
 
 // ─── Rush Cards (Weakness-Based) ─────────────────────────────────────
@@ -232,6 +319,23 @@ export async function countRemainingDue(
 
     let count = 0;
     for (const card of deckCards) {
+        const progress = progressMap.get(card.id);
+        if (!progress || new Date(progress.due_date) <= new Date()) count++;
+    }
+    return count;
+}
+
+export async function countRemainingDueGlobal(userId: string): Promise<number> {
+    const allCards = await db.cards.toArray();
+    const cardIds = allCards.map(c => c.id);
+    const userProgress = cardIds.length > 0
+        ? await db.userItems.where("card_id").anyOf(cardIds).toArray()
+        : [];
+    const userProgressFiltered = userProgress.filter(p => p.user_id === userId);
+    const progressMap = new Map(userProgressFiltered.map(p => [p.card_id, p]));
+
+    let count = 0;
+    for (const card of allCards) {
         const progress = progressMap.get(card.id);
         if (!progress || new Date(progress.due_date) <= new Date()) count++;
     }

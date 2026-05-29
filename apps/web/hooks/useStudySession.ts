@@ -8,14 +8,18 @@ import { useSessionManager } from "./useSessionManager";
 import {
     resolveDeckId,
     loadDueCards,
+    loadGlobalDueCards,
     loadRushCards,
     countRemainingDue,
+    countRemainingDueGlobal,
 } from "@/lib/studyCardLoader";
 import { saveReview } from "@/lib/studyReviewService";
 import { APP_CONFIG } from "@/config/constants";
 
 // Re-export types for backward compatibility with consumers
 export type { CardData, SlotFeedback, Slot } from "@/types/study";
+
+export const GLOBAL_STUDY_DECK_ID = "global";
 
 // ─── Hook ───────────────────────────────────────────────────────────
 
@@ -32,6 +36,7 @@ export function useStudySession(providedDeckId?: string) {
 
     // Deck
     const [deckId, setDeckId] = useState<string | null>(providedDeckId || null);
+    const isGlobalStudy = providedDeckId === GLOBAL_STUDY_DECK_ID;
 
     // Rush mode
     const [isRushMode, setIsRushMode] = useState(false);
@@ -93,9 +98,11 @@ export function useStudySession(providedDeckId?: string) {
                 }
 
                 setDeckId(providedDeckId);
-                await startSession(providedDeckId);
+                await startSession(isGlobalStudy ? null : providedDeckId);
 
-                const cards = await loadDueCards(providedDeckId, userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
+                const cards = isGlobalStudy
+                    ? await loadGlobalDueCards(userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE)
+                    : await loadDueCards(providedDeckId, userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
                 setQueue(cards);
             } catch (err) {
                 console.error("[SREM] Init error:", err);
@@ -109,7 +116,7 @@ export function useStudySession(providedDeckId?: string) {
 
         init();
         return () => { isMounted = false; clearTimeout(timeout); };
-    }, [providedDeckId, startSession, supabase]);
+    }, [isGlobalStudy, providedDeckId, startSession, supabase]);
 
     // ─── Card Navigation ────────────────────────────────────────────
 
@@ -189,7 +196,9 @@ export function useStudySession(providedDeckId?: string) {
                 try {
                     const { data: { user } } = await supabase.auth.getUser();
                     if (user) {
-                        const remaining = await countRemainingDue(deckId, user.id);
+                        const remaining = isGlobalStudy
+                            ? await countRemainingDueGlobal(user.id)
+                            : await countRemainingDue(deckId, user.id);
                         setRemainingDueCount(remaining);
                     }
                 } catch { /* non-critical */ }
@@ -197,7 +206,7 @@ export function useStudySession(providedDeckId?: string) {
 
             setSessionComplete(true);
         }
-    }, [currentIndex, queue.length, endSession, sessionStats, deckId, supabase]);
+    }, [currentIndex, queue.length, endSession, sessionStats, deckId, isGlobalStudy, supabase]);
 
     // ─── Rush Mode ──────────────────────────────────────────────────
 
@@ -208,7 +217,7 @@ export function useStudySession(providedDeckId?: string) {
 
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user || !deckId) return;
+            if (!user || !deckId || isGlobalStudy) return;
 
             const cards = await loadRushCards(deckId, user.id, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
             setQueue(cards);
@@ -219,7 +228,7 @@ export function useStudySession(providedDeckId?: string) {
         } finally {
             setLoading(false);
         }
-    }, [deckId, supabase, resetSession, startSession]);
+    }, [deckId, isGlobalStudy, supabase, resetSession, startSession]);
 
     // ─── Input Handler ──────────────────────────────────────────────
 
@@ -247,7 +256,8 @@ export function useStudySession(providedDeckId?: string) {
         stats: sessionStats,
         isOffline,
         isRushMode,
+        isGlobalStudy,
         remainingDueCount,
-        startRushMode,
+        startRushMode: isGlobalStudy ? undefined : startRushMode,
     };
 }
