@@ -38,7 +38,7 @@ export function MetadataStep() {
         <div className="p-2 bg-void rounded-xl border border-border-subtle">
           <Save size={24} className="text-accent-focus" />
         </div>
-        <h2 className="text-2xl font-bold text-white">Configuración del Mazo</h2>
+        <h2 className="text-2xl font-bold text-ink">Configuración del Mazo</h2>
       </div>
       
       <ZenInput
@@ -53,7 +53,7 @@ export function MetadataStep() {
         <textarea 
           value={description}
           onChange={e => setDescription(e.target.value)}
-          className="w-full px-4 py-3 bg-void/50 border border-border-subtle h-28 text-white focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-xl transition-all resize-none shadow-inner"
+          className="w-full px-4 py-3 bg-void/50 border border-border-subtle h-28 text-ink focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-xl transition-all resize-none shadow-inner"
         />
       </div>
 

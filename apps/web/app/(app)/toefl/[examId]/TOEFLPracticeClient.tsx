@@ -195,7 +195,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
     return (
         <div className="flex flex-col gap-5 pb-24">
             <header className="space-y-4">
-                <Link href="/toefl" className="inline-flex items-center gap-1 text-sm text-text-dim hover:text-white transition-colors">
+                <Link href="/toefl" className="inline-flex items-center gap-1 text-sm text-text-dim hover:text-ink transition-colors">
                     <ArrowLeft size={16} /> Volver a prácticas
                 </Link>
 
@@ -205,7 +205,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                             <p className="text-[11px] uppercase tracking-wider text-accent-focus font-bold">
                                 {exam.section} · {isStrict ? "estricto" : "flexible"}
                             </p>
-                            <h1 className="text-xl font-black text-white leading-tight mt-1">{exam.title}</h1>
+                            <h1 className="text-xl font-black text-ink leading-tight mt-1">{exam.title}</h1>
                         </div>
                         <div className="flex items-center gap-1.5 text-xs text-text-dim bg-void rounded-full px-3 py-1.5 border border-border-subtle">
                             <Clock size={13} />
@@ -217,7 +217,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                     </div>
                     <p className="text-xs text-text-dim mt-2">{answeredCount} de {questions.length} respondidas</p>
                     {isStrict && (
-                        <p className="text-xs text-amber-200 mt-2">
+                        <p className="text-xs text-accent-strong mt-2">
                             Simulacro estricto: cuenta regresiva, navegación hacia atrás bloqueada y envío automático al llegar a cero.
                         </p>
                     )}
@@ -227,14 +227,14 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
             {exam.section === "listening" && (
                 <section className="bg-stone-surface border border-border-subtle rounded-3xl p-5">
                     <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-300 flex items-center justify-center shrink-0">
+                        <div className="w-12 h-12 rounded-2xl bg-accent-strong/10 text-accent-strong flex items-center justify-center shrink-0">
                             <Volume2 size={22} />
                         </div>
                         <div className="min-w-0 flex-1">
-                            <p className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                            <p className="text-xs font-bold uppercase tracking-wider text-accent-strong">
                                 Audio {isStrict ? "estricto" : "flexible"}
                             </p>
-                            <h2 className="text-lg font-black text-white mt-1">Escucha el diálogo antes de responder</h2>
+                            <h2 className="text-lg font-black text-ink mt-1">Escucha el diálogo antes de responder</h2>
                             <p className="text-xs text-text-dim mt-1">
                                 {isStrict ? "El audio se reproduce una sola vez y sin controles." : "La transcripción se mostrará solo en la revisión."}
                             </p>
@@ -266,7 +266,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                 {Array.from({ length: 36 }).map((_, index) => (
                                     <div
                                         key={index}
-                                        className={`flex-1 rounded-full transition-colors ${isPlaying ? "bg-amber-300" : "bg-text-dim/40"}`}
+                                        className={`flex-1 rounded-full transition-colors ${isPlaying ? "bg-accent-strong" : "bg-text-dim/40"}`}
                                         style={{ height: `${28 + ((index * 17) % 22)}%`, opacity: index < Math.round(audioProgress / 3) ? 1 : 0.35 }}
                                     />
                                 ))}
@@ -277,7 +277,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                         <button
                                             type="button"
                                             onClick={startStrictAudio}
-                                            className="h-11 px-4 rounded-2xl bg-amber-500 text-void font-black flex items-center gap-2"
+                                            className="h-11 px-4 rounded-2xl bg-accent-strong text-void font-black flex items-center gap-2"
                                         >
                                             <Play size={18} /> Iniciar audio
                                         </button>
@@ -294,7 +294,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                     <button
                                         type="button"
                                         onClick={toggleAudio}
-                                        className="h-11 px-4 rounded-2xl bg-amber-500 text-void font-black flex items-center gap-2"
+                                        className="h-11 px-4 rounded-2xl bg-accent-strong text-void font-black flex items-center gap-2"
                                     >
                                         {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                                         {isPlaying ? "Pausar" : "Reproducir"}
@@ -302,7 +302,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                     <button
                                         type="button"
                                         onClick={rewindAudio}
-                                        className="h-11 px-3 rounded-2xl bg-void border border-border-subtle text-text-dim hover:text-white flex items-center gap-2"
+                                        className="h-11 px-3 rounded-2xl bg-void border border-border-subtle text-text-dim hover:text-ink flex items-center gap-2"
                                     >
                                         <RotateCcw size={16} />
                                         5s
@@ -315,7 +315,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                                 type="button"
                                                 onClick={() => changePlaybackRate(rate)}
                                                 className={`h-8 px-2 rounded-xl text-xs font-bold transition-colors ${
-                                                    playbackRate === rate ? "bg-amber-500 text-void" : "text-text-dim hover:text-white"
+                                                    playbackRate === rate ? "bg-accent-strong text-void" : "text-text-dim hover:text-ink"
                                                 }`}
                                             >
                                                 {rate}x
@@ -329,7 +329,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                             )}
                         </>
                     ) : (
-                        <div className="mt-5 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 text-sm text-amber-100">
+                        <div className="mt-5 rounded-2xl border border-accent-strong/25 bg-accent-strong/10 p-4 text-sm text-paper-soft">
                             Esta práctica todavía no tiene un audio configurado.
                         </div>
                     )}
@@ -354,7 +354,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                         </span>
                     </div>
 
-                    <h2 className="text-lg font-black text-white leading-snug mb-5">{currentQuestion.question_text}</h2>
+                    <h2 className="text-lg font-black text-ink leading-snug mb-5">{currentQuestion.question_text}</h2>
 
                     <div className="space-y-3">
                         {currentQuestion.options.map((option) => {
@@ -367,8 +367,8 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                     onClick={() => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: option.id }))}
                                     className={`w-full text-left rounded-2xl border p-4 transition-all ${
                                         selected
-                                            ? "border-accent-focus bg-accent-focus/12 text-white"
-                                            : "border-border-subtle bg-void/40 text-text-dim hover:text-white hover:border-white/20"
+                                            ? "border-accent-focus bg-accent-focus/12 text-ink"
+                                            : "border-border-subtle bg-void/40 text-text-dim hover:text-ink hover:border-ink/20"
                                     }`}
                                 >
                                     <span className="text-sm font-semibold leading-relaxed">{optionLabel(option)}</span>
@@ -390,7 +390,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                     type="button"
                     onClick={() => setCurrentIndex((idx) => Math.max(0, idx - 1))}
                     disabled={currentIndex === 0 || isStrict}
-                    className="h-12 px-4 rounded-2xl bg-stone-surface border border-border-subtle text-text-dim disabled:opacity-40 hover:text-white transition-colors"
+                    className="h-12 px-4 rounded-2xl bg-stone-surface border border-border-subtle text-text-dim disabled:opacity-40 hover:text-ink transition-colors"
                 >
                     <ArrowLeft size={18} />
                 </button>
@@ -398,7 +398,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                     <button
                         type="button"
                         onClick={() => setCurrentIndex((idx) => Math.min(questions.length - 1, idx + 1))}
-                        className="flex-1 h-12 rounded-2xl bg-accent-focus text-white font-bold flex items-center justify-center gap-2"
+                        className="flex-1 h-12 rounded-2xl bg-brand-primary text-paper border border-paper-soft/25 font-bold flex items-center justify-center gap-2 hover:bg-stone-light transition-colors"
                     >
                         Siguiente <ArrowRight size={18} />
                     </button>
@@ -407,7 +407,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                         type="button"
                         onClick={handleSubmit}
                         disabled={submitting}
-                        className="flex-1 h-12 rounded-2xl bg-emerald-500 text-white font-bold flex items-center justify-center gap-2 disabled:opacity-60"
+                        className="flex-1 h-12 rounded-2xl bg-brand-primary text-paper border border-paper-soft/25 font-bold flex items-center justify-center gap-2 hover:bg-stone-light transition-colors disabled:opacity-60"
                     >
                         {submitting ? <Loader2 className="animate-spin" size={18} /> : answeredCount === questions.length ? <CheckCircle2 size={18} /> : <Send size={18} />}
                         {isStrict && submitting ? "Cerrando simulacro" : "Enviar práctica"}

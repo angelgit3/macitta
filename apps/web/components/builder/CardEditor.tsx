@@ -33,7 +33,7 @@ export function CardEditor() {
           
           <div className="flex items-center gap-2 border-b border-border-subtle/50 pb-3 mb-2">
             <HelpCircle size={18} className="text-accent-focus" />
-            <h2 className="text-lg font-bold text-white tracking-wide">Pregunta (Frente)</h2>
+            <h2 className="text-lg font-bold text-ink tracking-wide">Pregunta (Frente)</h2>
           </div>
           
           <ZenInput
@@ -66,8 +66,8 @@ export function CardEditor() {
         {/* Answers Section */}
         <div className="space-y-4 relative">
           <div className="flex items-center gap-2 px-1">
-            <CheckCircle2 size={20} className="text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.4)]" />
-            <h2 className="text-lg font-bold text-white tracking-wide">Respuestas a Evaluar</h2>
+            <CheckCircle2 size={20} className="text-accent-success drop-shadow-[0_0_10px_rgba(216,199,163,0.4)]" />
+            <h2 className="text-lg font-bold text-ink tracking-wide">Respuestas a Evaluar</h2>
           </div>
           
           <div className="space-y-4">
@@ -90,7 +90,7 @@ export function CardEditor() {
         <div className="pt-4 flex justify-center">
           <button
             onClick={() => dispatch({ type: "ADD_CARD" })}
-            className="flex items-center gap-2 px-8 py-4 bg-accent-focus/10 text-accent-focus hover:bg-accent-focus hover:text-white border border-accent-focus/30 rounded-2xl font-black uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
+            className="flex items-center gap-2 px-8 py-4 bg-accent-focus/10 text-accent-focus hover:bg-accent-focus hover:text-paper border border-accent-focus/30 rounded-2xl font-black uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(154,99,58,0.4)]"
           >
             <CheckCircle2 size={20} /> Terminar y Crear Nueva Carta
           </button>

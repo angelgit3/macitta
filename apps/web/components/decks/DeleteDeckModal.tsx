@@ -34,15 +34,15 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
                     </div>
                     
                     <div className="text-center space-y-2">
-                        <h2 className="text-xl font-black text-white">Eliminar Mazo</h2>
-                        <p className="text-sm font-semibold text-white/80 pb-2">&quot;{deckTitle}&quot;</p>
+                        <h2 className="text-xl font-black text-ink">Eliminar Mazo</h2>
+                        <p className="text-sm font-semibold text-ink/80 pb-2">&quot;{deckTitle}&quot;</p>
                         
                         <div className="p-4 bg-red-500/5 rounded-2xl border border-red-500/20 text-left">
                             <p className="text-xs text-red-300 font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
                                 <AlertCircle size={14} /> Atención: Acción Irreversible
                             </p>
                             <p className="text-sm text-text-dim leading-relaxed">
-                                Al eliminar este mazo, <strong className="text-white">se borrarán todas sus tarjetas</strong> y el <strong className="text-white">progreso de estudio</strong> de todos los estudiantes asignados.
+                                Al eliminar este mazo, <strong className="text-ink">se borrarán todas sus tarjetas</strong> y el <strong className="text-ink">progreso de estudio</strong> de todos los estudiantes asignados.
                             </p>
                         </div>
                     </div>
@@ -53,14 +53,14 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
                         <button
                             onClick={onClose}
                             disabled={saving}
-                            className="flex-1 py-3.5 bg-void/50 border border-border-subtle text-white font-bold rounded-2xl flex items-center justify-center hover:bg-void transition-colors disabled:opacity-50 text-sm"
+                            className="flex-1 py-3.5 bg-void/50 border border-border-subtle text-ink font-bold rounded-2xl flex items-center justify-center hover:bg-void transition-colors disabled:opacity-50 text-sm"
                         >
                             Cancelar
                         </button>
                         <button
                             onClick={handleDelete}
                             disabled={saving}
-                            className="flex-1 py-3.5 bg-red-500 hover:bg-red-600 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-colors disabled:opacity-50 text-sm"
+                            className="flex-1 py-3.5 bg-red-500 hover:bg-red-600 text-ink font-bold rounded-2xl flex items-center justify-center gap-2 transition-colors disabled:opacity-50 text-sm"
                         >
                             {saving ? <Loader2 className="animate-spin" size={18} /> : <>Eliminar <Trash2 size={18} /></>}
                         </button>

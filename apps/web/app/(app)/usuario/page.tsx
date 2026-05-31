@@ -7,7 +7,7 @@ export default async function ProfilePage() {
 
     return (
         <div className="flex flex-col gap-6 pb-24">
-            <h1 className="text-3xl font-black text-white px-2 mt-4">Cuenta</h1>
+            <h1 className="text-3xl font-black text-ink px-2 mt-4">Cuenta</h1>
             <ProfileClient initialUser={user} />
         </div>
     );
