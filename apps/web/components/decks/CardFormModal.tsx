@@ -102,9 +102,9 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                 <div className="flex items-center justify-between p-5 border-b border-border-subtle bg-void/50 sticky top-0 z-10">
                     <div className="flex items-center gap-3">
                         <Edit2 size={20} className="text-accent-focus" />
-                        <h2 className="text-xl font-black text-white">{card ? "Editar Tarjeta" : "Nueva Tarjeta"}</h2>
+                        <h2 className="text-xl font-black text-ink">{card ? "Editar Tarjeta" : "Nueva Tarjeta"}</h2>
                     </div>
-                    <button type="button" onClick={onClose} className="p-2 bg-stone-surface border border-border-subtle rounded-xl text-text-dim hover:text-white hover:border-accent-focus transition-all">
+                    <button type="button" onClick={onClose} className="p-2 bg-stone-surface border border-border-subtle rounded-xl text-text-dim hover:text-ink hover:border-accent-focus transition-all">
                         <X size={18} />
                     </button>
                 </div>
@@ -116,7 +116,7 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                         
                         <div className="flex items-center gap-2 border-b border-border-subtle/50 pb-3 mb-2">
                             <HelpCircle size={18} className="text-accent-focus" />
-                            <h2 className="text-lg font-bold text-white tracking-wide">Pregunta (Frente)</h2>
+                            <h2 className="text-lg font-bold text-ink tracking-wide">Pregunta (Frente)</h2>
                         </div>
                         
                         <ZenInput
@@ -149,8 +149,8 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                     {/* Answers Section */}
                     <div className="space-y-4 relative">
                         <div className="flex items-center gap-2 px-1">
-                            <CheckCircle2 size={20} className="text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.4)]" />
-                            <h2 className="text-lg font-bold text-white tracking-wide">Respuestas a Evaluar</h2>
+                            <CheckCircle2 size={20} className="text-accent-success drop-shadow-[0_0_10px_rgba(216,199,163,0.4)]" />
+                            <h2 className="text-lg font-bold text-ink tracking-wide">Respuestas a Evaluar</h2>
                         </div>
                         
                         <div className="space-y-4">

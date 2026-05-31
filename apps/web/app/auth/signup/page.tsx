@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
 import { User, Mail, Lock, Loader2 } from "lucide-react";
+import type { ReactNode } from "react";
 
 export default function SignupPage() {
     const router = useRouter();
@@ -79,84 +80,80 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
-            <h2 className="text-2xl font-bold mb-2 text-center">Bienvenido a Macitta</h2>
+        <div className="w-full">
+            <h2 className="text-2xl font-bold mb-2 text-center text-ink">Bienvenido a Macitta</h2>
             <p className="text-text-dim text-center mb-6 text-sm">Crea tu cuenta con cualquier correo.</p>
 
             {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">
+                <div className="bg-red-500/10 border border-red-500/20 text-red-300 p-3 rounded-lg text-sm mb-6 text-center">
                     {error}
                 </div>
             )}
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Usuario</label>
-                    <div className="relative">
-                        <User className="absolute left-4 top-3 text-text-dim" size={16} />
-                        <input
-                            name="username"
-                            required
-                            minLength={3}
-                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                            placeholder="neo_anderson"
-                        />
-                    </div>
-                </div>
+                <AuthField icon={<User size={16} />} label="Usuario">
+                    <input
+                        name="username"
+                        required
+                        minLength={3}
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        placeholder="neo_anderson"
+                    />
+                </AuthField>
 
-                <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Email</label>
-                    <div className="relative">
-                        <Mail className="absolute left-4 top-3 text-text-dim" size={16} />
-                        <input
-                            name="email"
-                            type="email"
-                            required
-                            value={emailValue}
-                            onChange={(e) => setEmailValue(e.target.value)}
-                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                            placeholder="tu_correo@example.com"
-                        />
-                    </div>
-                </div>
+                <AuthField icon={<Mail size={16} />} label="Email">
+                    <input
+                        name="email"
+                        type="email"
+                        required
+                        value={emailValue}
+                        onChange={(e) => setEmailValue(e.target.value)}
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        placeholder="tu_correo@example.com"
+                    />
+                </AuthField>
 
-                <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Contrasena</label>
-                    <div className="relative">
-                        <Lock className="absolute left-4 top-3 text-text-dim" size={16} />
-                        <input
-                            name="password"
-                            type="password"
-                            required
-                            minLength={8}
-                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                            placeholder="********"
-                        />
-                    </div>
-                </div>
+                <AuthField icon={<Lock size={16} />} label="Contrasena">
+                    <input
+                        name="password"
+                        type="password"
+                        required
+                        minLength={8}
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        placeholder="********"
+                    />
+                </AuthField>
 
-                <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-text-dim ml-1">Repetir Contrasena</label>
-                    <div className="relative">
-                        <Lock className="absolute left-4 top-3 text-text-dim" size={16} />
-                        <input
-                            name="confirmPassword"
-                            type="password"
-                            required
-                            minLength={8}
-                            className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus text-sm transition-all"
-                            placeholder="********"
-                        />
-                    </div>
-                </div>
+                <AuthField icon={<Lock size={16} />} label="Repetir contrasena">
+                    <input
+                        name="confirmPassword"
+                        type="password"
+                        required
+                        minLength={8}
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        placeholder="********"
+                    />
+                </AuthField>
 
                 <ZenButton variant="primary" className="w-full mt-4 h-12" disabled={loading}>
-                    {loading ? <Loader2 className="animate-spin" /> : "Crear Cuenta"}
+                    {loading ? <Loader2 className="animate-spin" /> : "Crear cuenta"}
                 </ZenButton>
             </form>
 
             <div className="mt-6 text-center text-sm text-text-dim">
-                Ya tienes cuenta? <Link href="/auth/login" className="text-white font-medium hover:underline">Inicia Sesion</Link>
+                Ya tienes cuenta? <Link href="/auth/login" className="text-ink font-medium hover:underline">Inicia Sesion</Link>
+            </div>
+        </div>
+    );
+}
+
+function AuthField({ label, icon, children }: { label: string; icon: ReactNode; children: ReactNode }) {
+    return (
+        <div className="space-y-1">
+            <label className="quiet-kicker ml-1">{label}</label>
+            <div className="relative">
+                <div className="absolute left-4 top-3 text-text-dim">{icon}</div>
+                {children}
             </div>
         </div>
     );

@@ -58,7 +58,7 @@ export default function UpdatePasswordPage() {
     if (success) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
-                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-accent-success animate-in zoom-in">
+                <div className="w-16 h-16 bg-accent-success/10 rounded-full flex items-center justify-center mb-6 text-accent-success animate-in zoom-in">
                     <CheckCircle2 size={32} />
                 </div>
                 <h2 className="text-3xl font-bold mb-3">¡Contraseña actualizada!</h2>
@@ -71,7 +71,7 @@ export default function UpdatePasswordPage() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void">
-            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-white transition-colors">
+            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-ink transition-colors">
                 <Logo size={24} />
                 <span className="font-bold">Macitta</span>
             </Link>

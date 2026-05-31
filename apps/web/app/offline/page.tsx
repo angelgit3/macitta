@@ -8,7 +8,7 @@ export default function OfflinePage() {
         <div className="min-h-screen bg-void flex flex-col items-center justify-center px-6 text-center">
             {/* Glowing cloud icon */}
             <div className="relative mb-8">
-                <div className="w-20 h-20 rounded-3xl bg-stone-surface border border-white/5 flex items-center justify-center shadow-xl">
+                <div className="w-20 h-20 rounded-3xl bg-stone-surface border border-ink/5 flex items-center justify-center shadow-xl">
                     <svg
                         width="40"
                         height="40"
@@ -44,7 +44,7 @@ export default function OfflinePage() {
             </div>
 
             {/* Text */}
-            <h1 className="text-xl font-bold text-stone-100 mb-2">Sin conexión</h1>
+            <h1 className="text-xl font-bold text-ink mb-2">Sin conexión</h1>
             <p className="text-sm text-text-dim max-w-xs leading-relaxed">
                 No pudimos cargar esta página. Revisá tu conexión a internet e intentá de nuevo.
             </p>
@@ -52,7 +52,7 @@ export default function OfflinePage() {
             {/* Retry button — navigates back to trigger SW fetch */}
             <button
                 onClick={() => window.location.reload()}
-                className="mt-8 px-5 py-2.5 rounded-xl text-sm font-semibold bg-stone-surface border border-white/5 text-stone-100 hover:border-white/10 hover:bg-stone-light transition-all active:scale-95"
+                className="mt-8 px-5 py-2.5 rounded-xl text-sm font-semibold bg-stone-surface border border-ink/5 text-ink hover:border-ink/10 hover:bg-stone-light transition-all active:scale-95"
             >
                 Reintentar
             </button>

@@ -13,7 +13,7 @@ export function CardSidebar() {
         <h3 className="text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1">Cartas ({cards.length})</h3>
         <button
           onClick={() => dispatch({ type: "ADD_CARD" })}
-          className="flex items-center text-xs font-bold px-3 py-1.5 bg-accent-focus text-white hover:bg-accent-focus/90 rounded-xl transition-all hover:shadow-[0_0_10px_rgba(59,130,246,0.3)]"
+          className="flex items-center text-xs font-bold px-3 py-1.5 bg-brand-primary text-paper border border-paper-soft/25 hover:bg-stone-light rounded-xl transition-all"
           title="Añadir Carta"
         >
           <Plus size={14} className="mr-1" />
@@ -33,11 +33,11 @@ export function CardSidebar() {
               onClick={() => dispatch({ type: "SET_ACTIVE_CARD", payload: { index } })}
               className={`shrink-0 w-36 h-24 p-4 border rounded-2xl cursor-pointer flex flex-col justify-between group transition-all duration-300 snap-start relative ${
                 isActive 
-                  ? "bg-stone-surface border-accent-focus shadow-[0_0_15px_rgba(59,130,246,0.3)] scale-[1.02]" 
+                  ? "bg-stone-surface border-accent-focus shadow-[0_0_15px_rgba(154,99,58,0.3)] scale-[1.02]" 
                   : "bg-void/50 border-border-subtle hover:border-text-dim/50 hover:bg-stone-surface/50"
               }`}
             >
-              <div className={`truncate text-sm font-medium flex-1 ${isActive ? "text-white" : "text-text-dim"}`}>
+              <div className={`truncate text-sm font-medium flex-1 ${isActive ? "text-ink" : "text-text-dim"}`}>
                 {previewText}
               </div>
               <div className="flex justify-between items-end w-full">

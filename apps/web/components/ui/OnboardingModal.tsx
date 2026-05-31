@@ -8,22 +8,22 @@ import { BookOpen, Flame, ChevronRight, CheckCircle2, Loader2 } from "lucide-rea
 const SLIDES = [
     {
         icon: Logo,
-        color: "text-yellow-400",
-        bg: "bg-yellow-400/10",
+        color: "text-paper-soft",
+        bg: "bg-void/60 border border-paper-soft/15",
         title: "Bienvenido a Macitta",
         body: "Tu plataforma de estudio de verbos con repeticion espaciada. Aprende mas en menos tiempo con un metodo que se adapta a ti.",
     },
     {
         icon: BookOpen,
-        color: "text-blue-400",
-        bg: "bg-blue-400/10",
+        color: "text-accent-focus",
+        bg: "bg-accent-focus/10",
         title: "Sesiones de estudio",
         body: "Cada dia aparecen las tarjetas que mas necesitas repasar. Responde con honestidad y el algoritmo ajusta la frecuencia automaticamente.",
     },
     {
         icon: Flame,
-        color: "text-orange-400",
-        bg: "bg-orange-400/10",
+        color: "text-accent-strong",
+        bg: "bg-accent-strong/10",
         title: "Manten tu racha",
         body: "Estudia aunque sea 5 minutos cada dia para mantener tu racha viva. La constancia es lo que marca la diferencia a largo plazo.",
     },
@@ -77,7 +77,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
     return (
         <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-md p-4">
             <div className="w-full max-w-sm bg-stone-surface border border-border-subtle rounded-3xl overflow-hidden shadow-2xl">
-                <div className="h-1 bg-white/5">
+                <div className="h-1 bg-ink/5">
                     <div
                         className="h-full bg-accent-focus transition-all duration-500"
                         style={{ width: `${((step + 1) / totalSteps) * 100}%` }}
@@ -97,7 +97,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
 
                             <button
                                 onClick={() => isLastSlide ? setStep(STEP_USERNAME) : setStep((s) => s + 1)}
-                                className="w-full h-13 py-3.5 bg-accent-focus text-white font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-accent-focus/90 transition-colors text-sm"
+                                className="w-full h-13 py-3.5 bg-brand-primary text-paper border border-paper-soft/25 font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-stone-light transition-colors text-sm"
                             >
                                 {isLastSlide ? "Configurar perfil" : "Siguiente"}
                                 <ChevronRight size={16} />
@@ -105,7 +105,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
 
                             <div className="flex gap-2">
                                 {SLIDES.map((_, i) => (
-                                    <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === step ? "w-6 bg-accent-focus" : "w-1.5 bg-white/20"}`} />
+                                    <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === step ? "w-6 bg-accent-focus" : "w-1.5 bg-ink/20"}`} />
                                 ))}
                             </div>
                         </div>
@@ -130,7 +130,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
                                     placeholder="Ej: juandev, maria_m, etc."
                                     maxLength={32}
                                     autoFocus
-                                    className="w-full bg-void/50 border border-border-subtle rounded-2xl py-3.5 px-4 text-white focus:outline-none focus:border-accent-focus transition-colors text-sm"
+                                    className="w-full bg-void/50 border border-border-subtle rounded-2xl py-3.5 px-4 text-ink focus:outline-none focus:border-accent-focus transition-colors text-sm"
                                 />
                                 {error && <p className="text-xs text-red-400 ml-1">{error}</p>}
                             </div>
@@ -138,7 +138,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
                             <button
                                 onClick={handleFinish}
                                 disabled={saving || username.trim().length < 3}
-                                className="w-full py-3.5 bg-accent-focus text-white font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-accent-focus/90 transition-colors disabled:opacity-50 text-sm"
+                                className="w-full py-3.5 bg-brand-primary text-paper border border-paper-soft/25 font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-stone-light transition-colors disabled:opacity-50 text-sm"
                             >
                                 {saving ? <Loader2 className="animate-spin" size={16} /> : <>Empezar a estudiar <ChevronRight size={16} /></>}
                             </button>

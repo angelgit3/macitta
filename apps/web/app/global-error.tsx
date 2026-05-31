@@ -15,7 +15,7 @@ export default function GlobalError({
 
     return (
         <html lang="en">
-            <body className="bg-void text-stone-100 flex items-center justify-center min-h-screen">
+            <body className="bg-void text-ink flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-4 px-6 text-center">
                     <div className="text-4xl">⚠️</div>
                     <h2 className="text-xl font-bold">Error crítico</h2>
@@ -24,7 +24,7 @@ export default function GlobalError({
                     </p>
                     <button
                         onClick={reset}
-                        className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent-focus text-white hover:brightness-110 transition active:scale-95"
+                        className="px-4 py-2 text-sm font-semibold rounded-lg bg-brand-primary text-paper border border-paper-soft/25 hover:bg-stone-light transition active:scale-95"
                     >
                         Recargar
                     </button>

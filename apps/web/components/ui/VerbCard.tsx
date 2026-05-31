@@ -22,22 +22,22 @@ interface VerbCardProps {
 
 const STATUS_CONFIG: Record<SEMState, { color: string; icon: React.ReactNode | null; label: string }> = {
     mastered: {
-        color: 'text-yellow-400 bg-yellow-400/10',
+        color: 'text-paper-soft bg-paper-soft/10',
         icon: <CheckCircle2 size={12} />,
         label: 'Dominado 🏆',
     },
     review: {
-        color: 'text-green-400 bg-green-400/10',
+        color: 'text-accent-success bg-accent-success/10',
         icon: <CheckCircle2 size={12} />,
         label: 'Repaso',
     },
     learning: {
-        color: 'text-blue-400 bg-blue-400/10',
+        color: 'text-accent-focus bg-accent-focus/10',
         icon: <Brain size={12} />,
         label: 'Aprendiendo',
     },
     relearning: {
-        color: 'text-orange-400 bg-orange-400/10',
+        color: 'text-accent-strong bg-accent-strong/10',
         icon: <Clock size={12} />,
         label: 'Re-aprendiendo',
     },
@@ -62,9 +62,9 @@ export function VerbCard({ id, front_text, userItem }: VerbCardProps) {
         : '--';
 
     return (
-        <div className="bg-stone-surface border border-border-subtle rounded-2xl p-4 flex justify-between items-center hover:border-white/10 transition-colors">
+        <div className="bg-stone-surface border border-border-subtle rounded-2xl p-4 flex justify-between items-center hover:border-ink/10 transition-colors">
             <div className="flex flex-col gap-0.5">
-                <span className="text-lg font-bold text-white capitalize">{front_text}</span>
+                <span className="text-lg font-bold text-ink capitalize">{front_text}</span>
                 <div className="flex items-center gap-2">
                     <span
                         className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full flex items-center gap-1 ${config.color}`}

@@ -118,11 +118,11 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
 
   return (
     <div className="bg-stone-surface/30 backdrop-blur-sm rounded-2xl border border-border-subtle p-5 space-y-4 shadow-lg relative overflow-hidden transition-all duration-300 hover:border-text-dim/30">
-      <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+      <div className="absolute top-0 left-0 w-1 h-full bg-accent-focus/80 shadow-[0_0_10px_rgba(216,199,163,0.5)]"></div>
       
       {/* Header and Answer Fields */}
       <div className="flex flex-col gap-3">
-        <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border-subtle shadow-inner text-xs font-black text-white tracking-widest uppercase">
+        <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border-subtle shadow-inner text-xs font-black text-ink tracking-widest uppercase">
           {label}
         </div>
         
@@ -142,7 +142,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                     }
                   }}
                   className="flex-1"
-                  inputClassName="py-2.5 focus:border-emerald-500 focus:ring-emerald-500"
+                  inputClassName="py-2.5 focus:border-accent-success focus:ring-accent-success"
                   placeholder={
                     ruleType === "exact" ? "Respuesta correcta (Ej: Apple)" :
                     ruleType === "anyOf" ? "Opción válida y presionar Enter..." :
@@ -190,7 +190,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
       <div className="pt-2 border-t border-border-subtle/30">
         <button 
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center justify-between w-full text-[11px] font-bold uppercase tracking-wider text-text-dim hover:text-white transition-colors py-1"
+          className="flex items-center justify-between w-full text-[11px] font-bold uppercase tracking-wider text-text-dim hover:text-ink transition-colors py-1"
         >
           <span className="flex items-center gap-1.5"><Settings2 size={14} /> Ajustes Avanzados</span>
           {showAdvanced ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -220,7 +220,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                   handleChange(rt, items, forbidItems, kValue, media);
                 }
               }}
-              className="w-full border border-border-subtle rounded-lg pl-3 pr-8 py-2 text-sm bg-stone-surface text-white focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all font-medium"
+              className="w-full border border-border-subtle rounded-lg pl-3 pr-8 py-2 text-sm bg-stone-surface text-ink focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all font-medium"
             >
               <option value="exact">Exacta (Una sola respuesta)</option>
               <option value="anyOf">Sinónimos (Acepta cualquiera)</option>
@@ -231,7 +231,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
 
           {ruleType === "kOf" && (
             <div className="flex items-center justify-between text-sm bg-accent-focus/10 p-3 rounded-xl border border-accent-focus/20">
-              <label className="text-white font-bold text-xs">Aciertos mínimos necesarios:</label>
+              <label className="text-ink font-bold text-xs">Aciertos mínimos necesarios:</label>
               <ZenInput
                 type="number"
                 min={1}

@@ -1,232 +1,244 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import {
-    ArrowRight, Brain, Trophy, BookOpen, Flame,
-    BarChart2, Smartphone, Library, FileJson
+  ArrowRight, Brain, Trophy, BookOpen, Flame,
+  BarChart2, Smartphone, Library, FileJson, CheckCircle2,
+  Sparkles,
 } from "lucide-react";
+import { BackgroundEffects } from "@/components/ui/BackgroundEffects";
 
 export default function LandingPage() {
-    return (
-        <div className="flex flex-col min-h-screen">
+  return (
+    <div className="flex flex-col min-h-screen bg-void text-ink overflow-x-hidden">
 
-            {/* ── Navbar ── */}
-            <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10">
-                <div className="max-w-5xl mx-auto flex items-center justify-between px-6 h-16">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-accent-focus/20 flex items-center justify-center">
-                            <Logo size={16} className="text-accent-focus" />
-                        </div>
-                        <span className="text-lg font-black tracking-tight">Macitta</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Link href="/auth/login"
-                            className="text-sm font-medium text-text-dim hover:text-white transition-colors px-4 py-2">
-                            Iniciar sesión
-                        </Link>
-                        <Link href="/auth/signup"
-                            className="text-sm font-bold bg-accent-focus hover:bg-accent-focus/90 text-white px-5 py-2.5 rounded-xl transition-colors">
-                            Registrarse
-                        </Link>
-                    </div>
+      {/* ── Floating pill nav ───────────────────────────────────── */}
+      <header className="sticky top-0 z-50 flex justify-center px-4 pt-4">
+        <nav
+          style={{
+            background: "rgba(26,27,46,0.82)",
+            backdropFilter: "blur(20px) saturate(1.4)",
+            WebkitBackdropFilter: "blur(20px) saturate(1.4)",
+            boxShadow:
+              "0 1px 0 0 rgba(255,255,255,0.06) inset, 0 8px 32px -4px rgba(0,0,0,0.50), 0 0 0 1px rgba(160,163,196,0.12)",
+          }}
+          className="flex items-center justify-between gap-6 px-5 py-3 rounded-full w-full max-w-xl"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+              <Logo size={16} className="text-accent" />
+            </div>
+            <span className="text-sm font-black text-ink">Macitta</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/auth/login"
+              className="text-xs font-medium text-ink-muted hover:text-ink transition-colors px-3 py-1.5"
+            >
+              Iniciar sesión
+            </Link>
+            <Link
+              href="/auth/signup"
+              className="text-xs font-bold bg-accent text-void px-4 py-2 rounded-full border border-accent/20
+                         shadow-[0_4px_14px_rgba(124,133,232,0.28)]
+                         hover:bg-accent-hover hover:shadow-[0_6px_20px_rgba(124,133,232,0.38)]
+                         transition-all duration-200 active:scale-[0.97]"
+            >
+              Registrarse
+            </Link>
+          </div>
+        </nav>
+      </header>
+
+      {/* ── Hero ────────────────────────────────────────────────── */}
+      <section className="relative px-5 pt-20 pb-24 overflow-hidden">
+        <BackgroundEffects />
+
+        <div className="relative z-10 max-w-5xl mx-auto grid lg:grid-cols-[1fr_0.95fr] gap-12 items-center">
+          {/* Left copy */}
+          <div>
+            <span className="pill-badge bg-accent/10 text-accent border border-accent/20 mb-7">
+              <Sparkles size={11} />
+              Sistema de repetición espaciada
+            </span>
+
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.03] tracking-tight text-ink mb-5">
+              Aprende inglés.<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-[#a3acff]">
+                Sin olvidar.
+              </span>
+            </h1>
+
+            <p className="text-base sm:text-lg text-ink-muted leading-8 max-w-lg mb-9">
+              Una app de estudio para leer, practicar y volver a lo importante sin fricción.
+              Tus mazos, TOEFL y progreso viven en el mismo flujo.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/auth/signup"
+                className="group inline-flex items-center justify-center gap-2 min-h-13 bg-accent text-void font-black
+                           px-7 py-3.5 rounded-full border border-accent/20
+                           shadow-[0_8px_28px_rgba(124,133,232,0.36)]
+                           hover:bg-accent-hover hover:shadow-[0_12px_36px_rgba(124,133,232,0.48)]
+                           transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.97]"
+              >
+                Empezar gratis
+                <span className="w-7 h-7 rounded-full bg-void/15 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
+                  <ArrowRight size={14} />
+                </span>
+              </Link>
+              <Link
+                href="/auth/login"
+                className="inline-flex items-center justify-center gap-2 min-h-13 glass-card font-medium
+                           px-7 py-3.5 rounded-full text-ink-muted hover:text-ink
+                           transition-all duration-200"
+              >
+                Ya tengo cuenta
+              </Link>
+            </div>
+          </div>
+
+          {/* Right — App preview card */}
+          <div className="p-[2px] rounded-[1.8rem] bg-gradient-to-b from-white/12 via-white/4 to-white/0">
+            <div
+              className="glass-panel rounded-[1.6rem] p-4 sm:p-5"
+              style={{ boxShadow: "0 1px 0 0 rgba(255,255,255,0.06) inset, 0 40px 90px -14px rgba(0,0,0,0.6)" }}
+            >
+              <div className="rounded-2xl bg-void/55 border border-border p-4 grid grid-rows-[auto_1fr_auto] gap-4 min-h-[400px]">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="label-kicker mb-0.5">Hoy</div>
+                    <div className="text-xl font-black">Ruta de memoria</div>
+                  </div>
+                  <span className="pill-badge bg-success/10 text-success border border-success/20">
+                    86%
+                  </span>
                 </div>
-            </nav>
 
-            {/* ── Hero ── */}
-            <section className="relative px-6 pt-20 pb-24 overflow-hidden">
-                {/* Gradient orbs */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent-focus/15 rounded-full blur-[120px] pointer-events-none" />
-                <div className="absolute top-32 right-0 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-                <div className="max-w-2xl mx-auto text-center relative z-10 animate-fade-in-up">
-                    <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs font-medium text-text-dim mb-8">
-                        <Flame size={12} className="text-orange-400" />
-                        Sistema de Repetición Espaciada Macitta
+                {/* Stat grid */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { label: "Verbos", value: "93",      Icon: BookOpen,  color: "accent" },
+                    { label: "Racha",  value: "12d",     Icon: Flame,     color: "amber" },
+                    { label: "TOEFL", value: "3 tests",  Icon: Trophy,    color: "accent" },
+                    { label: "Tiempo", value: "2.4h",    Icon: BarChart2, color: "none" },
+                  ].map(({ label, value, Icon, color }) => (
+                    <div
+                      key={label}
+                      className="rounded-xl p-3.5"
+                      style={{ background: "rgba(33,35,58,0.7)", border: "1px solid rgba(160,163,196,0.10)" }}
+                    >
+                      <Icon
+                        size={18}
+                        className={
+                          color === "amber"
+                            ? "text-amber mb-3"
+                            : color === "accent"
+                            ? "text-accent mb-3"
+                            : "text-ink-faint mb-3"
+                        }
+                      />
+                      <div className="text-xl font-black">{value}</div>
+                      <div className="text-xs text-ink-faint">{label}</div>
                     </div>
-
-                    <h1 className="text-5xl sm:text-6xl font-black leading-[1.1] tracking-tight mb-6">
-                        Domina tus{" "}
-                        <span className="bg-gradient-to-r from-accent-focus to-purple-400 bg-clip-text text-transparent animate-pulse">
-                            verbos
-                        </span>
-                        {" "}en inglés
-                    </h1>
-
-                    <p className="text-lg text-text-dim leading-relaxed max-w-lg mx-auto mb-10">
-                        Estudia con un algoritmo que se adapta a tu memoria.
-                        Repasa lo justo, en el momento justo. Sin perder tiempo.
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                        <Link href="/auth/signup"
-                            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-accent-focus hover:bg-accent-focus/90 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-accent-focus/25">
-                            Empezar gratis <ArrowRight size={18} />
-                        </Link>
-                        <Link href="/auth/login"
-                            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 font-medium px-8 py-4 rounded-2xl text-base transition-colors text-text-dim hover:text-white">
-                            Ya tengo cuenta
-                        </Link>
-                    </div>
+                  ))}
                 </div>
-            </section>
 
-            {/* ── Stats strip ── */}
-            <section className="border-y border-white/5 bg-stone-surface/30">
-                <div className="max-w-4xl mx-auto grid grid-cols-3 divide-x divide-white/5">
-                    {[
-                        { value: "93", label: "Verbos disponibles" },
-                        { value: "SREM", label: "Algoritmo adaptativo" },
-                        { value: "24/7", label: "Estudia sin horario" },
-                    ].map(stat => (
-                        <div key={stat.label} className="py-8 text-center">
-                            <div className="text-2xl sm:text-3xl font-black text-white">{stat.value}</div>
-                            <div className="text-xs text-text-dim mt-1">{stat.label}</div>
-                        </div>
-                    ))}
+                {/* CTA row */}
+                <div
+                  className="rounded-2xl p-4 flex items-center justify-between"
+                  style={{ background: "rgba(124,133,232,0.15)", border: "1px solid rgba(124,133,232,0.22)" }}
+                >
+                  <div>
+                    <div className="text-sm font-black text-ink">Estudio global</div>
+                    <div className="text-xs text-ink-muted mt-0.5">Tarjetas vencidas de todos tus mazos</div>
+                  </div>
+                  <ArrowRight size={18} className="text-accent" />
                 </div>
-            </section>
-
-            {/* ── How it works ── */}
-            <section className="px-6 py-20">
-                <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-14">
-                        <h2 className="text-3xl font-black mb-3">¿Cómo funciona?</h2>
-                        <p className="text-text-dim">Tres pasos. Cero complicaciones.</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        {[
-                            {
-                                step: "01",
-                                icon: BookOpen,
-                                color: "text-blue-400",
-                                bg: "bg-blue-400/10",
-                                title: "Estudia",
-                                desc: "Responde las tarjetas que el algoritmo selecciona para ti cada día."
-                            },
-                            {
-                                step: "02",
-                                icon: Brain,
-                                color: "text-purple-400",
-                                bg: "bg-purple-400/10",
-                                title: "El algoritmo aprende",
-                                desc: "SREM calcula cuándo empezarás a olvidar y programa el repaso ideal."
-                            },
-                            {
-                                step: "03",
-                                icon: Trophy,
-                                color: "text-yellow-400",
-                                bg: "bg-yellow-400/10",
-                                title: "Domina",
-                                desc: "Cada verbo que dominas te acerca al 100% de maestría."
-                            },
-                        ].map(item => (
-                            <div key={item.step}
-                                className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 group hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.2)]">
-                                <span className="absolute top-4 right-4 text-[10px] font-bold text-text-dim/30 tracking-wider">
-                                    PASO {item.step}
-                                </span>
-                                <div className={`w-12 h-12 rounded-xl ${item.bg} flex items-center justify-center mb-4`}>
-                                    <item.icon size={22} className={item.color} />
-                                </div>
-                                <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                                <p className="text-sm text-text-dim leading-relaxed">{item.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── Features grid ── */}
-            <section className="px-6 py-16 bg-stone-surface/20">
-                <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-black mb-3">Todo lo que necesitas</h2>
-                        <p className="text-text-dim">Disenado para estudiar a tu ritmo.</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {[
-                            {
-                                icon: Logo,
-                                color: "text-yellow-400",
-                                title: "Repetición Espaciada",
-                                desc: "Algoritmo SREM que optimiza tu retención de memoria a largo plazo."
-                            },
-                            {
-                                icon: BarChart2,
-                                color: "text-green-400",
-                                title: "Dashboard con estadísticas",
-                                desc: "Racha, tiempo de estudio, maestría y gráfica de actividad en tiempo real."
-                            },
-                            {
-                                icon: Library,
-                                color: "text-purple-400",
-                                title: "Mazos personales",
-                                desc: "Crea colecciones propias para estudiar exactamente el vocabulario que necesitas."
-                            },
-                            {
-                                icon: FileJson,
-                                color: "text-emerald-400",
-                                title: "Importacion flexible",
-                                desc: "Carga mazos desde JSON y adapta Macitta a tus materiales de estudio."
-                            },
-                            {
-                                icon: Smartphone,
-                                color: "text-blue-400",
-                                title: "App instalable",
-                                desc: "Instala Macitta en tu celular como app nativa. Sin tiendas, sin esperas."
-                            },
-                            {
-                                icon: Flame,
-                                color: "text-orange-400",
-                                title: "Sistema de rachas",
-                                desc: "Mantén tu racha diaria para generar el hábito de estudio constante."
-                            },
-                        ].map(f => (
-                            <div key={f.title}
-                                className="flex items-start gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 group hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.15)]">
-                                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                                    <f.icon size={18} className={f.color} />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-sm mb-1">{f.title}</h3>
-                                    <p className="text-xs text-text-dim leading-relaxed">{f.desc}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── CTA ── */}
-            <section className="px-6 py-20">
-                <div className="max-w-lg mx-auto text-center">
-                    <div className="w-16 h-16 rounded-2xl bg-accent-focus/20 flex items-center justify-center mx-auto mb-6">
-                        <Logo size={28} className="text-accent-focus" />
-                    </div>
-                    <h2 className="text-3xl font-black mb-4">¿Listo para dominar tus verbos?</h2>
-                    <p className="text-text-dim mb-8">Crea tu cuenta gratis y empieza a estudiar hoy.</p>
-                    <Link href="/auth/signup"
-                        className="inline-flex items-center gap-2 bg-accent-focus hover:bg-accent-focus/90 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-accent-focus/25">
-                        Crear cuenta gratis <ArrowRight size={18} />
-                    </Link>
-                </div>
-            </section>
-
-            {/* ── Footer ── */}
-            <footer className="border-t border-white/5 py-8 px-6">
-                <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-md bg-accent-focus/20 flex items-center justify-center">
-                            <Logo size={12} className="text-accent-focus" />
-                        </div>
-                        <span className="text-sm font-bold">Macitta</span>
-                    </div>
-                    <p className="text-xs text-text-dim">
-                        © 2026 Macitta — Sistema de Repetición Espaciada. Servicio Social UPT.
-                    </p>
-                </div>
-            </footer>
+              </div>
+            </div>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* ── Social proof bar ────────────────────────────────────── */}
+      <div className="border-y border-border bg-surface/30">
+        <div className="max-w-4xl mx-auto grid grid-cols-3 divide-x divide-border">
+          {[
+            { value: "93",   label: "Verbos disponibles" },
+            { value: "SREM", label: "Algoritmo adaptativo" },
+            { value: "PWA",  label: "App instalable, sin internet" },
+          ].map(stat => (
+            <div key={stat.label} className="py-7 px-3 text-center">
+              <div className="text-2xl sm:text-3xl font-black text-ink">{stat.value}</div>
+              <div className="text-xs text-ink-faint mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Features ────────────────────────────────────────────── */}
+      <section className="px-5 py-24">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="pill-badge bg-amber/10 text-amber border border-amber/20 mb-4">
+              Características
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-ink">Todo conectado</h2>
+            <p className="readable-copy mt-3 max-w-xl mx-auto">
+              Macitta mantiene cerca lo que necesitas: repasar, construir mazos, practicar TOEFL y ver tu progreso.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { Icon: CheckCircle2, title: "Repetición espaciada", desc: "SREM optimiza la retención a largo plazo.", accent: "sage" as const },
+              { Icon: BarChart2,    title: "Dashboard vivo",       desc: "Racha, tiempo, maestría y actividad sin saturar.", accent: "periwinkle" as const },
+              { Icon: Library,      title: "Mazos personales",     desc: "Colecciones propias para estudiar justo lo necesario.", accent: "amber" as const },
+              { Icon: FileJson,     title: "Importación JSON",     desc: "Carga materiales externos sin rehacer trabajo.", accent: "periwinkle" as const },
+              { Icon: Smartphone,   title: "App instalable",       desc: "Experiencia PWA lista para móvil y sin internet.", accent: "sage" as const },
+              { Icon: Brain,        title: "TOEFL integrado",      desc: "Prácticas con score inmediato y revisión.", accent: "amber" as const },
+            ].map(({ Icon, title, desc, accent }) => {
+              const iconClass =
+                accent === "sage"       ? "text-success bg-success/10 border border-success/20" :
+                accent === "amber"      ? "text-amber bg-amber/10 border border-amber/20" :
+                                          "text-accent bg-accent/10 border border-accent/20";
+              const hoverClass =
+                accent === "sage"       ? "hover:border-success/28" :
+                accent === "amber"      ? "hover:border-amber/28" :
+                                          "hover:border-accent/28";
+              return (
+                <div
+                  key={title}
+                  className={`glass-card rounded-2xl p-5 ${hoverClass} transition-all duration-200`}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${iconClass}`}>
+                    <Icon size={18} />
+                  </div>
+                  <h3 className="font-bold text-sm text-ink mb-1">{title}</h3>
+                  <p className="text-xs text-ink-muted leading-relaxed">{desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ──────────────────────────────────────────────── */}
+      <footer className="border-t border-border py-8 px-5">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-accent/10 flex items-center justify-center">
+              <Logo size={13} className="text-accent" />
+            </div>
+            <span className="text-sm font-bold text-ink">Macitta</span>
+          </div>
+          <p className="text-xs text-ink-faint">
+            2026 Macitta — Sistema de Repetición Espaciada.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
 }

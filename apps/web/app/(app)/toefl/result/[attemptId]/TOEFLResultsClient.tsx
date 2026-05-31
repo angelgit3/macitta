@@ -150,7 +150,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
     if (!result) {
         return (
             <div className="py-20 text-center">
-                <h1 className="text-xl font-black text-white">Resultado no encontrado</h1>
+                <h1 className="text-xl font-black text-ink">Resultado no encontrado</h1>
                 <p className="text-sm text-text-dim mt-2">No pudimos encontrar este intento en Supabase ni en este dispositivo.</p>
                 <Link href="/toefl" className="inline-flex mt-6 text-accent-focus font-bold">Volver a prácticas</Link>
             </div>
@@ -189,7 +189,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
 
     return (
         <div className="flex flex-col gap-5 pb-24">
-            <Link href="/toefl" className="inline-flex items-center gap-1 text-sm text-text-dim hover:text-white transition-colors">
+            <Link href="/toefl" className="inline-flex items-center gap-1 text-sm text-text-dim hover:text-ink transition-colors">
                 <ArrowLeft size={16} /> Volver a prácticas
             </Link>
 
@@ -197,7 +197,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                 <div className="flex items-start justify-between gap-4">
                     <div>
                         <p className="text-[11px] uppercase tracking-wider text-accent-focus font-bold">{exam.section} · resultado</p>
-                        <h1 className="text-2xl font-black text-white mt-1">{attempt.scaled_score}/30</h1>
+                        <h1 className="text-2xl font-black text-ink mt-1">{attempt.scaled_score}/30</h1>
                     </div>
                     <div className="w-14 h-14 rounded-2xl bg-accent-focus/15 text-accent-focus flex items-center justify-center">
                         <Sparkles size={24} />
@@ -250,17 +250,17 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                         >
                             <div className="flex items-start gap-3">
                                 <div className={`mt-0.5 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                                    isCorrect ? "bg-emerald-500/15 text-emerald-400" : "bg-red-500/15 text-red-400"
+                                    isCorrect ? "bg-accent-success/10 text-accent-success" : "bg-red-500/15 text-red-400"
                                 }`}>
                                     {isCorrect ? <Check size={15} /> : <X size={15} />}
                                 </div>
                                 <div className="min-w-0">
-                                    <h3 className="font-bold text-white leading-snug">{question.question_text}</h3>
+                                    <h3 className="font-bold text-ink leading-snug">{question.question_text}</h3>
                                     <p className="text-xs text-text-dim mt-3">
-                                        Tu respuesta: <span className="text-white">{optionText(question, answer?.user_choice ?? null)}</span>
+                                        Tu respuesta: <span className="text-ink">{optionText(question, answer?.user_choice ?? null)}</span>
                                     </p>
                                     <p className="text-xs text-text-dim mt-1">
-                                        Correcta: <span className="text-emerald-400">{optionText(question, question.correct_option_id)}</span>
+                                        Correcta: <span className="text-accent-success">{optionText(question, question.correct_option_id)}</span>
                                     </p>
                                     <p className="text-sm text-zinc-300 leading-relaxed mt-3">{question.explanation}</p>
                                 </div>
@@ -274,7 +274,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                 type="button"
                 onClick={copyPrompt}
                 disabled={copying || selectedIds.size === 0}
-                className="h-13 py-4 rounded-2xl bg-accent-focus text-white font-black flex items-center justify-center gap-2 disabled:opacity-50"
+                className="h-13 py-4 rounded-2xl bg-brand-primary text-paper border border-paper-soft/25 font-black flex items-center justify-center gap-2 hover:bg-stone-light transition-colors disabled:opacity-50"
             >
                 {copying ? <Loader2 className="animate-spin" size={18} /> : <Clipboard size={18} />}
                 {copied ? "Prompt copiado" : copying ? "Preparando tutoría" : "Preparar tutoría de IA"}

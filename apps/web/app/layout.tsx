@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-    themeColor: "#000000",
+    themeColor: "#0D0E17",
     width: "device-width",
     initialScale: 1,
 };
@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="dark">
-            <body className="bg-void text-stone-100 min-h-screen flex justify-center selection:bg-accent-focus selection:text-white transition-colors duration-300">
+            <body className="bg-void text-ink min-h-screen flex justify-center selection:bg-accent/30 selection:text-ink transition-colors duration-300">
                 <ClientProviders>
                     {children}
                 </ClientProviders>

@@ -30,9 +30,9 @@ export default function StudySessionContent({ params }: { params: Promise<{ deck
 
     if (loading) {
         return (
-            <div className="h-full flex flex-col items-center justify-center gap-4 text-zinc-500">
-                <Loader2 className="animate-spin w-8 h-8 text-blue-500" />
-                <p className="text-sm tracking-wider uppercase">
+            <div className="h-full flex flex-col items-center justify-center gap-4 text-text-dim">
+                <Loader2 className="animate-spin w-8 h-8 text-accent-focus" />
+                <p className="text-sm uppercase">
                     {isGlobalStudy ? "Preparando estudio global..." : "Cargando mazo..."}
                 </p>
             </div>
@@ -54,23 +54,23 @@ export default function StudySessionContent({ params }: { params: Promise<{ deck
 
     if (!currentCard) {
         return (
-            <div className="h-full flex items-center justify-center text-zinc-500">
+            <div className="h-full flex items-center justify-center text-text-dim">
                 {isGlobalStudy ? "No hay tarjetas pendientes en tus mazos." : "No hay tarjetas disponibles para este mazo."}
             </div>
         );
     }
 
     return (
-        <div className="flex flex-col gap-6 max-w-xl mx-auto pb-24">
-            <div className="flex justify-between items-center px-2">
-                <h1 className="text-xl font-bold text-white flex items-center gap-2">
-                    {isRushMode && <Flame size={20} className="text-orange-500" />}
+        <div className="flex flex-col gap-6 w-full max-w-3xl mx-auto pb-24">
+            <div className="surface-card rounded-xl p-4 flex justify-between items-center">
+                <h1 className="text-xl font-bold text-ink flex items-center gap-2">
+                    {isRushMode && <Flame size={20} className="text-accent-strong" />}
                     {isGlobalStudy && !isRushMode && <Shuffle size={20} className="text-accent-focus" />}
-                    {isRushMode ? "Modo maratón" : isGlobalStudy ? "Estudio global" : "Estudio diario"}
+                    {isRushMode ? "Modo maraton" : isGlobalStudy ? "Estudio global" : "Estudio diario"}
                 </h1>
                 <div className={`text-xs font-bold px-3 py-1 rounded-full border ${isRushMode
-                    ? "text-orange-400 bg-orange-500/10 border-orange-500/20"
-                    : "text-zinc-500 bg-zinc-900 border-white/5"
+                    ? "text-accent-strong bg-accent-strong/10 border-accent-strong/25"
+                    : "text-text-dim bg-void/50 border-border-subtle"
                     }`}>
                     {progress} / {totalCards}
                 </div>

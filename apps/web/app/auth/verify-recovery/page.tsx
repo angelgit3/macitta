@@ -124,7 +124,7 @@ function VerifyRecoveryClient() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
-            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-white transition-colors">
+            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-ink transition-colors">
                 <Logo size={24} />
                 <span className="font-bold">Macitta</span>
             </Link>
@@ -137,7 +137,7 @@ function VerifyRecoveryClient() {
                 <h2 className="text-2xl font-bold mb-2">Recupera tu cuenta</h2>
                 <p className="text-text-dim mb-6 text-sm leading-relaxed">
                     Ingresa el código de 6 dígitos que enviamos a <br />
-                    <strong className="text-white">{email || 'tu correo'}</strong>
+                    <strong className="text-ink">{email || 'tu correo'}</strong>
                 </p>
 
                 {error && (
@@ -148,7 +148,7 @@ function VerifyRecoveryClient() {
                 )}
 
                 {message && (
-                    <div className="bg-green-500/10 border border-green-500/20 text-green-400 p-3 rounded-xl text-sm mb-6 flex gap-2 text-left">
+                    <div className="bg-accent-success/10 border border-accent-success/20 text-accent-success p-3 rounded-xl text-sm mb-6 flex gap-2 text-left">
                         <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
                         <span>{message}</span>
                     </div>
@@ -167,7 +167,7 @@ function VerifyRecoveryClient() {
                                 value={digit}
                                 onChange={(e) => handleChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
-                                className="w-12 h-14 text-center text-xl font-bold bg-void/50 border border-border-subtle rounded-xl focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all text-white outline-none"
+                                className="w-12 h-14 text-center text-xl font-bold bg-void/50 border border-border-subtle rounded-xl focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all text-ink outline-none"
                             />
                         ))}
                     </div>
@@ -185,7 +185,7 @@ function VerifyRecoveryClient() {
                     <button
                         onClick={handleResend}
                         disabled={resending || !email}
-                        className="text-text-dim hover:text-white font-medium transition-colors disabled:opacity-50"
+                        className="text-text-dim hover:text-ink font-medium transition-colors disabled:opacity-50"
                     >
                         {resending ? 'Enviando...' : '¿No recibiste el código? Reenviar'}
                     </button>
