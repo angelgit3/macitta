@@ -27,7 +27,7 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
-            <div className="w-full max-w-sm bg-stone-surface border border-red-500/30 rounded-3xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-full max-w-sm bg-surface border border-danger/30 rounded-3xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                 <div className="flex flex-col items-center justify-center p-6 space-y-4">
                     <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center">
                         <AlertCircle size={32} className="text-red-500" />
@@ -41,7 +41,7 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
                             <p className="text-xs text-red-300 font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
                                 <AlertCircle size={14} /> Atención: Acción Irreversible
                             </p>
-                            <p className="text-sm text-text-dim leading-relaxed">
+                            <p className="text-sm text-ink-faint leading-relaxed">
                                 Al eliminar este mazo, <strong className="text-ink">se borrarán todas sus tarjetas</strong> y el <strong className="text-ink">progreso de estudio</strong> de todos los estudiantes asignados.
                             </p>
                         </div>
@@ -53,7 +53,7 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
                         <button
                             onClick={onClose}
                             disabled={saving}
-                            className="flex-1 py-3.5 bg-void/50 border border-border-subtle text-ink font-bold rounded-2xl flex items-center justify-center hover:bg-void transition-colors disabled:opacity-50 text-sm"
+                            className="flex-1 py-3.5 bg-void/50 border border-border text-ink font-bold rounded-2xl flex items-center justify-center hover:bg-void transition-colors disabled:opacity-50 text-sm"
                         >
                             Cancelar
                         </button>

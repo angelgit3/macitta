@@ -127,31 +127,31 @@ function VerifyOTPClient() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
-            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-ink transition-colors">
+            <Link href="/" className="mb-8 flex items-center gap-2 text-ink-faint hover:text-ink transition-colors">
                 <Logo size={24} />
                 <span className="font-bold">Macitta</span>
             </Link>
 
-            <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
-                <div className="w-16 h-16 bg-accent-focus/20 rounded-full flex items-center justify-center mb-6 mx-auto text-accent-focus">
+            <div className="w-full max-w-sm glass-panel p-8 rounded-3xl shadow-xl">
+                <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mb-6 mx-auto text-accent">
                     <Mail size={28} />
                 </div>
 
                 <h2 className="text-2xl font-bold mb-2">Verifica tu correo</h2>
-                <p className="text-text-dim mb-6 text-sm leading-relaxed">
+                <p className="text-ink-faint mb-6 text-sm leading-relaxed">
                     Ingresa el código de 6 dígitos que enviamos a <br />
                     <strong className="text-ink">{email || 'tu correo'}</strong>
                 </p>
 
                 {error && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 flex gap-2 text-left">
+                    <div className="bg-danger/10 border border-danger/20 text-danger p-3 rounded-xl text-sm mb-6 flex gap-2 text-left">
                         <AlertCircle size={16} className="shrink-0 mt-0.5" />
                         <span>{error}</span>
                     </div>
                 )}
 
                 {message && (
-                    <div className="bg-accent-success/10 border border-accent-success/20 text-accent-success p-3 rounded-xl text-sm mb-6 flex gap-2 text-left">
+                    <div className="bg-success/10 border border-success/20 text-success p-3 rounded-xl text-sm mb-6 flex gap-2 text-left">
                         <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
                         <span>{message}</span>
                     </div>
@@ -170,7 +170,7 @@ function VerifyOTPClient() {
                                 value={digit}
                                 onChange={(e) => handleChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
-                                className="w-12 h-14 text-center text-xl font-bold bg-void/50 border border-border-subtle rounded-xl focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all text-ink outline-none"
+                                className="w-12 h-14 text-center text-xl font-bold soft-field rounded-xl outline-none"
                             />
                         ))}
                     </div>
@@ -188,12 +188,12 @@ function VerifyOTPClient() {
                     <button
                         onClick={handleResend}
                         disabled={resending || !email}
-                        className="text-text-dim hover:text-ink font-medium transition-colors disabled:opacity-50"
+                        className="text-ink-faint hover:text-ink font-medium transition-colors disabled:opacity-50"
                     >
                         {resending ? 'Enviando...' : '¿No recibiste el código? Reenviar'}
                     </button>
 
-                    <Link href="/auth/login" className="text-zinc-600 hover:text-zinc-400 font-medium transition-colors">
+                    <Link href="/auth/login" className="text-ink-faint hover:text-ink font-medium transition-colors">
                         Volver al inicio de sesión
                     </Link>
                 </div>
@@ -205,7 +205,7 @@ function VerifyOTPClient() {
 export default function VerifyOTPPage() {
     return (
         <Suspense fallback={
-            <div className="flex min-h-screen items-center justify-center bg-void text-text-dim">
+            <div className="flex min-h-screen items-center justify-center bg-void text-ink-faint">
                 <Loader2 className="animate-spin" size={24} />
             </div>
         }>

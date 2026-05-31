@@ -17,12 +17,12 @@ export default function Error({
         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 px-6 text-center">
             <div className="text-4xl">⚠️</div>
             <h2 className="text-xl font-bold">Algo salió mal</h2>
-            <p className="text-sm text-stone-400">
+            <p className="text-sm text-ink-faint">
                 Ha ocurrido un error inesperado. Puedes intentar de nuevo.
             </p>
             <button
                 onClick={reset}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-brand-primary text-paper border border-paper-soft/25 hover:bg-stone-light transition active:scale-95"
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-void border border-accent/20 hover:bg-accent-hover transition active:scale-95"
             >
                 Reintentar
             </button>

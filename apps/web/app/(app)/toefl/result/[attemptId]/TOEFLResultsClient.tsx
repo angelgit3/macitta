@@ -19,33 +19,39 @@ interface ResultData {
     answers: TOEFLQuestionAnswer[];
 }
 
-function formatTime(totalSeconds: number) {
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${String(seconds).padStart(2, "0")}`;
+/** Format seconds as "M:SS". */
+function formatTime(totalSeconds: number): string {
+    const m = Math.floor(totalSeconds / 60);
+    const s = totalSeconds % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-function optionText(question: TOEFLQuestion, optionId: string | null) {
+function optionText(question: TOEFLQuestion, optionId: string | null): string {
     if (!optionId) return "Sin respuesta";
-    return question.options.find((option) => option.id === optionId)?.text ?? optionId;
+    return question.options.find(o => o.id === optionId)?.text ?? optionId;
 }
 
-function buildTutorPrompt(exam: TOEFLExam, questions: TOEFLQuestion[], answersByQuestion: Map<string, TOEFLQuestionAnswer>, selectedIds: Set<string>) {
+/** Build a structured AI tutor prompt for the selected wrong answers. */
+function buildTutorPrompt(
+    exam: TOEFLExam,
+    questions: TOEFLQuestion[],
+    answersByQuestion: Map<string, TOEFLQuestionAnswer>,
+    selectedIds: Set<string>,
+): string {
     const reference = exam.passage_text || exam.transcript || "Esta práctica no incluyó material de referencia extendido.";
     const details = questions
-        .filter((question) => selectedIds.has(question.id))
-        .map((question) => {
-            const answer = answersByQuestion.get(question.id);
-            const options = question.options.map((option) => `* ${option.id}) ${option.text}`).join("\n");
-
+        .filter(q => selectedIds.has(q.id))
+        .map(q => {
+            const answer = answersByQuestion.get(q.id);
+            const options = q.options.map(o => `* ${o.id}) ${o.text}`).join("\n");
             return `=========================================
-PREGUNTA: ${question.question_text}
+PREGUNTA: ${q.question_text}
 Opciones presentadas en el examen:
 ${options}
 
-Mi respuesta elegida: ${optionText(question, answer?.user_choice ?? null)}
-Respuesta correcta: ${optionText(question, question.correct_option_id)}
-Explicación estática de la app: ${question.explanation}
+Mi respuesta elegida: ${optionText(q, answer?.user_choice ?? null)}
+Respuesta correcta: ${optionText(q, q.correct_option_id)}
+Explicación estática de la app: ${q.explanation}
 =========================================`;
         }).join("\n\n");
 
@@ -84,13 +90,17 @@ async function loadLocalResult(attemptId: string, userId: string): Promise<Resul
     return { exam, attempt, questions, answers };
 }
 
+/**
+ * TOEFLResultsClient — shows score breakdown, per-question review,
+ * and a one-click AI tutor prompt builder for wrong answers.
+ */
 export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProps) {
     const supabase = useMemo(() => createClient(), []);
-    const [result, setResult] = useState<ResultData | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [result,      setResult]      = useState<ResultData | null>(null);
+    const [loading,     setLoading]     = useState(true);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-    const [copying, setCopying] = useState(false);
-    const [copied, setCopied] = useState(false);
+    const [copying,     setCopying]     = useState(false);
+    const [copied,      setCopied]      = useState(false);
 
     useEffect(() => {
         let cancelled = false;
@@ -112,13 +122,13 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
 
                 if (!cancelled && exam && questions && answers) {
                     const nextResult = {
-                        exam: exam as TOEFLExam,
-                        attempt: attempt as TOEFLAttempt,
+                        exam:      exam      as TOEFLExam,
+                        attempt:   attempt   as TOEFLAttempt,
                         questions: questions as TOEFLQuestion[],
-                        answers: answers as TOEFLQuestionAnswer[],
+                        answers:   answers   as TOEFLQuestionAnswer[],
                     };
                     setResult(nextResult);
-                    setSelectedIds(new Set(nextResult.answers.filter((answer) => !answer.is_correct).map((answer) => answer.question_id)));
+                    setSelectedIds(new Set(nextResult.answers.filter(a => !a.is_correct).map(a => a.question_id)));
                     setLoading(false);
                     return;
                 }
@@ -127,7 +137,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
             const localResult = await loadLocalResult(attemptId, userId);
             if (!cancelled) {
                 setResult(localResult);
-                setSelectedIds(new Set(localResult?.answers.filter((answer) => !answer.is_correct).map((answer) => answer.question_id) ?? []));
+                setSelectedIds(new Set(localResult?.answers.filter(a => !a.is_correct).map(a => a.question_id) ?? []));
                 setLoading(false);
             }
         }
@@ -136,31 +146,41 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
         return () => { cancelled = true; };
     }, [attemptId, supabase, userId]);
 
-    const answersByQuestion = useMemo(() => new Map(result?.answers.map((answer) => [answer.question_id, answer]) ?? []), [result]);
+    const answersByQuestion = useMemo(
+        () => new Map(result?.answers.map(a => [a.question_id, a]) ?? []),
+        [result],
+    );
 
+    // ── Loading ──────────────────────────────────────────────
     if (loading) {
         return (
-            <div className="py-20 flex flex-col items-center gap-3 text-text-dim">
-                <Loader2 className="animate-spin text-accent-focus" />
+            <div className="py-20 flex flex-col items-center gap-3 text-ink-faint">
+                <Loader2 className="animate-spin text-accent" />
                 <p className="text-sm">Cargando resultado...</p>
             </div>
         );
     }
 
+    // ── Not found ────────────────────────────────────────────
     if (!result) {
         return (
             <div className="py-20 text-center">
                 <h1 className="text-xl font-black text-ink">Resultado no encontrado</h1>
-                <p className="text-sm text-text-dim mt-2">No pudimos encontrar este intento en Supabase ni en este dispositivo.</p>
-                <Link href="/toefl" className="inline-flex mt-6 text-accent-focus font-bold">Volver a prácticas</Link>
+                <p className="text-sm text-ink-faint mt-2">
+                    No pudimos encontrar este intento en Supabase ni en este dispositivo.
+                </p>
+                <Link href="/toefl" className="inline-flex mt-6 text-accent font-bold">
+                    Volver a prácticas
+                </Link>
             </div>
         );
     }
 
     const { exam, attempt, questions, answers } = result;
-    const correctCount = answers.filter((answer) => answer.is_correct).length;
-    const accuracy = Math.round((correctCount / Math.max(questions.length, 1)) * 100);
-    const maxRaw = questions.reduce((total, question) => total + question.points_weight, 0);
+    const correctCount = answers.filter(a => a.is_correct).length;
+    const accuracy     = Math.round((correctCount / Math.max(questions.length, 1)) * 100);
+    const maxRaw       = questions.reduce((sum, q) => sum + q.points_weight, 0);
+
     const rangeMessage = attempt.scaled_score >= 24
         ? "Nivel competitivo. Ahora toca pulir precisión bajo presión."
         : attempt.scaled_score >= 16
@@ -172,97 +192,100 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
         setCopying(true);
         setCopied(false);
         const prompt = buildTutorPrompt(exam, questions, answersByQuestion, selectedIds);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 1_500));
         await navigator.clipboard.writeText(prompt);
         setCopying(false);
         setCopied(true);
     }
 
     function toggleQuestion(questionId: string) {
-        setSelectedIds((prev) => {
+        setSelectedIds(prev => {
             const next = new Set(prev);
-            if (next.has(questionId)) next.delete(questionId);
-            else next.add(questionId);
+            next.has(questionId) ? next.delete(questionId) : next.add(questionId);
             return next;
         });
     }
 
     return (
         <div className="flex flex-col gap-5 pb-24">
-            <Link href="/toefl" className="inline-flex items-center gap-1 text-sm text-text-dim hover:text-ink transition-colors">
+            <Link href="/toefl" className="inline-flex items-center gap-1 text-sm text-ink-faint hover:text-ink transition-colors">
                 <ArrowLeft size={16} /> Volver a prácticas
             </Link>
 
-            <section className="bg-stone-surface border border-border-subtle rounded-3xl p-6">
+            {/* ── Score overview ─────────────────────────────── */}
+            <section className="glass-panel rounded-2xl p-6 relative overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
                 <div className="flex items-start justify-between gap-4">
                     <div>
-                        <p className="text-[11px] uppercase tracking-wider text-accent-focus font-bold">{exam.section} · resultado</p>
+                        <p className="label-kicker text-accent">{exam.section} · resultado</p>
                         <h1 className="text-2xl font-black text-ink mt-1">{attempt.scaled_score}/30</h1>
                     </div>
-                    <div className="w-14 h-14 rounded-2xl bg-accent-focus/15 text-accent-focus flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-2xl bg-accent/15 text-accent flex items-center justify-center">
                         <Sparkles size={24} />
                     </div>
                 </div>
-                <p className="text-sm text-text-dim leading-relaxed mt-4">{rangeMessage}</p>
+                <p className="text-sm text-ink-faint leading-relaxed mt-4">{rangeMessage}</p>
 
                 <div className="grid grid-cols-3 gap-2 mt-6">
-                    <div className="bg-void/60 rounded-2xl p-3 text-center">
-                        <div className="text-lg font-black">{attempt.raw_score}/{maxRaw}</div>
-                        <div className="text-[10px] uppercase tracking-wider text-text-dim">Raw</div>
-                    </div>
-                    <div className="bg-void/60 rounded-2xl p-3 text-center">
-                        <div className="text-lg font-black">{accuracy}%</div>
-                        <div className="text-[10px] uppercase tracking-wider text-text-dim">Precisión</div>
-                    </div>
-                    <div className="bg-void/60 rounded-2xl p-3 text-center">
-                        <div className="text-lg font-black">{formatTime(attempt.time_taken)}</div>
-                        <div className="text-[10px] uppercase tracking-wider text-text-dim">Tiempo</div>
-                    </div>
+                    {[
+                        { label: "Raw",       value: `${attempt.raw_score}/${maxRaw}` },
+                        { label: "Precisión", value: `${accuracy}%`                  },
+                        { label: "Tiempo",    value: formatTime(attempt.time_taken)   },
+                    ].map(({ label, value }) => (
+                        <div key={label} className="bg-void/60 rounded-2xl p-3 text-center">
+                            <div className="text-lg font-black">{value}</div>
+                            <div className="label-kicker">{label}</div>
+                        </div>
+                    ))}
                 </div>
             </section>
 
+            {/* ── Transcript (listening only) ───────────────── */}
             {exam.section === "listening" && exam.transcript && (
-                <section className="bg-void/60 border border-border-subtle rounded-3xl p-5">
-                    <h2 className="text-sm font-bold uppercase tracking-wider text-text-dim">Transcripción</h2>
-                    <p className="text-sm text-zinc-200 leading-7 mt-3">{exam.transcript}</p>
+                <section className="bg-void/60 border border-border rounded-2xl p-5">
+                    <h2 className="label-kicker mb-3">Transcripción</h2>
+                    <p className="text-sm text-ink-muted leading-7">{exam.transcript}</p>
                 </section>
             )}
 
+            {/* ── Question review ───────────────────────────── */}
             <section className="space-y-3">
                 <div className="flex items-center justify-between px-1">
-                    <h2 className="text-sm font-bold uppercase tracking-wider text-text-dim">Revisión</h2>
-                    <span className="text-xs text-text-dim">{selectedIds.size} seleccionadas</span>
+                    <h2 className="label-kicker">Revisión</h2>
+                    <span className="text-xs text-ink-faint">{selectedIds.size} seleccionadas</span>
                 </div>
 
-                {questions.map((question) => {
-                    const answer = answersByQuestion.get(question.id);
+                {questions.map(question => {
+                    const answer    = answersByQuestion.get(question.id);
                     const isCorrect = Boolean(answer?.is_correct);
-                    const selected = selectedIds.has(question.id);
+                    const selected  = selectedIds.has(question.id);
 
                     return (
                         <button
                             key={question.id}
                             type="button"
                             onClick={() => toggleQuestion(question.id)}
-                            className={`w-full text-left rounded-3xl border p-5 transition-all ${
-                                selected ? "border-accent-focus bg-accent-focus/10" : "border-border-subtle bg-stone-surface"
+                            className={`w-full text-left rounded-2xl border p-5 transition-all ${
+                                selected
+                                    ? "border-accent bg-accent/10"
+                                    : "border-border bg-surface"
                             }`}
                         >
                             <div className="flex items-start gap-3">
                                 <div className={`mt-0.5 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                                    isCorrect ? "bg-accent-success/10 text-accent-success" : "bg-red-500/15 text-red-400"
+                                    isCorrect ? "bg-success/10 text-success" : "bg-danger/15 text-danger"
                                 }`}>
                                     {isCorrect ? <Check size={15} /> : <X size={15} />}
                                 </div>
                                 <div className="min-w-0">
                                     <h3 className="font-bold text-ink leading-snug">{question.question_text}</h3>
-                                    <p className="text-xs text-text-dim mt-3">
+                                    <p className="text-xs text-ink-faint mt-3">
                                         Tu respuesta: <span className="text-ink">{optionText(question, answer?.user_choice ?? null)}</span>
                                     </p>
-                                    <p className="text-xs text-text-dim mt-1">
-                                        Correcta: <span className="text-accent-success">{optionText(question, question.correct_option_id)}</span>
+                                    <p className="text-xs text-ink-faint mt-1">
+                                        Correcta: <span className="text-success">{optionText(question, question.correct_option_id)}</span>
                                     </p>
-                                    <p className="text-sm text-zinc-300 leading-relaxed mt-3">{question.explanation}</p>
+                                    <p className="text-sm text-ink-muted leading-relaxed mt-3">{question.explanation}</p>
                                 </div>
                             </div>
                         </button>
@@ -270,11 +293,13 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                 })}
             </section>
 
+            {/* ── Copy AI prompt ────────────────────────────── */}
             <button
                 type="button"
                 onClick={copyPrompt}
                 disabled={copying || selectedIds.size === 0}
-                className="h-13 py-4 rounded-2xl bg-brand-primary text-paper border border-paper-soft/25 font-black flex items-center justify-center gap-2 hover:bg-stone-light transition-colors disabled:opacity-50"
+                className="py-4 rounded-2xl bg-accent text-void border border-accent/20 font-black flex items-center justify-center gap-2
+                           shadow-[0_4px_14px_rgba(124,133,232,0.28)] hover:bg-accent-hover transition-all disabled:opacity-50"
             >
                 {copying ? <Loader2 className="animate-spin" size={18} /> : <Clipboard size={18} />}
                 {copied ? "Prompt copiado" : copying ? "Preparando tutoría" : "Preparar tutoría de IA"}

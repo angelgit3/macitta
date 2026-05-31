@@ -33,10 +33,10 @@ export function MetadataStep() {
   };
 
   return (
-    <form onSubmit={handleNext} className="max-w-xl mx-auto space-y-6 mt-8 bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-lg">
-      <div className="flex items-center gap-3 border-b border-border-subtle pb-4 mb-6">
-        <div className="p-2 bg-void rounded-xl border border-border-subtle">
-          <Save size={24} className="text-accent-focus" />
+    <form onSubmit={handleNext} className="max-w-xl mx-auto space-y-6 mt-8 glass-panel p-8 rounded-3xl shadow-lg">
+      <div className="flex items-center gap-3 border-b border-border pb-4 mb-6">
+        <div className="p-2 bg-void rounded-xl border border-border">
+          <Save size={24} className="text-accent" />
         </div>
         <h2 className="text-2xl font-bold text-ink">Configuración del Mazo</h2>
       </div>
@@ -49,24 +49,24 @@ export function MetadataStep() {
       />
 
       <div className="space-y-2">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1 mb-2">Descripción (Opcional)</label>
+        <label className="block text-[11px] font-bold uppercase tracking-wider text-ink-faint/60 ml-1 mb-2">Descripción (Opcional)</label>
         <textarea 
           value={description}
           onChange={e => setDescription(e.target.value)}
-          className="w-full px-4 py-3 bg-void/50 border border-border-subtle h-28 text-ink focus:border-accent-focus focus:outline-none focus:ring-1 focus:ring-accent-focus rounded-xl transition-all resize-none shadow-inner"
+          className="w-full px-4 py-3 soft-field h-28 focus:outline-none rounded-xl transition-all resize-none shadow-inner"
         />
       </div>
 
       <div className="space-y-2">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-text-dim/60 ml-1 mb-2">Color del Mazo</label>
+        <label className="block text-[11px] font-bold uppercase tracking-wider text-ink-faint/60 ml-1 mb-2">Color del Mazo</label>
         <div className="flex items-center gap-3">
           <input 
             type="color" 
             value={color}
             onChange={e => setColor(e.target.value)}
-            className="p-1 h-12 w-20 cursor-pointer rounded-xl border border-border-subtle bg-void/50"
+            className="p-1 h-12 w-20 cursor-pointer rounded-xl border border-border bg-void/50"
           />
-          <span className="text-sm font-mono text-text-dim uppercase">{color}</span>
+          <span className="text-sm font-mono text-ink-faint uppercase">{color}</span>
         </div>
       </div>
 

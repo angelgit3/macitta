@@ -16,14 +16,9 @@ type Props = {
 };
 
 export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSlot }: Props) {
-  // Safely attempt to get context, but don't crash if it's not there (for standalone usage)
-  let dispatch: any = null;
-  try {
-    const context = useDeckBuilder();
-    dispatch = context.dispatch;
-  } catch (e) {
-    // Ignore error if used outside provider
-  }
+  // Use optional context hook — safe when rendered outside the provider
+  const context = useDeckBuilderOptional();
+  const dispatch = context?.dispatch ?? null;
 
   const [showAdvanced, setShowAdvanced] = useState(false);
 
@@ -117,15 +112,15 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
   };
 
   return (
-    <div className="bg-stone-surface/30 backdrop-blur-sm rounded-2xl border border-border-subtle p-5 space-y-4 shadow-lg relative overflow-hidden transition-all duration-300 hover:border-text-dim/30">
-      <div className="absolute top-0 left-0 w-1 h-full bg-accent-focus/80 shadow-[0_0_10px_rgba(216,199,163,0.5)]"></div>
+    <div className="bg-surface/30 backdrop-blur-sm rounded-2xl border border-border p-5 space-y-4 shadow-lg relative overflow-hidden transition-all duration-300 hover:border-ink-faint/30">
+      <div className="absolute top-0 left-0 w-1 h-full bg-accent/80 shadow-[0_0_10px_rgba(124,133,232,0.3)]"></div>
       
       {/* Header and Answer Fields */}
       <div className="flex flex-col gap-3">
-        <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border-subtle shadow-inner text-xs font-black text-ink tracking-widest uppercase">
+        <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border shadow-inner text-xs font-black text-ink tracking-widest uppercase">
           {label}
         </div>
-        
+
         {/* Main Answer Inputs */}
         <div className="space-y-2">
           {items.map((item, idx) => (
@@ -175,7 +170,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                 setItems(next);
                 handleChange(ruleType, next, forbidItems, kValue, media);
               }}
-              className="text-[11px] font-bold text-accent-focus hover:text-accent-focus/80 flex items-center px-1 py-1 transition-colors uppercase tracking-wider"
+              className="text-[11px] font-bold text-accent hover:text-accent/80 flex items-center px-1 py-1 transition-colors uppercase tracking-wider"
             >
               <Plus size={14} className="mr-1" /> 
               {ruleType === "anyOf" ? "Añadir opción correcta" : 
@@ -187,10 +182,10 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
       </div>
 
       {/* Advanced Options Toggle */}
-      <div className="pt-2 border-t border-border-subtle/30">
+      <div className="pt-2 border-t border-border/30">
         <button 
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center justify-between w-full text-[11px] font-bold uppercase tracking-wider text-text-dim hover:text-ink transition-colors py-1"
+          className="flex items-center justify-between w-full text-[11px] font-bold uppercase tracking-wider text-ink-faint hover:text-ink transition-colors py-1"
         >
           <span className="flex items-center gap-1.5"><Settings2 size={14} /> Ajustes Avanzados</span>
           {showAdvanced ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -200,10 +195,13 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
       {/* Advanced Options Content */}
       {showAdvanced && (
         <div className="space-y-5 pt-3 pb-1 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border shadow-inner text-xs font-black text-ink tracking-widest uppercase">
+            {label}
+          </div>
           
           {/* Evaluation Mode */}
-          <div className="flex flex-col gap-2 w-full bg-void/40 p-3 rounded-xl border border-border-subtle/50">
-            <label className="text-[10px] uppercase font-bold text-accent-focus">
+          <div className="flex flex-col gap-2 w-full bg-void/40 p-3 rounded-xl border border-border/50">
+            <label className="text-[10px] uppercase font-bold text-accent">
               Modo de Evaluación
             </label>
             <select
@@ -220,7 +218,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                   handleChange(rt, items, forbidItems, kValue, media);
                 }
               }}
-              className="w-full border border-border-subtle rounded-lg pl-3 pr-8 py-2 text-sm bg-stone-surface text-ink focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all font-medium"
+              className="w-full border border-border rounded-lg pl-3 pr-8 py-2 text-sm bg-surface text-ink focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-medium"
             >
               <option value="exact">Exacta (Una sola respuesta)</option>
               <option value="anyOf">Sinónimos (Acepta cualquiera)</option>
@@ -230,7 +228,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
           </div>
 
           {ruleType === "kOf" && (
-            <div className="flex items-center justify-between text-sm bg-accent-focus/10 p-3 rounded-xl border border-accent-focus/20">
+            <div className="flex items-center justify-between text-sm bg-accent/10 p-3 rounded-xl border border-accent/20">
               <label className="text-ink font-bold text-xs">Aciertos mínimos necesarios:</label>
               <ZenInput
                 type="number"

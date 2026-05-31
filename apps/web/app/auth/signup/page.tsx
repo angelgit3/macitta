@@ -82,10 +82,10 @@ export default function SignupPage() {
     return (
         <div className="w-full">
             <h2 className="text-2xl font-bold mb-2 text-center text-ink">Bienvenido a Macitta</h2>
-            <p className="text-text-dim text-center mb-6 text-sm">Crea tu cuenta con cualquier correo.</p>
+            <p className="text-ink-faint text-center mb-6 text-sm">Crea tu cuenta con cualquier correo.</p>
 
             {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-300 p-3 rounded-lg text-sm mb-6 text-center">
+                <div className="bg-danger/10 border border-danger/20 text-danger p-3 rounded-lg text-sm mb-6 text-center">
                     {error}
                 </div>
             )}
@@ -96,7 +96,7 @@ export default function SignupPage() {
                         name="username"
                         required
                         minLength={3}
-                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 text-sm"
                         placeholder="neo_anderson"
                     />
                 </AuthField>
@@ -108,7 +108,7 @@ export default function SignupPage() {
                         required
                         value={emailValue}
                         onChange={(e) => setEmailValue(e.target.value)}
-                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 text-sm"
                         placeholder="tu_correo@example.com"
                     />
                 </AuthField>
@@ -119,7 +119,7 @@ export default function SignupPage() {
                         type="password"
                         required
                         minLength={8}
-                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 text-sm"
                         placeholder="********"
                     />
                 </AuthField>
@@ -130,7 +130,7 @@ export default function SignupPage() {
                         type="password"
                         required
                         minLength={8}
-                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 focus:border-accent-focus text-sm"
+                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 text-sm"
                         placeholder="********"
                     />
                 </AuthField>
@@ -140,7 +140,7 @@ export default function SignupPage() {
                 </ZenButton>
             </form>
 
-            <div className="mt-6 text-center text-sm text-text-dim">
+            <div className="mt-6 text-center text-sm text-ink-faint">
                 Ya tienes cuenta? <Link href="/auth/login" className="text-ink font-medium hover:underline">Inicia Sesion</Link>
             </div>
         </div>
@@ -150,9 +150,9 @@ export default function SignupPage() {
 function AuthField({ label, icon, children }: { label: string; icon: ReactNode; children: ReactNode }) {
     return (
         <div className="space-y-1">
-            <label className="quiet-kicker ml-1">{label}</label>
+            <label className="label-kicker ml-1">{label}</label>
             <div className="relative">
-                <div className="absolute left-4 top-3 text-text-dim">{icon}</div>
+                <div className="absolute left-4 top-3 text-ink-faint">{icon}</div>
                 {children}
             </div>
         </div>

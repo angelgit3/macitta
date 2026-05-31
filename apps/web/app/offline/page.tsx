@@ -8,7 +8,7 @@ export default function OfflinePage() {
         <div className="min-h-screen bg-void flex flex-col items-center justify-center px-6 text-center">
             {/* Glowing cloud icon */}
             <div className="relative mb-8">
-                <div className="w-20 h-20 rounded-3xl bg-stone-surface border border-ink/5 flex items-center justify-center shadow-xl">
+                <div className="w-20 h-20 rounded-3xl bg-surface border border-ink/5 flex items-center justify-center shadow-xl">
                     <svg
                         width="40"
                         height="40"
@@ -20,7 +20,7 @@ export default function OfflinePage() {
                         <path
                             d="M10 28C6.686 28 4 25.314 4 22C4 19.013 6.163 16.527 9.028 16.066C9.01 15.716 9 15.36 9 15C9 10.582 12.582 7 17 7C20.302 7 23.146 8.966 24.434 11.784C25.1 11.606 25.8 11.5 26.5 11.5C30.09 11.5 33 14.41 33 18C33 18.3 32.98 18.594 32.944 18.882C35.296 19.696 37 21.916 37 24.5C37 27.814 34.314 30.5 31 30.5H10V28Z"
                             fill="currentColor"
-                            className="text-stone-light"
+                            className="text-surface-raised"
                         />
                         <path
                             d="M10 28C6.686 28 4 25.314 4 22C4 19.013 6.163 16.527 9.028 16.066C9.01 15.716 9 15.36 9 15C9 10.582 12.582 7 17 7C20.302 7 23.146 8.966 24.434 11.784C25.1 11.606 25.8 11.5 26.5 11.5C30.09 11.5 33 14.41 33 18C33 18.3 32.98 18.594 32.944 18.882C35.296 19.696 37 21.916 37 24.5C37 27.814 34.314 30.5 31 30.5H10V28Z"
@@ -45,14 +45,14 @@ export default function OfflinePage() {
 
             {/* Text */}
             <h1 className="text-xl font-bold text-ink mb-2">Sin conexión</h1>
-            <p className="text-sm text-text-dim max-w-xs leading-relaxed">
+            <p className="text-sm text-ink-faint max-w-xs leading-relaxed">
                 No pudimos cargar esta página. Revisá tu conexión a internet e intentá de nuevo.
             </p>
 
             {/* Retry button — navigates back to trigger SW fetch */}
             <button
                 onClick={() => window.location.reload()}
-                className="mt-8 px-5 py-2.5 rounded-xl text-sm font-semibold bg-stone-surface border border-ink/5 text-ink hover:border-ink/10 hover:bg-stone-light transition-all active:scale-95"
+                className="mt-8 px-5 py-2.5 rounded-xl text-sm font-semibold bg-surface border border-ink/5 text-ink hover:border-ink/10 hover:bg-surface-raised transition-all active:scale-95"
             >
                 Reintentar
             </button>

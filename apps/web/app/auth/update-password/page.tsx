@@ -58,11 +58,11 @@ export default function UpdatePasswordPage() {
     if (success) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
-                <div className="w-16 h-16 bg-accent-success/10 rounded-full flex items-center justify-center mb-6 text-accent-success animate-in zoom-in">
+                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mb-6 text-success animate-in zoom-in">
                     <CheckCircle2 size={32} />
                 </div>
                 <h2 className="text-3xl font-bold mb-3">¡Contraseña actualizada!</h2>
-                <p className="text-text-dim max-w-xs leading-relaxed">
+                <p className="text-ink-faint max-w-xs leading-relaxed">
                     Tu contraseña ha sido cambiada correctamente. Redirigiendo al dashboard...
                 </p>
             </div>
@@ -71,34 +71,34 @@ export default function UpdatePasswordPage() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void">
-            <Link href="/" className="mb-8 flex items-center gap-2 text-text-dim hover:text-ink transition-colors">
+            <Link href="/" className="mb-8 flex items-center gap-2 text-ink-faint hover:text-ink transition-colors">
                 <Logo size={24} />
                 <span className="font-bold">Macitta</span>
             </Link>
 
-            <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
+            <div className="w-full max-w-sm glass-panel p-8 rounded-3xl shadow-xl">
                 <h2 className="text-2xl font-bold mb-2 text-center">Nueva Contraseña</h2>
-                <p className="text-text-dim text-center mb-8 text-sm">
+                <p className="text-ink-faint text-center mb-8 text-sm">
                     Elige una contraseña segura para tu cuenta.
                 </p>
 
                 {error && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">
+                    <div className="bg-danger/10 border border-danger/20 text-danger p-3 rounded-xl text-sm mb-6 text-center">
                         {error}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-text-dim ml-1">Nueva Contraseña</label>
+                        <label className="text-xs font-bold uppercase tracking-wider text-ink-faint ml-1">Nueva Contraseña</label>
                         <div className="relative">
-                            <Lock className="absolute left-4 top-3.5 text-text-dim" size={18} />
+                            <Lock className="absolute left-4 top-3.5 text-ink-faint" size={18} />
                             <input
                                 name="password"
                                 type="password"
                                 required
                                 minLength={6}
-                                className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all"
+                                className="w-full soft-field rounded-xl py-3 pl-11 pr-4"
                                 placeholder="••••••••"
                                 autoFocus
                             />
@@ -106,15 +106,15 @@ export default function UpdatePasswordPage() {
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-text-dim ml-1">Confirmar Contraseña</label>
+                        <label className="text-xs font-bold uppercase tracking-wider text-ink-faint ml-1">Confirmar Contraseña</label>
                         <div className="relative">
-                            <Lock className="absolute left-4 top-3.5 text-text-dim" size={18} />
+                            <Lock className="absolute left-4 top-3.5 text-ink-faint" size={18} />
                             <input
                                 name="confirmPassword"
                                 type="password"
                                 required
                                 minLength={6}
-                                className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all"
+                                className="w-full soft-field rounded-xl py-3 pl-11 pr-4"
                                 placeholder="••••••••"
                             />
                         </div>

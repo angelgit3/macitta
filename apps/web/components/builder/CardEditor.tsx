@@ -13,7 +13,7 @@ export function CardEditor() {
   const activeCard = cards[activeCardIndex];
 
   if (!activeCard) {
-    return <div className="flex-1 p-8 text-text-dim/60 font-medium flex items-center justify-center bg-void">No hay carta seleccionada.</div>;
+    return <div className="flex-1 p-8 text-ink-faint/60 font-medium flex items-center justify-center bg-void">No hay carta seleccionada.</div>;
   }
 
   const updateCard = (updates: Partial<typeof activeCard>) => {
@@ -28,11 +28,11 @@ export function CardEditor() {
       <div className="max-w-3xl w-full space-y-6 pb-20">
         
         {/* Front Question Section */}
-        <div className="bg-stone-surface/30 backdrop-blur-sm rounded-2xl border border-border-subtle p-5 space-y-4 shadow-lg relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-accent-focus"></div>
+        <div className="bg-surface/30 backdrop-blur-sm rounded-2xl border border-border p-5 space-y-4 shadow-lg relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-accent"></div>
           
-          <div className="flex items-center gap-2 border-b border-border-subtle/50 pb-3 mb-2">
-            <HelpCircle size={18} className="text-accent-focus" />
+          <div className="flex items-center gap-2 border-b border-border/50 pb-3 mb-2">
+            <HelpCircle size={18} className="text-accent" />
             <h2 className="text-lg font-bold text-ink tracking-wide">Pregunta (Frente)</h2>
           </div>
           
@@ -47,7 +47,7 @@ export function CardEditor() {
           {!showFrontMedia && !activeCard.front_media ? (
             <button 
               onClick={() => setShowFrontMedia(true)}
-              className="text-xs font-bold text-text-dim hover:text-accent-focus flex items-center gap-1.5 transition-colors uppercase tracking-wider mt-2"
+              className="text-xs font-bold text-ink-faint hover:text-accent flex items-center gap-1.5 transition-colors uppercase tracking-wider mt-2"
             >
               <ImageIcon size={14} /> Añadir Imagen o Audio
             </button>
@@ -66,7 +66,7 @@ export function CardEditor() {
         {/* Answers Section */}
         <div className="space-y-4 relative">
           <div className="flex items-center gap-2 px-1">
-            <CheckCircle2 size={20} className="text-accent-success drop-shadow-[0_0_10px_rgba(216,199,163,0.4)]" />
+            <CheckCircle2 size={20} className="text-success drop-shadow-[0_0_10px_rgba(107,203,142,0.4)]" />
             <h2 className="text-lg font-bold text-ink tracking-wide">Respuestas a Evaluar</h2>
           </div>
           
@@ -90,7 +90,7 @@ export function CardEditor() {
         <div className="pt-4 flex justify-center">
           <button
             onClick={() => dispatch({ type: "ADD_CARD" })}
-            className="flex items-center gap-2 px-8 py-4 bg-accent-focus/10 text-accent-focus hover:bg-accent-focus hover:text-paper border border-accent-focus/30 rounded-2xl font-black uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(154,99,58,0.4)]"
+            className="flex items-center gap-2 px-8 py-4 bg-accent/10 text-accent hover:bg-accent hover:text-void border border-accent/30 rounded-2xl font-black uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(124,133,232,0.35)]"
           >
             <CheckCircle2 size={20} /> Terminar y Crear Nueva Carta
           </button>

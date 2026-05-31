@@ -28,3 +28,11 @@ export function useDeckBuilder() {
   }
   return context;
 }
+
+/**
+ * useDeckBuilderOptional — returns context or `null` when used outside a
+ * DeckBuilderProvider (e.g., AnswerSlotEditor rendered standalone).
+ */
+export function useDeckBuilderOptional(): DeckBuilderContextValue | null {
+  return useContext(DeckBuilderContext) ?? null;
+}

@@ -41,28 +41,28 @@ export default function ForgotPasswordPage() {
     }
 
     return (
-        <div className="w-full max-w-sm bg-stone-surface p-8 rounded-3xl border border-border-subtle shadow-xl">
+        <div className="w-full max-w-sm glass-panel p-8 rounded-3xl shadow-xl">
                 <h2 className="text-2xl font-bold mb-2 text-center">¿Olvidaste tu contraseña?</h2>
-                <p className="text-text-dim text-center mb-8 text-sm">
+                <p className="text-ink-faint text-center mb-8 text-sm">
                     Ingresa tu correo y te enviaremos un código de 6 dígitos para restablecerla.
                 </p>
 
                 {error && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">
+                    <div className="bg-danger/10 border border-danger/20 text-danger p-3 rounded-xl text-sm mb-6 text-center">
                         {error}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-text-dim ml-1">Email</label>
+                        <label className="text-xs font-bold uppercase tracking-wider text-ink-faint ml-1">Email</label>
                         <div className="relative">
-                            <Mail className="absolute left-4 top-3.5 text-text-dim" size={18} />
+                            <Mail className="absolute left-4 top-3.5 text-ink-faint" size={18} />
                             <input
                                 name="email"
                                 type="email"
                                 required
-                                className="w-full bg-void/50 border border-border-subtle rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-accent-focus focus:ring-1 focus:ring-accent-focus transition-all"
+                                className="w-full soft-field rounded-xl py-3 pl-11 pr-4"
                                 placeholder="tu_correo@example.com"
                                 autoFocus
                             />
@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
                 </form>
 
                 <div className="mt-6 text-center">
-                    <Link href="/auth/login" className="text-sm text-text-dim hover:text-ink transition-colors inline-flex items-center gap-1">
+                    <Link href="/auth/login" className="text-sm text-ink-faint hover:text-ink transition-colors inline-flex items-center gap-1">
                         <ArrowLeft size={14} />
                         Volver al Login
                     </Link>
