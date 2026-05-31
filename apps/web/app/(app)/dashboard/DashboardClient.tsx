@@ -4,9 +4,10 @@ import { BentoCard } from "@/components/ui/BentoCard";
 import { StatsGraph } from "@/components/ui/StatsGraph";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
 import {
-  ArrowRight, BookOpen, Clock, Cloud, CloudOff,
-  Flame, GraduationCap, Shuffle, Target,
+  ArrowRight, BookOpen, Clock, Cloud,
+  Flame, GraduationCap, Target,
 } from "lucide-react";
+
 import { useUserStats } from "@/hooks/useUserStats";
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -99,61 +100,31 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
         <BentoCard icon={<Clock    size={18} />} title="Tiempo"   value={totalTimeFormatted} accent="none" />
       </div>
 
-      {/* ── Quick-action cards ──────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Primary CTA — global study */}
-        <Link
-          href="/estudio/global"
-          className="group relative glass-card rounded-2xl p-5 flex items-center justify-between gap-4 overflow-hidden
-                     hover:border-accent/35 hover:shadow-[0_0_0_1px_rgba(124,133,232,0.18),0_12px_32px_-6px_rgba(0,0,0,0.4)]
-                     transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98]"
-        >
-          {/* Glow background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/8 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+      {/* ── TOEFL quick-access ─────────────────────────────── */}
+      <Link
+        href="/toefl"
+        className="group relative glass-card rounded-2xl p-5 flex items-center justify-between gap-4 overflow-hidden
+                   hover:border-amber/30 hover:shadow-[0_0_0_1px_rgba(232,184,75,0.15),0_12px_32px_-6px_rgba(0,0,0,0.4)]
+                   transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98]"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-amber/6 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber/35 to-transparent" />
 
-          <div className="relative z-10 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
-              <Shuffle size={22} />
-            </div>
-            <div>
-              <h2 className="text-base font-black text-ink">Estudiar con un botón</h2>
-              <p className="text-xs text-ink-muted mt-0.5">Repasa tarjetas vencidas de todos tus mazos</p>
-            </div>
+        <div className="relative z-10 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-amber/10 border border-amber/20 flex items-center justify-center text-amber shrink-0">
+            <GraduationCap size={22} />
           </div>
-
-          <ArrowRight
-            size={18}
-            className="relative z-10 text-ink-faint group-hover:text-accent group-hover:translate-x-0.5 transition-all duration-200 shrink-0"
-          />
-        </Link>
-
-        {/* Secondary — TOEFL */}
-        <Link
-          href="/toefl"
-          className="group relative glass-card rounded-2xl p-5 flex items-center justify-between gap-4 overflow-hidden
-                     hover:border-amber/30 hover:shadow-[0_0_0_1px_rgba(232,184,75,0.15),0_12px_32px_-6px_rgba(0,0,0,0.4)]
-                     transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98]"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-amber/6 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber/35 to-transparent" />
-
-          <div className="relative z-10 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber/10 border border-amber/20 flex items-center justify-center text-amber shrink-0">
-              <GraduationCap size={22} />
-            </div>
-            <div>
-              <h2 className="text-base font-black text-ink">Prácticas TOEFL</h2>
-              <p className="text-xs text-ink-muted mt-0.5">Reading y Grammar con score inmediato</p>
-            </div>
+          <div>
+            <h2 className="text-base font-black text-ink">Prácticas TOEFL</h2>
+            <p className="text-xs text-ink-muted mt-0.5">Reading y Grammar con score inmediato</p>
           </div>
+        </div>
 
-          <ArrowRight
-            size={18}
-            className="relative z-10 text-ink-faint group-hover:text-amber group-hover:translate-x-0.5 transition-all duration-200 shrink-0"
-          />
-        </Link>
-      </div>
+        <ArrowRight
+          size={18}
+          className="relative z-10 text-ink-faint group-hover:text-amber group-hover:translate-x-0.5 transition-all duration-200 shrink-0"
+        />
+      </Link>
 
       {/* ── Activity graph ─────────────────────────── */}
       <BentoCard title="Actividad" className="min-h-[320px]" accent="none">
