@@ -7,7 +7,7 @@
    MACITTA  ·  "ESTUDIO LÚMICO"  —  Design Token System
    ─────────────────────────────────────────────────────── */
 @theme {
-  /* Brand & Background */
+  /* Background */
   --color-void:            #0D0E17;
   --color-void-soft:       #131422;
   --color-surface:         #1A1B2E;
@@ -17,23 +17,15 @@
   /* Periwinkle Accent (Primary action) */
   --color-accent:          #7C85E8;
   --color-accent-hover:    #9AA2F0;
-  --color-accent-muted:    rgba(124,133,232,0.12);
-  --color-accent-border:   rgba(124,133,232,0.25);
 
-  /* Amber / Gold (Secondary highlight — streaks, warnings) */
+  /* Amber / Gold */
   --color-amber:           #E8B84B;
-  --color-amber-muted:     rgba(232,184,75,0.12);
-  --color-amber-border:    rgba(232,184,75,0.25);
 
   /* Sage success */
   --color-success:         #6BCB8E;
-  --color-success-muted:   rgba(107,203,142,0.12);
-  --color-success-border:  rgba(107,203,142,0.22);
 
   /* Danger */
   --color-danger:          #E07070;
-  --color-danger-muted:    rgba(224,112,112,0.12);
-  --color-danger-border:   rgba(224,112,112,0.25);
 
   /* Text */
   --color-ink:             #F0F1FF;
@@ -44,13 +36,12 @@
   --color-border:          rgba(160,163,196,0.13);
   --color-border-strong:   rgba(160,163,196,0.22);
 
-  /* Legacy aliases (keep existing code working) */
+  /* Legacy aliases (keep existing code that uses old tokens compiling) */
   --color-brand-primary:   #7C85E8;
   --color-stone-surface:   #1A1B2E;
   --color-stone-light:     #21233A;
   --color-paper:           #F0F1FF;
   --color-paper-soft:      #A0A3C4;
-  --color-ink-muted:       #A0A3C4;
   --color-stone-gray:      #62658A;
   --color-action-accent:   #7C85E8;
   --color-accent-focus:    #7C85E8;
@@ -62,9 +53,8 @@
   --color-text-dim:        #62658A;
 
   /* Motion */
-  --animate-fade-in-up:    fade-in-up 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
-  --animate-fade-in:       fade-in 0.4s ease-out forwards;
-  --ease-spring:           cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
+  --animate-fade-in:    fade-in 0.4s ease-out forwards;
 }
 
 /* ─── Keyframes ────────────────────────────────────────── */
@@ -75,14 +65,6 @@
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
-}
-@keyframes shimmer {
-  from { background-position: -200% 0; }
-  to   { background-position:  200% 0; }
-}
-@keyframes pulse-ring {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.05); }
 }
 
 /* ─── Base ──────────────────────────────────────────────── */
@@ -100,7 +82,6 @@
       radial-gradient(ellipse 80% 50% at 20% -10%,  rgba(124,133,232,0.10), transparent),
       radial-gradient(ellipse 60% 40% at 80% 110%,  rgba(107,203,142,0.05), transparent),
       radial-gradient(ellipse 40% 60% at 50%  50%,  rgba(232,184, 75,0.03), transparent);
-    selection: { @apply bg-accent/30 text-ink; }
   }
 
   a, button, input, select, textarea {
@@ -109,9 +90,16 @@
 }
 
 /* ─── Component Utilities ──────────────────────────────── */
+/*
+   IMPORTANT (Tailwind v4 rule):
+   @apply here can ONLY reference generated utility classes from @theme.
+   Never @apply a class defined in this same @layer components block —
+   that causes the "Cannot apply unknown utility class" build error.
+   All shared styles must be written as raw CSS properties.
+*/
 @layer components {
 
-  /* Glass panel — primary grouped container */
+  /* Glass panel — primary grouped container (auth, hero, panels) */
   .glass-panel {
     background: rgba(26, 27, 46, 0.72);
     border: 1px solid rgba(160,163,196,0.13);
@@ -122,7 +110,7 @@
       0 24px 64px -12px rgba(0,0,0,0.45);
   }
 
-  /* Floating card — deck items, bento stats */
+  /* Floating card — bento stats, deck items */
   .glass-card {
     background: rgba(33, 35, 58, 0.70);
     border: 1px solid rgba(160,163,196,0.13);
@@ -131,7 +119,9 @@
     box-shadow:
       0 1px 0 0 rgba(255,255,255,0.04) inset,
       0 8px 24px -6px rgba(0,0,0,0.32);
-    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+    transition: border-color 200ms cubic-bezier(0.22,1,0.36,1),
+                transform     200ms cubic-bezier(0.22,1,0.36,1),
+                box-shadow    200ms cubic-bezier(0.22,1,0.36,1);
   }
   .glass-card:hover {
     border-color: rgba(124,133,232,0.28);
@@ -142,43 +132,99 @@
       0 0 0 1px rgba(124,133,232,0.12);
   }
 
+  /* Legacy aliases — map old class names to new CSS so existing
+     code compiles without touching every component file */
+  .surface-panel {
+    background: rgba(26, 27, 46, 0.72);
+    border: 1px solid rgba(160,163,196,0.13);
+    backdrop-filter: blur(18px) saturate(1.3);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    box-shadow:
+      0 1px 0 0 rgba(255,255,255,0.05) inset,
+      0 24px 64px -12px rgba(0,0,0,0.45);
+  }
+  .surface-card {
+    background: rgba(33, 35, 58, 0.70);
+    border: 1px solid rgba(160,163,196,0.13);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+      0 1px 0 0 rgba(255,255,255,0.04) inset,
+      0 8px 24px -6px rgba(0,0,0,0.32);
+    transition: border-color 200ms cubic-bezier(0.22,1,0.36,1),
+                transform     200ms cubic-bezier(0.22,1,0.36,1),
+                box-shadow    200ms cubic-bezier(0.22,1,0.36,1);
+  }
+  .surface-card:hover {
+    border-color: rgba(124,133,232,0.28);
+    transform: translateY(-1px);
+  }
+
   /* Accent pill badge */
   .pill-badge {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* Quiet uppercase label */
   .label-kicker {
-    @apply text-[10px] font-bold uppercase tracking-widest text-ink-faint;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
     letter-spacing: 0.12em;
+    color: #62658A;
+  }
+
+  /* Legacy quiet-kicker alias */
+  .quiet-kicker {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #62658A;
+  }
+
+  /* Readable body copy */
+  .readable-copy {
+    @apply text-sm leading-7 text-ink-muted;
   }
 
   /* Soft form field */
   .soft-field {
     background: rgba(13, 14, 23, 0.55);
     border: 1px solid rgba(160,163,196,0.16);
-    @apply text-ink placeholder:text-ink-faint/70 transition-all rounded-xl;
+    color: #F0F1FF;
+    transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
   }
-  .soft-field:hover  { border-color: rgba(160,163,196,0.28); }
-  .soft-field:focus  {
+  .soft-field::placeholder {
+    color: rgba(98,101,138,0.65);
+  }
+  .soft-field:hover {
+    border-color: rgba(160,163,196,0.28);
+  }
+  .soft-field:focus {
     border-color: rgba(124,133,232,0.55);
     background: rgba(13, 14, 23, 0.70);
     box-shadow: 0 0 0 3px rgba(124,133,232,0.10);
     outline: none;
   }
 
-  /* Gradient hairline */
+  /* Gradient hairline divider */
   .hairline {
     background-image: linear-gradient(90deg, transparent, rgba(124,133,232,0.35), transparent);
     height: 1px;
   }
-
-  /* Legacy compat */
-  .surface-panel   { @apply glass-panel; }
-  .surface-card    { @apply glass-card; }
-  .quiet-kicker    { @apply label-kicker; }
-  .readable-copy   { @apply text-sm leading-7 text-ink-muted; }
-  .hairline-band   { @apply hairline; }
+  .hairline-band {
+    background-image: linear-gradient(90deg, transparent, rgba(124,133,232,0.35), transparent);
+    height: 1px;
+  }
 }
 
 /* ─── Reduced motion ────────────────────────────────────── */
