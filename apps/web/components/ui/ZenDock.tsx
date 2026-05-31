@@ -3,6 +3,7 @@
 import { GraduationCap, Home, Layers, User, CloudOff, Loader2, Shuffle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useSync } from "@/hooks/useSync";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 
@@ -25,6 +26,11 @@ export function ZenDock() {
   const { isSyncing } = useSync();
   const { isOnline }  = useNetworkStatus();
 
+  // Prevent hydration mismatch: navigator.onLine is undefined during SSR.
+  // Only show the sync/offline indicator after the component has mounted on the client.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
   const isActive = (path: string) => {
     if (path === "/dashboard") return pathname === path || pathname === "/";
     return pathname === path || Boolean(pathname?.startsWith(path + "/"));
@@ -34,8 +40,8 @@ export function ZenDock() {
 
   return (
     <div className="fixed bottom-5 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-4 sm:px-5">
-      {/* Sync / offline indicator */}
-      {(isSyncing || !isOnline) && (
+      {/* Sync / offline indicator — only after mount to avoid hydration mismatch */}
+      {mounted && (isSyncing || !isOnline) && (
         <div className="mb-2 mx-auto w-fit flex items-center gap-1.5 px-3 py-1 bg-surface/90 backdrop-blur-md border border-border rounded-full text-[10px] uppercase font-bold text-ink-faint shadow-sm">
           {isSyncing ? (
             <><Loader2 size={10} className="animate-spin text-accent" /> Sincronizando</>
