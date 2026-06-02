@@ -98,24 +98,24 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
-            <div className="w-full max-w-3xl bg-stone-surface border border-border-subtle rounded-3xl overflow-hidden shadow-2xl my-auto">
-                <div className="flex items-center justify-between p-5 border-b border-border-subtle bg-void/50 sticky top-0 z-10">
+            <div className="w-full max-w-3xl bg-surface border border-border rounded-3xl overflow-hidden shadow-2xl my-auto">
+                <div className="flex items-center justify-between p-5 border-b border-border bg-void/50 sticky top-0 z-10">
                     <div className="flex items-center gap-3">
-                        <Edit2 size={20} className="text-accent-focus" />
+                        <Edit2 size={20} className="text-accent" />
                         <h2 className="text-xl font-black text-ink">{card ? "Editar Tarjeta" : "Nueva Tarjeta"}</h2>
                     </div>
-                    <button type="button" onClick={onClose} className="p-2 bg-stone-surface border border-border-subtle rounded-xl text-text-dim hover:text-ink hover:border-accent-focus transition-all">
+                    <button type="button" onClick={onClose} className="p-2 bg-surface border border-border rounded-xl text-ink-faint hover:text-ink hover:border-accent transition-all">
                         <X size={18} />
                     </button>
                 </div>
                 
                 <div className="p-4 md:p-6 max-h-[80vh] overflow-y-auto custom-scrollbar bg-void flex flex-col gap-6">
                     {/* Front Question Section */}
-                    <div className="bg-stone-surface/30 backdrop-blur-sm rounded-2xl border border-border-subtle p-5 space-y-4 shadow-lg relative overflow-hidden group">
-                        <div className="absolute top-0 left-0 w-1 h-full bg-accent-focus"></div>
+                    <div className="bg-surface/30 backdrop-blur-sm rounded-2xl border border-border p-5 space-y-4 shadow-lg relative overflow-hidden group">
+                        <div className="absolute top-0 left-0 w-1 h-full bg-accent"></div>
                         
-                        <div className="flex items-center gap-2 border-b border-border-subtle/50 pb-3 mb-2">
-                            <HelpCircle size={18} className="text-accent-focus" />
+                        <div className="flex items-center gap-2 border-b border-border/50 pb-3 mb-2">
+                            <HelpCircle size={18} className="text-accent" />
                             <h2 className="text-lg font-bold text-ink tracking-wide">Pregunta (Frente)</h2>
                         </div>
                         
@@ -130,7 +130,7 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                         {!showFrontMedia && !frontMedia ? (
                             <button 
                                 onClick={() => setShowFrontMedia(true)}
-                                className="text-xs font-bold text-text-dim hover:text-accent-focus flex items-center gap-1.5 transition-colors uppercase tracking-wider mt-2"
+                                className="text-xs font-bold text-ink-faint hover:text-accent flex items-center gap-1.5 transition-colors uppercase tracking-wider mt-2"
                             >
                                 <ImageIcon size={14} /> Añadir Imagen o Audio
                             </button>
@@ -149,7 +149,7 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                     {/* Answers Section */}
                     <div className="space-y-4 relative">
                         <div className="flex items-center gap-2 px-1">
-                            <CheckCircle2 size={20} className="text-accent-success drop-shadow-[0_0_10px_rgba(216,199,163,0.4)]" />
+                            <CheckCircle2 size={20} className="text-success drop-shadow-[0_0_10px_rgba(107,203,142,0.4)]" />
                             <h2 className="text-lg font-bold text-ink tracking-wide">Respuestas a Evaluar</h2>
                         </div>
                         
