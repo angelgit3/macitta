@@ -40,7 +40,8 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
     const localDate = new Date(year, month - 1, day);
     return {
       day: localDate.toLocaleDateString("es-MX", { weekday: "short" })[0].toUpperCase(),
-      value: Math.min((activity.minutes / 20) * 100, 100),
+      date: activity.date,
+      minutes: activity.minutes,
       active: activity.date === todayStr,
     };
   }) ?? [];
