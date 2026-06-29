@@ -1,5 +1,4 @@
 import sharp from 'sharp';
-import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,38 +7,20 @@ const __dirname = path.dirname(__filename);
 
 const PUBLIC_DIR = path.join(__dirname, 'apps', 'web', 'public');
 
-// Classic cloud icon SVG — Material Design style, matches Logo.tsx
-const cloudMSvg = `
-<svg width="512" height="512" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path
-    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"
-    stroke="#38bdf8"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    fill="none"
-  />
-</svg>
-`;
-
-// Gradient background for maskable
-const backgroundSvg = `
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" fill="url(#grad)" rx="112" />
+// Macitta mark: an open study book with an "M" memory path.
+const macittaMarkSvg = `
+<svg width="512" height="512" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M13 18.8C20.1 14.9 26.4 15.6 32 20.9C37.6 15.6 43.9 14.9 51 18.8V47.5C43.9 43.6 37.6 44.3 32 49.6C26.4 44.3 20.1 43.6 13 47.5V18.8Z" fill="#7C85E8" opacity="0.18" />
+  <path d="M13 18.8C20.1 14.9 26.4 15.6 32 20.9C37.6 15.6 43.9 14.9 51 18.8V47.5C43.9 43.6 37.6 44.3 32 49.6C26.4 44.3 20.1 43.6 13 47.5V18.8Z" stroke="#7C85E8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M22 38V26L32 35.5L42 26V38" stroke="#F0F1FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="32" cy="15" r="3" fill="#E8B84B" />
 </svg>
 `;
 
 async function generateIcons() {
   console.log('Generating PWA icons...');
   
-  const logoBuffer = Buffer.from(cloudMSvg);
-  const bgBuffer = Buffer.from(backgroundSvg);
+  const logoBuffer = Buffer.from(macittaMarkSvg);
 
   // Generate transparent "any" icons (192 and 512)
   console.log('Generating transparent icons...');
@@ -58,14 +39,14 @@ async function generateIcons() {
 
   // 512 maskable
   await sharp({
-    create: { width: 512, height: 512, channels: 4, background: { r: 15, g: 23, b: 42, alpha: 1 } }
+    create: { width: 512, height: 512, channels: 4, background: { r: 13, g: 14, b: 23, alpha: 1 } }
   }).composite([{ input: await sharp(logoBuffer).resize(384, 384).toBuffer() }])
   .png()
   .toFile(path.join(PUBLIC_DIR, 'icon-maskable-512x512.png'));
 
   // 192 maskable
   await sharp({
-    create: { width: 192, height: 192, channels: 4, background: { r: 15, g: 23, b: 42, alpha: 1 } }
+    create: { width: 192, height: 192, channels: 4, background: { r: 13, g: 14, b: 23, alpha: 1 } }
   }).composite([{ input: await sharp(logoBuffer).resize(144, 144).toBuffer() }])
   .png()
   .toFile(path.join(PUBLIC_DIR, 'icon-maskable-192x192.png'));
@@ -73,16 +54,11 @@ async function generateIcons() {
   // favicon.ico (32x32 with white fill + blue stroke for dark backgrounds)
   console.log('Generating favicon.ico...');
   const faviconSvg = `
-<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path
-    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"
-    stroke="#38bdf8"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    fill="#38bdf8"
-    fill-opacity="0.15"
-  />
+<svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="#0D0E17" />
+  <path d="M13 18.8C20.1 14.9 26.4 15.6 32 20.9C37.6 15.6 43.9 14.9 51 18.8V47.5C43.9 43.6 37.6 44.3 32 49.6C26.4 44.3 20.1 43.6 13 47.5V18.8Z" stroke="#7C85E8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M22 38V26L32 35.5L42 26V38" stroke="#F0F1FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="32" cy="15" r="3" fill="#E8B84B" />
 </svg>`;
   await sharp(Buffer.from(faviconSvg))
     .resize(32, 32)
@@ -91,7 +67,7 @@ async function generateIcons() {
   // apple-touch-icon.png (180x180, solid background for iOS home screen)
   console.log('Generating apple-touch-icon.png...');
   await sharp({
-    create: { width: 180, height: 180, channels: 4, background: { r: 15, g: 23, b: 42, alpha: 1 } }
+    create: { width: 180, height: 180, channels: 4, background: { r: 13, g: 14, b: 23, alpha: 1 } }
   }).composite([{ input: await sharp(logoBuffer).resize(135, 135).toBuffer() }])
   .png()
   .toFile(path.join(PUBLIC_DIR, 'apple-touch-icon.png'));

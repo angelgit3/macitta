@@ -1,14 +1,14 @@
 {
     "name": "Macitta",
     "short_name": "Macitta",
-    "description": "Domina tus verbos en inglés con repetición espaciada inteligente",
+    "description": "Estudio de inglés con repetición espaciada, modo offline y práctica TOEFL.",
     "id": "/dashboard",
     "start_url": "/dashboard",
     "scope": "/",
     "display": "standalone",
     "orientation": "portrait",
-    "background_color": "#050505",
-    "theme_color": "#050505",
+    "background_color": "#0D0E17",
+    "theme_color": "#0D0E17",
     "categories": ["education"],
     "icons": [
         {
