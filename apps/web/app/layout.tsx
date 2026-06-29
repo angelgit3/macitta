@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { PWAInstallPromptCapture } from "@/components/ui/PWAInstallPromptCapture";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({
     return (
         <html lang="es-MX" className="dark">
             <body className="bg-void text-ink min-h-screen flex justify-center selection:bg-accent/30 selection:text-ink transition-colors duration-300">
+                <PWAInstallPromptCapture />
                 {children}
             </body>
         </html>

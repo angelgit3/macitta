@@ -53,7 +53,8 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
     const [message,    setMessage]    = useState<FeedbackMessage | null>(null);
     const [profile,    setProfile]    = useState<Profile | null>(null);
     const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [showInstallButton, setShowInstallButton] = useState(false);
+    const [showInstallCard, setShowInstallCard] = useState(false);
+    const [installInstructions, setInstallInstructions] = useState('');
 
     useEffect(() => {
         if (!initialUser?.id) return;
@@ -77,23 +78,48 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
         const isMobileLike = window.matchMedia('(pointer: coarse)').matches
             && window.matchMedia('(max-width: 820px)').matches;
 
-        if (isStandalone || !isMobileLike) return;
+        if (isStandalone || !isMobileLike) {
+            setShowInstallCard(false);
+            return;
+        }
+
+        const userAgent = window.navigator.userAgent;
+        const isIOS = /iphone|ipad|ipod/i.test(userAgent)
+            || (navigatorWithStandalone.standalone !== undefined && /safari/i.test(userAgent));
+
+        const syncCapturedPrompt = () => {
+            setInstallPrompt(window.__macittaInstallPrompt ?? null);
+        };
 
         const handleBeforeInstallPrompt = (event: Event) => {
             event.preventDefault();
+            window.__macittaInstallPrompt = event as BeforeInstallPromptEvent;
             setInstallPrompt(event as BeforeInstallPromptEvent);
-            setShowInstallButton(true);
+            setShowInstallCard(true);
         };
 
         const handleAppInstalled = () => {
+            window.__macittaInstallPrompt = undefined;
             setInstallPrompt(null);
-            setShowInstallButton(false);
+            setShowInstallCard(false);
         };
 
+        setShowInstallCard(true);
+        setInstallInstructions(
+            isIOS
+                ? 'En Safari toca Compartir y luego Agregar a pantalla de inicio.'
+                : 'Si tu navegador no abre el instalador, usa el menú y toca Instalar app o Agregar a pantalla principal.'
+        );
+        syncCapturedPrompt();
+
+        window.addEventListener('macitta:installprompt', syncCapturedPrompt);
+        window.addEventListener('macitta:appinstalled', handleAppInstalled);
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         window.addEventListener('appinstalled', handleAppInstalled);
 
         return () => {
+            window.removeEventListener('macitta:installprompt', syncCapturedPrompt);
+            window.removeEventListener('macitta:appinstalled', handleAppInstalled);
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
             window.removeEventListener('appinstalled', handleAppInstalled);
         };
@@ -171,7 +197,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
         const { outcome } = await installPrompt.userChoice;
 
         if (outcome === 'accepted') {
-            setShowInstallButton(false);
+            setShowInstallCard(false);
         }
 
         setInstallPrompt(null);
@@ -272,15 +298,21 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
                 </form>
             </section>
 
-            {showInstallButton && (
+            {showInstallCard && (
                 <section className="glass-card rounded-2xl p-5 space-y-3">
                     <SectionTitle icon={<Download size={16} />} title="Instalar app" />
                     <p className="text-sm leading-6 text-ink-muted">
                         Agrega Macitta a tu pantalla de inicio para abrirla como app.
                     </p>
-                    <ZenButton variant="primary" className="w-full h-11" onClick={handleInstallApp}>
-                        Instalar Macitta
-                    </ZenButton>
+                    {installPrompt ? (
+                        <ZenButton variant="primary" className="w-full h-11" onClick={handleInstallApp}>
+                            Instalar Macitta
+                        </ZenButton>
+                    ) : (
+                        <p className="rounded-xl border border-border bg-void/35 px-4 py-3 text-xs leading-5 text-ink-muted">
+                            {installInstructions}
+                        </p>
+                    )}
                 </section>
             )}
 
