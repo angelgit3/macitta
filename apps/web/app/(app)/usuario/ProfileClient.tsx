@@ -284,8 +284,10 @@ function SocialButton({ label, href, children }: { label: string; href: string; 
             rel="noopener noreferrer"
             className="min-h-11 min-w-11 rounded-xl glass-card text-ink-faint hover:text-accent transition-colors flex items-center justify-center"
             aria-label={label}
+            title={label}
         >
             {children}
+            <span className="sr-only sm:not-sr-only sm:ml-2 sm:text-xs sm:font-bold">{label}</span>
         </a>
     );
 }
