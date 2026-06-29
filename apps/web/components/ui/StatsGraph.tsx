@@ -27,6 +27,13 @@ function formatDate(value: string) {
   }).format(new Date(year, month - 1, day));
 }
 
+function formatWeekday(value: string) {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Intl.DateTimeFormat("es-MX", {
+    weekday: "long",
+  }).format(new Date(year, month - 1, day));
+}
+
 /**
  * Weekly study rhythm, tuned for quick dashboard reading.
  * Shows real minutes by day, weekly total, average and best day.
@@ -107,7 +114,7 @@ export function StatsGraph({ data = [] }: StatsGraphProps) {
         <p>
           Mejor día:{" "}
           <span className="font-bold text-ink">
-            {bestDay && bestDay.minutes > 0 ? `${bestDay.day}, ${formatMinutes(bestDay.minutes)}` : "sin sesiones"}
+            {bestDay && bestDay.minutes > 0 ? `${formatWeekday(bestDay.date)}, ${formatMinutes(bestDay.minutes)}` : "sin sesiones"}
           </span>
         </p>
         <Legend color="bg-accent" label="Hoy" />
