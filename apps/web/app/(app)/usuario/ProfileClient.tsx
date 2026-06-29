@@ -6,7 +6,7 @@ import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
     Code2, User, Flame, Clock, Target, Trophy,
-    Github,
+    Github, Instagram,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStats } from '@/hooks/useUserStats';
@@ -234,9 +234,12 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
             {/* ── Footer ────────────────────────────────────── */}
             <footer className="pt-6 pb-2 text-center space-y-4 border-t border-border">
-                <div className="flex justify-center">
+                <div className="flex justify-center gap-3">
                     <SocialButton label="GitHub" href="https://github.com/angelgit3/macitta">
                         <Github size={18} />
+                    </SocialButton>
+                    <SocialButton label="Instagram" href="https://www.instagram.com/aalberto_anaya/">
+                        <Instagram size={18} />
                     </SocialButton>
                 </div>
 
