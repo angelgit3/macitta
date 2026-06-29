@@ -25,7 +25,7 @@ Avoid neon SaaS dashboards, generic blue-purple gradients, heavy glassmorphism, 
 1. Put the study task first: every screen should make the next useful action obvious.
 2. Make reading comfortable: long passages, questions, answers, and review explanations need generous contrast and rhythm.
 3. Keep one connected system: dashboard, decks, study, TOEFL, auth, and profile should share the same component vocabulary.
-4. Use color with restraint: antracita is the principal brand color, cognac marks action and selection, and beige carries warmth.
+4. Use color with restraint: indigo-black carries the workspace, periwinkle marks primary action, amber marks TOEFL/listening emphasis, and sage is reserved for success.
 5. Preserve reliability: offline status, loading, errors, and sync feedback must be clear without stealing attention.
 
 ## Accessibility & Inclusion

@@ -1,6 +1,6 @@
 {
-  "name": "maccita-god",
-  "version": "0.0.0",
+  "name": "macitta",
+  "version": "1.4.0",
   "private": true,
   "scripts": {
     "build": "turbo build",

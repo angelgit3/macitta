@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { validateAnswer, calculateSlotAccuracy, SEMGrade } from "@maccita/shared";
+import { validateAnswer, calculateSlotAccuracy, SEMGrade } from "@macitta/shared";
 
 import type { CardData, SlotFeedback, SessionStats } from "@/types/study";
 import { useNetworkStatus } from "./useNetworkStatus";

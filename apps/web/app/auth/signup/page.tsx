@@ -33,13 +33,13 @@ export default function SignupPage() {
         }
 
         if (password.length < 8) {
-            setError("La contrasena debe tener al menos 8 caracteres.");
+            setError("La contraseña debe tener al menos 8 caracteres.");
             setLoading(false);
             return;
         }
 
         if (password !== confirmPassword) {
-            setError("Las contrasenas no coinciden");
+            setError("Las contraseñas no coinciden.");
             setLoading(false);
             return;
         }
@@ -61,7 +61,7 @@ export default function SignupPage() {
         if (error) {
             const msg = error.message.toLowerCase();
             if (msg.includes("already registered") || msg.includes("already exists") || msg.includes("user_already_exists")) {
-                setError("Ya existe una cuenta con ese correo. Olvidaste tu contrasena?");
+                setError("Ya existe una cuenta con ese correo. ¿Olvidaste tu contraseña?");
             } else if (msg.includes("email not confirmed")) {
                 setError("Este correo ya se registro pero no fue verificado. Revisa tu bandeja y busca el codigo de Macitta.");
             } else if (msg.includes("rate limit") || msg.includes("too many requests")) {
@@ -69,7 +69,7 @@ export default function SignupPage() {
             } else if (msg.includes("invalid email") || msg.includes("unable to validate")) {
                 setError("El formato del correo no es valido. Verifica tus datos e intenta de nuevo.");
             } else if (msg.includes("password") && (msg.includes("short") || msg.includes("weak"))) {
-                setError("La contrasena es muy corta o debil. Usa al menos 8 caracteres.");
+                setError("La contraseña es muy corta o débil. Usa al menos 8 caracteres.");
             } else {
                 setError("No se pudo crear la cuenta. Verifica tus datos e intenta de nuevo.");
             }
@@ -91,8 +91,9 @@ export default function SignupPage() {
             )}
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                <AuthField icon={<User size={16} />} label="Usuario">
+                <AuthField icon={<User size={16} />} label="Usuario" htmlFor="signup-username">
                     <input
+                        id="signup-username"
                         name="username"
                         required
                         minLength={3}
@@ -101,8 +102,9 @@ export default function SignupPage() {
                     />
                 </AuthField>
 
-                <AuthField icon={<Mail size={16} />} label="Email">
+                <AuthField icon={<Mail size={16} />} label="Email" htmlFor="signup-email">
                     <input
+                        id="signup-email"
                         name="email"
                         type="email"
                         required
@@ -113,8 +115,9 @@ export default function SignupPage() {
                     />
                 </AuthField>
 
-                <AuthField icon={<Lock size={16} />} label="Contrasena">
+                <AuthField icon={<Lock size={16} />} label="Contraseña" htmlFor="signup-password">
                     <input
+                        id="signup-password"
                         name="password"
                         type="password"
                         required
@@ -124,8 +127,9 @@ export default function SignupPage() {
                     />
                 </AuthField>
 
-                <AuthField icon={<Lock size={16} />} label="Repetir contrasena">
+                <AuthField icon={<Lock size={16} />} label="Repetir contraseña" htmlFor="signup-confirm-password">
                     <input
+                        id="signup-confirm-password"
                         name="confirmPassword"
                         type="password"
                         required
@@ -141,16 +145,16 @@ export default function SignupPage() {
             </form>
 
             <div className="mt-6 text-center text-sm text-ink-faint">
-                Ya tienes cuenta? <Link href="/auth/login" className="text-ink font-medium hover:underline">Inicia Sesion</Link>
+                ¿Ya tienes cuenta? <Link href="/auth/login" className="text-ink font-medium hover:underline">Inicia sesión</Link>
             </div>
         </div>
     );
 }
 
-function AuthField({ label, icon, children }: { label: string; icon: ReactNode; children: ReactNode }) {
+function AuthField({ label, icon, htmlFor, children }: { label: string; icon: ReactNode; htmlFor: string; children: ReactNode }) {
     return (
         <div className="space-y-1">
-            <label className="label-kicker ml-1">{label}</label>
+            <label htmlFor={htmlFor} className="label-kicker ml-1">{label}</label>
             <div className="relative">
                 <div className="absolute left-4 top-3 text-ink-faint">{icon}</div>
                 {children}

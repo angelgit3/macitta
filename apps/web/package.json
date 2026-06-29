@@ -9,7 +9,7 @@
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
     },
     "dependencies": {
-        "@maccita/shared": "*",
+        "@macitta/shared": "*",
         "@serwist/next": "^9.0.0",
         "@supabase/ssr": "^0.8.0",
         "@tailwindcss/postcss": "^4.0.0",

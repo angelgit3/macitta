@@ -101,6 +101,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [copying,     setCopying]     = useState(false);
     const [copied,      setCopied]      = useState(false);
+    const [copyError,   setCopyError]   = useState<string | null>(null);
 
     useEffect(() => {
         let cancelled = false;
@@ -154,9 +155,14 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
     // ── Loading ──────────────────────────────────────────────
     if (loading) {
         return (
-            <div className="py-20 flex flex-col items-center gap-3 text-ink-faint">
-                <Loader2 className="animate-spin text-accent" />
-                <p className="text-sm">Cargando resultado...</p>
+            <div className="product-panel rounded-2xl p-6" aria-label="Cargando resultado">
+                <div className="h-4 w-28 animate-pulse rounded bg-white/10" />
+                <div className="mt-4 h-10 w-40 animate-pulse rounded bg-white/10" />
+                <div className="mt-6 grid grid-cols-3 gap-3">
+                    <div className="h-20 animate-pulse rounded-xl bg-white/5" />
+                    <div className="h-20 animate-pulse rounded-xl bg-white/5" />
+                    <div className="h-20 animate-pulse rounded-xl bg-white/5" />
+                </div>
             </div>
         );
     }
@@ -191,11 +197,16 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
         if (selectedIds.size === 0) return;
         setCopying(true);
         setCopied(false);
+        setCopyError(null);
         const prompt = buildTutorPrompt(exam, questions, answersByQuestion, selectedIds);
-        await new Promise(resolve => setTimeout(resolve, 1_500));
-        await navigator.clipboard.writeText(prompt);
-        setCopying(false);
-        setCopied(true);
+        try {
+            await navigator.clipboard.writeText(prompt);
+            setCopied(true);
+        } catch {
+            setCopyError("No pudimos copiar el prompt. Revisa el permiso del portapapeles e inténtalo de nuevo.");
+        } finally {
+            setCopying(false);
+        }
     }
 
     function toggleQuestion(questionId: string) {
@@ -213,11 +224,10 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
             </Link>
 
             {/* ── Score overview ─────────────────────────────── */}
-            <section className="glass-panel rounded-2xl p-6 relative overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+            <section className="product-panel rounded-2xl p-6">
                 <div className="flex items-start justify-between gap-4">
                     <div>
-                        <p className="label-kicker text-accent">{exam.section} · resultado</p>
+                        <p className="section-label text-accent">{exam.section} · resultado</p>
                         <h1 className="text-2xl font-black text-ink mt-1">{attempt.scaled_score}/30</h1>
                     </div>
                     <div className="w-14 h-14 rounded-2xl bg-accent/15 text-accent flex items-center justify-center">
@@ -234,7 +244,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                     ].map(({ label, value }) => (
                         <div key={label} className="bg-void/60 rounded-2xl p-3 text-center">
                             <div className="text-lg font-black">{value}</div>
-                            <div className="label-kicker">{label}</div>
+                            <div className="section-label">{label}</div>
                         </div>
                     ))}
                 </div>
@@ -243,7 +253,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
             {/* ── Transcript (listening only) ───────────────── */}
             {exam.section === "listening" && exam.transcript && (
                 <section className="bg-void/60 border border-border rounded-2xl p-5">
-                    <h2 className="label-kicker mb-3">Transcripción</h2>
+                    <h2 className="section-label mb-3">Transcripción</h2>
                     <p className="text-sm text-ink-muted leading-7">{exam.transcript}</p>
                 </section>
             )}
@@ -251,7 +261,7 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
             {/* ── Question review ───────────────────────────── */}
             <section className="space-y-3">
                 <div className="flex items-center justify-between px-1">
-                    <h2 className="label-kicker">Revisión</h2>
+                    <h2 className="section-label">Revisión</h2>
                     <span className="text-xs text-ink-faint">{selectedIds.size} seleccionadas</span>
                 </div>
 
@@ -264,8 +274,9 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                         <button
                             key={question.id}
                             type="button"
+                            aria-pressed={selected}
                             onClick={() => toggleQuestion(question.id)}
-                            className={`w-full text-left rounded-2xl border p-5 transition-all ${
+                            className={`w-full rounded-2xl border p-5 text-left transition-colors ${
                                 selected
                                     ? "border-accent bg-accent/10"
                                     : "border-border bg-surface"
@@ -286,6 +297,9 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                                         Correcta: <span className="text-success">{optionText(question, question.correct_option_id)}</span>
                                     </p>
                                     <p className="text-sm text-ink-muted leading-relaxed mt-3">{question.explanation}</p>
+                                    <p className={`mt-3 text-xs font-bold ${selected ? "text-accent" : "text-ink-muted"}`}>
+                                        {selected ? "Incluida en la tutoría" : "Seleccionar para tutoría"}
+                                    </p>
                                 </div>
                             </div>
                         </button>
@@ -293,13 +307,19 @@ export function TOEFLResultsClient({ attemptId, userId }: TOEFLResultsClientProp
                 })}
             </section>
 
+            {copyError && (
+                <div className="rounded-xl border border-danger/25 bg-danger/10 p-4 text-sm text-danger" role="alert">
+                    {copyError}
+                </div>
+            )}
+
             {/* ── Copy AI prompt ────────────────────────────── */}
             <button
                 type="button"
                 onClick={copyPrompt}
                 disabled={copying || selectedIds.size === 0}
-                className="py-4 rounded-2xl bg-accent text-void border border-accent/20 font-black flex items-center justify-center gap-2
-                           shadow-[0_4px_14px_rgba(124,133,232,0.28)] hover:bg-accent-hover transition-all disabled:opacity-50"
+                className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-accent px-5 font-black text-void transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
+                aria-live="polite"
             >
                 {copying ? <Loader2 className="animate-spin" size={18} /> : <Clipboard size={18} />}
                 {copied ? "Prompt copiado" : copying ? "Preparando tutoría" : "Preparar tutoría de IA"}

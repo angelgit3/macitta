@@ -5,6 +5,33 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.4.0] - Portfolio delivery refactor (2026-06-28)
+
+### Added
+- TOEFL Reading, Grammar and Listening content with flexible and strict modes.
+- Recent TOEFL attempt history and per-exam best scores.
+- Versioned TOEFL audio fixtures for reproducible Supabase deployments.
+- Complete migration history recovered from the linked production project.
+- Deployment and operational verification documentation.
+
+### Changed
+- Dashboard information architecture now prioritizes the next study action.
+- TOEFL list, practice and result screens use quieter product surfaces, clearer hierarchy and stronger accessibility states.
+- Text and placeholder contrast increased across the design token system.
+- Password updates now match signup's eight-character minimum.
+
+### Fixed
+- Public signup no longer requires an `@upt.edu.mx` email or writes the removed `role` column.
+- TOEFL Listening no longer references a missing audio object.
+- Removed direct client execution from the profile trigger and deleted the orphaned classroom helper.
+- Removed the broad Storage policy that allowed listing the public TOEFL bucket.
+- Removed generated Supabase and Turborepo state from version control.
+
+### Known platform setting
+- Supabase leaked-password protection may require a paid project plan and remains an Auth dashboard setting.
+
+---
+
 ## [Unreleased] — feature/offline-real-and-precision
 
 ### Added

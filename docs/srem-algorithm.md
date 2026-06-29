@@ -221,7 +221,7 @@ import {
     evaluateSEM,
     calculateSEMGrade,
     SEMGrade,
-} from '@maccita/shared';
+} from '@macitta/shared';
 
 // New card — first review
 let state = createEmptySEMState();

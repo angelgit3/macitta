@@ -6,7 +6,7 @@ import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
     Code2, User, Flame, Clock, Target, Trophy,
-    Instagram, Twitter, Github,
+    Github,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStats } from '@/hooks/useUserStats';
@@ -102,8 +102,8 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
     // ── Password update ─────────────────────────────────────
     const handleUpdatePassword = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (newPassword.length < 6) {
-            setMessage({ type: 'error', text: 'La contraseña debe tener al menos 6 caracteres.' });
+        if (newPassword.length < 8) {
+            setMessage({ type: 'error', text: 'La contraseña debe tener al menos 8 caracteres.' });
             return;
         }
         setLoading(true);
@@ -184,9 +184,10 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
                 <SectionTitle icon={<User size={16} />} title="Datos del perfil" />
                 <form onSubmit={handleUpdateProfile} className="space-y-3">
                     <div className="space-y-1.5">
-                        <label className="label-kicker ml-1">Nombre de usuario</label>
+                        <label htmlFor="profile-username" className="label-kicker ml-1">Nombre de usuario</label>
                         <input
                             type="text"
+                            id="profile-username"
                             value={username}
                             onChange={e => { setUsername(e.target.value); setMessage(null); }}
                             placeholder="mín. 3 caracteres"
@@ -205,16 +206,18 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
                 <SectionTitle icon={<KeyRound size={16} />} title="Seguridad" />
                 <form onSubmit={handleUpdatePassword} className="space-y-3">
                     <div className="space-y-1.5">
-                        <label className="label-kicker ml-1">Nueva contraseña</label>
+                        <label htmlFor="profile-password" className="label-kicker ml-1">Nueva contraseña</label>
                         <input
                             type="password"
+                            id="profile-password"
                             value={newPassword}
                             onChange={e => { setNewPassword(e.target.value); setMessage(null); }}
-                            placeholder="Mínimo 6 caracteres"
+                            placeholder="Mínimo 8 caracteres"
+                            minLength={8}
                             className="w-full soft-field rounded-xl py-3 px-4 text-sm"
                         />
                     </div>
-                    <ZenButton variant="primary" className="w-full h-11" disabled={loading || newPassword.length < 6}>
+                    <ZenButton variant="primary" className="w-full h-11" disabled={loading || newPassword.length < 8}>
                         {loading ? <Loader2 className="animate-spin" size={16} /> : 'Actualizar contraseña'}
                     </ZenButton>
                 </form>
@@ -231,13 +234,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
             {/* ── Footer ────────────────────────────────────── */}
             <footer className="pt-6 pb-2 text-center space-y-4 border-t border-border">
-                <div className="flex justify-center gap-3">
-                    <SocialButton label="Instagram" href="https://www.instagram.com/aalberto_anaya/">
-                        <Instagram size={18} />
-                    </SocialButton>
-                    <SocialButton label="Twitter / X" href="https://x.com/aalberto_anaya">
-                        <Twitter size={18} />
-                    </SocialButton>
+                <div className="flex justify-center">
                     <SocialButton label="GitHub" href="https://github.com/angelgit3/macitta">
                         <Github size={18} />
                     </SocialButton>
@@ -245,9 +242,9 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
                 <div className="flex flex-col items-center gap-1">
                     <p className="label-kicker flex items-center gap-1.5">
-                        <Code2 size={12} /> Creado por Alberto Anaya
+                        <Code2 size={12} /> Proyecto open source desde México
                     </p>
-                    <p className="text-[10px] text-ink-faint/70">Macitta v1.0 · UPT 2026</p>
+                    <p className="text-xs text-ink-muted">Macitta · 2026</p>
                 </div>
             </footer>
         </div>

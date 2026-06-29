@@ -1,116 +1,119 @@
-# Macitta: Arquitectura Técnica y Estado del Proyecto
+# Macitta architecture
 
-> [!IMPORTANT]
-> **Documento Vivo**: Este archivo representa el estado actual del sistema. Debe actualizarse proactivamente tras cada cambio estructural significativo. Para un histórico de cambios, consulta el `CHANGELOG.md`.
+Last verified: 2026-06-28.
 
-## 1. Stack Tecnológico (Monorepo)
+Macitta is an offline-first study application. The browser remains usable during a connection loss, while Supabase provides identity, durable cloud persistence and TOEFL audio storage.
 
-Macitta utiliza una estructura de **Monorepo** gestionada con **Turborepo** para separar la lógica de negocio de la interfaz de usuario.
+## Repository layout
 
-- **Frontend (`apps/web`)**: 
-  - Framework: Next.js 15+ (App Router).
-  - Estilos: Tailwind CSS v4 (Estética Obsidian Zen).
-  - Autenticación: Supabase Auth.
-- **Shared Logic (`packages/shared`)**:
-  - **SREM Core**: Sistema Espaciado Macitta — algoritmo custom de repetición espaciada.
-  - **Validación**: Lógica de Levenshtein para tolerancia de typos y validación de respuestas complejas (`anyOf`, `allOf`).
-- **Backend & DB (Supabase)**:
-  - Base de Datos: PostgreSQL.
-  - Almacenamiento: Supabase Storage para multimedia.
-
----
-
-## 2. Modelo de Datos (Esquema de Base de Datos)
-
-El corazón del sistema de aprendizaje es la relación entre el contenido estático y el progreso dinámico del usuario.
-
-### Persistencia y Offline (Offline-First)
-- **Base de Datos Local (IndexedDB)**: `Dexie.js` actúa como el buffer principal. Todas las lecturas y escrituras de estudio ocurren primero localmente.
-- **Sincronización Bidireccional**: Un sistema de `syncQueue` procesa los cambios acumulados cuando hay red.
-- **Resolución de Conflictos (Opción B)**: Uso de RPCs en Supabase (`sync_user_item`) que priorizan el repaso más reciente basándose en timestamps.
-- **Service Worker**: Cacheo selectivo de assets para funcionamiento 100% offline.
-
-### Estructura Core
-- **`decks`**: Agrupación lógica de tarjetas (ej. "Verbos Irregulares").
-- **`cards`**: Contenido estático (la pregunta/verbo).
-- **`card_slots`**: Define los campos de entrada para cada tarjeta (Infinitive, Past, Participle). Permite múltiples respuestas válidas y tipos de comparación (`any` / `all`).
-
-### Progreso y SREM
-- **`user_items`**: El estado real de la memoria del usuario para una tarjeta. Contiene parámetros SREM:
-  - `stability`: Intervalo actual en días.
-  - `difficulty`: Dificultad running (1-10).
-  - `reps`: Paso en la curva de crecimiento SREM (0-7).
-  - `lapses`: Conteo de olvidos (Again).
-  - `state`: `new` | `learning` | `review` | `mastered`.
-  - `due_date`: Fecha del próximo repaso.
-- **`study_logs`**: Historial atómico de cada repaso. Registra la calificación (`grade`), precisión por slots, y tiempo tomado.
-- **`study_sessions`**: Bitácora agrupada de una sesión de estudio. Rastrea el tiempo total, tarjetas vistas y precisión por "sentada".
-
----
-
-## 3. Lógica de Aprendizaje (SREM — Sistema Espaciado Macitta)
-
-> Filosofía: "Low Friction, Long Term" — Una sesión diaria de pocos minutos basta para dominar el material a largo plazo.
-
-### Diferenciadores del SREM
-A diferencia de sistemas tradicionales (Anki/SM-2) que tratan cada respuesta como binaria, SREM entiende que el conocimiento tiene **matices**:
-- **Precisión granular**: Mide accuracy por slots (2/3 ≠ 0/3).
-- **Penalizaciones proporcionales**: No resetea en cada error; penaliza según gravedad.
-- **Curva de dominio**: 8 pasos hacia la maestría (365 días = Dominado 🏆).
-
-### Flujo de Calificación (Grade)
-La calificación se calcula automáticamente combinando **accuracy por slots** y **tiempo de respuesta**:
-
-| Accuracy | Tiempo | Grade | Efecto |
-|---|---|---|---|
-| 100% (3/3) | < 3s | **Easy** | Avanza 2 pasos |
-| 100% (3/3) | 3-7s | **Good** | Avanza 1 paso |
-| 100% (3/3) | > 7s | **Hard** | Penalización -15% |
-| ≥ 66% (2/3) | cualquiera | **Hard** | Penalización -50% |
-| < 66% (1/3) | cualquiera | **Again** | Penalización -85% |
-| 0% (0/3) | cualquiera | **Again** | Reset total (paso 0) |
-
-### Curva de Crecimiento (8 Pasos)
-```
-Paso 0: Hoy → Paso 1: 3 días → Paso 2: 7 días →
-Paso 3: 16 días → Paso 4: 35 días → Paso 5: 75 días →
-Paso 6: 150 días → Paso 7: 365 días → DOMINADO 🏆
+```text
+apps/web/              Next.js 15 application and PWA
+packages/shared/       SREM, validation, TOEFL scoring and unit tests
+supabase/migrations/   Complete production migration history
+supabase/seed-assets/  Reproducible Storage fixtures
+docs/                  Algorithm and deployment documentation
 ```
 
-### Persistencia Automática
-Al enviar una respuesta, el sistema realiza tres acciones:
-1. Actualiza `user_items` con los nuevos valores SREM (local Dexie).
-2. Inserta un registro en `study_logs` (cola de sync).
-3. Sincroniza con Supabase cuando hay conexión.
+The root uses npm workspaces and Turborepo. Shared learning logic does not import React or Next.js, so it can be tested and reused independently from the interface.
 
-### Modo Maratón (Rush Mode) 🔥
-Disponible cuando el usuario completa **todas sus tarjetas pendientes** del día:
-- Selecciona tarjetas por **debilidad** (mayor lapses + difficulty).
-- **No modifica el SREM** — protege la memoria de largo plazo.
-- **Sí registra logs** — la racha, tiempo y stats siguen contando.
-- Diseñado para "cramming" antes de exámenes sin destruir el scheduling.
+## Runtime boundaries
 
----
+```mermaid
+flowchart TD
+    USER[Authenticated learner] --> NEXT[Next.js application]
+    NEXT --> DEXIE[(IndexedDB via Dexie)]
+    NEXT --> CORE[SREM and validators]
+    DEXIE --> QUEUE[Sync queue]
+    QUEUE --> SUPA[Supabase Data API]
+    SUPA --> PG[(PostgreSQL)]
+    PG --> RLS[Row Level Security]
+    NEXT --> STORE[Public TOEFL audio bucket]
+```
 
-## 4. Estado Actual del Producto (Product Level)
+### Web application
 
-A fecha de marzo 2026, la app cuenta con:
-- **Offline-First Engine**: Sincronización robusta con Dexie.js y Supabase.
-- **SREM Integrado**: Sistema Espaciado Macitta con grading granular y curva de 8 pasos.
-- **Modo Maratón**: Estudio sin límites post-sesión, sin contaminar el SREM.
-- **Dashboard Estadístico**: Estadísticas reales, actividad y racha de estudio.
-- **Inventario**: Explorador de verbos con estado de maestría visual.
-- **PWA Full**: Instalable y funcional sin red (datos previos cacheados).
+The App Router separates marketing, authentication and authenticated product routes. The main product areas are:
 
----
+- `/dashboard`: next action, progress and recent activity.
+- `/estudio/global`: due cards across all decks.
+- `/vocabulario`: personal decks, cards and import tools.
+- `/toefl`: Reading, Grammar and Listening practice plus attempt history.
+- `/usuario`: profile, security and personal statistics.
 
-## 5. Roadmap y Próximos Pasos (V2)
+### Local persistence
 
-1. **Importador JSON de Mazos**: Permitir importar mazos completos con multimedia y respuestas avanzadas.
-2. **Multimedia Offline**: Almacenamiento de audios y miniaturas en IndexedDB.
-3. **Gamificación**: Leaderboard global y metas personalizables.
-4. **Editor de Mazos**: Permitir a los usuarios crear sus propias flashcards desde la UI.
-5. **Notificaciones**: Recordatorios inteligentes basados en la curva del olvido.
+Dexie stores study content, SREM state, sessions, TOEFL attempts and queued writes. User actions write locally first when needed. The sync layer replays pending operations when connectivity returns.
 
----
-*Documentación generada para asegurar la continuidad del desarrollo entre sesiones.*
+The dock is responsible for presenting real network and synchronization state. Product screens must not show a hard-coded “synced” state.
+
+### Supabase
+
+Supabase provides:
+
+- Auth and the `profiles` trigger.
+- PostgreSQL data for decks, cards, progress, sessions and TOEFL.
+- RLS policies that keep progress and attempts private to the authenticated owner.
+- A public `toefl-audio` bucket for known Listening asset URLs.
+
+The migration directory now matches the linked production history. New changes must use `supabase migration new`, pass a dry-run and be represented in Git before being applied remotely.
+
+## Learning model
+
+### SREM
+
+`packages/shared/src/sem.ts` defines the growth curve:
+
+```text
+[0, 1, 3, 7, 16, 35, 75, 150, 365]
+```
+
+Position 0 represents a new card. Positions 1 through 8 represent scheduled intervals through mastery. Difficulty modifies the resulting interval, while Hard and Again recalibrate progress without allowing uncontrolled interval growth.
+
+The engine records:
+
+- `step` and `interval`
+- `difficulty`
+- repetitions and lapses
+- due date
+- learning state: `new`, `learning`, `review` or `mastered`
+
+### TOEFL
+
+TOEFL content is stored in `exams` and `questions`. Attempts and per-question answers are stored separately and protected by owner-based RLS.
+
+Two modes share the same scoring function:
+
+- Flexible: free navigation and full audio controls.
+- Strict: countdown, forward-only navigation, automatic submission and one-pass Listening audio.
+
+Results are persisted locally before cloud synchronization. The review page can build a contextual tutor prompt from selected answers; it does not call or transmit content to an AI provider.
+
+## Security model
+
+- Client code only receives the public Supabase URL and publishable or legacy anon key.
+- Exposed application tables use RLS.
+- User-owned rows compare ownership against `(select auth.uid())`.
+- `handle_new_user` is a private trigger function and cannot be called by `anon` or `authenticated` through the Data API.
+- The public audio bucket does not grant a broad listing policy.
+- Secret or `service_role` keys must never use a `NEXT_PUBLIC_` variable.
+
+Supabase leaked-password protection remains a project setting and may require a paid plan. The application enforces an eight-character minimum in signup and password changes.
+
+## Verification gates
+
+Before promoting `develop`:
+
+```bash
+npm run lint
+npm run test
+npm run build
+npx supabase migration list --linked
+npx supabase db lint --linked
+npx supabase db advisors --linked --type security --level warn --fail-on none
+```
+
+Visual verification covers mobile, tablet and desktop for dashboard, TOEFL list, practice, results, profile and empty/error states.
+
+## Current product status
+
+The current portfolio release includes custom decks, global spaced-repetition study, offline queuing, analytics, PWA installation and TOEFL practice across all three supported sections. The immediate release focus is reliability and clarity, not adding another feature family.

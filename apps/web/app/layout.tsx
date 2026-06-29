@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { ClientProviders } from "@/components/providers/ClientProviders";
 
 export const metadata: Metadata = {
     title: "Macitta",
-    description: "Active Recall & Spaced Repetition System",
+    description: "Estudio de inglés con repetición espaciada, modo offline y práctica TOEFL.",
     manifest: "/manifest.json",
     icons: {
         icon: [
@@ -35,11 +34,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="dark">
+        <html lang="es-MX" className="dark">
             <body className="bg-void text-ink min-h-screen flex justify-center selection:bg-accent/30 selection:text-ink transition-colors duration-300">
-                <ClientProviders>
-                    {children}
-                </ClientProviders>
+                {children}
             </body>
         </html>
     );

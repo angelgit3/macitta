@@ -1,58 +1,68 @@
-# Design — Estudio Lúmico
+# Design: Estudio Lúmico
 
-## Theme
+## Direction
 
-Macitta uses the **"Estudio Lúmico"** design language: deep indigo-black as the principal background, luminous periwinkle as the action accent, warm amber as the secondary highlight for streaks and achievements, and sage green for success states. The overall feel is a premium study instrument — glassy, calm, and precise.
+Macitta should feel like a dependable study instrument used by a student at a desk, on a phone or laptop, often at night and sometimes with unreliable connectivity. The product is calm, compact and readable. Visual character comes from its indigo-black workspace and precise periwinkle accent, not from decorative effects.
 
-## Color Tokens
+## Color tokens
 
-| Role              | Token                         | Value                      | Use |
+| Role | Token | Value | Use |
 |---|---|---:|---|
-| Background        | `--color-void`                | `#0D0E17`                  | App background |
-| Surface           | `--color-surface`             | `#1A1B2E`                  | Glass panels |
-| Surface Raised    | `--color-surface-raised`      | `#21233A`                  | Cards, dock |
-| Surface Float     | `--color-surface-float`       | `#262845`                  | Hover overlays |
-| Accent (primary)  | `--color-accent`              | `#7C85E8`                  | Buttons, active states, focus |
-| Accent Hover      | `--color-accent-hover`        | `#9AA2F0`                  | Button hover |
-| Amber             | `--color-amber`               | `#E8B84B`                  | Streaks, warnings, secondary highlights |
-| Success           | `--color-success`             | `#6BCB8E`                  | Correct answers, sync confirmed |
-| Danger            | `--color-danger`              | `#E07070`                  | Errors, incorrect answers |
-| Text Primary      | `--color-ink`                 | `#F0F1FF`                  | Headings, body text |
-| Text Muted        | `--color-ink-muted`           | `#A0A3C4`                  | Secondary copy, descriptions |
-| Text Faint        | `--color-ink-faint`           | `#62658A`                  | Labels, metadata, placeholders |
-| Border            | `--color-border`              | `rgba(160,163,196,0.13)`   | Card borders, dividers |
-| Border Strong     | `--color-border-strong`       | `rgba(160,163,196,0.22)`   | Hover borders |
+| Background | `--color-void` | `#0D0E17` | Page background |
+| Surface | `--color-surface` | `#1A1B2E` | Primary product surface |
+| Raised | `--color-surface-raised` | `#21233A` | Controls and navigation |
+| Accent | `--color-accent` | `#7C85E8` | Primary action, selection and focus |
+| Accent hover | `--color-accent-hover` | `#9AA2F0` | Primary hover |
+| Amber | `--color-amber` | `#E8B84B` | Listening and secondary emphasis |
+| Success | `--color-success` | `#6BCB8E` | Correct and synchronized states |
+| Danger | `--color-danger` | `#E07070` | Errors and destructive action |
+| Text | `--color-ink` | `#F0F1FF` | Primary text |
+| Muted text | `--color-ink-muted` | `#A0A3C4` | Secondary copy |
+| Metadata | `--color-ink-faint` | `#888CB2` | Labels and placeholders |
 
-## Component Classes
+## Surface hierarchy
 
-- `glass-panel`: Primary grouped panels — auth shells, hero sections, study card outer frame.
-- `glass-card`: Repeated actionable items — bento stats, deck items, feature tiles.
-- `pill-badge`: Inline category labels and status indicators (`rounded-full px-3 py-1 text-[11px]`).
-- `label-kicker`: Uppercase micro-label above fields and values.
-- `soft-field`: Form inputs with animated focus ring.
-- `ZenButton`: Pill-shaped (`rounded-full`), periwinkle primary; ghost and danger variants.
-- `ZenDock`: Floating glass pill navigation with spring-physics active indicator.
+- `product-panel`: default authenticated product container. Opaque, quiet and suitable for long tasks.
+- `glass-panel`: reserved for marketing, authentication shells and the floating dock.
+- `glass-card`: legacy/shared treatment. Do not use it as the default answer to every grouping problem.
+- Bordered rows and dividers: preferred for lists of exams, attempts and next actions.
 
-## Double-Bezel Technique
-
-Cards and the StudyCard use a two-layer nested structure:
-- **Outer shell**: `p-[2px] rounded-[1.8rem] bg-gradient-to-b from-white/12 via-white/4 to-white/0`
-- **Inner core**: `glass-panel rounded-[1.6rem]` with `box-shadow` inset highlight
-
-This gives surfaces a physical, machined quality — as if the content sits behind glass.
+Avoid nesting one card inside another. A surface may contain rows, controls or a single inset status block.
 
 ## Typography
 
-System font stack for reliability. Headings use `font-black` with `tracking-tight`. Body copy stays at `text-sm leading-7`. Labels use `label-kicker` (10px, uppercase, wide tracking).
+Use the system stack for speed, language coverage and predictable metrics. Product headings use weight and spacing rather than a separate display font.
+
+- Page title: 30 to 36 px, `font-black`, balanced wrapping.
+- Section title: 18 to 20 px, `font-black`.
+- Body: 14 to 16 px with 24 to 28 px line height.
+- `section-label`: 12 px sentence case for context.
+- `label-kicker`: legacy form metadata only. Do not place it above every section.
+
+Body copy should remain under 75 characters per line when it is prose.
+
+## Components and interaction
+
+- Buttons and inputs have a minimum 44 px touch target.
+- Primary buttons are solid periwinkle with dark text and a 12 px radius.
+- Secondary buttons use a visible border and restrained surface fill.
+- Focus uses the shared periwinkle ring and remains visible for keyboard users.
+- Loading content uses skeleton structure when the destination layout is known.
+- Empty states explain the next useful action.
+- Error states include a recovery path whenever possible.
 
 ## Layout
 
-Internal routes: centered responsive shell, max-w-6xl, bottom dock with padding `pb-28`. Marketing: full viewport, floating pill nav, macro-whitespace between sections.
+Authenticated routes use a centered shell up to `max-w-6xl`, content up to `max-w-5xl` and a persistent bottom dock. Mobile layouts stack by task order. Desktop columns are only used when the secondary column remains useful rather than decorative.
 
 ## Motion
 
-Spring physics: `cubic-bezier(0.22, 1, 0.36, 1)`, 200–300ms. Active states scale to `0.97`. Hover lift: `translateY(-1px)`. Reduced-motion respected globally.
+Transitions last 150 to 250 ms and communicate state. Hover translation is limited to interactive rows and buttons. Page-load choreography is not used inside the product. `prefers-reduced-motion` is respected globally.
 
-## Anti-patterns
+## Product rules
 
-No amber/cognac as the primary brand color. No flat solid buttons. No heavy drop shadows on dark. No border-radius < 12px on interactive elements. No neon SaaS dashboards. No decorative orbs or gradient text (except the hero headline gradient).
+- The next study action is visually dominant on the dashboard.
+- TOEFL is organized by learning section and history, not a wall of equal cards.
+- Network and sync labels must reflect real state.
+- Accent color marks action or selection, not decoration.
+- Do not use gradient text, decorative glass grids or repeated uppercase eyebrows.

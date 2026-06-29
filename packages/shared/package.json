@@ -1,5 +1,5 @@
 {
-    "name": "@maccita/shared",
+    "name": "@macitta/shared",
     "version": "0.1.0",
     "type": "module",
     "description": "SREM — Spaced Repetition Engine for Macitta. A TypeScript scheduling algorithm for vocabulary acquisition with 9-step growth curve, difficulty modulation, and lapse-aware promotion.",
@@ -22,7 +22,7 @@
     "homepage": "https://www.macitta.app",
     "repository": {
         "type": "git",
-        "url": "https://github.com/angelgit3/Macitta_god.git",
+        "url": "https://github.com/angelgit3/macitta.git",
         "directory": "packages/shared"
     },
     "license": "MIT",

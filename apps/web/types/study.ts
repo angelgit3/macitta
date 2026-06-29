@@ -1,5 +1,5 @@
-import type { SEMCardState } from "@maccita/shared";
-import type { SEMGrade } from "@maccita/shared";
+import type { SEMCardState } from "@macitta/shared";
+import type { SEMGrade } from "@macitta/shared";
 
 // ─── Card Domain ─────────────────────────────────────────────────────
 

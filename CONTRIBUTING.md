@@ -26,7 +26,7 @@ This project follows a simple principle: be kind, be constructive, and remember 
 
 There are many ways to contribute that don't require writing code:
 
-- 🐛 **Report bugs** via [GitHub Issues](https://github.com/angelgit3/Macitta_god/issues)
+- 🐛 **Report bugs** via [GitHub Issues](https://github.com/angelgit3/macitta/issues)
 - 📖 **Improve documentation** — especially translations to Spanish
 - 🃏 **Contribute vocabulary decks** — JSON files for other subjects or languages
 - 🌍 **Deploy at your institution** — and share feedback on what broke
@@ -47,8 +47,8 @@ For code contributions, read on.
 
 ```bash
 # 1. Fork the repo and clone your fork
-git clone https://github.com/YOUR_USERNAME/Macitta_god.git
-cd Macitta_god
+git clone https://github.com/YOUR_USERNAME/macitta.git
+cd macitta
 
 # 2. Install dependencies (monorepo — run from root)
 npm install
@@ -66,8 +66,8 @@ Open [http://localhost:3000](http://localhost:3000).
 ### Running Tests
 
 ```bash
-# Run SREM unit tests (packages/shared)
-npm run test --workspace=packages/shared
+# Run all workspace tests
+npm run test
 ```
 
 ---

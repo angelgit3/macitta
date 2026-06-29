@@ -30,7 +30,7 @@
   /* Text */
   --color-ink:             #F0F1FF;
   --color-ink-muted:       #A0A3C4;
-  --color-ink-faint:       #62658A;
+  --color-ink-faint:       #888CB2;
 
   /* Borders */
   --color-border:          rgba(160,163,196,0.13);
@@ -42,7 +42,7 @@
   --color-stone-light:     #21233A;
   --color-paper:           #F0F1FF;
   --color-paper-soft:      #A0A3C4;
-  --color-stone-gray:      #62658A;
+  --color-stone-gray:      #888CB2;
   --color-action-accent:   #7C85E8;
   --color-accent-focus:    #7C85E8;
   --color-accent-strong:   #E8B84B;
@@ -50,7 +50,7 @@
   --color-accent-danger:   #E07070;
   --color-border-subtle:   rgba(160,163,196,0.13);
   --color-border-neon:     rgba(124,133,232,0.38);
-  --color-text-dim:        #62658A;
+  --color-text-dim:        #888CB2;
 
   /* Motion */
   --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
@@ -132,6 +132,22 @@
       0 0 0 1px rgba(124,133,232,0.12);
   }
 
+  /* Task surfaces use a quieter, more opaque material than marketing glass. */
+  .product-panel {
+    background: rgba(26, 27, 46, 0.94);
+    border: 1px solid rgba(160,163,196,0.16);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.035) inset,
+      0 18px 48px -24px rgba(0,0,0,0.55);
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    color: #A0A3C4;
+  }
+
   /* Legacy aliases — map old class names to new CSS so existing
      code compiles without touching every component file */
   .surface-panel {
@@ -179,7 +195,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: #62658A;
+    color: #888CB2;
   }
 
   /* Legacy quiet-kicker alias */
@@ -188,7 +204,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: #62658A;
+    color: #888CB2;
   }
 
   /* Readable body copy */
@@ -204,7 +220,7 @@
     transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
   }
   .soft-field::placeholder {
-    color: rgba(98,101,138,0.65);
+    color: rgba(160,163,196,0.78);
   }
   .soft-field:hover {
     border-color: rgba(160,163,196,0.28);

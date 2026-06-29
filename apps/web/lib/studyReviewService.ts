@@ -2,7 +2,7 @@ import {
     evaluateSEM,
     type SEMCardState,
     type SEMGrade,
-} from "@maccita/shared";
+} from "@macitta/shared";
 import { db } from "@/lib/db";
 
 // ─── Types ──────────────────────────────────────────────────────────

@@ -46,7 +46,7 @@ export default function OfflinePage() {
             {/* Text */}
             <h1 className="text-xl font-bold text-ink mb-2">Sin conexión</h1>
             <p className="text-sm text-ink-faint max-w-xs leading-relaxed">
-                No pudimos cargar esta página. Revisá tu conexión a internet e intentá de nuevo.
+                No pudimos cargar esta página. Revisa tu conexión a internet e inténtalo de nuevo.
             </p>
 
             {/* Retry button — navigates back to trigger SW fetch */}

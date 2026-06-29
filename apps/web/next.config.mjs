@@ -28,7 +28,7 @@ const withSerwist = withSerwistInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    transpilePackages: ["@maccita/shared"],
+    transpilePackages: ["@macitta/shared"],
     experimental: {
         // reactCompiler: true,
     },

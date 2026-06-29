@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/client";
-import { migrateFromFSRS, createEmptySEMState } from "@maccita/shared";
+import { migrateFromFSRS, createEmptySEMState } from "@macitta/shared";
 import { db, type LocalCard, type LocalUserItem } from "@/lib/db";
 import type { CardData, Slot } from "@/types/study";
 import { APP_CONFIG } from "@/config/constants";

@@ -14,10 +14,14 @@ interface ZenInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
  */
 export const ZenInput = forwardRef<HTMLInputElement, ZenInputProps>(
   ({ label, helperText, error, icon, className = "", inputClassName = "", ...props }, ref) => {
+    const generatedId = React.useId();
+    const inputId = props.id ?? generatedId;
+    const descriptionId = helperText || error ? `${inputId}-description` : undefined;
+
     return (
       <div className={`space-y-1.5 w-full ${className}`}>
         {label && (
-          <label className="block label-kicker ml-1">{label}</label>
+          <label htmlFor={inputId} className="block label-kicker ml-1">{label}</label>
         )}
         <div className="relative">
           {icon && (
@@ -27,6 +31,9 @@ export const ZenInput = forwardRef<HTMLInputElement, ZenInputProps>(
           )}
           <input
             ref={ref}
+            id={inputId}
+            aria-invalid={Boolean(error)}
+            aria-describedby={descriptionId}
             className={`
               w-full soft-field px-4 py-3.5 text-sm font-medium
               ${icon ? "pl-11" : ""}
@@ -37,7 +44,7 @@ export const ZenInput = forwardRef<HTMLInputElement, ZenInputProps>(
           />
         </div>
         {(helperText || error) && (
-          <p className={`text-xs ml-1 leading-relaxed ${error ? "text-danger" : "text-ink-faint"}`}>
+          <p id={descriptionId} className={`text-xs ml-1 leading-relaxed ${error ? "text-danger" : "text-ink-faint"}`}>
             {error || helperText}
           </p>
         )}

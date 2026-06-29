@@ -3,7 +3,6 @@ import { Logo } from "@/components/ui/Logo";
 import {
   ArrowRight, Brain, Trophy, BookOpen, Flame,
   BarChart2, Smartphone, Library, FileJson, CheckCircle2,
-  Sparkles,
 } from "lucide-react";
 import { BackgroundEffects } from "@/components/ui/BackgroundEffects";
 
@@ -56,14 +55,11 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-5xl mx-auto grid lg:grid-cols-[1fr_0.95fr] gap-12 items-center">
           {/* Left copy */}
           <div>
-            <span className="pill-badge bg-accent/10 text-accent border border-accent/20 mb-7">
-              <Sparkles size={11} />
-              Sistema de repetición espaciada
-            </span>
+            <p className="section-label mb-5 text-accent">Estudio diario con repetición espaciada</p>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.03] tracking-tight text-ink mb-5">
               Aprende inglés.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-[#a3acff]">
+              <span className="text-accent">
                 Sin olvidar.
               </span>
             </h1>
@@ -108,21 +104,21 @@ export default function LandingPage() {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="label-kicker mb-0.5">Hoy</div>
+                    <div className="section-label mb-0.5">Hoy</div>
                     <div className="text-xl font-black">Ruta de memoria</div>
                   </div>
                   <span className="pill-badge bg-success/10 text-success border border-success/20">
-                    86%
+                    SREM
                   </span>
                 </div>
 
                 {/* Stat grid */}
                 <div className="grid grid-cols-2 gap-2.5">
                   {[
-                    { label: "Verbos", value: "93",      Icon: BookOpen,  color: "accent" },
-                    { label: "Racha",  value: "12d",     Icon: Flame,     color: "amber" },
-                    { label: "TOEFL", value: "3 tests",  Icon: Trophy,    color: "accent" },
-                    { label: "Tiempo", value: "2.4h",    Icon: BarChart2, color: "none" },
+                    { label: "Tarjetas", value: "Listas",   Icon: BookOpen,  color: "accent" },
+                    { label: "Racha",    value: "En curso", Icon: Flame,     color: "amber" },
+                    { label: "TOEFL",    value: "3 áreas",  Icon: Trophy,    color: "accent" },
+                    { label: "Offline",  value: "Activo",   Icon: BarChart2, color: "none" },
                   ].map(({ label, value, Icon, color }) => (
                     <div
                       key={label}
@@ -166,9 +162,9 @@ export default function LandingPage() {
       <div className="border-y border-border bg-surface/30">
         <div className="max-w-4xl mx-auto grid grid-cols-3 divide-x divide-border">
           {[
-            { value: "93",   label: "Verbos disponibles" },
-            { value: "SREM", label: "Algoritmo adaptativo" },
-            { value: "PWA",  label: "App instalable, sin internet" },
+            { value: "SREM",    label: "Memoria a largo plazo" },
+            { value: "OFFLINE", label: "Estudio con conexión inestable" },
+            { value: "TOEFL",   label: "Reading, Grammar y Listening" },
           ].map(stat => (
             <div key={stat.label} className="py-7 px-3 text-center">
               <div className="text-2xl sm:text-3xl font-black text-ink">{stat.value}</div>
@@ -182,16 +178,14 @@ export default function LandingPage() {
       <section className="px-5 py-24">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="pill-badge bg-amber/10 text-amber border border-amber/20 mb-4">
-              Características
-            </span>
+            <p className="section-label mb-3 text-amber">Un sistema de estudio conectado</p>
             <h2 className="text-3xl sm:text-4xl font-black text-ink">Todo conectado</h2>
             <p className="readable-copy mt-3 max-w-xl mx-auto">
               Macitta mantiene cerca lo que necesitas: repasar, construir mazos, practicar TOEFL y ver tu progreso.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 border-y border-border sm:grid-cols-2 lg:grid-cols-3">
             {[
               { Icon: CheckCircle2, title: "Repetición espaciada", desc: "SREM optimiza la retención a largo plazo.", accent: "sage" as const },
               { Icon: BarChart2,    title: "Dashboard vivo",       desc: "Racha, tiempo, maestría y actividad sin saturar.", accent: "periwinkle" as const },
@@ -204,14 +198,10 @@ export default function LandingPage() {
                 accent === "sage"       ? "text-success bg-success/10 border border-success/20" :
                 accent === "amber"      ? "text-amber bg-amber/10 border border-amber/20" :
                                           "text-accent bg-accent/10 border border-accent/20";
-              const hoverClass =
-                accent === "sage"       ? "hover:border-success/28" :
-                accent === "amber"      ? "hover:border-amber/28" :
-                                          "hover:border-accent/28";
               return (
                 <div
                   key={title}
-                  className={`glass-card rounded-2xl p-5 ${hoverClass} transition-all duration-200`}
+                  className="border-b border-border p-5 transition-colors hover:bg-white/[0.025] sm:border-r lg:last:border-r-0"
                 >
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${iconClass}`}>
                     <Icon size={18} />
@@ -235,7 +225,7 @@ export default function LandingPage() {
             <span className="text-sm font-bold text-ink">Macitta</span>
           </div>
           <p className="text-xs text-ink-faint">
-            2026 Macitta — Sistema de Repetición Espaciada.
+            2026 Macitta · Sistema de repetición espaciada.
           </p>
         </div>
       </footer>

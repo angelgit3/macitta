@@ -1,4 +1,4 @@
-# @maccita/shared
+# @macitta/shared
 
 Core scheduling engine and shared types for the [Macitta](https://www.macitta.app) educational platform.
 
@@ -17,7 +17,7 @@ A TypeScript implementation of a custom spaced repetition algorithm designed for
 ## Quick Start
 
 ```typescript
-import { createEmptySEMState, evaluateSEM } from '@maccita/shared';
+import { createEmptySEMState, evaluateSEM } from '@macitta/shared';
 
 const state = createEmptySEMState();
 

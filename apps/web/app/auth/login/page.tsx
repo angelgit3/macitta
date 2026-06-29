@@ -54,7 +54,7 @@ export default function LoginPage() {
 
       {/* Error banner */}
       {friendlyError && (
-        <div className="bg-danger/8 border border-danger/25 text-danger p-3 rounded-xl text-sm mb-4 text-center">
+        <div className="bg-danger/8 border border-danger/25 text-danger p-3 rounded-xl text-sm mb-4 text-center" role="alert">
           {friendlyError}
         </div>
       )}
@@ -74,10 +74,11 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="label-kicker ml-1">Email</label>
+          <label htmlFor="login-email" className="label-kicker ml-1">Email</label>
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-faint" size={17} />
             <input
+              id="login-email"
               name="email"
               type="email"
               required
@@ -90,10 +91,11 @@ export default function LoginPage() {
 
         {/* Password */}
         <div className="space-y-1.5">
-          <label className="label-kicker ml-1">Contraseña</label>
+          <label htmlFor="login-password" className="label-kicker ml-1">Contraseña</label>
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-faint" size={17} />
             <input
+              id="login-password"
               name="password"
               type="password"
               required
