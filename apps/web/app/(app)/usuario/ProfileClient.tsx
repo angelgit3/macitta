@@ -245,7 +245,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
                 <div className="flex flex-col items-center gap-1">
                     <p className="label-kicker flex items-center gap-1.5">
-                        <Code2 size={12} /> Proyecto open source desde México
+                        <Code2 size={12} /> Hecha por Alberto Anaya
                     </p>
                     <p className="text-xs text-ink-muted">Macitta · 2026</p>
                 </div>
