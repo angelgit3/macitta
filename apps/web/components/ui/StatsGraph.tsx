@@ -9,7 +9,6 @@ interface StatsGraphDay {
 
 interface StatsGraphProps {
   data?: StatsGraphDay[];
-  targetMinutes?: number;
 }
 
 function formatMinutes(minutes: number) {
@@ -30,18 +29,16 @@ function formatDate(value: string) {
 
 /**
  * Weekly study rhythm, tuned for quick dashboard reading.
- * Shows real minutes, goal progress, best day and a visible target line.
+ * Shows real minutes by day, weekly total, average and best day.
  */
-export function StatsGraph({ data = [], targetMinutes = 20 }: StatsGraphProps) {
+export function StatsGraph({ data = [] }: StatsGraphProps) {
   const totalMinutes = data.reduce((sum, item) => sum + item.minutes, 0);
-  const activeDays = data.filter((item) => item.minutes > 0).length;
   const averageMinutes = data.length > 0 ? totalMinutes / data.length : 0;
   const bestDay = data.reduce<StatsGraphDay | null>(
     (best, item) => (!best || item.minutes > best.minutes ? item : best),
     null,
   );
-  const maxMinutes = Math.max(targetMinutes, bestDay?.minutes ?? 0, 1);
-  const targetPosition = Math.min(100, (targetMinutes / maxMinutes) * 100);
+  const maxMinutes = Math.max(bestDay?.minutes ?? 0, 1);
 
   if (data.length === 0) {
     return (
@@ -55,31 +52,23 @@ export function StatsGraph({ data = [], targetMinutes = 20 }: StatsGraphProps) {
     <div className="space-y-5">
       <div className="grid gap-3 sm:grid-cols-3">
         <Stat label="Semana" value={formatMinutes(totalMinutes)} />
-        <Stat label="Promedio" value={`${formatMinutes(averageMinutes)} / día`} />
-        <Stat label="Días activos" value={`${activeDays}/7`} />
+        <Stat label="Promedio diario" value={formatMinutes(averageMinutes)} />
+        <Stat
+          label="Mejor día"
+          value={bestDay && bestDay.minutes > 0 ? formatMinutes(bestDay.minutes) : "0 min"}
+        />
       </div>
 
       <div
         className="rounded-2xl border border-border bg-void/35 px-3 py-5 sm:px-5"
         role="img"
-        aria-label={`Actividad de los últimos siete días. Total ${formatMinutes(totalMinutes)}. Meta diaria ${targetMinutes} minutos.`}
+        aria-label={`Minutos estudiados durante los últimos siete días. Total ${formatMinutes(totalMinutes)}.`}
       >
         <div className="relative">
-          <div
-            className="pointer-events-none absolute inset-x-0 z-10 border-t border-dashed border-amber/45"
-            style={{ bottom: `${targetPosition}%` }}
-            aria-hidden="true"
-          >
-            <span className="absolute -top-3 right-0 rounded-full bg-void px-2 text-[10px] font-bold text-amber">
-              Meta {targetMinutes} min
-            </span>
-          </div>
-
           <div className="grid h-44 grid-cols-7 items-end gap-2 sm:gap-3">
             {data.map((item, idx) => {
               const rawHeight = (item.minutes / maxMinutes) * 100;
               const height = item.minutes > 0 ? Math.max(rawHeight, 10) : 3;
-              const reachedGoal = item.minutes >= targetMinutes;
 
               return (
                 <div
@@ -88,7 +77,7 @@ export function StatsGraph({ data = [], targetMinutes = 20 }: StatsGraphProps) {
                   title={`${formatDate(item.date)}: ${formatMinutes(item.minutes)}`}
                 >
                   <span className={`text-[10px] font-bold ${item.minutes > 0 ? "text-ink-muted" : "text-ink-faint"}`}>
-                    {item.minutes > 0 ? formatMinutes(item.minutes).replace(" min", "") : ""}
+                    {formatMinutes(item.minutes)}
                   </span>
                   <div className="flex h-full w-full items-end rounded-full bg-surface/55 p-1">
                     <div
@@ -96,11 +85,9 @@ export function StatsGraph({ data = [], targetMinutes = 20 }: StatsGraphProps) {
                         "w-full rounded-full transition-[height,background-color,box-shadow] duration-300",
                         item.active
                           ? "bg-accent shadow-[0_0_18px_rgba(124,133,232,0.42)]"
-                          : reachedGoal
-                            ? "bg-amber/80"
-                            : item.minutes > 0
-                              ? "bg-accent/55 group-hover:bg-accent/70"
-                              : "bg-white/8",
+                          : item.minutes > 0
+                            ? "bg-accent/55 group-hover:bg-accent/70"
+                            : "bg-white/8",
                       ].join(" ")}
                       style={{ height: `${height}%` }}
                       aria-hidden="true"
@@ -123,10 +110,7 @@ export function StatsGraph({ data = [], targetMinutes = 20 }: StatsGraphProps) {
             {bestDay && bestDay.minutes > 0 ? `${bestDay.day}, ${formatMinutes(bestDay.minutes)}` : "sin sesiones"}
           </span>
         </p>
-        <div className="flex items-center gap-3">
-          <Legend color="bg-accent" label="Hoy" />
-          <Legend color="bg-amber/80" label="Meta alcanzada" />
-        </div>
+        <Legend color="bg-accent" label="Hoy" />
       </div>
     </div>
   );

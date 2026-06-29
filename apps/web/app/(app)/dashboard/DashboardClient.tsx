@@ -4,7 +4,7 @@ import { OnboardingModal } from "@/components/ui/OnboardingModal";
 import { StatsGraph } from "@/components/ui/StatsGraph";
 import { useUserStats } from "@/hooks/useUserStats";
 import { createClient } from "@/utils/supabase/client";
-import { BookOpen, Clock, Flame, Play, Target } from "lucide-react";
+import { BookOpen, Clock, Play, Target } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -54,12 +54,10 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
   const masteryPercent = stats
     ? Math.round((stats.masteredCards / Math.max(stats.totalCards, 1)) * 100)
     : 0;
-  const streakDays = stats?.streak ?? 0;
 
   const metrics = [
     { label: "Tarjetas", value: initialCount, Icon: BookOpen },
     { label: "Dominio", value: `${masteryPercent}%`, Icon: Target },
-    { label: "Racha", value: `${streakDays} d`, Icon: Flame },
     { label: "Estudio", value: totalTimeFormatted, Icon: Clock },
   ];
 
@@ -94,7 +92,7 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
       </section>
 
       <section aria-label="Resumen de progreso" className="overflow-hidden rounded-2xl border border-border bg-surface/70">
-        <dl className="grid grid-cols-2 divide-x divide-y divide-border sm:grid-cols-4 sm:divide-y-0">
+        <dl className="grid grid-cols-1 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {metrics.map(({ label, value, Icon }) => (
             <div key={label} className="flex min-h-24 items-center gap-3 p-4 sm:px-5">
               <Icon size={18} className="shrink-0 text-accent" aria-hidden="true" />
@@ -113,9 +111,6 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
             <p className="section-label">Últimos siete días</p>
             <h2 id="activity-title" className="mt-1 text-xl font-black text-ink">Ritmo de estudio</h2>
           </div>
-          <p className="text-sm text-ink-muted">
-            {streakDays > 0 ? `${streakDays} ${streakDays === 1 ? "día seguido" : "días seguidos"}` : "Comienza tu primera racha"}
-          </p>
         </div>
         <div className="mt-6 min-h-56">
           <StatsGraph data={graphData} />
