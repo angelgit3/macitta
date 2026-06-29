@@ -6,7 +6,7 @@ import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
     Code2, User, Flame, Clock, Target, Trophy,
-    Github, Instagram,
+    Download, Github, Instagram,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStats } from '@/hooks/useUserStats';
@@ -25,6 +25,11 @@ interface FeedbackMessage {
 interface Profile {
     username: string;
     created_at: string;
+}
+
+interface BeforeInstallPromptEvent extends Event {
+    prompt: () => Promise<void>;
+    userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
 }
 
 /** Format total milliseconds into "Xh" or "Xmin". */
@@ -47,6 +52,8 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
     const [loading,    setLoading]    = useState(false);
     const [message,    setMessage]    = useState<FeedbackMessage | null>(null);
     const [profile,    setProfile]    = useState<Profile | null>(null);
+    const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+    const [showInstallButton, setShowInstallButton] = useState(false);
 
     useEffect(() => {
         if (!initialUser?.id) return;
@@ -62,6 +69,35 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
                 }
             });
     }, [initialUser?.id, supabase]);
+
+    useEffect(() => {
+        const navigatorWithStandalone = window.navigator as Navigator & { standalone?: boolean };
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+            || navigatorWithStandalone.standalone === true;
+        const isMobileLike = window.matchMedia('(pointer: coarse)').matches
+            && window.matchMedia('(max-width: 820px)').matches;
+
+        if (isStandalone || !isMobileLike) return;
+
+        const handleBeforeInstallPrompt = (event: Event) => {
+            event.preventDefault();
+            setInstallPrompt(event as BeforeInstallPromptEvent);
+            setShowInstallButton(true);
+        };
+
+        const handleAppInstalled = () => {
+            setInstallPrompt(null);
+            setShowInstallButton(false);
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.addEventListener('appinstalled', handleAppInstalled);
+
+        return () => {
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+            window.removeEventListener('appinstalled', handleAppInstalled);
+        };
+    }, []);
 
     const avatarLetter = profile?.username?.[0]?.toUpperCase()
         || initialUser?.email?.[0]?.toUpperCase()
@@ -126,6 +162,19 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
         await supabase.auth.signOut();
         router.push('/auth/login');
         router.refresh();
+    };
+
+    const handleInstallApp = async () => {
+        if (!installPrompt) return;
+
+        await installPrompt.prompt();
+        const { outcome } = await installPrompt.userChoice;
+
+        if (outcome === 'accepted') {
+            setShowInstallButton(false);
+        }
+
+        setInstallPrompt(null);
     };
 
     return (
@@ -222,6 +271,18 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
                     </ZenButton>
                 </form>
             </section>
+
+            {showInstallButton && (
+                <section className="glass-card rounded-2xl p-5 space-y-3">
+                    <SectionTitle icon={<Download size={16} />} title="Instalar app" />
+                    <p className="text-sm leading-6 text-ink-muted">
+                        Agrega Macitta a tu pantalla de inicio para abrirla como app.
+                    </p>
+                    <ZenButton variant="primary" className="w-full h-11" onClick={handleInstallApp}>
+                        Instalar Macitta
+                    </ZenButton>
+                </section>
+            )}
 
             {/* ── Sign out ──────────────────────────────────── */}
             <button
