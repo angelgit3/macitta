@@ -81,4 +81,4 @@ USING (
         WHERE cs.classroom_id = classroom_decks.classroom_id
         AND cs.student_id = auth.uid()
     )
-);
+);;

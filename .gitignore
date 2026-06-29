@@ -17,6 +17,9 @@ apps/web/public/swe-worker-*
 # turborepo
 .turbo/
 
+# Supabase CLI local state
+supabase/.temp/
+
 # production
 /build
 

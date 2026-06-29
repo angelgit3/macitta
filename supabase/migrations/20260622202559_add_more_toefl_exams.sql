@@ -183,4 +183,4 @@ on conflict (id) do update set
     correct_option_id = excluded.correct_option_id,
     order_index = excluded.order_index,
     points_weight = excluded.points_weight,
-    explanation = excluded.explanation;
+    explanation = excluded.explanation;;

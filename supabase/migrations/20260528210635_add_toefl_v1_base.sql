@@ -9,7 +9,6 @@ create table if not exists public.exams (
     scale_mapping jsonb not null default '{}'::jsonb,
     created_at timestamptz not null default now()
 );
-
 create table if not exists public.questions (
     id uuid primary key default gen_random_uuid(),
     exam_id uuid not null references public.exams(id) on delete cascade,
@@ -21,7 +20,6 @@ create table if not exists public.questions (
     explanation text not null default '',
     created_at timestamptz not null default now()
 );
-
 create table if not exists public.user_exam_attempts (
     id uuid primary key default gen_random_uuid(),
     user_id uuid not null references auth.users(id) on delete cascade,
@@ -32,7 +30,6 @@ create table if not exists public.user_exam_attempts (
     mode text not null default 'flexible' check (mode in ('strict', 'flexible')),
     completed_at timestamptz not null default now()
 );
-
 create table if not exists public.user_question_answers (
     attempt_id uuid not null references public.user_exam_attempts(id) on delete cascade,
     question_id uuid not null references public.questions(id) on delete cascade,
@@ -40,7 +37,6 @@ create table if not exists public.user_question_answers (
     is_correct boolean not null default false,
     primary key (attempt_id, question_id)
 );
-
 create table if not exists public.srem_inbox (
     id uuid primary key default gen_random_uuid(),
     user_id uuid not null references auth.users(id) on delete cascade,
@@ -48,50 +44,42 @@ create table if not exists public.srem_inbox (
     context text not null default '',
     created_at timestamptz not null default now()
 );
-
 create index if not exists idx_questions_exam_id on public.questions(exam_id);
 create unique index if not exists idx_questions_exam_order on public.questions(exam_id, order_index);
 create index if not exists idx_user_exam_attempts_user_id on public.user_exam_attempts(user_id);
 create index if not exists idx_user_exam_attempts_exam_id on public.user_exam_attempts(exam_id);
 create index if not exists idx_user_question_answers_attempt_id on public.user_question_answers(attempt_id);
 create index if not exists idx_srem_inbox_user_id on public.srem_inbox(user_id);
-
 alter table public.exams enable row level security;
 alter table public.questions enable row level security;
 alter table public.user_exam_attempts enable row level security;
 alter table public.user_question_answers enable row level security;
 alter table public.srem_inbox enable row level security;
-
 grant select on public.exams to authenticated;
 grant select on public.questions to authenticated;
 grant select, insert on public.user_exam_attempts to authenticated;
 grant select, insert on public.user_question_answers to authenticated;
 grant select, insert, update, delete on public.srem_inbox to authenticated;
-
 create policy "exams_select_authenticated"
     on public.exams
     for select
     to authenticated
     using (true);
-
 create policy "questions_select_authenticated"
     on public.questions
     for select
     to authenticated
     using (true);
-
 create policy "attempts_select_own"
     on public.user_exam_attempts
     for select
     to authenticated
     using ((select auth.uid()) = user_id);
-
 create policy "attempts_insert_own"
     on public.user_exam_attempts
     for insert
     to authenticated
     with check ((select auth.uid()) = user_id);
-
 create policy "answers_select_own_attempt"
     on public.user_question_answers
     for select
@@ -104,7 +92,6 @@ create policy "answers_select_own_attempt"
               and a.user_id = (select auth.uid())
         )
     );
-
 create policy "answers_insert_own_attempt"
     on public.user_question_answers
     for insert
@@ -117,32 +104,27 @@ create policy "answers_insert_own_attempt"
               and a.user_id = (select auth.uid())
         )
     );
-
 create policy "srem_inbox_select_own"
     on public.srem_inbox
     for select
     to authenticated
     using ((select auth.uid()) = user_id);
-
 create policy "srem_inbox_insert_own"
     on public.srem_inbox
     for insert
     to authenticated
     with check ((select auth.uid()) = user_id);
-
 create policy "srem_inbox_update_own"
     on public.srem_inbox
     for update
     to authenticated
     using ((select auth.uid()) = user_id)
     with check ((select auth.uid()) = user_id);
-
 create policy "srem_inbox_delete_own"
     on public.srem_inbox
     for delete
     to authenticated
     using ((select auth.uid()) = user_id);
-
 insert into public.exams (
     id,
     title,
@@ -168,7 +150,6 @@ insert into public.exams (
     '{"0":0,"1":10,"2":20,"3":30}'::jsonb
 )
 on conflict (id) do nothing;
-
 insert into public.questions (
     id,
     exam_id,

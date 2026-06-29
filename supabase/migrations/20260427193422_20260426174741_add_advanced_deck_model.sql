@@ -16,4 +16,4 @@ ADD COLUMN front_media jsonb DEFAULT NULL;
 -- 3. card_slots table
 ALTER TABLE public.card_slots
 ADD COLUMN advanced_rules jsonb DEFAULT NULL,
-ADD COLUMN media jsonb DEFAULT NULL;
+ADD COLUMN media jsonb DEFAULT NULL;;

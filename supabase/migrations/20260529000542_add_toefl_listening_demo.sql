@@ -15,13 +15,11 @@ on conflict (id) do update set
     public = excluded.public,
     file_size_limit = excluded.file_size_limit,
     allowed_mime_types = excluded.allowed_mime_types;
-
 create policy "toefl_audio_select_authenticated"
     on storage.objects
     for select
     to authenticated
     using (bucket_id = 'toefl-audio');
-
 insert into public.exams (
     id,
     title,
@@ -46,7 +44,6 @@ on conflict (id) do update set
     audio_path = excluded.audio_path,
     transcript = excluded.transcript,
     scale_mapping = excluded.scale_mapping;
-
 insert into public.questions (
     id,
     exam_id,
