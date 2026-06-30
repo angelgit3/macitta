@@ -18,7 +18,11 @@ export function useSessionManager() {
 
     const startSession = useCallback(async (deckId: string | null) => {
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            // Session identity is sufficient here: Supabase still authorizes the
+            // insert through the access token and RLS, while offline sessions no
+            // longer depend on a network-only getUser request.
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
             if (!user) return null;
 
             if (navigator.onLine) {
@@ -96,7 +100,8 @@ export function useSessionManager() {
         } else {
             // Offline: queue end_session + increment_session_time ops
             try {
-                const { data: { user } } = await supabase.auth.getUser();
+                const { data: { session } } = await supabase.auth.getSession();
+                const user = session?.user;
                 if (user) {
                     await db.syncQueue.add({
                         type: "end_session",

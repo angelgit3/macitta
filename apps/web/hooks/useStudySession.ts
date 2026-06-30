@@ -90,8 +90,8 @@ export function useStudySession(providedDeckId?: string) {
         async function init() {
             setLoading(true);
             try {
-                const { data: authData } = await supabase.auth.getUser();
-                const userId = authData?.user?.id ?? null;
+                const { data: authData } = await supabase.auth.getSession();
+                const userId = authData.session?.user.id ?? null;
                 
                 if (!providedDeckId) {
                     throw new Error("No deck ID provided to study session.");
@@ -162,7 +162,8 @@ export function useStudySession(providedDeckId?: string) {
 
         // Persist review
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
             if (!user) return;
 
             const result = await saveReview({
@@ -194,7 +195,8 @@ export function useStudySession(providedDeckId?: string) {
 
             if (!isRushModeRef.current && deckId) {
                 try {
-                    const { data: { user } } = await supabase.auth.getUser();
+                    const { data: { session } } = await supabase.auth.getSession();
+                    const user = session?.user;
                     if (user) {
                         const remaining = isGlobalStudy
                             ? await countRemainingDueGlobal(user.id)
@@ -216,7 +218,8 @@ export function useStudySession(providedDeckId?: string) {
         setLoading(true);
 
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
             if (!user || !deckId || isGlobalStudy) return;
 
             const cards = await loadRushCards(deckId, user.id, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);

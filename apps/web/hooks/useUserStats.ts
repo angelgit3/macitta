@@ -27,7 +27,11 @@ export function useUserStats() {
     const fetchStats = useCallback(async () => {
         setLoading(true);
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            // The middleware already validates protected routes. Here the ID only
+            // scopes RLS-protected queries, so use the local session and avoid an
+            // additional Auth API round trip whenever the dashboard mounts.
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
             if (!user) return;
 
             // Run all 3 queries in parallel
