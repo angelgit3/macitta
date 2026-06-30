@@ -8,7 +8,7 @@ export interface Deck {
     id: string;
     title: string;
     description: string | null;
-    author_id: string;
+    author_id: string | null;
     created_at: string;
     answer_labels?: string[];
     question_labels?: string[];

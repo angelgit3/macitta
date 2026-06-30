@@ -52,19 +52,6 @@ function formatAttemptDate(value: string) {
 
 export default async function TOEFLPracticePage() {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-        return (
-            <div className="product-panel rounded-2xl p-8 text-center">
-                <h1 className="text-xl font-black text-ink">Inicia sesión para practicar</h1>
-                <p className="mt-2 text-sm text-ink-muted">Tu progreso TOEFL se guarda en tu cuenta y en este dispositivo.</p>
-                <Link href="/auth/login" className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-accent px-5 font-bold text-void">
-                    Iniciar sesión
-                </Link>
-            </div>
-        );
-    }
 
     const [{ data: exams, error: examsError }, { data: attempts, count: attemptCount }] = await Promise.all([
         supabase
@@ -74,7 +61,6 @@ export default async function TOEFLPracticePage() {
         supabase
             .from("user_exam_attempts")
             .select("id, exam_id, scaled_score, mode, completed_at", { count: "exact" })
-            .eq("user_id", user.id)
             .order("completed_at", { ascending: false }),
     ]);
 
