@@ -8,7 +8,7 @@ import { BookOpen, Clock, Play, Target } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-export function DashboardClient({ initialCount }: { initialCount: number }) {
+export function DashboardClient() {
   const { stats, loading } = useUserStats();
   const supabase = useMemo(() => createClient(), []);
   const [userId, setUserId] = useState<string | null>(null);
@@ -57,7 +57,7 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
     : 0;
 
   const metrics = [
-    { label: "Tarjetas", value: initialCount, Icon: BookOpen },
+    { label: "Tarjetas", value: stats?.totalCards ?? 0, Icon: BookOpen },
     { label: "Dominio", value: `${masteryPercent}%`, Icon: Target },
     { label: "Estudio", value: totalTimeFormatted, Icon: Clock },
   ];
@@ -99,7 +99,7 @@ export function DashboardClient({ initialCount }: { initialCount: number }) {
               <Icon size={18} className="shrink-0 text-accent" aria-hidden="true" />
               <div>
                 <dt className="text-xs text-ink-muted">{label}</dt>
-                <dd className="mt-1 text-lg font-black text-ink">{loading && label !== "Tarjetas" ? "—" : value}</dd>
+                <dd className="mt-1 text-lg font-black text-ink">{loading ? "—" : value}</dd>
               </div>
             </div>
           ))}

@@ -1,20 +1,11 @@
 import { AppHeader } from "@/components/ui/AppHeader";
 import { DashboardClient } from "./DashboardClient";
-import { createClient } from "@/utils/supabase/server";
 
-export const dynamic = 'force-dynamic';
-
-export default async function Dashboard() {
-    const supabase = await createClient();
-
-    const { count } = await supabase
-        .from("cards")
-        .select("id", { count: "exact", head: true });
-
+export default function Dashboard() {
     return (
         <>
             <AppHeader />
-            <DashboardClient initialCount={count || 0} />
+            <DashboardClient />
         </>
     );
 }
