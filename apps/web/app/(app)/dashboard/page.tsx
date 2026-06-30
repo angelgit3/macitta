@@ -9,7 +9,7 @@ export default async function Dashboard() {
 
     const { count } = await supabase
         .from("cards")
-        .select("*", { count: "exact", head: true });
+        .select("id", { count: "exact", head: true });
 
     return (
         <>

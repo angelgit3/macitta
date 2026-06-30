@@ -36,17 +36,14 @@ export async function middleware(request: NextRequest) {
         }
     );
 
-    const {
-        data: { user },
-        error: authError,
-    } = await supabase.auth.getUser();
+    const { data: claimsData, error: authError } = await supabase.auth.getClaims();
 
     const isOfflineError =
         authError?.message?.toLowerCase().includes("fetch") ||
         authError?.message?.toLowerCase().includes("network") ||
         authError?.message?.toLowerCase().includes("failed to fetch");
 
-    const isAuthenticated = !!user;
+    const isAuthenticated = Boolean(claimsData?.claims.sub);
     const isPublicRoute = path === "/" || path.startsWith("/api");
     const isAuthRoute = path.startsWith("/auth");
     const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));

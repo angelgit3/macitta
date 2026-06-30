@@ -1,7 +1,8 @@
 "use client";
 
 import { GraduationCap, Home, Layers, User, CloudOff, Loader2, Shuffle } from "lucide-react";
-import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSync } from "@/hooks/useSync";
@@ -16,6 +17,49 @@ const rightItems = [
   { icon: Layers,        label: "Inventario", href: "/vocabulario" },
   { icon: User,          label: "Usuario",    href: "/usuario" },
 ];
+
+interface DockIconProps {
+  icon: LucideIcon;
+  label: string;
+  active: boolean;
+}
+
+function DockIcon({ icon: Icon, label, active }: DockIconProps) {
+  const { pending } = useLinkStatus();
+
+  return (
+    <>
+      <span className="relative flex size-5 items-center justify-center" aria-hidden="true">
+        <Icon
+          size={20}
+          strokeWidth={active ? 2.5 : 1.8}
+          className={`transition-[opacity,transform] duration-150 ${
+            pending ? "scale-75 opacity-0" : active ? "scale-[1.08] opacity-100" : "scale-100 opacity-100"
+          }`}
+        />
+        {pending && <Loader2 size={18} className="absolute animate-spin text-accent" />}
+      </span>
+      <span className="sr-only" aria-live="polite">
+        {pending ? `Cargando ${label}` : ""}
+      </span>
+    </>
+  );
+}
+
+function StudyDockIcon({ active }: { active: boolean }) {
+  const { pending } = useLinkStatus();
+
+  return pending ? (
+    <Loader2 size={21} className="animate-spin text-void" aria-label="Cargando estudio" />
+  ) : (
+    <Shuffle
+      size={22}
+      strokeWidth={2.2}
+      className={active ? "text-accent" : "text-void"}
+      aria-hidden="true"
+    />
+  );
+}
 
 /**
  * ZenDock — Estudio Lúmico
@@ -77,12 +121,7 @@ export function ZenDock() {
               `}
             >
               {active && <span className="absolute top-1 w-1 h-1 rounded-full bg-accent" />}
-              <item.icon
-                size={20}
-                strokeWidth={active ? 2.5 : 1.8}
-                style={{ transform: active ? "scale(1.08)" : "scale(1)" }}
-                className="transition-transform duration-200"
-              />
+              <DockIcon icon={item.icon} label={item.label} active={active} />
               <span className="text-[10px] font-bold">{item.label}</span>
             </Link>
           );
@@ -109,11 +148,7 @@ export function ZenDock() {
               -mt-5
             `}
           >
-            <Shuffle
-              size={22}
-              strokeWidth={2.2}
-              className={isStudying ? "text-accent" : "text-void"}
-            />
+            <StudyDockIcon active={Boolean(isStudying)} />
           </Link>
           <span
             className="text-[10px] font-bold mt-1"
@@ -139,12 +174,7 @@ export function ZenDock() {
               `}
             >
               {active && <span className="absolute top-1 w-1 h-1 rounded-full bg-accent" />}
-              <item.icon
-                size={20}
-                strokeWidth={active ? 2.5 : 1.8}
-                style={{ transform: active ? "scale(1.08)" : "scale(1)" }}
-                className="transition-transform duration-200"
-              />
+              <DockIcon icon={item.icon} label={item.label} active={active} />
               <span className="text-[10px] font-bold">{item.label}</span>
             </Link>
           );
