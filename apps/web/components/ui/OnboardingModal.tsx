@@ -22,8 +22,8 @@ const SLIDES = [
     },
     {
         icon: Flame,
-        color: "text-amber",
-        bg: "bg-amber/10",
+        color: "text-accent",
+        bg: "bg-accent/10",
         title: "Mantén tu racha",
         body: "Estudia aunque sea 5 minutos cada día para mantener tu racha viva. La constancia es lo que marca la diferencia a largo plazo.",
     },
@@ -80,13 +80,12 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
 
     /** Shared CTA button class */
     const ctaClass =
-        "w-full py-3.5 bg-accent text-void border border-accent/20 font-bold rounded-2xl " +
+        "w-full py-3.5 bg-accent text-void border border-accent/20 font-bold rounded-xl " +
         "flex items-center justify-center gap-2 " +
-        "shadow-[0_4px_14px_rgba(124,133,232,0.25)] hover:bg-accent-hover " +
-        "transition-all text-sm disabled:opacity-50";
+        "hover:bg-accent-hover transition-[background-color,transform] active:scale-[0.985] text-sm disabled:opacity-50";
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-md p-4">
+        <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/75 p-4 sm:items-center">
             <div className="w-full max-w-sm bg-surface border border-border rounded-3xl overflow-hidden shadow-2xl">
 
                 {/* ── Progress bar ──────────────────────────── */}
@@ -141,7 +140,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="label-kicker ml-1 opacity-60">Tu nombre de usuario</label>
+                                <label className="ml-1 text-sm font-bold text-ink-muted">Tu nombre de usuario</label>
                                 <input
                                     type="text"
                                     value={username}

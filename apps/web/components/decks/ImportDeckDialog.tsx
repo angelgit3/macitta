@@ -35,7 +35,7 @@ export function ImportDeckDialog({ onClose, onSuccess }: { onClose: () => void; 
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4">
             <div className="w-full max-w-2xl bg-surface border border-border rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
                 <div className="flex items-center justify-between p-5 border-b border-border">
                     <h2 className="text-xl font-black text-ink">Importar Mazo (JSON)</h2>
@@ -64,7 +64,7 @@ export function ImportDeckDialog({ onClose, onSuccess }: { onClose: () => void; 
                     <button 
                         onClick={handleImport}
                         disabled={loading || !jsonInput.trim()} 
-                        className="w-full py-3.5 bg-accent text-void border border-accent/20 hover:bg-accent-hover transition-colors font-bold rounded-2xl disabled:opacity-50 shadow-[0_4px_14px_rgba(124,133,232,0.25)]"
+                        className="w-full rounded-xl border border-accent/20 bg-accent py-3.5 font-bold text-void transition-colors hover:bg-accent-hover disabled:opacity-50"
                     >
                         {loading ? <Loader2 className="animate-spin mx-auto" size={20} /> : "Importar Mazo"}
                     </button>

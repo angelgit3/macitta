@@ -33,7 +33,7 @@ export function MetadataStep() {
   };
 
   return (
-    <form onSubmit={handleNext} className="max-w-xl mx-auto space-y-6 mt-8 glass-panel p-8 rounded-3xl shadow-lg">
+    <form onSubmit={handleNext} className="mx-auto mt-8 max-w-xl space-y-6 rounded-3xl border border-border bg-surface p-6 sm:p-8">
       <div className="flex items-center gap-3 border-b border-border pb-4 mb-6">
         <div className="p-2 bg-void rounded-xl border border-border">
           <Save size={24} className="text-accent" />
@@ -49,7 +49,7 @@ export function MetadataStep() {
       />
 
       <div className="space-y-2">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-ink-faint/60 ml-1 mb-2">Descripción (Opcional)</label>
+        <label className="mb-2 ml-1 block text-sm font-bold text-ink-muted">Descripción (opcional)</label>
         <textarea 
           value={description}
           onChange={e => setDescription(e.target.value)}
@@ -58,7 +58,7 @@ export function MetadataStep() {
       </div>
 
       <div className="space-y-2">
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-ink-faint/60 ml-1 mb-2">Color del Mazo</label>
+        <label className="mb-2 ml-1 block text-sm font-bold text-ink-muted">Color del mazo</label>
         <div className="flex items-center gap-3">
           <input 
             type="color" 

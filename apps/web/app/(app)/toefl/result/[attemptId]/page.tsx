@@ -1,4 +1,3 @@
-import { AppHeader } from "@/components/ui/AppHeader";
 import { createClient } from "@/utils/supabase/server";
 import { TOEFLResultsClient } from "./TOEFLResultsClient";
 
@@ -15,12 +14,9 @@ export default async function TOEFLResultPage({ params }: { params: Promise<{ at
     const { attemptId } = await params;
 
     return (
-        <>
-            <AppHeader />
-            <TOEFLResultsClient
+        <TOEFLResultsClient
                 attemptId={attemptId}
                 userId={user.id}
             />
-        </>
     );
 }

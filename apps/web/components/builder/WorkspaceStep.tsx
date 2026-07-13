@@ -35,12 +35,12 @@ export function WorkspaceStep() {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-[calc(100vh-theme(spacing.16))] w-full bg-void rounded-2xl shadow-2xl border border-border overflow-hidden relative backdrop-blur-3xl">
+    <div className="relative flex h-full min-h-[calc(100vh-theme(spacing.16))] w-full flex-col overflow-hidden rounded-2xl border border-border bg-void">
       {/* Glowing Edge Effect */}
-      <div className="absolute inset-x-0 -top-px h-px w-full bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
+      <div className="absolute inset-x-0 -top-px h-px w-full bg-accent/25"></div>
 
       {/* Header */}
-      <div className="h-[72px] border-b border-border flex items-center justify-between px-6 bg-surface/50 shrink-0 backdrop-blur-md">
+      <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-border bg-surface px-6">
         <div className="flex items-center gap-6">
           <button
             onClick={() => dispatch({ type: "PREV_STEP" })}
@@ -51,7 +51,7 @@ export function WorkspaceStep() {
           </button>
           <div className="flex flex-col justify-center">
             <h2 className="text-lg font-bold text-ink leading-tight tracking-wide">{state.metadata.name || "Nuevo Mazo"}</h2>
-            <span className="text-xs text-ink-faint/80 font-medium tracking-wider uppercase mt-0.5">
+            <span className="mt-0.5 text-xs font-medium text-ink-faint">
               {state.cards.length} carta{state.cards.length !== 1 ? 's' : ''}
             </span>
           </div>

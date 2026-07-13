@@ -36,21 +36,20 @@ export function StudySummary({
     /** Shared class for the marathon CTA buttons */
     const rushBtnClass =
         "w-full flex items-center justify-center gap-2 py-3 rounded-xl " +
-        "border border-amber/40 bg-amber/10 text-amber " +
-        "hover:bg-amber/20 font-bold text-sm uppercase tracking-wide " +
+        "border border-accent/35 bg-accent/10 text-accent " +
+        "hover:bg-accent/20 font-bold text-sm " +
         "transition-all duration-200 active:scale-[0.97]";
 
     return (
         <div className="h-full flex flex-col items-center justify-center gap-8 text-center max-w-xl mx-auto animate-in fade-in zoom-in-95 duration-700">
 
             {/* ── Result card ──────────────────────────────── */}
-            <div className="glass-panel rounded-2xl p-8 w-full relative overflow-hidden">
+            <div className="relative w-full overflow-hidden rounded-3xl border border-border bg-surface p-8">
                 {/* top accent hairline */}
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/45 to-transparent" />
 
                 <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto bg-accent/10 border border-accent/20">
                     {isRushMode
-                        ? <Flame    className="w-10 h-10 text-amber" />
+                        ? <Flame    className="w-10 h-10 text-accent" />
                         : <CheckCircle className="w-10 h-10 text-accent" />
                     }
                 </div>
@@ -117,10 +116,10 @@ interface SummaryMetricProps {
 
 function SummaryMetric({ icon, value, label }: SummaryMetricProps) {
     return (
-        <div className="bg-void/45 border border-border rounded-xl p-4 flex flex-col items-center gap-1">
-            <div className="text-amber">{icon}</div>
+        <div className="flex flex-col items-center gap-1 border-r border-border px-2 last:border-r-0">
+            <div className="text-accent">{icon}</div>
             <span className="text-xl font-bold text-ink">{value}</span>
-            <span className="label-kicker">{label}</span>
+            <span className="text-[0.6875rem] text-ink-faint">{label}</span>
         </div>
     );
 }

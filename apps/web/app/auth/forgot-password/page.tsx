@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
     }
 
     return (
-        <div className="w-full max-w-sm glass-panel p-8 rounded-3xl shadow-xl">
+        <div className="w-full">
                 <h2 className="text-2xl font-bold mb-2 text-center">¿Olvidaste tu contraseña?</h2>
                 <p className="text-ink-faint text-center mb-8 text-sm">
                     Ingresa tu correo y te enviaremos un código de 6 dígitos para restablecerla.

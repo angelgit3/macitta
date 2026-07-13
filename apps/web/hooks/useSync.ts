@@ -165,10 +165,23 @@ export function useSync() {
         }
     }, [isOnline, processOperation]);
 
-    // Periodic sync every 30 seconds (online status comes from useNetworkStatus)
+    // Sync immediately when the app becomes usable again, then use a low-cost
+    // fallback interval only while the tab is visible.
     useEffect(() => {
-        const interval = setInterval(performSync, 30000);
-        return () => clearInterval(interval);
+        const syncIfVisible = () => {
+            if (document.visibilityState === 'visible') void performSync();
+        };
+
+        syncIfVisible();
+        window.addEventListener('online', syncIfVisible);
+        document.addEventListener('visibilitychange', syncIfVisible);
+        const interval = window.setInterval(syncIfVisible, 60_000);
+
+        return () => {
+            window.clearInterval(interval);
+            window.removeEventListener('online', syncIfVisible);
+            document.removeEventListener('visibilitychange', syncIfVisible);
+        };
     }, [performSync]);
 
     return { isSyncing, lastSync, performSync };

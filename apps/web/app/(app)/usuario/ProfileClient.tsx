@@ -207,16 +207,14 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
         <div className="space-y-5 pb-24">
 
             {/* ── Identity card ─────────────────────────────── */}
-            <section className="glass-panel rounded-2xl p-5 sm:p-6 relative overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-
+            <section className="rounded-2xl border border-border bg-surface/85 p-5 sm:p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-5">
                     <div className="w-16 h-16 rounded-2xl bg-accent/10 border border-accent/20
                                     flex items-center justify-center text-accent text-2xl font-black shrink-0">
                         {avatarLetter}
                     </div>
                     <div className="min-w-0 flex-1">
-                        <div className="label-kicker mb-0.5">Perfil</div>
+                        <div className="mb-1 text-sm font-bold text-accent">Perfil</div>
                         <h2 className="text-2xl font-bold text-ink truncate">
                             {profile?.username || initialUser?.email}
                         </h2>
@@ -237,7 +235,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
                 </div>
 
                 {memberSince && (
-                    <p className="label-kicker text-right mt-3">Miembro desde {memberSince}</p>
+                    <p className="mt-3 text-right text-xs text-ink-faint">Miembro desde {memberSince}</p>
                 )}
             </section>
 
@@ -255,11 +253,11 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
             )}
 
             {/* ── Profile form ──────────────────────────────── */}
-            <section className="glass-card rounded-2xl p-5 space-y-4">
+            <section className="product-panel space-y-4 rounded-2xl p-5">
                 <SectionTitle icon={<User size={16} />} title="Datos del perfil" />
                 <form onSubmit={handleUpdateProfile} className="space-y-3">
                     <div className="space-y-1.5">
-                        <label htmlFor="profile-username" className="label-kicker ml-1">Nombre de usuario</label>
+                        <label htmlFor="profile-username" className="ml-1 text-sm font-bold text-ink-muted">Nombre de usuario</label>
                         <input
                             type="text"
                             id="profile-username"
@@ -277,11 +275,11 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
             </section>
 
             {/* ── Security form ─────────────────────────────── */}
-            <section className="glass-card rounded-2xl p-5 space-y-4">
+            <section className="product-panel space-y-4 rounded-2xl p-5">
                 <SectionTitle icon={<KeyRound size={16} />} title="Seguridad" />
                 <form onSubmit={handleUpdatePassword} className="space-y-3">
                     <div className="space-y-1.5">
-                        <label htmlFor="profile-password" className="label-kicker ml-1">Nueva contraseña</label>
+                        <label htmlFor="profile-password" className="ml-1 text-sm font-bold text-ink-muted">Nueva contraseña</label>
                         <input
                             type="password"
                             id="profile-password"
@@ -299,7 +297,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
             </section>
 
             {showInstallCard && (
-                <section className="glass-card rounded-2xl p-5 space-y-3">
+                <section className="product-panel space-y-3 rounded-2xl p-5">
                     <SectionTitle icon={<Download size={16} />} title="Instalar app" />
                     <p className="text-sm leading-6 text-ink-muted">
                         Agrega Macitta a tu pantalla de inicio para abrirla como app.
@@ -337,7 +335,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
                 </div>
 
                 <div className="flex flex-col items-center gap-1">
-                    <p className="label-kicker flex items-center gap-1.5">
+                    <p className="flex items-center gap-1.5 text-xs font-bold text-ink-faint">
                         <Code2 size={12} /> Hecha por Alberto Anaya
                     </p>
                     <p className="text-xs text-ink-muted">Macitta · 2026</p>
@@ -351,10 +349,10 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
 function ProfileMetric({ label, value, icon }: { label: string; value: string; icon: ReactNode }) {
     return (
-        <div className="bg-void/45 rounded-xl p-3 text-center border border-border">
-            <div className="mx-auto mb-1 text-amber flex justify-center">{icon}</div>
+        <div className="border-r border-border px-2 text-center last:border-r-0">
+            <div className="mx-auto mb-1 flex justify-center text-accent">{icon}</div>
             <div className="text-sm font-bold text-ink">{value}</div>
-            <div className="label-kicker mt-0.5">{label}</div>
+            <div className="mt-0.5 text-[0.6875rem] text-ink-faint">{label}</div>
         </div>
     );
 }
@@ -363,7 +361,7 @@ function SectionTitle({ icon, title }: { icon: ReactNode; title: string }) {
     return (
         <div className="flex items-center gap-2 text-accent">
             {icon}
-            <h3 className="label-kicker text-ink-muted">{title}</h3>
+            <h3 className="text-base font-black text-ink">{title}</h3>
         </div>
     );
 }
@@ -375,7 +373,7 @@ function SocialButton({ label, href, children }: { label: string; href: string; 
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="min-h-11 min-w-11 rounded-xl glass-card text-ink-faint hover:text-accent transition-colors flex items-center justify-center"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-border bg-surface-raised text-ink-faint transition-colors hover:border-accent/35 hover:text-accent"
             aria-label={label}
             title={label}
         >

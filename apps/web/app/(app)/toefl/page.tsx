@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AppHeader } from "@/components/ui/AppHeader";
 import { createClient } from "@/utils/supabase/server";
 import type { TOEFLAttempt, TOEFLExam, TOEFLQuestion, TOEFLSection } from "@/types/models";
 import {
@@ -26,7 +25,7 @@ const SECTION_META = {
         label: "Reading",
         description: "Comprensión, propósito y vocabulario en contexto.",
         icon: BookOpen,
-        iconClass: "bg-success/10 text-success",
+        iconClass: "bg-accent/10 text-accent",
     },
     grammar: {
         label: "Grammar",
@@ -38,7 +37,7 @@ const SECTION_META = {
         label: "Listening",
         description: "Conversaciones académicas con audio y transcripción posterior.",
         icon: Headphones,
-        iconClass: "bg-amber/10 text-amber",
+        iconClass: "bg-accent/10 text-accent",
     },
 } as const;
 
@@ -79,18 +78,17 @@ export default async function TOEFLPracticePage() {
 
     return (
         <>
-            <AppHeader />
             <div className="flex flex-col gap-7 pb-24">
-                <header className="product-panel rounded-3xl p-6 sm:p-8">
+                <header className="pt-2 sm:pt-4">
                     <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                         <div className="max-w-2xl">
-                            <p className="section-label text-accent">Preparación TOEFL</p>
-                            <h1 className="mt-2 text-3xl font-black leading-tight text-ink sm:text-4xl">Practica por sección y mide tu avance.</h1>
+                            <p className="text-sm font-bold text-accent">Preparación TOEFL</p>
+                            <h1 className="mt-2 text-3xl font-black leading-tight tracking-[-0.035em] text-ink sm:text-4xl">Practica por sección y mide tu avance.</h1>
                             <p className="mt-3 text-sm leading-7 text-ink-muted sm:text-base">
                                 Usa el modo flexible para aprender con calma o el estricto para entrenar tiempo, navegación y escucha bajo presión.
                             </p>
                         </div>
-                        <dl className="flex min-w-fit gap-6 rounded-2xl border border-border bg-void/40 px-5 py-4">
+                        <dl className="flex min-w-fit gap-6 border-l border-border pl-5">
                             <div>
                                 <dt className="text-xs text-ink-muted">Intentos</dt>
                                 <dd className="mt-1 text-xl font-black text-ink">{attemptCount ?? typedAttempts.length}</dd>
@@ -103,16 +101,16 @@ export default async function TOEFLPracticePage() {
                     </div>
                 </header>
 
-                <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="flex items-start gap-3 rounded-2xl border border-border bg-surface/55 p-4">
+                <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface/75 sm:grid sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                    <div className="flex items-start gap-3 p-5">
                         <Clock3 size={19} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
                         <div>
                             <h2 className="text-sm font-bold text-ink">Modo flexible</h2>
                             <p className="mt-1 text-sm leading-6 text-ink-muted">Navega libremente y controla el audio mientras practicas.</p>
                         </div>
                     </div>
-                    <div className="flex items-start gap-3 rounded-2xl border border-border bg-surface/55 p-4">
-                        <Timer size={19} className="mt-0.5 shrink-0 text-amber" aria-hidden="true" />
+                    <div className="flex items-start gap-3 p-5">
+                        <Timer size={19} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
                         <div>
                             <h2 className="text-sm font-bold text-ink">Simulacro estricto</h2>
                             <p className="mt-1 text-sm leading-6 text-ink-muted">Cuenta regresiva, avance continuo y audio de una sola reproducción.</p>
