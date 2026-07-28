@@ -12,6 +12,14 @@ import type {
     GrammarProgress,
     GrammarSkill,
     GrammarOptionId,
+    ReadingDomain,
+    ReadingOptionId,
+    ReadingPassage,
+    ReadingPassageExposure,
+    ReadingQuestion,
+    ReadingQuestionProgress,
+    ReadingSkill,
+    ReadingSkillProgress,
 } from '@macitta/shared';
 
 // ─── Interfaces ─────────────────────────────────────────────────────
@@ -56,6 +64,13 @@ export type LocalGrammarDomain = GrammarDomain;
 export type LocalGrammarSkill = GrammarSkill;
 export type LocalGrammarExercise = GrammarExercise;
 export type LocalGrammarProgress = GrammarProgress;
+export type LocalReadingDomain = ReadingDomain;
+export type LocalReadingSkill = ReadingSkill;
+export type LocalReadingPassage = ReadingPassage;
+export type LocalReadingQuestion = ReadingQuestion;
+export type LocalReadingQuestionProgress = ReadingQuestionProgress;
+export type LocalReadingSkillProgress = ReadingSkillProgress;
+export type LocalReadingPassageExposure = ReadingPassageExposure;
 
 export interface LocalGrammarSession {
     id: string;
@@ -100,6 +115,64 @@ export interface LocalGrammarAttempt {
     wasDue: boolean;
     contentVersion: number;
     reviewedAt: string;
+}
+
+export interface LocalReadingSession {
+    id: string;
+    userId: string;
+    mode: 'daily' | 'long' | 'recovery' | 'continued';
+    primaryPassageId: string | null;
+    status: 'active' | 'completed' | 'abandoned';
+    startedAt: string;
+    endedAt: string | null;
+    totalQuestions: number;
+    correctQuestions: number;
+    totalTimeMs: number;
+}
+
+export interface LocalReadingAttempt {
+    id: string;
+    userId: string;
+    questionId: string;
+    sessionId: string;
+    selectedOptionId: ReadingOptionId;
+    isCorrect: boolean;
+    grade: number;
+    previousQuestionState: {
+        points: number;
+        attempts: number;
+        correctAttempts: number;
+        lastAnsweredAt: string | null;
+        dueAt: string;
+    };
+    nextQuestionState: {
+        points: number;
+        attempts: number;
+        correctAttempts: number;
+        lastAnsweredAt: string | null;
+        dueAt: string;
+    };
+    previousSkillState: {
+        step: number;
+        interval: number;
+        difficulty: number;
+        lapses: number;
+        state: string;
+        lastReview: string | null;
+        dueDate: string;
+    };
+    nextSkillState: {
+        step: number;
+        interval: number;
+        difficulty: number;
+        lapses: number;
+        state: string;
+        lastReview: string | null;
+        dueDate: string;
+    };
+    responseMs: number;
+    contentVersion: number;
+    answeredAt: string;
 }
 
 // ─── Sync Operations (Discriminated Union) ──────────────────────────
@@ -196,6 +269,46 @@ interface UpsertGrammarProgressOp {
     retryCount?: number;
 }
 
+interface ReadingSessionOp {
+    id?: number;
+    type: 'start_reading_session' | 'finish_reading_session';
+    data: LocalReadingSession;
+    created_at: string;
+    retryCount?: number;
+}
+
+interface InsertReadingAttemptOp {
+    id?: number;
+    type: 'insert_reading_attempt';
+    data: LocalReadingAttempt;
+    created_at: string;
+    retryCount?: number;
+}
+
+interface UpsertReadingQuestionProgressOp {
+    id?: number;
+    type: 'upsert_reading_question_progress';
+    data: LocalReadingQuestionProgress & { expectedRevision: number };
+    created_at: string;
+    retryCount?: number;
+}
+
+interface UpsertReadingSkillProgressOp {
+    id?: number;
+    type: 'upsert_reading_skill_progress';
+    data: LocalReadingSkillProgress & { expectedRevision: number };
+    created_at: string;
+    retryCount?: number;
+}
+
+interface RecordReadingExposureOp {
+    id?: number;
+    type: 'record_reading_exposure';
+    data: LocalReadingPassageExposure;
+    created_at: string;
+    retryCount?: number;
+}
+
 export type SyncOperation =
     | UpsertUserItemOp
     | InsertStudyLogOp
@@ -205,7 +318,12 @@ export type SyncOperation =
     | InsertTOEFLAnswersOp
     | GrammarSessionOp
     | InsertGrammarAttemptOp
-    | UpsertGrammarProgressOp;
+    | UpsertGrammarProgressOp
+    | ReadingSessionOp
+    | InsertReadingAttemptOp
+    | UpsertReadingQuestionProgressOp
+    | UpsertReadingSkillProgressOp
+    | RecordReadingExposureOp;
 
 // ─── Database ───────────────────────────────────────────────────────
 
@@ -225,6 +343,15 @@ export class MaccitaDB extends Dexie {
     grammarProgress!: Table<LocalGrammarProgress>;
     grammarSessions!: Table<LocalGrammarSession>;
     grammarAttempts!: Table<LocalGrammarAttempt>;
+    readingDomains!: Table<LocalReadingDomain>;
+    readingSkills!: Table<LocalReadingSkill>;
+    readingPassages!: Table<LocalReadingPassage>;
+    readingQuestions!: Table<LocalReadingQuestion>;
+    readingQuestionProgress!: Table<LocalReadingQuestionProgress>;
+    readingSkillProgress!: Table<LocalReadingSkillProgress>;
+    readingPassageExposures!: Table<LocalReadingPassageExposure>;
+    readingSessions!: Table<LocalReadingSession>;
+    readingAttempts!: Table<LocalReadingAttempt>;
 
     constructor() {
         super('MaccitaOfflineV1');
@@ -264,6 +391,33 @@ export class MaccitaDB extends Dexie {
             grammarSessions: 'id, userId, status, startedAt',
             grammarAttempts: 'id, userId, exerciseId, sessionId, reviewedAt',
         });
+
+        this.version(4).stores({
+            cards: 'id, deck_id',
+            userItems: '[user_id+card_id], card_id, due_date',
+            studyLogs: '++id, user_id, card_id, session_id',
+            syncQueue: '++id, type, created_at',
+            toeflExams: 'id, section, type',
+            toeflQuestions: 'id, exam_id, [exam_id+order_index]',
+            toeflAttempts: 'id, user_id, exam_id, completed_at',
+            toeflAnswers: '[attempt_id+question_id], attempt_id, question_id',
+            sremInbox: 'id, user_id, created_at',
+            grammarDomains: 'id, code, order_index',
+            grammarSkills: 'id, domain_id, code, [domain_id+order_index]',
+            grammarExercises: 'id, primary_skill_id, domain_id, skill_code, format, status',
+            grammarProgress: '[userId+exerciseId], userId, exerciseId, dueDate, [userId+dueDate]',
+            grammarSessions: 'id, userId, status, startedAt',
+            grammarAttempts: 'id, userId, exerciseId, sessionId, reviewedAt',
+            readingDomains: 'id, code, order_index',
+            readingSkills: 'id, domain_id, code, [domain_id+order_index]',
+            readingPassages: 'id, slug, genre, length_band, status',
+            readingQuestions: 'id, passage_id, primary_skill_id, skill_code, [passage_id+block_index], [passage_id+order_index], status',
+            readingQuestionProgress: '[userId+questionId], userId, questionId, dueAt, [userId+dueAt], points',
+            readingSkillProgress: '[userId+skillId], userId, skillId, dueDate, [userId+dueDate]',
+            readingPassageExposures: '[userId+passageId], userId, passageId, lastSeenAt, [userId+lastSeenAt]',
+            readingSessions: 'id, userId, status, startedAt, primaryPassageId',
+            readingAttempts: 'id, userId, questionId, sessionId, answeredAt',
+        });
     }
 }
 
@@ -290,6 +444,11 @@ export async function clearPrivateOfflineData(): Promise<void> {
             db.grammarProgress,
             db.grammarSessions,
             db.grammarAttempts,
+            db.readingQuestionProgress,
+            db.readingSkillProgress,
+            db.readingPassageExposures,
+            db.readingSessions,
+            db.readingAttempts,
         ],
         async () => {
             await Promise.all([
@@ -303,6 +462,11 @@ export async function clearPrivateOfflineData(): Promise<void> {
                 db.grammarProgress.clear(),
                 db.grammarSessions.clear(),
                 db.grammarAttempts.clear(),
+                db.readingQuestionProgress.clear(),
+                db.readingSkillProgress.clear(),
+                db.readingPassageExposures.clear(),
+                db.readingSessions.clear(),
+                db.readingAttempts.clear(),
             ]);
         },
     );

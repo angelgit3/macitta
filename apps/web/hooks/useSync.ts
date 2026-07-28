@@ -6,13 +6,22 @@ import { createClient } from '@/utils/supabase/client';
 import { logger } from '@/lib/logger';
 import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 import type { SyncOperation } from '@/lib/db';
-import { evaluateGrammarReview, type GrammarProgress, type SEMCardState } from '@macitta/shared';
+import {
+    createEmptyReadingQuestionProgress,
+    createEmptyReadingSkillProgress,
+    evaluateGrammarReview,
+    evaluateReadingAnswer,
+    type GrammarProgress,
+    type ReadingQuestionProgress,
+    type ReadingSkillProgress,
+    type SEMCardState,
+} from '@macitta/shared';
 
 const MAX_RETRIES = 5;
 
 // ─── Hook ───────────────────────────────────────────────────────────
 
-export function useSync() {
+export function useSync(enabled = true) {
     const supabase = useMemo(() => createClient(), []);
     const { isOnline } = useNetworkStatus();
     const [isSyncing, setIsSyncing] = useState(false);
@@ -318,6 +327,241 @@ export function useSync() {
                     return true;
                 }
 
+                case 'start_reading_session': {
+                    const { data } = op;
+                    const { error } = await supabase
+                        .from('reading_sessions')
+                        .upsert({
+                            id: data.id,
+                            user_id: data.userId,
+                            mode: data.mode,
+                            primary_passage_id: data.primaryPassageId,
+                            status: data.status,
+                            started_at: data.startedAt,
+                            ended_at: data.endedAt,
+                            total_questions: data.totalQuestions,
+                            correct_questions: data.correctQuestions,
+                            total_time_ms: data.totalTimeMs,
+                        }, { onConflict: 'id' });
+                    if (error) {
+                        logger.error("[Sync] start_reading_session error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'finish_reading_session': {
+                    const { data } = op;
+                    const { error } = await supabase
+                        .from('reading_sessions')
+                        .update({
+                            status: data.status,
+                            ended_at: data.endedAt,
+                            total_questions: data.totalQuestions,
+                            correct_questions: data.correctQuestions,
+                            total_time_ms: data.totalTimeMs,
+                        })
+                        .eq('id', data.id);
+                    if (error) {
+                        logger.error("[Sync] finish_reading_session error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'record_reading_exposure': {
+                    const { data } = op;
+                    const { error } = await supabase.rpc('record_reading_exposure', {
+                        p_user_id: data.userId,
+                        p_passage_id: data.passageId,
+                        p_seen_at: data.lastSeenAt,
+                        p_exposure_count: data.exposureCount,
+                    });
+                    if (error) {
+                        logger.error("[Sync] record_reading_exposure error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'insert_reading_attempt': {
+                    const { data } = op;
+                    const { error } = await supabase.rpc('insert_reading_attempt', {
+                        p_id: data.id,
+                        p_user_id: data.userId,
+                        p_question_id: data.questionId,
+                        p_session_id: data.sessionId,
+                        p_selected_option_id: data.selectedOptionId,
+                        p_is_correct: data.isCorrect,
+                        p_grade: data.grade,
+                        p_previous_question_state: data.previousQuestionState,
+                        p_next_question_state: data.nextQuestionState,
+                        p_previous_skill_state: data.previousSkillState,
+                        p_next_skill_state: data.nextSkillState,
+                        p_response_ms: data.responseMs,
+                        p_content_version: data.contentVersion,
+                        p_answered_at: data.answeredAt,
+                    });
+                    if (error) {
+                        logger.error("[Sync] insert_reading_attempt error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'upsert_reading_question_progress': {
+                    const syncQuestionProgress = async (
+                        data: typeof op.data,
+                        expectedRevision: number,
+                    ) => supabase.rpc('sync_reading_question_progress', {
+                        p_user_id: data.userId,
+                        p_question_id: data.questionId,
+                        p_points: data.points,
+                        p_attempts: data.attempts,
+                        p_correct_attempts: data.correctAttempts,
+                        p_last_answered_at: data.lastAnsweredAt,
+                        p_due_at: data.dueAt,
+                        p_expected_revision: expectedRevision,
+                    });
+                    const { data } = op;
+                    const { error } = await syncQuestionProgress(data, data.expectedRevision);
+                    if (!error) return true;
+                    if (error.code !== '40001') {
+                        logger.error("[Sync] upsert_reading_question_progress error", error);
+                        return false;
+                    }
+
+                    const [remoteProgress, attemptsResult] = await Promise.all([
+                        supabase
+                            .from('reading_question_progress')
+                            .select('*')
+                            .eq('user_id', data.userId)
+                            .eq('question_id', data.questionId)
+                            .single(),
+                        supabase
+                            .from('reading_attempts')
+                            .select('id,is_correct,answered_at')
+                            .eq('user_id', data.userId)
+                            .eq('question_id', data.questionId)
+                            .order('answered_at'),
+                    ]);
+                    if (remoteProgress.error || attemptsResult.error || !remoteProgress.data) {
+                        logger.error("[Sync] reading question conflict fetch error", remoteProgress.error ?? attemptsResult.error);
+                        return false;
+                    }
+                    let merged = createEmptyReadingQuestionProgress(data.userId, data.questionId);
+                    let dummySkill = createEmptyReadingSkillProgress(data.userId, 'conflict-replay');
+                    for (const attempt of attemptsResult.data ?? []) {
+                        const transition = evaluateReadingAnswer(
+                            merged,
+                            dummySkill,
+                            attempt.is_correct,
+                            new Date(attempt.answered_at),
+                        );
+                        merged = transition.questionProgress;
+                        dummySkill = {
+                            ...dummySkill,
+                            ...transition.skillTransition.nextState,
+                        };
+                    }
+                    const remoteRevision = remoteProgress.data.revision as number;
+                    const retry = await syncQuestionProgress(
+                        { ...merged, expectedRevision: remoteRevision },
+                        remoteRevision,
+                    );
+                    if (retry.error) {
+                        logger.error("[Sync] reading question conflict retry error", retry.error);
+                        return false;
+                    }
+                    const persisted: ReadingQuestionProgress = {
+                        ...merged,
+                        revision: remoteRevision + 1,
+                    };
+                    await db.readingQuestionProgress.put(persisted);
+                    return true;
+                }
+
+                case 'upsert_reading_skill_progress': {
+                    const syncSkillProgress = async (
+                        data: typeof op.data,
+                        expectedRevision: number,
+                    ) => supabase.rpc('sync_reading_skill_progress', {
+                        p_user_id: data.userId,
+                        p_skill_id: data.skillId,
+                        p_step: data.step,
+                        p_interval_days: data.interval,
+                        p_difficulty: data.difficulty,
+                        p_reps: data.totalAttempts,
+                        p_lapses: data.lapses,
+                        p_state: data.state,
+                        p_last_review_at: data.lastReview,
+                        p_due_at: data.dueDate,
+                        p_correct_attempts: data.correctAttempts,
+                        p_total_attempts: data.totalAttempts,
+                        p_expected_revision: expectedRevision,
+                    });
+                    const { data } = op;
+                    const { error } = await syncSkillProgress(data, data.expectedRevision);
+                    if (!error) return true;
+                    if (error.code !== '40001') {
+                        logger.error("[Sync] upsert_reading_skill_progress error", error);
+                        return false;
+                    }
+
+                    const [remoteProgress, attemptsResult] = await Promise.all([
+                        supabase
+                            .from('reading_skill_progress')
+                            .select('*')
+                            .eq('user_id', data.userId)
+                            .eq('skill_id', data.skillId)
+                            .single(),
+                        supabase
+                            .from('reading_attempts')
+                            .select('id,is_correct,answered_at,reading_questions!inner(primary_skill_id)')
+                            .eq('user_id', data.userId)
+                            .eq('reading_questions.primary_skill_id', data.skillId)
+                            .order('answered_at'),
+                    ]);
+                    if (remoteProgress.error || attemptsResult.error || !remoteProgress.data) {
+                        logger.error("[Sync] reading skill conflict fetch error", remoteProgress.error ?? attemptsResult.error);
+                        return false;
+                    }
+                    let merged = createEmptyReadingSkillProgress(data.userId, data.skillId);
+                    let correctAttempts = 0;
+                    let totalAttempts = 0;
+                    for (const attempt of attemptsResult.data ?? []) {
+                        const transition = evaluateReadingAnswer(
+                            createEmptyReadingQuestionProgress(data.userId, 'conflict-replay'),
+                            merged,
+                            attempt.is_correct,
+                            new Date(attempt.answered_at),
+                        );
+                        totalAttempts += 1;
+                        correctAttempts += attempt.is_correct ? 1 : 0;
+                        merged = {
+                            ...merged,
+                            ...transition.skillTransition.nextState,
+                            correctAttempts,
+                            totalAttempts,
+                        };
+                    }
+                    const remoteRevision = remoteProgress.data.revision as number;
+                    const retry = await syncSkillProgress(
+                        { ...merged, revision: remoteRevision + 1, expectedRevision: remoteRevision },
+                        remoteRevision,
+                    );
+                    if (retry.error) {
+                        logger.error("[Sync] reading skill conflict retry error", retry.error);
+                        return false;
+                    }
+                    const persisted: ReadingSkillProgress = {
+                        ...merged,
+                        revision: remoteRevision + 1,
+                    };
+                    await db.readingSkillProgress.put(persisted);
+                    return true;
+                }
+
                 default: {
                     logger.warn("[Sync] Unknown operation type:", (op as any).type);
                     return false;
@@ -330,7 +574,7 @@ export function useSync() {
     }, [supabase]);
 
     const performSync = useCallback(async () => {
-        if (syncingRef.current || !isOnline) return;
+        if (!enabled || syncingRef.current || !isOnline) return;
 
         const queue = await db.syncQueue.orderBy('id').toArray();
         if (queue.length === 0) return;
@@ -359,11 +603,12 @@ export function useSync() {
             syncingRef.current = false;
             setIsSyncing(false);
         }
-    }, [isOnline, processOperation]);
+    }, [enabled, isOnline, processOperation]);
 
     // Sync immediately when the app becomes usable again, then use a low-cost
     // fallback interval only while the tab is visible.
     useEffect(() => {
+        if (!enabled) return;
         const syncIfVisible = () => {
             if (document.visibilityState === 'visible') void performSync();
         };
@@ -378,7 +623,7 @@ export function useSync() {
             window.removeEventListener('online', syncIfVisible);
             document.removeEventListener('visibilitychange', syncIfVisible);
         };
-    }, [performSync]);
+    }, [enabled, performSync]);
 
     return { isSyncing, lastSync, performSync };
 }

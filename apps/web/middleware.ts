@@ -73,7 +73,8 @@ export async function middleware(request: NextRequest) {
 
     const isAuthenticated = Boolean(claimsData?.claims.sub);
     const isDevelopmentPreview =
-        process.env.NODE_ENV === "development" && path === "/grammar-preview";
+        process.env.NODE_ENV === "development" &&
+        (path === "/grammar-preview" || path === "/reading-preview");
     const isPublicRoute = path === "/" || isDevelopmentPreview;
     const isAuthRoute = path.startsWith("/auth");
     const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
