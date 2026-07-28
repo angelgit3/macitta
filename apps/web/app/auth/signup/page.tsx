@@ -154,7 +154,7 @@ export default function SignupPage() {
 function AuthField({ label, icon, htmlFor, children }: { label: string; icon: ReactNode; htmlFor: string; children: ReactNode }) {
     return (
         <div className="space-y-1">
-            <label htmlFor={htmlFor} className="label-kicker ml-1">{label}</label>
+            <label htmlFor={htmlFor} className="ml-1 text-sm font-bold text-ink-muted">{label}</label>
             <div className="relative">
                 <div className="absolute left-4 top-3 text-ink-faint">{icon}</div>
                 {children}

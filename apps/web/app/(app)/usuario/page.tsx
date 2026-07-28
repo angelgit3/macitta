@@ -34,7 +34,10 @@ export default function ProfilePage() {
 
     return (
         <div className="flex flex-col gap-6 pb-24">
-            <h1 className="text-3xl font-black text-ink px-2 mt-4">Cuenta</h1>
+            <header className="pt-2 sm:pt-4">
+                <p className="text-sm font-bold text-accent">Configuración</p>
+                <h1 className="mt-2 text-3xl font-black tracking-[-0.035em] text-ink sm:text-4xl">Cuenta</h1>
+            </header>
             <ProfileClient initialUser={user} />
         </div>
     );

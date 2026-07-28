@@ -78,10 +78,8 @@
 
   body {
     @apply antialiased bg-void text-ink;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 20% -10%,  rgba(124,133,232,0.10), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 110%,  rgba(107,203,142,0.05), transparent),
-      radial-gradient(ellipse 40% 60% at 50%  50%,  rgba(232,184, 75,0.03), transparent);
+    background-image: radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124,133,232,0.08), transparent);
+    font-kerning: normal;
   }
 
   a, button, input, select, textarea {
@@ -139,6 +137,14 @@
     box-shadow:
       0 1px 0 rgba(255,255,255,0.035) inset,
       0 18px 48px -24px rgba(0,0,0,0.55);
+  }
+
+  .daily-focus-panel {
+    background: #1A1B2E;
+    border: 1px solid rgba(160,163,196,0.14);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.035) inset,
+      0 24px 56px -32px rgba(0,0,0,0.8);
   }
 
   .section-label {

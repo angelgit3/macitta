@@ -6,6 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import { logger } from '@/lib/logger';
 import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 import type { SyncOperation } from '@/lib/db';
+import { evaluateGrammarReview, type GrammarProgress, type SEMCardState } from '@macitta/shared';
 
 const MAX_RETRIES = 5;
 
@@ -20,7 +21,7 @@ export function useSync() {
 
     /**
      * Process a single sync operation.
-     * Handles all 5 SyncOperation types.
+     * Handles every vocabulary and Grammar SyncOperation type.
      */
     const processOperation = useCallback(async (op: SyncOperation): Promise<boolean> => {
         try {
@@ -122,6 +123,201 @@ export function useSync() {
                     return true;
                 }
 
+                case 'start_grammar_session': {
+                    const { data } = op;
+                    const { error } = await supabase
+                        .from('grammar_sessions')
+                        .upsert({
+                            id: data.id,
+                            user_id: data.userId,
+                            mode: data.mode,
+                            focused_skill_id: data.focusedSkillId,
+                            status: data.status,
+                            started_at: data.startedAt,
+                            ended_at: data.endedAt,
+                            total_exercises: data.totalExercises,
+                            correct_exercises: data.correctExercises,
+                            total_time_ms: data.totalTimeMs,
+                        }, { onConflict: 'id' });
+                    if (error) {
+                        logger.error("[Sync] start_grammar_session error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'finish_grammar_session': {
+                    const { data } = op;
+                    const { error } = await supabase
+                        .from('grammar_sessions')
+                        .update({
+                            status: data.status,
+                            ended_at: data.endedAt,
+                            total_exercises: data.totalExercises,
+                            correct_exercises: data.correctExercises,
+                            total_time_ms: data.totalTimeMs,
+                        })
+                        .eq('id', data.id);
+                    if (error) {
+                        logger.error("[Sync] finish_grammar_session error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'insert_grammar_attempt': {
+                    const { data } = op;
+                    const { error } = await supabase.rpc('insert_grammar_attempt', {
+                        p_id: data.id,
+                        p_user_id: data.userId,
+                        p_exercise_id: data.exerciseId,
+                        p_session_id: data.sessionId,
+                        p_selected_option_id: data.selectedOptionId,
+                        p_is_correct: data.isCorrect,
+                        p_grade: data.grade,
+                        p_previous_state: data.previousState,
+                        p_next_state: data.nextState,
+                        p_response_ms: data.responseMs,
+                        p_was_due: data.wasDue,
+                        p_content_version: data.contentVersion,
+                        p_reviewed_at: data.reviewedAt,
+                    });
+                    if (error) {
+                        logger.error("[Sync] insert_grammar_attempt error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'upsert_grammar_progress': {
+                    const { data } = op;
+                    const { error } = await supabase.rpc('sync_grammar_progress', {
+                        p_user_id: data.userId,
+                        p_exercise_id: data.exerciseId,
+                        p_step: data.step,
+                        p_interval_days: data.interval,
+                        p_difficulty: data.difficulty,
+                        p_reps: data.totalAttempts,
+                        p_lapses: data.lapses,
+                        p_state: data.state,
+                        p_last_review_at: data.lastReview,
+                        p_due_at: data.dueDate,
+                        p_first_seen_at: data.firstSeenAt,
+                        p_correct_attempts: data.correctAttempts,
+                        p_total_attempts: data.totalAttempts,
+                        p_expected_revision: data.expectedRevision,
+                    });
+                    if (error) {
+                        if (error.code === '40001') {
+                            const { data: remote, error: remoteError } = await supabase
+                                .from('grammar_user_progress')
+                                .select('*')
+                                .eq('user_id', data.userId)
+                                .eq('exercise_id', data.exerciseId)
+                                .single();
+                            if (remoteError || !remote) {
+                                logger.error("[Sync] grammar conflict fetch error", remoteError);
+                                return false;
+                            }
+
+                            const [localAttempts, remoteAttemptsResult] = await Promise.all([
+                                db.grammarAttempts
+                                    .where('exerciseId')
+                                    .equals(data.exerciseId)
+                                    .filter((attempt) => attempt.userId === data.userId)
+                                    .toArray(),
+                                supabase
+                                    .from('grammar_attempts')
+                                    .select('id,is_correct,reviewed_at')
+                                    .eq('user_id', data.userId)
+                                    .eq('exercise_id', data.exerciseId)
+                                    .gt('reviewed_at', remote.last_review_at ?? '1970-01-01T00:00:00.000Z'),
+                            ]);
+                            if (remoteAttemptsResult.error) {
+                                logger.error("[Sync] grammar conflict attempts error", remoteAttemptsResult.error);
+                                return false;
+                            }
+
+                            const replayById = new Map<string, { id: string; isCorrect: boolean; reviewedAt: string }>();
+                            for (const attempt of remoteAttemptsResult.data ?? []) {
+                                replayById.set(attempt.id, {
+                                    id: attempt.id,
+                                    isCorrect: attempt.is_correct,
+                                    reviewedAt: attempt.reviewed_at,
+                                });
+                            }
+                            for (const attempt of localAttempts) {
+                                if (!remote.last_review_at || attempt.reviewedAt > remote.last_review_at) {
+                                    replayById.set(attempt.id, {
+                                        id: attempt.id,
+                                        isCorrect: attempt.isCorrect,
+                                        reviewedAt: attempt.reviewedAt,
+                                    });
+                                }
+                            }
+                            const replay = [...replayById.values()]
+                                .sort((left, right) =>
+                                    left.reviewedAt.localeCompare(right.reviewedAt) ||
+                                    left.id.localeCompare(right.id)
+                                );
+                            let state: SEMCardState = {
+                                step: remote.step,
+                                interval: remote.interval_days,
+                                difficulty: remote.difficulty,
+                                lapses: remote.lapses,
+                                state: remote.state,
+                                lastReview: remote.last_review_at,
+                                dueDate: remote.due_at,
+                            };
+                            let correctAttempts = remote.correct_attempts;
+                            let totalAttempts = remote.total_attempts;
+                            for (const attempt of replay) {
+                                state = evaluateGrammarReview(
+                                    state,
+                                    attempt.isCorrect,
+                                    new Date(attempt.reviewedAt),
+                                ).nextState;
+                                totalAttempts += 1;
+                                correctAttempts += attempt.isCorrect ? 1 : 0;
+                            }
+                            const merged: GrammarProgress = {
+                                ...state,
+                                userId: data.userId,
+                                exerciseId: data.exerciseId,
+                                firstSeenAt: remote.first_seen_at ?? data.firstSeenAt,
+                                correctAttempts,
+                                totalAttempts,
+                                revision: remote.revision + 1,
+                            };
+                            const { error: retryError } = await supabase.rpc('sync_grammar_progress', {
+                                p_user_id: merged.userId,
+                                p_exercise_id: merged.exerciseId,
+                                p_step: merged.step,
+                                p_interval_days: merged.interval,
+                                p_difficulty: merged.difficulty,
+                                p_reps: merged.totalAttempts,
+                                p_lapses: merged.lapses,
+                                p_state: merged.state,
+                                p_last_review_at: merged.lastReview,
+                                p_due_at: merged.dueDate,
+                                p_first_seen_at: merged.firstSeenAt,
+                                p_correct_attempts: merged.correctAttempts,
+                                p_total_attempts: merged.totalAttempts,
+                                p_expected_revision: remote.revision,
+                            });
+                            if (!retryError) {
+                                await db.grammarProgress.put(merged);
+                                return true;
+                            }
+                            logger.error("[Sync] grammar conflict retry error", retryError);
+                            return false;
+                        }
+                        logger.error("[Sync] upsert_grammar_progress error", error);
+                        return false;
+                    }
+                    return true;
+                }
+
                 default: {
                     logger.warn("[Sync] Unknown operation type:", (op as any).type);
                     return false;
@@ -165,10 +361,23 @@ export function useSync() {
         }
     }, [isOnline, processOperation]);
 
-    // Periodic sync every 30 seconds (online status comes from useNetworkStatus)
+    // Sync immediately when the app becomes usable again, then use a low-cost
+    // fallback interval only while the tab is visible.
     useEffect(() => {
-        const interval = setInterval(performSync, 30000);
-        return () => clearInterval(interval);
+        const syncIfVisible = () => {
+            if (document.visibilityState === 'visible') void performSync();
+        };
+
+        syncIfVisible();
+        window.addEventListener('online', syncIfVisible);
+        document.addEventListener('visibilitychange', syncIfVisible);
+        const interval = window.setInterval(syncIfVisible, 60_000);
+
+        return () => {
+            window.clearInterval(interval);
+            window.removeEventListener('online', syncIfVisible);
+            document.removeEventListener('visibilitychange', syncIfVisible);
+        };
     }, [performSync]);
 
     return { isSyncing, lastSync, performSync };

@@ -52,21 +52,17 @@ export function StudyCard({
 
   return (
     /* ── Outer shell (Double-Bezel) ── */
-    <div className="w-full max-w-2xl mx-auto p-[3px] rounded-[1.6rem] bg-gradient-to-b from-white/10 via-white/4 to-white/0">
+    <div className="mx-auto w-full max-w-2xl">
       {/* ── Inner core ── */}
       <div
-        className="relative glass-panel rounded-[1.4rem] p-6 sm:p-9 flex flex-col gap-7 overflow-hidden
-                   transition-all duration-300"
-        style={{ boxShadow: "0 1px 0 0 rgba(255,255,255,0.07) inset, 0 32px 80px -12px rgba(0,0,0,0.55)" }}
+        className="relative flex flex-col gap-8 overflow-hidden rounded-3xl border border-border bg-surface p-6 shadow-[0_28px_70px_-40px_rgba(0,0,0,0.9)] sm:p-9"
       >
         {/* Accent gradient top */}
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/55 to-transparent" />
         {/* Background glow */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-[radial-gradient(ellipse,rgba(124,133,232,0.12),transparent_65%)] pointer-events-none" />
 
         {/* Word header */}
         <div className="relative z-10 text-center space-y-2.5">
-          <span className="pill-badge bg-accent/10 text-accent border border-accent/20">
+          <span className="text-sm font-bold text-accent">
             Verbo irregular
           </span>
           <h1 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
@@ -84,7 +80,7 @@ export function StudyCard({
 
             return (
               <div key={slot.id} className="group relative">
-                <label className="label-kicker ml-1 mb-2 block">
+                <label className="mb-2 ml-1 block text-sm font-bold text-ink-muted">
                   {slot.label}
                   {slot.match_type === "all" && (
                     <span className="text-accent/60 ml-1">(todas las formas)</span>
@@ -137,11 +133,11 @@ export function StudyCard({
             ref={submitButtonRef}
             onClick={isRevealed ? onNext : onSubmit}
             className={`
-              w-full min-h-14 rounded-full flex items-center justify-center gap-2 font-black
-              transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.97]
+              flex min-h-14 w-full items-center justify-center gap-2 rounded-xl font-black
+              transition-[background-color,border-color,transform] duration-200 active:scale-[0.985]
               ${isRevealed
                 ? "bg-success/15 text-success border border-success/30 hover:bg-success/22 hover:border-success/45"
-                : "bg-accent text-void border border-accent/20 shadow-[0_8px_24px_rgba(124,133,232,0.35)] hover:bg-accent-hover hover:shadow-[0_12px_32px_rgba(124,133,232,0.45)]"
+                : "border border-accent/20 bg-accent text-void hover:bg-accent-hover"
               }
             `}
           >

@@ -44,7 +44,9 @@ export async function middleware(request: NextRequest) {
         authError?.message?.toLowerCase().includes("failed to fetch");
 
     const isAuthenticated = Boolean(claimsData?.claims.sub);
-    const isPublicRoute = path === "/" || path.startsWith("/api");
+    const isDevelopmentPreview =
+        process.env.NODE_ENV === "development" && path === "/grammar-preview";
+    const isPublicRoute = path === "/" || path.startsWith("/api") || isDevelopmentPreview;
     const isAuthRoute = path.startsWith("/auth");
     const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
     const isAppRoute = !isPublicRoute && !isAuthRoute;

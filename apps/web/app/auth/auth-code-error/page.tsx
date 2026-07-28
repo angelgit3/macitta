@@ -10,8 +10,8 @@ export default function AuthCodeErrorPage() {
                 <span className="font-bold">Macitta</span>
             </Link>
 
-            <div className="w-full max-w-sm glass-panel p-8 rounded-3xl shadow-xl">
-                <div className="w-14 h-14 bg-amber/10 rounded-full flex items-center justify-center mx-auto mb-6 text-amber">
+            <div className="w-full">
+                <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-full bg-danger/10 text-danger">
                     <AlertTriangle size={28} />
                 </div>
 

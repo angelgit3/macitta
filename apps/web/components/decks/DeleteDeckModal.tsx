@@ -26,7 +26,7 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4">
             <div className="w-full max-w-sm bg-surface border border-danger/30 rounded-3xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                 <div className="flex flex-col items-center justify-center p-6 space-y-4">
                     <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center">
@@ -53,14 +53,14 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
                         <button
                             onClick={onClose}
                             disabled={saving}
-                            className="flex-1 py-3.5 bg-void/50 border border-border text-ink font-bold rounded-2xl flex items-center justify-center hover:bg-void transition-colors disabled:opacity-50 text-sm"
+                            className="flex flex-1 items-center justify-center rounded-xl border border-border bg-void/50 py-3.5 text-sm font-bold text-ink transition-colors hover:bg-void disabled:opacity-50"
                         >
                             Cancelar
                         </button>
                         <button
                             onClick={handleDelete}
                             disabled={saving}
-                            className="flex-1 py-3.5 bg-red-500 hover:bg-red-600 text-ink font-bold rounded-2xl flex items-center justify-center gap-2 transition-colors disabled:opacity-50 text-sm"
+                            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-danger py-3.5 text-sm font-bold text-void transition-colors hover:bg-danger/90 disabled:opacity-50"
                         >
                             {saving ? <Loader2 className="animate-spin" size={18} /> : <>Eliminar <Trash2 size={18} /></>}
                         </button>

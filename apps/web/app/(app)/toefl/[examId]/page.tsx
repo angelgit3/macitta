@@ -1,4 +1,3 @@
-import { AppHeader } from "@/components/ui/AppHeader";
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import type { TOEFLExam, TOEFLMode, TOEFLQuestion } from "@/types/models";
@@ -34,14 +33,11 @@ export default async function TOEFLPracticeRunPage({
     }
 
     return (
-        <>
-            <AppHeader />
-            <TOEFLPracticeClient
+        <TOEFLPracticeClient
                 userId={user.id}
                 exam={exam as TOEFLExam}
                 questions={questions as TOEFLQuestion[]}
                 mode={practiceMode}
             />
-        </>
     );
 }

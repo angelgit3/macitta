@@ -8,7 +8,7 @@ interface ZenButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 /**
  * ZenButton — Estudio Lúmico
- * Pill-shaped, spring physics on active, gradient primary.
+ * Shared product button with the restrained Luminous interaction language.
  */
 export function ZenButton({
   children,
@@ -19,7 +19,7 @@ export function ZenButton({
   ...props
 }: ZenButtonProps) {
   const base =
-    "relative inline-flex items-center justify-center gap-2 font-bold rounded-full overflow-hidden transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.97] select-none disabled:opacity-50 disabled:cursor-not-allowed";
+    "relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl font-bold transition-[background-color,border-color,color,transform] duration-200 active:scale-[0.985] select-none disabled:cursor-not-allowed disabled:opacity-50";
 
   const sizes = {
     sm: "min-h-9  text-xs  px-4   py-2",
@@ -29,9 +29,9 @@ export function ZenButton({
 
   const variants = {
     primary:
-      "bg-accent text-void shadow-[0_8px_24px_rgba(124,133,232,0.32)] hover:bg-accent-hover hover:shadow-[0_12px_32px_rgba(124,133,232,0.42)] border border-[rgba(124,133,232,0.2)]",
+      "border border-accent/20 bg-accent text-void hover:bg-accent-hover",
     secondary:
-      "glass-card text-ink hover:border-accent/35 hover:text-accent-hover",
+      "border border-border-strong bg-surface-raised text-ink hover:border-accent/35 hover:text-accent-hover",
     ghost:
       "bg-transparent text-ink-muted hover:text-ink hover:bg-[rgba(124,133,232,0.08)] border border-transparent",
     danger:

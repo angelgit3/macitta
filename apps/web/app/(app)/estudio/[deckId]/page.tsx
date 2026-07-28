@@ -37,7 +37,7 @@ export default function StudySessionContent({ params }: { params: Promise<{ deck
         return (
             <div className="h-full flex flex-col items-center justify-center gap-4 text-ink-faint">
                 <Loader2 className="animate-spin w-8 h-8 text-accent" />
-                <p className="text-sm uppercase tracking-wide">
+                <p className="text-sm font-medium">
                     {isGlobalStudy ? "Preparando estudio global..." : "Cargando mazo..."}
                 </p>
             </div>
@@ -73,16 +73,16 @@ export default function StudySessionContent({ params }: { params: Promise<{ deck
         <div className="flex flex-col gap-6 w-full max-w-3xl mx-auto pb-24">
 
             {/* ── Session header ────────────────────────────── */}
-            <div className="glass-card rounded-2xl p-4 flex justify-between items-center">
+            <div className="flex items-center justify-between border-b border-border px-1 pb-4">
                 <h1 className="text-xl font-bold text-ink flex items-center gap-2">
-                    {isRushMode       && <Flame   size={20} className="text-amber"  />}
+                    {isRushMode       && <Flame   size={20} className="text-accent"  />}
                     {isGlobalStudy && !isRushMode && <Shuffle size={20} className="text-accent" />}
                     {isRushMode ? "Modo maratón" : isGlobalStudy ? "Estudio global" : "Estudio diario"}
                 </h1>
 
                 <div className={`text-xs font-bold px-3 py-1 rounded-full border ${
                     isRushMode
-                        ? "text-amber bg-amber/10 border-amber/25"
+                        ? "border-accent/25 bg-accent/10 text-accent"
                         : "text-ink-faint bg-void/50 border-border"
                 }`}>
                     {progress} / {totalCards}

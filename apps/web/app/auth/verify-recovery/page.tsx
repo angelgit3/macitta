@@ -129,7 +129,7 @@ function VerifyRecoveryClient() {
                 <span className="font-bold">Macitta</span>
             </Link>
 
-            <div className="w-full max-w-sm glass-panel p-8 rounded-3xl shadow-xl">
+            <div className="w-full">
                 <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mb-6 mx-auto text-accent">
                     <KeyRound size={28} />
                 </div>

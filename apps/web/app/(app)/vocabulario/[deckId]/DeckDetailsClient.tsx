@@ -46,20 +46,20 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
         <div className="flex flex-col gap-6 pb-24">
 
             {/* ── Deck header ───────────────────────────────── */}
-            <header className="px-2 space-y-4">
+            <header className="space-y-5 pt-2 sm:pt-4">
                 <Link href="/vocabulario" className="inline-flex items-center gap-1 text-sm text-ink-faint hover:text-ink transition-colors">
                     <ArrowLeft size={16} /> Volver a Mazos
                 </Link>
 
                 <div className="flex items-start justify-between">
                     <div>
-                        <h1 className="text-2xl font-black text-ink">{deck.title}</h1>
+                        <h1 className="text-3xl font-black tracking-[-0.035em] text-ink sm:text-4xl">{deck.title}</h1>
                         {deck.description && (
                             <p className="text-sm text-ink-faint mt-1">{deck.description}</p>
                         )}
                         <div className="mt-3 flex items-center gap-2">
-                            <span className="pill-badge bg-void/50 border border-border text-ink-faint">
-                                {cards.length} Tarjetas
+                            <span className="text-sm tabular-nums text-ink-muted">
+                                {cards.length} {cards.length === 1 ? "tarjeta" : "tarjetas"}
                             </span>
                         </div>
                     </div>
@@ -77,9 +77,7 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
                 <div className="pt-4 flex items-center gap-3">
                     <Link
                         href={`/estudio/${deck.id}`}
-                        className="flex-1 py-4 bg-accent hover:bg-accent-hover text-void border border-accent/20
-                                   font-black rounded-2xl flex items-center justify-center transition-all
-                                   shadow-[0_6px_20px_rgba(124,133,232,0.30)] text-lg"
+                        className="flex min-h-14 flex-1 items-center justify-center rounded-xl border border-accent/20 bg-accent px-5 text-base font-black text-void transition-colors hover:bg-accent-hover"
                     >
                         Estudiar Mazo
                     </Link>
@@ -88,7 +86,7 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
                             onClick={() => actions.setShowAddCard(true)}
                             className="flex items-center justify-center gap-2 px-6 py-4
                                        bg-accent hover:bg-accent-hover text-void border border-accent/20
-                                       font-bold rounded-2xl transition-all shadow-[0_6px_20px_rgba(124,133,232,0.30)]"
+                                       font-bold rounded-xl transition-colors"
                         >
                             <Plus size={20} strokeWidth={3} />
                             <span className="hidden sm:inline">Nueva Tarjeta</span>
@@ -134,7 +132,7 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
             <div className="px-2 space-y-3">
                 {cards.length === 0 ? (
                     /* Empty deck */
-                    <div className="text-center py-16 glass-card rounded-2xl border-dashed">
+                    <div className="rounded-2xl border border-dashed border-border-strong py-16 text-center">
                         <div className="w-16 h-16 bg-void/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-border">
                             <Plus size={24} className="text-ink-faint" />
                         </div>
@@ -155,7 +153,7 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
                     </div>
                 ) : processedCards.length === 0 ? (
                     /* No search results */
-                    <div className="text-center py-12 glass-card rounded-2xl border-dashed">
+                    <div className="rounded-2xl border border-dashed border-border-strong py-12 text-center">
                         <Search size={24} className="text-ink-faint mx-auto mb-4" />
                         <h3 className="text-lg font-bold text-ink mb-2">Sin resultados</h3>
                         <p className="text-sm text-ink-faint">No se encontraron tarjetas que coincidan con tu búsqueda.</p>
@@ -165,7 +163,7 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
                         {processedCards.map(card => (
                             <div
                                 key={card.id}
-                                className="glass-card rounded-2xl p-5 flex flex-col justify-between group hover:border-accent/35 transition-all"
+                                className="group flex flex-col justify-between rounded-2xl border border-border bg-surface/85 p-5 transition-colors hover:border-accent/35"
                             >
                                 <div className="flex items-start justify-between gap-4 mb-4">
                                     <h3 className="font-black text-lg text-ink leading-tight break-words">{card.front_text}</h3>
@@ -194,7 +192,7 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
                                 <div className="space-y-2">
                                     {card.card_slots.map(slot => (
                                         <div key={slot.id} className="flex flex-col gap-1 p-3 bg-void/50 rounded-xl border border-border/50">
-                                            <span className="label-kicker">{slot.label}</span>
+                                            <span className="text-xs font-bold text-ink-faint">{slot.label}</span>
                                             <span className="text-sm font-medium text-success/90">{slot.accepted_answers.join(" • ")}</span>
                                         </div>
                                     ))}

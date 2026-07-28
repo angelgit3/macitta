@@ -252,7 +252,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                     <p className="text-xs text-ink-faint mt-2">{answeredCount} de {questions.length} respondidas</p>
 
                     {isStrict && (
-                        <p className="text-xs text-amber mt-2">
+                        <p className="mt-2 text-xs text-accent">
                             Simulacro estricto: cuenta regresiva, navegación hacia atrás bloqueada y envío automático al llegar a cero.
                         </p>
                     )}
@@ -263,11 +263,11 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
             {exam.section === "listening" && (
                 <section className="product-panel rounded-2xl p-5 sm:p-6">
                     <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-amber/10 text-amber flex items-center justify-center shrink-0">
+                        <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-accent/10 text-accent">
                             <Volume2 size={22} />
                         </div>
                         <div className="min-w-0 flex-1">
-                            <p className="section-label text-amber">Audio {isStrict ? "estricto" : "flexible"}</p>
+                            <p className="section-label text-accent">Audio {isStrict ? "estricto" : "flexible"}</p>
                             <h2 className="text-lg font-black text-ink mt-1">Escucha el diálogo antes de responder</h2>
                             <p className="text-xs text-ink-faint mt-1">
                                 {isStrict
@@ -306,7 +306,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                 {Array.from({ length: 36 }).map((_, i) => (
                                     <div
                                         key={i}
-                                        className={`flex-1 rounded-full transition-colors ${isPlaying ? "bg-amber" : "bg-ink-faint/40"}`}
+                                        className={`flex-1 rounded-full transition-colors ${isPlaying ? "bg-accent" : "bg-ink-faint/40"}`}
                                         style={{ height: `${28 + ((i * 17) % 22)}%`, opacity: i < Math.round(audioProgress / 3) ? 1 : 0.35 }}
                                     />
                                 ))}
@@ -318,7 +318,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                     <>
                                         {!strictAudioStarted && !strictAudioEnded && (
                                             <button type="button" onClick={startStrictAudio}
-                                                className="flex min-h-11 items-center gap-2 rounded-xl bg-amber px-4 font-black text-void">
+                                                className="flex min-h-11 items-center gap-2 rounded-xl bg-accent px-4 font-black text-void">
                                                 <Play size={18} /> Iniciar audio
                                             </button>
                                         )}
@@ -329,7 +329,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                 ) : (
                                     <>
                                         <button type="button" onClick={toggleAudio}
-                                            className="flex min-h-11 items-center gap-2 rounded-xl bg-amber px-4 font-black text-void">
+                                            className="flex min-h-11 items-center gap-2 rounded-xl bg-accent px-4 font-black text-void">
                                             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                                             {isPlaying ? "Pausar" : "Reproducir"}
                                         </button>
@@ -340,7 +340,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                                             <Gauge size={15} className="text-ink-faint ml-1" />
                                             {PLAYBACK_RATES.map(rate => (
                                                 <button key={rate} type="button" onClick={() => changePlaybackRate(rate)}
-                                                    className={`h-8 px-2 rounded-xl text-xs font-bold transition-colors ${playbackRate === rate ? "bg-amber text-void" : "text-ink-faint hover:text-ink"}`}>
+                                                    className={`h-8 rounded-xl px-2 text-xs font-bold transition-colors ${playbackRate === rate ? "bg-accent text-void" : "text-ink-faint hover:text-ink"}`}>
                                                     {rate}x
                                                 </button>
                                             ))}
@@ -353,7 +353,7 @@ export function TOEFLPracticeClient({ userId, exam, questions, mode }: TOEFLPrac
                             </div>
                         </>
                     ) : (
-                        <div className="mt-5 rounded-xl border border-amber/25 bg-amber/10 p-4 text-sm text-ink-muted" role="alert">
+                        <div className="mt-5 rounded-xl border border-accent/25 bg-accent/10 p-4 text-sm text-ink-muted" role="alert">
                             {audioError ? "El audio no está disponible en este momento." : "Esta práctica todavía no tiene un audio configurado."}
                         </div>
                     )}

@@ -10,7 +10,7 @@ interface ZenInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 /**
  * ZenInput — Estudio Lúmico
- * Rounded soft-field with optional leading icon and animated focus ring.
+ * Shared field with readable labels and a consistent focus ring.
  */
 export const ZenInput = forwardRef<HTMLInputElement, ZenInputProps>(
   ({ label, helperText, error, icon, className = "", inputClassName = "", ...props }, ref) => {
@@ -21,7 +21,7 @@ export const ZenInput = forwardRef<HTMLInputElement, ZenInputProps>(
     return (
       <div className={`space-y-1.5 w-full ${className}`}>
         {label && (
-          <label htmlFor={inputId} className="block label-kicker ml-1">{label}</label>
+          <label htmlFor={inputId} className="ml-1 block text-sm font-bold text-ink-muted">{label}</label>
         )}
         <div className="relative">
           {icon && (
