@@ -41,7 +41,9 @@ export default function LoginPage() {
       ? "Tu correo aún no ha sido verificado."
       : error.toLowerCase().includes("invalid login")
       ? "Correo o contraseña incorrectos."
-      : error
+      : error.toLowerCase().includes("rate limit") || error.toLowerCase().includes("too many")
+      ? "Demasiados intentos. Espera unos minutos."
+      : "No se pudo iniciar sesión. Intenta de nuevo."
     : null;
 
   return (
@@ -71,7 +73,7 @@ export default function LoginPage() {
         </Link>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form method="post" onSubmit={handleSubmit} className="flex flex-col gap-4">
         {/* Email */}
         <div className="space-y-1.5">
           <label htmlFor="login-email" className="ml-1 text-sm font-bold text-ink-muted">Email</label>
@@ -106,6 +108,7 @@ export default function LoginPage() {
         </div>
 
         <ZenButton
+          type="submit"
           variant="primary"
           fullWidth
           className="mt-2 h-12 text-sm"

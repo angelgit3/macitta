@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { safeInternalRedirect } from "@macitta/shared";
 
 const AUTH_PASSTHROUGH = [
     "/auth/confirm",
@@ -12,8 +13,38 @@ const AUTH_PASSTHROUGH = [
 
 export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
+    const nonce = btoa(crypto.randomUUID());
+    const isProduction = process.env.NODE_ENV === "production";
+    const csp = [
+        "default-src 'self'",
+        `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isProduction ? "" : " 'unsafe-eval'"}`,
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data: blob: https://api.dicebear.com",
+        "font-src 'self' data:",
+        "media-src 'self' blob: https://*.supabase.co",
+        "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+        "worker-src 'self' blob:",
+        "manifest-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+        ...(isProduction ? ["upgrade-insecure-requests"] : []),
+    ].join("; ");
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-nonce", nonce);
+    requestHeaders.set("Content-Security-Policy", csp);
 
-    let response = NextResponse.next({ request });
+    let response = NextResponse.next({
+        request: { headers: requestHeaders },
+    });
+    const secure = (result: NextResponse) => {
+        result.headers.set("Content-Security-Policy", csp);
+        if (isAppRoute) {
+            result.headers.set("Cache-Control", "private, no-store");
+        }
+        return result;
+    };
 
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,7 +58,9 @@ export async function middleware(request: NextRequest) {
                     cookiesToSet.forEach(({ name, value }) =>
                         request.cookies.set(name, value)
                     );
-                    response = NextResponse.next({ request });
+                    response = NextResponse.next({
+                        request: { headers: requestHeaders },
+                    });
                     cookiesToSet.forEach(({ name, value, options }) =>
                         response.cookies.set(name, value, options)
                     );
@@ -36,41 +69,36 @@ export async function middleware(request: NextRequest) {
         }
     );
 
-    const { data: claimsData, error: authError } = await supabase.auth.getClaims();
-
-    const isOfflineError =
-        authError?.message?.toLowerCase().includes("fetch") ||
-        authError?.message?.toLowerCase().includes("network") ||
-        authError?.message?.toLowerCase().includes("failed to fetch");
+    const { data: claimsData } = await supabase.auth.getClaims();
 
     const isAuthenticated = Boolean(claimsData?.claims.sub);
     const isDevelopmentPreview =
         process.env.NODE_ENV === "development" && path === "/grammar-preview";
-    const isPublicRoute = path === "/" || path.startsWith("/api") || isDevelopmentPreview;
+    const isPublicRoute = path === "/" || isDevelopmentPreview;
     const isAuthRoute = path.startsWith("/auth");
     const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
     const isAppRoute = !isPublicRoute && !isAuthRoute;
 
-    if (isAppRoute && !isAuthenticated && !isOfflineError) {
+    // Authentication must fail closed. Offline use is handled by the already
+    // loaded PWA and its IndexedDB data, never by bypassing route protection.
+    if (isAppRoute && !isAuthenticated) {
         const loginUrl = new URL("/auth/login", request.url);
         loginUrl.searchParams.set("redirectTo", path);
-        return NextResponse.redirect(loginUrl);
+        return secure(NextResponse.redirect(loginUrl));
     }
 
     if (isAuthenticated && isAuthRoute && !isAuthPassthrough) {
-        const rawRedirect = request.nextUrl.searchParams.get("redirectTo") || "/dashboard";
-        const safeRedirect =
-            rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")
-                ? rawRedirect
-                : "/dashboard";
-        return NextResponse.redirect(new URL(safeRedirect, request.url));
+        const destination = safeInternalRedirect(
+            request.nextUrl.searchParams.get("redirectTo"),
+        );
+        return secure(NextResponse.redirect(new URL(destination, request.url)));
     }
 
     if (isAuthenticated && path === "/") {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+        return secure(NextResponse.redirect(new URL("/dashboard", request.url)));
     }
 
-    return response;
+    return secure(response);
 }
 
 export const config = {

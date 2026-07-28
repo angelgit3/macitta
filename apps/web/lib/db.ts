@@ -268,3 +268,42 @@ export class MaccitaDB extends Dexie {
 }
 
 export const db = new MaccitaDB();
+
+/**
+ * Remove all account-scoped data before ending a session.
+ *
+ * Static TOEFL and grammar catalogs may remain available offline, but user
+ * answers, progress, queues and personal cards must never cross accounts on a
+ * shared browser profile.
+ */
+export async function clearPrivateOfflineData(): Promise<void> {
+    await db.transaction(
+        'rw',
+        [
+            db.cards,
+            db.userItems,
+            db.studyLogs,
+            db.syncQueue,
+            db.toeflAttempts,
+            db.toeflAnswers,
+            db.sremInbox,
+            db.grammarProgress,
+            db.grammarSessions,
+            db.grammarAttempts,
+        ],
+        async () => {
+            await Promise.all([
+                db.cards.clear(),
+                db.userItems.clear(),
+                db.studyLogs.clear(),
+                db.syncQueue.clear(),
+                db.toeflAttempts.clear(),
+                db.toeflAnswers.clear(),
+                db.sremInbox.clear(),
+                db.grammarProgress.clear(),
+                db.grammarSessions.clear(),
+                db.grammarAttempts.clear(),
+            ]);
+        },
+    );
+}

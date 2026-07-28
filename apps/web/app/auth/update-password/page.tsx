@@ -29,8 +29,8 @@ export default function UpdatePasswordPage() {
             return;
         }
 
-        if (password.length < 6) {
-            setError("La contraseña debe tener al menos 6 caracteres");
+        if (password.length < 8) {
+            setError("La contraseña debe tener al menos 8 caracteres");
             setLoading(false);
             return;
         }
@@ -42,7 +42,7 @@ export default function UpdatePasswordPage() {
         });
 
         if (error) {
-            setError(error.message);
+            setError("No se pudo actualizar la contraseña. Solicita un enlace nuevo e intenta de nuevo.");
             setLoading(false);
         } else {
             setSuccess(true);
@@ -88,7 +88,7 @@ export default function UpdatePasswordPage() {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <form method="post" onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="space-y-1">
                         <label className="text-xs font-bold uppercase tracking-wider text-ink-faint ml-1">Nueva Contraseña</label>
                         <div className="relative">
@@ -97,7 +97,8 @@ export default function UpdatePasswordPage() {
                                 name="password"
                                 type="password"
                                 required
-                                minLength={6}
+                                minLength={8}
+                                autoComplete="new-password"
                                 className="w-full soft-field rounded-xl py-3 pl-11 pr-4"
                                 placeholder="••••••••"
                                 autoFocus
@@ -113,7 +114,8 @@ export default function UpdatePasswordPage() {
                                 name="confirmPassword"
                                 type="password"
                                 required
-                                minLength={6}
+                                minLength={8}
+                                autoComplete="new-password"
                                 className="w-full soft-field rounded-xl py-3 pl-11 pr-4"
                                 placeholder="••••••••"
                             />
@@ -121,6 +123,7 @@ export default function UpdatePasswordPage() {
                     </div>
 
                     <ZenButton
+                        type="submit"
                         variant="primary"
                         className="w-full mt-2 h-12"
                         disabled={loading}

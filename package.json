@@ -19,6 +19,11 @@
     "packages/*"
   ],
   "dependencies": {
-    "lucide-react": "^0.563.0"
+    "lucide-react": "^0.563.0",
+    "postcss": "8.5.24",
+    "sharp": "0.35.3"
+  },
+  "overrides": {
+    "sharp": "$sharp"
   }
 }

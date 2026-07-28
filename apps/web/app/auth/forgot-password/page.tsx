@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
         const { error } = await supabase.auth.resetPasswordForEmail(email);
 
         if (error) {
-            setError(error.message);
+            setError("No se pudo enviar el código. Espera unos minutos e intenta de nuevo.");
             setLoading(false);
         } else {
             // Redirect to the recovery OTP page
@@ -53,7 +53,7 @@ export default function ForgotPasswordPage() {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <form method="post" onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="space-y-1">
                         <label className="text-xs font-bold uppercase tracking-wider text-ink-faint ml-1">Email</label>
                         <div className="relative">
@@ -70,6 +70,7 @@ export default function ForgotPasswordPage() {
                     </div>
 
                     <ZenButton
+                        type="submit"
                         variant="primary"
                         className="w-full mt-2 h-12"
                         disabled={loading}
