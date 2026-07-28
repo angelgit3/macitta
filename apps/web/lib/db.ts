@@ -6,6 +6,13 @@ import type {
     TOEFLQuestion,
     TOEFLQuestionAnswer,
 } from '@/types/models';
+import type {
+    GrammarDomain,
+    GrammarExercise,
+    GrammarProgress,
+    GrammarSkill,
+    GrammarOptionId,
+} from '@macitta/shared';
 
 // ─── Interfaces ─────────────────────────────────────────────────────
 
@@ -45,6 +52,55 @@ export type LocalTOEFLQuestion = TOEFLQuestion;
 export type LocalTOEFLAttempt = TOEFLAttempt;
 export type LocalTOEFLQuestionAnswer = TOEFLQuestionAnswer;
 export type LocalSremInboxItem = SremInboxItem;
+export type LocalGrammarDomain = GrammarDomain;
+export type LocalGrammarSkill = GrammarSkill;
+export type LocalGrammarExercise = GrammarExercise;
+export type LocalGrammarProgress = GrammarProgress;
+
+export interface LocalGrammarSession {
+    id: string;
+    userId: string;
+    mode: 'general' | 'focused';
+    focusedSkillId: string | null;
+    status: 'active' | 'completed' | 'abandoned';
+    startedAt: string;
+    endedAt: string | null;
+    totalExercises: number;
+    correctExercises: number;
+    totalTimeMs: number;
+}
+
+export interface LocalGrammarAttempt {
+    id: string;
+    userId: string;
+    exerciseId: string;
+    sessionId: string;
+    selectedOptionId: GrammarOptionId;
+    isCorrect: boolean;
+    grade: number;
+    previousState: {
+        step: number;
+        interval: number;
+        difficulty: number;
+        lapses: number;
+        state: string;
+        lastReview: string | null;
+        dueDate: string;
+    };
+    nextState: {
+        step: number;
+        interval: number;
+        difficulty: number;
+        lapses: number;
+        state: string;
+        lastReview: string | null;
+        dueDate: string;
+    };
+    responseMs: number;
+    wasDue: boolean;
+    contentVersion: number;
+    reviewedAt: string;
+}
 
 // ─── Sync Operations (Discriminated Union) ──────────────────────────
 
@@ -116,13 +172,40 @@ interface InsertTOEFLAnswersOp {
     retryCount?: number;
 }
 
+interface GrammarSessionOp {
+    id?: number;
+    type: 'start_grammar_session' | 'finish_grammar_session';
+    data: LocalGrammarSession;
+    created_at: string;
+    retryCount?: number;
+}
+
+interface InsertGrammarAttemptOp {
+    id?: number;
+    type: 'insert_grammar_attempt';
+    data: LocalGrammarAttempt;
+    created_at: string;
+    retryCount?: number;
+}
+
+interface UpsertGrammarProgressOp {
+    id?: number;
+    type: 'upsert_grammar_progress';
+    data: LocalGrammarProgress & { expectedRevision: number };
+    created_at: string;
+    retryCount?: number;
+}
+
 export type SyncOperation =
     | UpsertUserItemOp
     | InsertStudyLogOp
     | SessionOp
     | IncrementSessionTimeOp
     | InsertTOEFLAttemptOp
-    | InsertTOEFLAnswersOp;
+    | InsertTOEFLAnswersOp
+    | GrammarSessionOp
+    | InsertGrammarAttemptOp
+    | UpsertGrammarProgressOp;
 
 // ─── Database ───────────────────────────────────────────────────────
 
@@ -136,6 +219,12 @@ export class MaccitaDB extends Dexie {
     toeflAttempts!: Table<LocalTOEFLAttempt>;
     toeflAnswers!: Table<LocalTOEFLQuestionAnswer>;
     sremInbox!: Table<LocalSremInboxItem>;
+    grammarDomains!: Table<LocalGrammarDomain>;
+    grammarSkills!: Table<LocalGrammarSkill>;
+    grammarExercises!: Table<LocalGrammarExercise>;
+    grammarProgress!: Table<LocalGrammarProgress>;
+    grammarSessions!: Table<LocalGrammarSession>;
+    grammarAttempts!: Table<LocalGrammarAttempt>;
 
     constructor() {
         super('MaccitaOfflineV1');
@@ -156,6 +245,24 @@ export class MaccitaDB extends Dexie {
             toeflAttempts: 'id, user_id, exam_id, completed_at',
             toeflAnswers: '[attempt_id+question_id], attempt_id, question_id',
             sremInbox: 'id, user_id, created_at'
+        });
+
+        this.version(3).stores({
+            cards: 'id, deck_id',
+            userItems: '[user_id+card_id], card_id, due_date',
+            studyLogs: '++id, user_id, card_id, session_id',
+            syncQueue: '++id, type, created_at',
+            toeflExams: 'id, section, type',
+            toeflQuestions: 'id, exam_id, [exam_id+order_index]',
+            toeflAttempts: 'id, user_id, exam_id, completed_at',
+            toeflAnswers: '[attempt_id+question_id], attempt_id, question_id',
+            sremInbox: 'id, user_id, created_at',
+            grammarDomains: 'id, code, order_index',
+            grammarSkills: 'id, domain_id, code, [domain_id+order_index]',
+            grammarExercises: 'id, primary_skill_id, domain_id, skill_code, format, status',
+            grammarProgress: '[userId+exerciseId], userId, exerciseId, dueDate, [userId+dueDate]',
+            grammarSessions: 'id, userId, status, startedAt',
+            grammarAttempts: 'id, userId, exerciseId, sessionId, reviewedAt',
         });
     }
 }

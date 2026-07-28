@@ -58,6 +58,17 @@ export interface SEMResult {
     isMastered: boolean;
 }
 
+export interface ApplySEMGradeOptions {
+    grade: SEMGrade;
+    /**
+     * Accuracy remains part of the transition because Hard and Again apply
+     * different proportional penalties for partial and total failures.
+     */
+    accuracy: number;
+    /** Injectable clock for deterministic consumers and tests. */
+    reviewedAt?: Date;
+}
+
 /**
  * Optional time thresholds for grade calculation.
  * Allows different card types (e.g., kanji vs. vocabulary) to use
@@ -178,7 +189,23 @@ export function evaluateSEM(
     thresholds: SEMTimeThresholds = DEFAULT_THRESHOLDS,
 ): SEMResult {
     const grade = calculateSEMGrade(accuracy, timeMs, thresholds);
-    const now = new Date();
+    return applySEMGrade(current, { grade, accuracy });
+}
+
+/**
+ * Applies an explicit review grade to the shared SREM curve.
+ *
+ * This is the domain-neutral transition used by adapters. Flashcards keep
+ * deriving a grade from slot accuracy and response time through `evaluateSEM`;
+ * binary exercises such as Grammar can map their own outcome to a grade
+ * without pretending that response speed changes correctness.
+ */
+export function applySEMGrade(
+    current: SEMCardState,
+    options: ApplySEMGradeOptions,
+): SEMResult {
+    const { grade, accuracy } = options;
+    const now = options.reviewedAt ?? new Date();
 
     // Real days since last review. Used by Hard/Again for proportional penalties.
     // Min 1 so brand-new cards (lastReview = null) receive a sane fallback.
