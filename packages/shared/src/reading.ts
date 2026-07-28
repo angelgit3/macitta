@@ -442,7 +442,13 @@ export function buildReadingQueue(
         (passageMode === "any" ||
             (passageMode === "long" && passage.length_band === "long") ||
             (passageMode === "daily" && passage.length_band !== "long")) &&
-        (!questionProgress || questionProgress.points < 2)
+        (
+            !questionProgress ||
+            (
+                questionProgress.points < 2 &&
+                new Date(questionProgress.dueAt).getTime() <= nowMs
+            )
+        )
     );
     const startedPassages = new Set(
         candidates
@@ -483,7 +489,10 @@ export function buildReadingQueue(
         if (selected.length >= size) break;
         const freshOrRecovering = block.candidates.filter((candidate) =>
             !candidate.questionProgress ||
-            candidate.questionProgress.points < 2
+            (
+                candidate.questionProgress.points < 2 &&
+                new Date(candidate.questionProgress.dueAt).getTime() <= nowMs
+            )
         );
         for (const candidate of freshOrRecovering) {
             if (selected.length >= size) break;
@@ -511,6 +520,67 @@ export function buildReadingQueue(
             reason: blockReason(candidate, nowMs, preferred),
         };
     });
+}
+
+export interface ResumableLongReading {
+    passageId: string;
+    blockIndex: 1 | 2;
+}
+
+/**
+ * Returns the most recently exposed unfinished long reading. Recovery points
+ * do not block forward progress: once all five questions in block one have
+ * been attempted, continuation moves to block two and exact-item recovery
+ * remains in the spaced queue.
+ */
+export function findResumableLongReading(
+    passages: ReadingPassage[],
+    questions: ReadingQuestion[],
+    progress: ReadingQuestionProgress[],
+    exposures: ReadingPassageExposure[],
+): ResumableLongReading | null {
+    const progressByQuestion = new Map(
+        progress.map((item) => [item.questionId, item]),
+    );
+    const exposureByPassage = new Map(
+        exposures.map((exposure) => [exposure.passageId, exposure.lastSeenAt]),
+    );
+    const passagesByRecentExposure = passages
+        .filter((passage) => passage.length_band === "long")
+        .sort((left, right) =>
+            (exposureByPassage.get(right.id) ?? "").localeCompare(
+                exposureByPassage.get(left.id) ?? "",
+            ),
+        );
+
+    for (const passage of passagesByRecentExposure) {
+        const passageQuestions = questions.filter(
+            (question) => question.passage_id === passage.id,
+        );
+        const firstBlockStarted = passageQuestions.some(
+            (question) =>
+                question.block_index === 1 &&
+                (progressByQuestion.get(question.id)?.attempts ?? 0) > 0,
+        );
+        if (!firstBlockStarted) continue;
+        const firstBlockUnanswered = passageQuestions.some(
+            (question) =>
+                question.block_index === 1 &&
+                (progressByQuestion.get(question.id)?.attempts ?? 0) === 0,
+        );
+        if (firstBlockUnanswered) {
+            return { passageId: passage.id, blockIndex: 1 };
+        }
+        const secondBlockUnanswered = passageQuestions.some(
+            (question) =>
+                question.block_index === 2 &&
+                (progressByQuestion.get(question.id)?.attempts ?? 0) === 0,
+        );
+        if (secondBlockUnanswered) {
+            return { passageId: passage.id, blockIndex: 2 };
+        }
+    }
+    return null;
 }
 
 export interface ReadingDomainProgress {
