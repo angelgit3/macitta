@@ -2,6 +2,7 @@ import { type EmailOtpType } from '@supabase/supabase-js';
 import { type NextRequest } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
+import { safeInternalRedirect } from '@macitta/shared';
 
 /**
  * Auth Confirmation Endpoint
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     // 'next' param is injected by Supabase in recovery email templates.
     // Default to /dashboard (not '/' landing page) for signup confirmations.
-    const next = searchParams.get('next') ?? '/dashboard';
+    const next = safeInternalRedirect(searchParams.get('next'));
     const token_hash = searchParams.get('token_hash');
     const type = searchParams.get('type') as EmailOtpType | null;
     const code = searchParams.get('code');

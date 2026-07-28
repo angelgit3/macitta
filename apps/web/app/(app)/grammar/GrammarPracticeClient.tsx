@@ -313,6 +313,9 @@ export function GrammarPracticeClient({ previewData, previewUserId }: GrammarPra
             const snapshot = await loadGrammarData(supabase, id, isOnline);
             setData(snapshot);
         } catch (loadError) {
+            console.error(
+                `[grammar-load:client] ${loadError instanceof Error ? loadError.name : "unknown"}`,
+            );
             setError(loadError instanceof Error ? loadError.message : "No se pudo preparar Grammar.");
         } finally {
             setLoading(false);

@@ -5,6 +5,12 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { assertUuid, sanitizeDeckMetadata } from "@macitta/shared";
+import {
+    assertDeckQuota,
+    requireAuthenticatedUser,
+    throwSafeDatabaseError,
+} from "@/lib/serverActionGuard";
 
 /**
  * Creates a new personal deck for the authenticated user.
@@ -14,17 +20,18 @@ import { createClient } from "@/utils/supabase/server";
  * @returns The created deck object from the database
  */
 export async function createDeck(title: string, description?: string) {
+    const input = sanitizeDeckMetadata(title, description);
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("No autorizado");
+    const user = await requireAuthenticatedUser(supabase);
+    await assertDeckQuota(supabase, user.id);
 
     const { data, error } = await supabase.from("decks").insert({
-        title,
-        description,
+        title: input.title,
+        description: input.description,
         author_id: user.id
     }).select().single();
 
-    if (error) throw new Error(error.message);
+    if (error) throwSafeDatabaseError("create-deck", error);
     return data;
 }
 
@@ -38,16 +45,17 @@ export async function createDeck(title: string, description?: string) {
  * @returns The updated deck object
  */
 export async function updateDeck(id: string, title: string, description?: string) {
+    const deckId = assertUuid(id, "El mazo");
+    const input = sanitizeDeckMetadata(title, description);
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("No autorizado");
+    const user = await requireAuthenticatedUser(supabase);
 
     const { data, error } = await supabase.from("decks").update({
-        title,
-        description
-    }).eq("id", id).eq("author_id", user.id).select().single();
+        title: input.title,
+        description: input.description,
+    }).eq("id", deckId).eq("author_id", user.id).select().single();
 
-    if (error) throw new Error(error.message);
+    if (error) throwSafeDatabaseError("update-deck", error);
     return data;
 }
 
@@ -59,12 +67,12 @@ export async function updateDeck(id: string, title: string, description?: string
  * @returns Success boolean object
  */
 export async function deleteDeck(id: string) {
+    const deckId = assertUuid(id, "El mazo");
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("No autorizado");
+    const user = await requireAuthenticatedUser(supabase);
 
-    const { error } = await supabase.from("decks").delete().eq("id", id).eq("author_id", user.id);
-    if (error) throw new Error(error.message);
+    const { error } = await supabase.from("decks").delete().eq("id", deckId).eq("author_id", user.id);
+    if (error) throwSafeDatabaseError("delete-deck", error);
     return { success: true };
 }
 

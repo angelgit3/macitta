@@ -5,6 +5,14 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { assertUuid, sanitizeCardInput } from "@macitta/shared";
+import {
+    assertCardCapacity,
+    assertOwnedCard,
+    assertOwnedDeck,
+    requireAuthenticatedUser,
+    throwSafeDatabaseError,
+} from "@/lib/serverActionGuard";
 
 /**
  * Creates a new flashcard and its associated answer slots.
@@ -16,54 +24,32 @@ import { createClient } from "@/utils/supabase/server";
  * @param front_media - Optional URL for image/audio attached to the question
  * @returns The created card object
  */
-export async function createCard(deck_id: string, front_text: string, slots: any[], front_media?: string | null) {
+export async function createCard(deck_id: string, front_text: string, slots: unknown, front_media?: string | null) {
+    const deckId = assertUuid(deck_id, "El mazo");
+    const input = sanitizeCardInput(front_text, slots, front_media);
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("No autorizado");
+    const user = await requireAuthenticatedUser(supabase);
+    await assertOwnedDeck(supabase, deckId, user.id);
+    await assertCardCapacity(supabase, deckId);
 
     // Start transaction: insert card
     const { data: card, error: cardError } = await supabase.from("cards").insert({
-        deck_id,
-        front_text,
-        front_media
+        deck_id: deckId,
+        front_text: input.frontText,
+        front_media: input.frontMedia,
     }).select().single();
 
-    if (cardError || !card) throw new Error(cardError?.message || "Error al crear la tarjeta");
+    if (cardError || !card) throwSafeDatabaseError("create-card", cardError);
 
     // Insert slots
-    if (slots.length > 0) {
-        const slotsData = slots.map((s, i) => {
-            // Determine match_type and accepted_answers from text payload
-            let accepted_answers: string[] = [];
-            let advanced_rules: any = null;
-            let match_type = 'any';
-
-            if (typeof s.text === "string") {
-                accepted_answers = [s.text];
-                match_type = 'exact';
-            } else if (Array.isArray(s.text)) {
-                accepted_answers = s.text;
-                match_type = 'any';
-            } else if (typeof s.text === "object" && s.text !== null) {
-                advanced_rules = s.text;
-                match_type = 'advanced';
-            }
-
-            return {
-                card_id: card.id,
-                label: s.field,
-                accepted_answers,
-                match_type,
-                order_index: i,
-                advanced_rules,
-                media: s.media || null
-            };
-        });
-        
-        const { error: slotsError } = await supabase.from("card_slots").insert(slotsData);
-        if (slotsError) {
-            throw new Error(slotsError.message);
-        }
+    const slotsData = input.slots.map((slot) => ({
+        ...slot,
+        card_id: card.id,
+    }));
+    const { error: slotsError } = await supabase.from("card_slots").insert(slotsData);
+    if (slotsError) {
+        await supabase.from("cards").delete().eq("id", card.id);
+        throwSafeDatabaseError("create-card-slots", slotsError);
     }
 
     return card;
@@ -79,56 +65,32 @@ export async function createCard(deck_id: string, front_text: string, slots: any
  * @param front_media - Optional new URL for image/audio
  * @returns The updated card object
  */
-export async function editCard(card_id: string, front_text: string, slots: any[], front_media?: string | null) {
+export async function editCard(card_id: string, front_text: string, slots: unknown, front_media?: string | null) {
+    const cardId = assertUuid(card_id, "La tarjeta");
+    const input = sanitizeCardInput(front_text, slots, front_media);
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("No autorizado");
+    const user = await requireAuthenticatedUser(supabase);
+    await assertOwnedCard(supabase, cardId, user.id);
 
     // Update card front
     const { data: card, error: cardError } = await supabase.from("cards").update({
-        front_text,
-        front_media
-    }).eq("id", card_id).select().single();
+        front_text: input.frontText,
+        front_media: input.frontMedia,
+    }).eq("id", cardId).select().single();
 
-    if (cardError || !card) throw new Error(cardError?.message || "Error al actualizar la tarjeta");
+    if (cardError || !card) throwSafeDatabaseError("update-card", cardError);
 
     // Replace slots. First delete old slots, then insert new ones.
-    const { error: deleteError } = await supabase.from("card_slots").delete().eq("card_id", card_id);
-    if (deleteError) throw new Error(deleteError.message);
+    const { error: deleteError } = await supabase.from("card_slots").delete().eq("card_id", cardId);
+    if (deleteError) throwSafeDatabaseError("delete-card-slots", deleteError);
 
-    if (slots.length > 0) {
-        const slotsData = slots.map((s, i) => {
-            // Determine match_type and accepted_answers from text payload
-            let accepted_answers: string[] = [];
-            let advanced_rules: any = null;
-            let match_type = 'any';
-
-            if (typeof s.text === "string") {
-                accepted_answers = [s.text];
-                match_type = 'exact';
-            } else if (Array.isArray(s.text)) {
-                accepted_answers = s.text;
-                match_type = 'any';
-            } else if (typeof s.text === "object" && s.text !== null) {
-                advanced_rules = s.text;
-                match_type = 'advanced';
-            }
-
-            return {
-                card_id: card.id,
-                label: s.field,
-                accepted_answers,
-                match_type,
-                order_index: i,
-                advanced_rules,
-                media: s.media || null
-            };
-        });
-        
-        const { error: slotsError } = await supabase.from("card_slots").insert(slotsData);
-        if (slotsError) {
-            throw new Error(slotsError.message);
-        }
+    const slotsData = input.slots.map((slot) => ({
+        ...slot,
+        card_id: card.id,
+    }));
+    const { error: slotsError } = await supabase.from("card_slots").insert(slotsData);
+    if (slotsError) {
+        throwSafeDatabaseError("replace-card-slots", slotsError);
     }
 
     return card;
@@ -141,11 +103,12 @@ export async function editCard(card_id: string, front_text: string, slots: any[]
  * @returns Success boolean object
  */
 export async function deleteCard(card_id: string) {
+    const cardId = assertUuid(card_id, "La tarjeta");
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("No autorizado");
+    const user = await requireAuthenticatedUser(supabase);
+    await assertOwnedCard(supabase, cardId, user.id);
 
-    const { error } = await supabase.from("cards").delete().eq("id", card_id);
-    if (error) throw new Error(error.message);
+    const { error } = await supabase.from("cards").delete().eq("id", cardId);
+    if (error) throwSafeDatabaseError("delete-card", error);
     return { success: true };
 }

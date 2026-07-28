@@ -2,6 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { PWAInstallPromptCapture } from "@/components/ui/PWAInstallPromptCapture";
 import "./globals.css";
 
+// Nonce-based CSP requires request-time rendering so Next.js can copy the
+// middleware nonce onto every framework and React bootstrap script.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
     title: "Macitta",
     description: "Estudio de inglés con repetición espaciada, modo offline y práctica TOEFL.",

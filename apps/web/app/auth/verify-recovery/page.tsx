@@ -85,9 +85,7 @@ function VerifyRecoveryClient() {
         });
 
         if (error) {
-            setError(error.message === 'Token has expired or is invalid'
-                ? 'El código es inválido o ha expirado. Intenta de nuevo.'
-                : error.message);
+            setError('El código es inválido o ha expirado. Intenta de nuevo.');
             setLoading(false);
         } else {
             // Recovery OTP verified — session is now active, redirect to update-password
@@ -111,7 +109,7 @@ function VerifyRecoveryClient() {
         const { error } = await supabaseImplicit.auth.resetPasswordForEmail(email);
 
         if (error) {
-            setError(error.message);
+            setError('No se pudo reenviar el código. Espera unos minutos.');
         } else {
             setMessage('Se ha reenviado un nuevo código a tu correo.');
             setOtp(['', '', '', '', '', '']);
@@ -154,7 +152,7 @@ function VerifyRecoveryClient() {
                     </div>
                 )}
 
-                <form onSubmit={handleVerify} className="flex flex-col gap-6">
+                <form method="post" onSubmit={handleVerify} className="flex flex-col gap-6">
                     <div className="flex justify-between gap-2" onPaste={handlePaste}>
                         {otp.map((digit, index) => (
                             <input

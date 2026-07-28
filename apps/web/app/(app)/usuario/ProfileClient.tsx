@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStats } from '@/hooks/useUserStats';
+import { clearPrivateOfflineData } from '@/lib/db';
 import type { ReactNode } from 'react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
@@ -185,7 +186,11 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
     // ── Sign out ────────────────────────────────────────────
     const handleLogout = async () => {
-        await supabase.auth.signOut();
+        try {
+            await clearPrivateOfflineData();
+        } finally {
+            await supabase.auth.signOut();
+        }
         router.push('/auth/login');
         router.refresh();
     };
@@ -255,7 +260,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
             {/* ── Profile form ──────────────────────────────── */}
             <section className="product-panel space-y-4 rounded-2xl p-5">
                 <SectionTitle icon={<User size={16} />} title="Datos del perfil" />
-                <form onSubmit={handleUpdateProfile} className="space-y-3">
+                <form method="post" onSubmit={handleUpdateProfile} className="space-y-3">
                     <div className="space-y-1.5">
                         <label htmlFor="profile-username" className="ml-1 text-sm font-bold text-ink-muted">Nombre de usuario</label>
                         <input
@@ -277,7 +282,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
             {/* ── Security form ─────────────────────────────── */}
             <section className="product-panel space-y-4 rounded-2xl p-5">
                 <SectionTitle icon={<KeyRound size={16} />} title="Seguridad" />
-                <form onSubmit={handleUpdatePassword} className="space-y-3">
+                <form method="post" onSubmit={handleUpdatePassword} className="space-y-3">
                     <div className="space-y-1.5">
                         <label htmlFor="profile-password" className="ml-1 text-sm font-bold text-ink-muted">Nueva contraseña</label>
                         <input

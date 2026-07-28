@@ -98,9 +98,12 @@ export async function loadGrammarData(
 
     const firstError = domainsResult.error ?? skillsResult.error ?? exercisesResult.error ?? progressResult.error;
     if (firstError) {
+        console.error(
+            `[grammar-load:remote] ${firstError.code || 'unknown'} ${firstError.message || 'no-message'}`,
+        );
         const cached = await readCachedGrammar(userId);
         if (cached.exercises.length > 0) return cached;
-        throw firstError;
+        throw new Error('No se pudo cargar el banco de Grammar.');
     }
 
     const domains = (domainsResult.data ?? []) as GrammarDomain[];

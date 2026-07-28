@@ -90,7 +90,7 @@ export default function SignupPage() {
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <form method="post" onSubmit={handleSubmit} className="flex flex-col gap-3">
                 <AuthField icon={<User size={16} />} label="Usuario" htmlFor="signup-username">
                     <input
                         id="signup-username"
@@ -139,7 +139,7 @@ export default function SignupPage() {
                     />
                 </AuthField>
 
-                <ZenButton variant="primary" className="w-full mt-4 h-12" disabled={loading}>
+                <ZenButton type="submit" variant="primary" className="w-full mt-4 h-12" disabled={loading}>
                     {loading ? <Loader2 className="animate-spin" /> : "Crear cuenta"}
                 </ZenButton>
             </form>
