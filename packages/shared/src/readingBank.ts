@@ -287,6 +287,47 @@ export function auditReadingCatalog(catalog: ReadingCatalog): ReadingCatalogAudi
                 message: "Una lectura larga debe tener dos bloques de cinco preguntas.",
             });
         }
+        const blockIndexes = passage.length_band === "long" ? [1, 2] as const : [1] as const;
+        for (const blockIndex of blockIndexes) {
+            const blockQuestions = passageQuestions.filter(
+                (question) => question.block_index === blockIndex,
+            );
+            const distinctSkills = new Set(
+                blockQuestions.map((question) => question.skill_code),
+            ).size;
+            const distinctDomains = new Set(
+                blockQuestions.map((question) => question.domain_id),
+            ).size;
+            const distinctStems = new Set(
+                blockQuestions.map((question) =>
+                    question.prompt
+                        .trim()
+                        .toLocaleLowerCase("en")
+                        .replace(/[“”‘’'"?.!,]/g, "")
+                        .split(/\s+/)
+                        .slice(0, 5)
+                        .join(" "),
+                ),
+            ).size;
+            if (blockQuestions.length === 5 && distinctSkills !== 5) {
+                issues.push({
+                    item: `${passage.slug}/block-${blockIndex}`,
+                    message: "Cada bloque debe practicar cinco habilidades distintas.",
+                });
+            }
+            if (blockQuestions.length === 5 && distinctDomains < 3) {
+                issues.push({
+                    item: `${passage.slug}/block-${blockIndex}`,
+                    message: "Cada bloque debe cubrir al menos tres dominios de comprensión.",
+                });
+            }
+            if (blockQuestions.length === 5 && distinctStems !== 5) {
+                issues.push({
+                    item: `${passage.slug}/block-${blockIndex}`,
+                    message: "Los cinco reactivos no deben repetir la misma apertura.",
+                });
+            }
+        }
         for (const question of passageQuestions) {
             for (const item of validateReadingQuestion(question, passage).issues) {
                 issues.push({
@@ -300,6 +341,18 @@ export function auditReadingCatalog(catalog: ReadingCatalog): ReadingCatalogAudi
     const slugs = catalog.passages.map((passage) => passage.slug);
     if (new Set(slugs).size !== slugs.length) {
         issues.push({ item: "catalog", message: "Hay slugs de lectura duplicados." });
+    }
+    const titles = catalog.passages.map((passage) =>
+        passage.title.trim().toLocaleLowerCase("en"),
+    );
+    if (new Set(titles).size !== titles.length) {
+        issues.push({ item: "catalog", message: "Hay títulos de lectura duplicados." });
+    }
+    const topics = catalog.passages.map((passage) =>
+        passage.topic_es.trim().toLocaleLowerCase("es"),
+    );
+    if (new Set(topics).size !== topics.length) {
+        issues.push({ item: "catalog", message: "Hay temas de lectura duplicados." });
     }
     const promptCounts = new Map<string, number>();
     for (const question of catalog.questions) {

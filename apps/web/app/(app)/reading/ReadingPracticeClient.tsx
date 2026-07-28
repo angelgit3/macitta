@@ -6,6 +6,7 @@ import {
     createEmptyReadingQuestionProgress,
     createEmptyReadingSkillProgress,
     evaluateReadingAnswer,
+    findResumableLongReading,
     readingParagraphs,
     type ReadingDomain,
     type ReadingOptionId,
@@ -481,26 +482,27 @@ export function ReadingPracticeClient({
     );
     const completedCount = data.questionProgress.filter((item) => item.points === 2).length;
     const recoveringCount = data.questionProgress.filter((item) => item.attempts > 0 && item.points < 2).length;
+    const dueRecoveryCount = data.questionProgress.filter(
+        (item) =>
+            item.attempts > 0 &&
+            item.points < 2 &&
+            new Date(item.dueAt).getTime() <= Date.now(),
+    ).length;
     const exploredCount = data.exposures.length;
-    const resumableLongReading: { passage: ReadingPassage; block: 1 | 2 } | undefined = (() => {
-        for (const passage of data.passages) {
-            if (passage.length_band !== "long") continue;
-            const passageQuestions = data.questions.filter((question) => question.passage_id === passage.id);
-            const started = passageQuestions.some((question) =>
-                question.block_index === 1 && (progressByQuestion.get(question.id)?.attempts ?? 0) > 0
-            );
-            if (!started) continue;
-            const unfinishedFirstBlock = passageQuestions.some((question) =>
-                question.block_index === 1 && (progressByQuestion.get(question.id)?.points ?? 0) < 2
-            );
-            const unfinishedSecondBlock = passageQuestions.some((question) =>
-                question.block_index === 2 && (progressByQuestion.get(question.id)?.points ?? 0) < 2
-            );
-            if (unfinishedFirstBlock) return { passage, block: 1 };
-            if (unfinishedSecondBlock) return { passage, block: 2 };
-        }
-        return undefined;
-    })();
+    const resumableLongReading = useMemo(
+        () => findResumableLongReading(
+            data.passages,
+            data.questions,
+            data.questionProgress,
+            data.exposures,
+        ),
+        [
+            data.exposures,
+            data.passages,
+            data.questionProgress,
+            data.questions,
+        ],
+    );
 
     if (loading) {
         return (
@@ -602,7 +604,7 @@ export function ReadingPracticeClient({
             data.questions.some((question) =>
                 question.passage_id === primaryPassage.id &&
                 question.block_index === 2 &&
-                (progressByQuestion.get(question.id)?.points ?? 0) < 2
+                (progressByQuestion.get(question.id)?.attempts ?? 0) === 0
             );
         return (
             <div className="mx-auto max-w-3xl">
@@ -729,7 +731,7 @@ export function ReadingPracticeClient({
                         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                             <button
                                 type="button"
-                                onClick={() => void startPractice(recoveringCount > 0 ? "recovery" : "daily")}
+                                onClick={() => void startPractice(dueRecoveryCount > 0 ? "recovery" : "daily")}
                                 disabled={starting || data.questions.length === 0}
                                 className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-accent px-6 font-black text-void transition-transform active:scale-[0.98] disabled:opacity-45"
                             >
@@ -739,7 +741,7 @@ export function ReadingPracticeClient({
                             <button
                                 type="button"
                                 onClick={() => resumableLongReading
-                                    ? void startPractice("continued", resumableLongReading.passage.id, resumableLongReading.block)
+                                    ? void startPractice("continued", resumableLongReading.passageId, resumableLongReading.blockIndex)
                                     : void startPractice("long")
                                 }
                                 disabled={starting || data.questions.length === 0}

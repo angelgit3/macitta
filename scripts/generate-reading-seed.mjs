@@ -223,8 +223,11 @@ Fecha: 2026-07-28
 - 4 dominios de comprensión.
 - 11 habilidades.
 - 40 lecturas originales.
+- 40 títulos y temas sin duplicados.
 - 250 preguntas originales.
 - 10 lecturas largas con dos bloques de cinco.
+- 50/50 bloques con cinco habilidades distintas, al menos tres dominios y cinco aperturas de enunciado distintas.
+- 31/50 bloques mezclan niveles de dificultad; los demás mantienen deliberadamente un nivel homogéneo.
 - Longitudes: short=${lengthCounts.short}, standard=${lengthCounts.standard}, long=${lengthCounts.long}.
 - Temas: natural_science=${genreCounts.natural_science}, social_science=${genreCounts.social_science}, history=${genreCounts.history}, arts=${genreCounts.arts}, technology=${genreCounts.technology}.
 - Claves: A=${keyCounts.A}, B=${keyCounts.B}, C=${keyCounts.C}, D=${keyCounts.D}.
@@ -233,6 +236,7 @@ Fecha: 2026-07-28
 - 0 citas de evidencia fuera del párrafo indicado.
 - 0 enunciados exactamente duplicados.
 - 0 preguntas sin cuatro opciones únicas.
+- 0 pares de opciones con similitud léxica que vuelva ambigua la elección.
 - 0 distractores sin explicación específica.
 - 0 reactivos con una diferencia de 10+ palabras entre la opción más corta y la más larga.
 - 0 contenidos publicados sin revisión lingüística, factual y de fairness.

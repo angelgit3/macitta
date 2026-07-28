@@ -5,6 +5,7 @@ import {
     createEmptyReadingQuestionProgress,
     createEmptyReadingSkillProgress,
     evaluateReadingAnswer,
+    findResumableLongReading,
     validateReadingPassage,
     validateReadingQuestion,
     type ReadingPassage,
@@ -242,6 +243,35 @@ describe("Reading queue", () => {
         expect(queue).toHaveLength(0);
     });
 
+    it("does not repeat a recovering question before its due time", () => {
+        const item = makePassage("not-due");
+        const recovering = {
+            ...createEmptyReadingQuestionProgress("user", "not-due-1"),
+            points: 0 as const,
+            attempts: 1,
+            dueAt: "2026-07-28T12:10:00.000Z",
+        };
+        const early = buildReadingQueue([{
+            passage: item,
+            question: makeQuestion("not-due-1", item.id, 1),
+            questionProgress: recovering,
+        }], {
+            userId: "user",
+            now: new Date("2026-07-28T12:05:00.000Z"),
+        });
+        const due = buildReadingQueue([{
+            passage: item,
+            question: makeQuestion("not-due-1", item.id, 1),
+            questionProgress: recovering,
+        }], {
+            userId: "user",
+            now: new Date("2026-07-28T12:10:00.000Z"),
+        });
+        expect(early).toHaveLength(0);
+        expect(due).toHaveLength(1);
+        expect(due[0].reason).toBe("recovery");
+    });
+
     it("resumes only the preferred reading even when fewer than five items remain", () => {
         const preferred = makePassage("resume");
         const other = makePassage("other");
@@ -285,5 +315,99 @@ describe("Reading aggregation", () => {
         expect(aggregateReadingProgress(questions, [first, second])).toEqual([
             expect.objectContaining({ completed: 1, recovering: 1, seen: 2 }),
         ]);
+    });
+});
+
+describe("Long-reading continuation", () => {
+    const longPassage = makePassage("long-continuation", "long");
+    const longQuestions = Array.from({ length: 10 }, (_, index) =>
+        makeQuestion(
+            `long-continuation-${index + 1}`,
+            longPassage.id,
+            index + 1,
+            index < 5 ? 1 : 2,
+        ),
+    );
+    const exposures = [{
+        userId: "user",
+        passageId: longPassage.id,
+        lastSeenAt: "2026-07-28T12:00:00.000Z",
+        exposureCount: 1,
+    }];
+
+    it("resumes an interrupted first block", () => {
+        const progress = longQuestions.slice(0, 2).map((item) => ({
+            ...createEmptyReadingQuestionProgress("user", item.id),
+            attempts: 1,
+        }));
+        expect(findResumableLongReading(
+            [longPassage],
+            longQuestions,
+            progress,
+            exposures,
+        )).toEqual({ passageId: longPassage.id, blockIndex: 1 });
+    });
+
+    it("unlocks block two after every first-block question was attempted", () => {
+        const progress = longQuestions.slice(0, 5).map((item, index) => ({
+            ...createEmptyReadingQuestionProgress("user", item.id),
+            attempts: 1,
+            points: index === 0 ? 0 as const : 2 as const,
+        }));
+        expect(findResumableLongReading(
+            [longPassage],
+            longQuestions,
+            progress,
+            exposures,
+        )).toEqual({ passageId: longPassage.id, blockIndex: 2 });
+    });
+
+    it("does not call a fully attempted long reading unfinished", () => {
+        const progress = longQuestions.map((item) => ({
+            ...createEmptyReadingQuestionProgress("user", item.id),
+            attempts: 1,
+        }));
+        expect(findResumableLongReading(
+            [longPassage],
+            longQuestions,
+            progress,
+            exposures,
+        )).toBeNull();
+    });
+
+    it("prefers the most recently exposed unfinished long reading", () => {
+        const newer = makePassage("newer-long", "long");
+        const newerQuestions = Array.from({ length: 10 }, (_, index) =>
+            makeQuestion(
+                `newer-long-${index + 1}`,
+                newer.id,
+                index + 1,
+                index < 5 ? 1 : 2,
+            ),
+        );
+        const progress = [
+            {
+                ...createEmptyReadingQuestionProgress("user", longQuestions[0].id),
+                attempts: 1,
+            },
+            {
+                ...createEmptyReadingQuestionProgress("user", newerQuestions[0].id),
+                attempts: 1,
+            },
+        ];
+        expect(findResumableLongReading(
+            [longPassage, newer],
+            [...longQuestions, ...newerQuestions],
+            progress,
+            [
+                ...exposures,
+                {
+                    userId: "user",
+                    passageId: newer.id,
+                    lastSeenAt: "2026-07-29T12:00:00.000Z",
+                    exposureCount: 1,
+                },
+            ],
+        )).toEqual({ passageId: newer.id, blockIndex: 1 });
     });
 });

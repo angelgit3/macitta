@@ -15,6 +15,10 @@ describe("Reading authored catalog", () => {
         expect(
             READING_CATALOG.passages.filter((passage) => passage.length_band === "long"),
         ).toHaveLength(10);
+        expect(new Set(READING_CATALOG.passages.map((passage) => passage.title)).size)
+            .toBe(40);
+        expect(new Set(READING_CATALOG.passages.map((passage) => passage.topic_es)).size)
+            .toBe(40);
 
         const passagesByGenre = new Map<string, number>();
         for (const passage of READING_CATALOG.passages) {
@@ -36,5 +40,22 @@ describe("Reading authored catalog", () => {
         }
         expect(questionsBySkill.size).toBe(READING_CATALOG.skills.length);
         expect(Math.min(...questionsBySkill.values())).toBeGreaterThanOrEqual(10);
+    });
+
+    it("makes every five-question block internally varied", () => {
+        for (const passage of READING_CATALOG.passages) {
+            const blocks = passage.length_band === "long" ? [1, 2] : [1];
+            for (const block of blocks) {
+                const questions = READING_CATALOG.questions.filter(
+                    (question) =>
+                        question.passage_id === passage.id &&
+                        question.block_index === block,
+                );
+                expect(new Set(questions.map((question) => question.skill_code)).size)
+                    .toBe(5);
+                expect(new Set(questions.map((question) => question.domain_id)).size)
+                    .toBeGreaterThanOrEqual(3);
+            }
+        }
     });
 });
