@@ -7,7 +7,11 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "test": "npm run test --workspaces --if-present",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "verify:pwa": "node scripts/verify-pwa-build.mjs"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
