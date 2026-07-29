@@ -76,7 +76,8 @@ export async function middleware(request: NextRequest) {
         process.env.NODE_ENV === "development" &&
         (path === "/grammar-preview" ||
             path === "/reading-preview" ||
-            path === "/listening-preview");
+            path === "/listening-preview" ||
+            path === "/toefl-preview");
     const isPublicRoute = path === "/" || isDevelopmentPreview;
     const isAuthRoute = path.startsWith("/auth");
     const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
