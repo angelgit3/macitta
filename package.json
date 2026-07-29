@@ -8,7 +8,11 @@
     "lint": "turbo lint",
     "test": "npm run test --workspaces --if-present",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "verify:pwa": "node scripts/verify-pwa-build.mjs"
+    "verify:pwa": "node scripts/verify-pwa-build.mjs",
+    "audio:setup": "uv sync --project scripts/listening-audio",
+    "audio:generate": "uv run --project scripts/listening-audio python scripts/listening-audio/generate.py",
+    "audio:demo": "uv run --project scripts/listening-audio python scripts/listening-audio/generate.py --script scripts/listening-audio/examples/short-conversation.json",
+    "audio:voices": "uv run --project scripts/listening-audio python scripts/listening-audio/generate.py --list-voices"
   },
   "engines": {
     "node": "22.x"

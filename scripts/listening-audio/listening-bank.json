@@ -1,0 +1,90 @@
+{
+  "units": [
+    { "id": "quick-library-hours", "segments": [
+      { "voice": "af_bella", "text": "I thought the library closed at eight tonight." },
+      { "voice": "am_michael", "text": "Usually it does, but during final exams it stays open until ten." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man mean?" }
+    ] },
+    { "id": "quick-adviser-appointment", "segments": [
+      { "voice": "am_michael", "text": "Can I see Professor Morales this afternoon?" },
+      { "voice": "af_heart", "text": "Her office hours are over, but she said students with registration problems can email her." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the woman suggest that the man do?" }
+    ] },
+    { "id": "quick-cafeteria-line", "segments": [
+      { "voice": "af_bella", "text": "I was going to get lunch here, but look at that line." },
+      { "voice": "am_michael", "text": "The sandwich shop across the street is usually quieter at this hour." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What will the woman probably do?" }
+    ] },
+    { "id": "quick-printing-fee", "segments": [
+      { "voice": "am_fenrir", "text": "Why did the computer lab charge me for printing?" },
+      { "voice": "af_heart", "text": "The first twenty pages are free. After that, the system deducts money from your student account." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the woman mean?" }
+    ] },
+    { "id": "quick-lab-report", "segments": [
+      { "voice": "af_bella", "text": "Are you almost done with the chemistry report?" },
+      { "voice": "am_michael", "text": "I have the results, but I still need to explain why the second trial was different." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man imply?" }
+    ] },
+    { "id": "quick-dorm-repair", "segments": [
+      { "voice": "am_fenrir", "text": "The heater in my room is making that noise again." },
+      { "voice": "af_heart", "text": "Fill out the online maintenance form before noon, and someone can come today." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "Why does the woman mention noon?" }
+    ] },
+    { "id": "quick-history-reading", "segments": [
+      { "voice": "af_bella", "text": "I cannot believe the professor assigned three chapters for Monday." },
+      { "voice": "am_michael", "text": "He said the third chapter is optional background, unless you are writing the extra-credit response." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man mean?" }
+    ] },
+    { "id": "quick-bookstore-order", "segments": [
+      { "voice": "am_michael", "text": "Has my economics textbook arrived yet?" },
+      { "voice": "af_heart", "text": "The shipment came this morning, but we have not unpacked the boxes. Try again after lunch." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What will the man probably do?" }
+    ] },
+    { "id": "quick-music-ensemble", "segments": [
+      { "voice": "af_bella", "text": "I thought the rehearsal was cancelled." },
+      { "voice": "am_puck", "text": "It was moved to the smaller hall, so it is still on, just not where we usually meet." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man mean?" }
+    ] },
+    { "id": "quick-deadline-extension", "segments": [
+      { "voice": "am_fenrir", "text": "Do you think Professor Chen will give us more time for the essay?" },
+      { "voice": "af_heart", "text": "She already moved the deadline once, so I would not count on it." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the woman mean by saying, I would not count on it?" }
+    ] },
+    { "id": "quick-campus-map", "segments": [
+      { "voice": "af_bella", "text": "Is the science building far from here?" },
+      { "voice": "am_michael", "text": "It is behind the art museum. If you can see the clock tower, you are already halfway there." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man imply?" }
+    ] },
+    { "id": "quick-group-presentation", "segments": [
+      { "voice": "am_fenrir", "text": "I can make the slides, but someone else should introduce the topic." },
+      { "voice": "af_heart", "text": "Fine. You have a good eye for design, and I have already practiced the opening." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "What will the woman probably do?" }
+    ] },
+    { "id": "long-field-study", "gap_ms": 360, "segments": [
+      { "voice": "am_michael", "text": "Hi, I am here about the environmental science field trip. I signed up last month, but I just noticed that it starts before the buses run from my neighborhood." },
+      { "voice": "af_heart", "text": "You are in Professor Patel's section, right? The department arranged a van from the east parking lot at seven fifteen." },
+      { "voice": "am_michael", "text": "I did not see that in the announcement." },
+      { "voice": "af_heart", "text": "It was added after students mentioned the transportation problem. You need to reserve a seat by Thursday because there are only twelve spaces." },
+      { "voice": "am_michael", "text": "That helps. Is there anything else I should bring?" },
+      { "voice": "af_heart", "text": "The lab will provide the sampling equipment. Just wear shoes that can get wet and bring your student ID. The weather forecast says it may rain, but the trip will go ahead unless there is lightning." },
+      { "voice": "am_michael", "text": "So if it rains, we still collect the samples?" },
+      { "voice": "af_heart", "text": "Exactly. In fact, comparing the stream after rain is one reason the professor chose this week." },
+      { "voice": "am_michael", "text": "Then I will reserve a van seat today." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "Now answer the questions." }
+    ] },
+    { "id": "long-bee-navigation", "gap_ms": 300, "segments": [
+      { "voice": "am_fenrir", "speed": 0.96, "text": "Today we will look at how honeybees tell other bees where food is located. For a long time, researchers noticed that a returning bee performs a repeated movement inside the hive. This movement is called the waggle dance." },
+      { "voice": "am_fenrir", "speed": 0.96, "text": "The direction of the dance indicates the direction of the food source relative to the sun. The length and energy of the central movement provide information about distance. At first, this explanation seemed almost too simple." },
+      { "voice": "am_fenrir", "speed": 0.96, "text": "But when scientists moved food sources and observed the dancers, the changes in the dance matched the new locations. Of course, the dance is not the only source of information. Bees can also use scent left on flowers, and they learn features of the landscape around the hive." },
+      { "voice": "am_fenrir", "speed": 0.96, "text": "The important point is that the dance gives other bees a useful starting point. It does not function like a printed map with exact coordinates. Instead, it helps a bee begin searching in the right direction and at roughly the right distance. This is a good example of animal communication being both precise and flexible." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "Now answer the questions." }
+    ] },
+    { "id": "long-city-market", "gap_ms": 300, "segments": [
+      { "voice": "af_nicole", "speed": 0.96, "text": "When historians study an old city, they often begin with its public buildings: temples, government offices, and walls. But market areas can reveal just as much about everyday life. A market brings together people who may otherwise have little reason to meet." },
+      { "voice": "af_nicole", "speed": 0.96, "text": "Farmers bring food from outside the city, craftspeople sell objects they have made, and travelers exchange news from distant places. Because of this, markets can influence a city's growth in more than one way. First, they make trade more efficient by concentrating buyers and sellers in one location." },
+      { "voice": "af_nicole", "speed": 0.96, "text": "Second, they create regular paths through the city. Streets near an active market may become wider or more permanent because so many people use them. Finally, governments often begin to regulate markets by setting weights, collecting taxes, or inspecting goods." },
+      { "voice": "af_nicole", "speed": 0.96, "text": "These rules tell historians what leaders considered important. So, a market is not simply a place to buy food. It is a meeting point where economic activity, movement, and political control become visible at the same time." },
+      { "voice": "af_nicole", "speed": 0.94, "text": "Now answer the questions." }
+    ] }
+  ]
+}

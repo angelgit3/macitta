@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpenCheck, CloudOff, Home, Layers, LibraryBig, Loader2, Shuffle, User } from "lucide-react";
+import { BookOpenCheck, CloudOff, Headphones, Home, Layers, LibraryBig, Loader2, Shuffle, User } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,6 +12,7 @@ const leftItems = [
   { icon: Home, label: "Inicio", href: "/dashboard" },
   { icon: BookOpenCheck, label: "Grammar", href: "/grammar" },
   { icon: LibraryBig, label: "Reading", href: "/reading" },
+  { icon: Headphones, label: "Listening", href: "/listening" },
 ];
 const rightItems = [
   { icon: Layers, label: "Mazos", href: "/vocabulario" },

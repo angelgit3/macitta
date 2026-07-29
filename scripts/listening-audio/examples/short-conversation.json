@@ -1,0 +1,22 @@
+{
+  "title": "Library closing time",
+  "gap_ms": 280,
+  "segments": [
+    {
+      "speaker": "student_a",
+      "voice": "af_heart",
+      "text": "I thought the library closed at eight tonight."
+    },
+    {
+      "speaker": "student_b",
+      "voice": "am_michael",
+      "text": "Usually it does, but during final exams it stays open until ten."
+    },
+    {
+      "speaker": "narrator",
+      "voice": "af_nicole",
+      "speed": 0.96,
+      "text": "What does the man mean?"
+    }
+  ]
+}

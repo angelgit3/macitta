@@ -20,6 +20,9 @@ import type {
     ReadingQuestionProgress,
     ReadingSkill,
     ReadingSkillProgress,
+    ListeningOptionId,
+    ListeningQuestionProgress,
+    ListeningSkillProgress,
 } from '@macitta/shared';
 
 // ─── Interfaces ─────────────────────────────────────────────────────
@@ -71,6 +74,8 @@ export type LocalReadingQuestion = ReadingQuestion;
 export type LocalReadingQuestionProgress = ReadingQuestionProgress;
 export type LocalReadingSkillProgress = ReadingSkillProgress;
 export type LocalReadingPassageExposure = ReadingPassageExposure;
+export type LocalListeningQuestionProgress = ListeningQuestionProgress;
+export type LocalListeningSkillProgress = ListeningSkillProgress;
 
 export interface LocalGrammarSession {
     id: string;
@@ -172,6 +177,36 @@ export interface LocalReadingAttempt {
     };
     responseMs: number;
     contentVersion: number;
+    answeredAt: string;
+}
+
+export interface LocalListeningSession {
+    id: string;
+    userId: string;
+    mode: 'quick' | 'long';
+    primaryUnitId: string | null;
+    status: 'active' | 'completed' | 'abandoned';
+    startedAt: string;
+    endedAt: string | null;
+    totalQuestions: number;
+    correctQuestions: number;
+    totalTimeMs: number;
+}
+
+export interface LocalListeningAttempt {
+    id: string;
+    userId: string;
+    questionId: string;
+    sessionId: string;
+    selectedOptionId: ListeningOptionId;
+    isCorrect: boolean;
+    earnedPoints: 0 | 1 | 2;
+    playCount: number;
+    previousQuestionState: Omit<ListeningQuestionProgress, 'userId' | 'questionId' | 'revision'>;
+    nextQuestionState: Omit<ListeningQuestionProgress, 'userId' | 'questionId' | 'revision'>;
+    previousSkillState: Omit<ListeningSkillProgress, 'userId' | 'skillCode' | 'revision' | 'correctAttempts' | 'totalAttempts'>;
+    nextSkillState: Omit<ListeningSkillProgress, 'userId' | 'skillCode' | 'revision' | 'correctAttempts' | 'totalAttempts'>;
+    responseMs: number;
     answeredAt: string;
 }
 
@@ -309,6 +344,38 @@ interface RecordReadingExposureOp {
     retryCount?: number;
 }
 
+interface ListeningSessionOp {
+    id?: number;
+    type: 'start_listening_session' | 'finish_listening_session';
+    data: LocalListeningSession;
+    created_at: string;
+    retryCount?: number;
+}
+
+interface InsertListeningAttemptOp {
+    id?: number;
+    type: 'insert_listening_attempt';
+    data: LocalListeningAttempt;
+    created_at: string;
+    retryCount?: number;
+}
+
+interface UpsertListeningQuestionProgressOp {
+    id?: number;
+    type: 'upsert_listening_question_progress';
+    data: LocalListeningQuestionProgress & { expectedRevision: number };
+    created_at: string;
+    retryCount?: number;
+}
+
+interface UpsertListeningSkillProgressOp {
+    id?: number;
+    type: 'upsert_listening_skill_progress';
+    data: LocalListeningSkillProgress & { expectedRevision: number };
+    created_at: string;
+    retryCount?: number;
+}
+
 export type SyncOperation =
     | UpsertUserItemOp
     | InsertStudyLogOp
@@ -323,7 +390,11 @@ export type SyncOperation =
     | InsertReadingAttemptOp
     | UpsertReadingQuestionProgressOp
     | UpsertReadingSkillProgressOp
-    | RecordReadingExposureOp;
+    | RecordReadingExposureOp
+    | ListeningSessionOp
+    | InsertListeningAttemptOp
+    | UpsertListeningQuestionProgressOp
+    | UpsertListeningSkillProgressOp;
 
 // ─── Database ───────────────────────────────────────────────────────
 
@@ -352,6 +423,10 @@ export class MaccitaDB extends Dexie {
     readingPassageExposures!: Table<LocalReadingPassageExposure>;
     readingSessions!: Table<LocalReadingSession>;
     readingAttempts!: Table<LocalReadingAttempt>;
+    listeningQuestionProgress!: Table<LocalListeningQuestionProgress>;
+    listeningSkillProgress!: Table<LocalListeningSkillProgress>;
+    listeningSessions!: Table<LocalListeningSession>;
+    listeningAttempts!: Table<LocalListeningAttempt>;
 
     constructor() {
         super('MaccitaOfflineV1');
@@ -418,6 +493,37 @@ export class MaccitaDB extends Dexie {
             readingSessions: 'id, userId, status, startedAt, primaryPassageId',
             readingAttempts: 'id, userId, questionId, sessionId, answeredAt',
         });
+
+        this.version(5).stores({
+            cards: 'id, deck_id',
+            userItems: '[user_id+card_id], card_id, due_date',
+            studyLogs: '++id, user_id, card_id, session_id',
+            syncQueue: '++id, type, created_at',
+            toeflExams: 'id, section, type',
+            toeflQuestions: 'id, exam_id, [exam_id+order_index]',
+            toeflAttempts: 'id, user_id, exam_id, completed_at',
+            toeflAnswers: '[attempt_id+question_id], attempt_id, question_id',
+            sremInbox: 'id, user_id, created_at',
+            grammarDomains: 'id, code, order_index',
+            grammarSkills: 'id, domain_id, code, [domain_id+order_index]',
+            grammarExercises: 'id, primary_skill_id, domain_id, skill_code, format, status',
+            grammarProgress: '[userId+exerciseId], userId, exerciseId, dueDate, [userId+dueDate]',
+            grammarSessions: 'id, userId, status, startedAt',
+            grammarAttempts: 'id, userId, exerciseId, sessionId, reviewedAt',
+            readingDomains: 'id, code, order_index',
+            readingSkills: 'id, domain_id, code, [domain_id+order_index]',
+            readingPassages: 'id, slug, genre, length_band, status',
+            readingQuestions: 'id, passage_id, primary_skill_id, skill_code, [passage_id+block_index], [passage_id+order_index], status',
+            readingQuestionProgress: '[userId+questionId], userId, questionId, dueAt, [userId+dueAt], points',
+            readingSkillProgress: '[userId+skillId], userId, skillId, dueDate, [userId+dueDate]',
+            readingPassageExposures: '[userId+passageId], userId, passageId, lastSeenAt, [userId+lastSeenAt]',
+            readingSessions: 'id, userId, status, startedAt, primaryPassageId',
+            readingAttempts: 'id, userId, questionId, sessionId, answeredAt',
+            listeningQuestionProgress: '[userId+questionId], userId, questionId, dueAt, [userId+dueAt], points',
+            listeningSkillProgress: '[userId+skillCode], userId, skillCode, dueDate, [userId+dueDate]',
+            listeningSessions: 'id, userId, status, startedAt, primaryUnitId',
+            listeningAttempts: 'id, userId, questionId, sessionId, answeredAt',
+        });
     }
 }
 
@@ -449,6 +555,10 @@ export async function clearPrivateOfflineData(): Promise<void> {
             db.readingPassageExposures,
             db.readingSessions,
             db.readingAttempts,
+            db.listeningQuestionProgress,
+            db.listeningSkillProgress,
+            db.listeningSessions,
+            db.listeningAttempts,
         ],
         async () => {
             await Promise.all([
@@ -467,6 +577,10 @@ export async function clearPrivateOfflineData(): Promise<void> {
                 db.readingPassageExposures.clear(),
                 db.readingSessions.clear(),
                 db.readingAttempts.clear(),
+                db.listeningQuestionProgress.clear(),
+                db.listeningSkillProgress.clear(),
+                db.listeningSessions.clear(),
+                db.listeningAttempts.clear(),
             ]);
         },
     );

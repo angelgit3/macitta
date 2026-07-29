@@ -6,4 +6,6 @@ export * from "./src/grammar";
 export * from "./src/grammarBank";
 export * from "./src/reading";
 export * from "./src/readingBank";
+export * from "./src/listening";
+export * from "./src/listeningBank";
 export * from "./src/security";

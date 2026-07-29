@@ -74,7 +74,9 @@ export async function middleware(request: NextRequest) {
     const isAuthenticated = Boolean(claimsData?.claims.sub);
     const isDevelopmentPreview =
         process.env.NODE_ENV === "development" &&
-        (path === "/grammar-preview" || path === "/reading-preview");
+        (path === "/grammar-preview" ||
+            path === "/reading-preview" ||
+            path === "/listening-preview");
     const isPublicRoute = path === "/" || isDevelopmentPreview;
     const isAuthRoute = path.startsWith("/auth");
     const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
@@ -104,6 +106,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        "/((?!_next/static|_next/image|favicon.ico|manifest\\.json|sw\\.js|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|eot)$).*)",
+        "/((?!_next/static|_next/image|favicon.ico|manifest\\.json|sw\\.js|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|eot|mp3|wav|ogg)$).*)",
     ],
 };

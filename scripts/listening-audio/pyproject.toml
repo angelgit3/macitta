@@ -1,0 +1,16 @@
+[project]
+name = "macitta-listening-audio"
+version = "0.1.0"
+description = "Local Kokoro TTS generator for Macitta TOEFL listening exercises"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
+  "imageio-ffmpeg>=0.6.0,<0.7",
+  "kokoro>=0.9.4,<1.0",
+  "misaki[en]>=0.9.4,<1.0",
+  "numpy>=2.0,<3.0",
+  "soundfile>=0.13.1,<0.14",
+]
+
+[tool.uv]
+package = false

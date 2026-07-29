@@ -35,6 +35,11 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# local Python environments and generated listening audio
+scripts/listening-audio/.venv/
+scripts/listening-audio/output/
+scripts/listening-audio/__pycache__/
+
 # vercel
 .vercel
 

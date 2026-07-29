@@ -562,6 +562,111 @@ export function useSync(enabled = true) {
                     return true;
                 }
 
+                case 'start_listening_session': {
+                    const { data } = op;
+                    const { error } = await supabase.from('listening_sessions').upsert({
+                        id: data.id,
+                        user_id: data.userId,
+                        mode: data.mode,
+                        primary_unit_id: data.primaryUnitId,
+                        status: data.status,
+                        started_at: data.startedAt,
+                        ended_at: data.endedAt,
+                        total_questions: data.totalQuestions,
+                        correct_questions: data.correctQuestions,
+                        total_time_ms: data.totalTimeMs,
+                    }, { onConflict: 'id' });
+                    if (error) {
+                        logger.error('[Sync] start_listening_session error', error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'finish_listening_session': {
+                    const { data } = op;
+                    const { error } = await supabase.from('listening_sessions').update({
+                        status: data.status,
+                        ended_at: data.endedAt,
+                        total_questions: data.totalQuestions,
+                        correct_questions: data.correctQuestions,
+                        total_time_ms: data.totalTimeMs,
+                    }).eq('id', data.id);
+                    if (error) {
+                        logger.error('[Sync] finish_listening_session error', error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'insert_listening_attempt': {
+                    const { data } = op;
+                    const { error } = await supabase.rpc('insert_listening_attempt', {
+                        p_id: data.id,
+                        p_user_id: data.userId,
+                        p_question_id: data.questionId,
+                        p_session_id: data.sessionId,
+                        p_selected_option_id: data.selectedOptionId,
+                        p_is_correct: data.isCorrect,
+                        p_earned_points: data.earnedPoints,
+                        p_play_count: data.playCount,
+                        p_previous_question_state: data.previousQuestionState,
+                        p_next_question_state: data.nextQuestionState,
+                        p_previous_skill_state: data.previousSkillState,
+                        p_next_skill_state: data.nextSkillState,
+                        p_response_ms: data.responseMs,
+                        p_answered_at: data.answeredAt,
+                    });
+                    if (error) {
+                        logger.error('[Sync] insert_listening_attempt error', error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'upsert_listening_question_progress': {
+                    const { data } = op;
+                    const { error } = await supabase.rpc('sync_listening_question_progress', {
+                        p_user_id: data.userId,
+                        p_question_id: data.questionId,
+                        p_points: data.points,
+                        p_attempts: data.attempts,
+                        p_correct_attempts: data.correctAttempts,
+                        p_last_answered_at: data.lastAnsweredAt,
+                        p_due_at: data.dueAt,
+                        p_expected_revision: data.expectedRevision,
+                    });
+                    if (error) {
+                        logger.error('[Sync] upsert_listening_question_progress error', error);
+                        return false;
+                    }
+                    return true;
+                }
+
+                case 'upsert_listening_skill_progress': {
+                    const { data } = op;
+                    const { error } = await supabase.rpc('sync_listening_skill_progress', {
+                        p_user_id: data.userId,
+                        p_skill_code: data.skillCode,
+                        p_step: data.step,
+                        p_interval_days: data.interval,
+                        p_difficulty: data.difficulty,
+                        p_reps: data.totalAttempts,
+                        p_lapses: data.lapses,
+                        p_state: data.state,
+                        p_last_review_at: data.lastReview,
+                        p_due_at: data.dueDate,
+                        p_correct_attempts: data.correctAttempts,
+                        p_total_attempts: data.totalAttempts,
+                        p_expected_revision: data.expectedRevision,
+                    });
+                    if (error) {
+                        logger.error('[Sync] upsert_listening_skill_progress error', error);
+                        return false;
+                    }
+                    return true;
+                }
+
                 default: {
                     logger.warn("[Sync] Unknown operation type:", (op as any).type);
                     return false;

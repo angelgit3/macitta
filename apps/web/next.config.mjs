@@ -26,7 +26,7 @@ const withSerwist = withSerwistInit({
     // Exclude source maps and Next.js manifest chunks from precaching
     exclude: [/.map$/, /^manifest.*.js$/, /_buildManifest\.js$/, /_ssgManifest\.js$/],
     // Precache all public static assets
-    globPublicPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+    globPublicPatterns: ["**/*.{js,css,html,ico,png,svg,woff2,mp3}"],
 });
 
 const isProduction = process.env.NODE_ENV === "production";

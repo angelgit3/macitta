@@ -21,6 +21,7 @@ const PRIVATE_ROUTE_PREFIXES = [
     "/dashboard",
     "/estudio",
     "/grammar",
+    "/listening",
     "/toefl",
     "/usuario",
     "/vocabulario",
