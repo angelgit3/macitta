@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpenCheck, CloudOff, Headphones, Home, Layers, LibraryBig, Loader2, Shuffle, User } from "lucide-react";
+import { CloudOff, GraduationCap, Home, Layers, Loader2, Shuffle, User } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,9 +10,7 @@ import { useSync } from "@/hooks/useSync";
 
 const leftItems = [
   { icon: Home, label: "Inicio", href: "/dashboard" },
-  { icon: BookOpenCheck, label: "Grammar", href: "/grammar" },
-  { icon: LibraryBig, label: "Reading", href: "/reading" },
-  { icon: Headphones, label: "Listening", href: "/listening" },
+  { icon: GraduationCap, label: "TOEFL", href: "/toefl" },
 ];
 const rightItems = [
   { icon: Layers, label: "Mazos", href: "/vocabulario" },
@@ -55,6 +53,12 @@ export function ZenDock() {
     ? pathname === path || pathname === "/"
     : pathname === path || Boolean(pathname?.startsWith(`${path}/`));
   const isStudying = Boolean(pathname?.startsWith("/estudio"));
+  const isToefl = Boolean(
+    pathname?.startsWith("/toefl") ||
+    pathname?.startsWith("/grammar") ||
+    pathname?.startsWith("/reading") ||
+    pathname?.startsWith("/listening"),
+  );
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-6xl border-t border-border bg-void px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 sm:bottom-5 sm:max-w-[520px] sm:rounded-2xl sm:border">
@@ -65,7 +69,7 @@ export function ZenDock() {
       )}
 
       <nav className="flex items-end gap-1" aria-label="Navegación principal">
-        {leftItems.map((item) => <DockItem key={item.href} {...item} active={isActive(item.href)} />)}
+        {leftItems.map((item) => <DockItem key={item.href} {...item} active={item.href === "/toefl" ? isToefl : isActive(item.href)} />)}
 
         <Link
           href="/estudio/global"

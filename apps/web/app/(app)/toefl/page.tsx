@@ -41,6 +41,39 @@ const SECTION_META = {
     },
 } as const;
 
+const STUDY_MODULES = [
+    {
+        label: "Grammar",
+        kicker: "Estructura",
+        description: "Sesiones de cinco reactivos para afinar patrones y evitar trampas.",
+        href: "/grammar",
+        action: "Entrenar grammar",
+        icon: PenTool,
+        accent: "border-amber/25 bg-amber/5 hover:border-amber/55",
+        iconClass: "bg-amber/12 text-amber",
+    },
+    {
+        label: "Reading",
+        kicker: "Comprensión",
+        description: "Pasajes por niveles, preguntas conectadas y repaso de tus puntos débiles.",
+        href: "/reading",
+        action: "Entrenar reading",
+        icon: BookOpen,
+        accent: "border-sky-300/20 bg-sky-300/5 hover:border-sky-300/50",
+        iconClass: "bg-sky-300/12 text-sky-300",
+    },
+    {
+        label: "Listening",
+        kicker: "Oído activo",
+        description: "Micro audios y conversaciones largas para reconocer intención y detalle.",
+        href: "/listening",
+        action: "Entrenar listening",
+        icon: Headphones,
+        accent: "border-accent/25 bg-accent/5 hover:border-accent/55",
+        iconClass: "bg-accent/12 text-accent",
+    },
+] as const;
+
 function formatAttemptDate(value: string) {
     return new Intl.DateTimeFormat("es-MX", {
         day: "numeric",
@@ -118,6 +151,41 @@ export default async function TOEFLPracticePage() {
                     </div>
                 </div>
 
+                <section aria-labelledby="study-modules-title">
+                    <div className="mb-4 flex flex-col gap-1 px-1 sm:flex-row sm:items-end sm:justify-between">
+                        <div>
+                            <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">Estudio diario</p>
+                            <h2 id="study-modules-title" className="mt-1 text-xl font-black tracking-[-0.025em] text-ink">Elige una habilidad para entrenar.</h2>
+                        </div>
+                        <p className="text-sm text-ink-muted">Sesiones cortas, progreso acumulable.</p>
+                    </div>
+
+                    <nav className="grid gap-3 md:grid-cols-3" aria-label="Módulos de preparación TOEFL">
+                        {STUDY_MODULES.map((module) => {
+                            const Icon = module.icon;
+                            return (
+                                <Link
+                                    key={module.href}
+                                    href={module.href}
+                                    className={`group relative flex min-h-52 flex-col overflow-hidden rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(0,0,0,0.22)] ${module.accent}`}
+                                >
+                                    <div className="flex items-start justify-between gap-4">
+                                        <span className={`flex size-11 items-center justify-center rounded-2xl ${module.iconClass}`}>
+                                            <Icon size={21} aria-hidden="true" />
+                                        </span>
+                                        <span className="text-[0.65rem] font-black uppercase tracking-[0.16em] text-ink-faint">{module.kicker}</span>
+                                    </div>
+                                    <h3 className="mt-7 text-2xl font-black tracking-[-0.035em] text-ink">{module.label}</h3>
+                                    <p className="mt-2 max-w-xs text-sm leading-6 text-ink-muted">{module.description}</p>
+                                    <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-black text-ink transition-transform duration-200 group-hover:translate-x-1">
+                                        {module.action} <ArrowRight size={16} aria-hidden="true" />
+                                    </span>
+                                </Link>
+                            );
+                        })}
+                    </nav>
+                </section>
+
                 {examsError ? (
                     <section className="rounded-2xl border border-danger/25 bg-danger/10 p-6" role="alert">
                         <h2 className="font-bold text-danger">No pudimos cargar las prácticas</h2>
@@ -131,6 +199,11 @@ export default async function TOEFLPracticePage() {
                     </section>
                 ) : (
                     <div className="space-y-8">
+                        <div className="px-1">
+                            <p className="text-xs font-black uppercase tracking-[0.18em] text-ink-faint">Simulacros</p>
+                            <h2 className="mt-1 text-xl font-black tracking-[-0.025em] text-ink">Practica el formato completo.</h2>
+                            <p className="mt-1 text-sm text-ink-muted">Para medir ritmo, tiempo y desempeño por sección.</p>
+                        </div>
                         {SECTION_ORDER.map((section) => {
                             const sectionExams = typedExams.filter((exam) => exam.section === section);
                             if (sectionExams.length === 0) return null;
