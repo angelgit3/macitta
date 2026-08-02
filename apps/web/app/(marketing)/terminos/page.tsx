@@ -5,7 +5,7 @@ import {
   FileCheck2,
   BookOpen,
   CloudOff,
-  UserShield,
+  UserCheck,
   AlertCircle,
   ArrowLeft,
   Sparkles,
@@ -123,7 +123,7 @@ export default function TermsOfServicePage() {
           {/* Section 2 */}
           <section id="uso-servicio" className="scroll-mt-24 space-y-3 border-b border-border/60 pb-8">
             <div className="flex items-center gap-2 text-accent">
-              <UserShield size={20} />
+              <UserCheck size={20} />
               <h2 className="text-xl font-black text-ink">2. Uso Aceptable del Servicio</h2>
             </div>
             <p>Macitta está diseñada como una herramienta de apoyo académico personal para la memorización y práctica de idioma inglés. Te comprometes a:</p>

@@ -119,7 +119,7 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-xl font-black text-ink">1. Responsable del Tratamiento</h2>
             </div>
             <p>
-              <strong className="text-ink">Macitta</strong> (en adelante "la Plataforma") es una aplicación web y PWA dedicada al estudio de vocabulario, repetición espaciada y preparación para exámenes estandarizados como TOEFL ITP®.
+              <strong className="text-ink">Macitta</strong> (en adelante &quot;la Plataforma&quot;) es una aplicación web y PWA dedicada al estudio de vocabulario, repetición espaciada y preparación para exámenes estandarizados como TOEFL ITP®.
             </p>
             <p>
               El responsable del tratamiento de tus datos personales es Alberto Anaya, desarrollador titular del proyecto Macitta. Nos comprometemos a resguardar la confidencialidad de tu información personal bajo estrictas medidas de seguridad técnica y organizativa.
