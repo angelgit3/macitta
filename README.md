@@ -4,12 +4,12 @@
 
 **Offline-first English study, spaced repetition and TOEFL practice in one installable app.**
 
-[Live app](https://www.macitta.app) · [Architecture](ARCHITECTURE.md) · [SREM algorithm](docs/srem-algorithm.md) · [Deployment guide](docs/deployment.md)
+[Live app](https://www.macitta.app) · [Architecture](ARCHITECTURE.md) · [SREM algorithm](docs/srem-algorithm.md) · [Deployment guide](docs/deployment.md) · [Privacy Policy](apps/web/app/(marketing)/privacidad/page.tsx)
 
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E?style=flat-square&logo=supabase)](https://supabase.com/)
-[![Tests](https://img.shields.io/badge/tests-69%20passing-22c55e?style=flat-square&logo=vitest)](packages/shared/src)
+[![Tests](https://img.shields.io/badge/tests-136%20passing-22c55e?style=flat-square&logo=vitest)](packages/shared/src)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](LICENSE)
 
 </div>
@@ -18,9 +18,9 @@
 
 ## Why this project exists
 
-Engineering and robotics students often need English before they can comfortably read documentation, understand errors or prepare for international exams. Macitta turns that need into short study sessions that continue working with an unreliable connection.
+Engineering and robotics students often need English before they can comfortably read documentation, understand errors or prepare for international exams. Macitta turns that need into short study sessions that continue working even with an unreliable connection.
 
-This repository is also an engineering case study. It combines a custom scheduling algorithm, an offline queue, typed application code, database security, automated tests and a deployed product.
+This repository is also an engineering case study. It combines a custom scheduling algorithm, an offline sync queue, typed application code, database security, legal compliance, automated tests and a deployed product.
 
 ## Product capabilities
 
@@ -28,10 +28,12 @@ This repository is also an engineering case study. It combines a custom scheduli
 |---|---|
 | Spaced repetition | Custom SREM engine with a 9-position growth curve, difficulty adjustment and lapse-aware progression |
 | Study sessions | Global due-card queue, personal decks, answer validation and activity tracking |
-| TOEFL | Reading, Grammar and Listening, flexible and strict modes, scoring, review history and AI tutor prompt generation |
-| Offline support | PWA shell, IndexedDB persistence with Dexie and a replayable Supabase sync queue |
-| Data security | Supabase Auth, RLS on exposed application tables and private user progress |
-| Quality | TypeScript strict mode, ESLint, production build checks and 69 automated tests |
+| TOEFL practice | Reading, Grammar and Listening, flexible and strict modes, scoring, review history and AI tutor prompt generation |
+| Offline support | PWA shell with Serwist, IndexedDB persistence via Dexie and a replayable Supabase sync queue |
+| UI & Design System | **Estudio Lúmico** design language (luminous glassmorphic interface, periwinkle/amber/sage palette and micro-interactions) |
+| Legal & Transparency | **Aviso de Privacidad** (`/privacidad`), **Términos de Servicio** (`/terminos`), English redirects (`/privacy`, `/terms`) and non-intrusive essential cookie consent banner (`CookieConsentBanner`) |
+| Data security | Supabase Auth, Row Level Security (RLS) on exposed application tables and private user progress |
+| Quality | TypeScript strict mode, ESLint, production build checks and 136 automated unit tests across 10 test suites |
 
 ## Architecture at a glance
 
@@ -45,8 +47,8 @@ flowchart LR
     UI --> STORAGE[Supabase Storage audio]
 ```
 
-- `apps/web`: Next.js App Router, authentication, study flows and PWA.
-- `packages/shared`: framework-independent SREM, scoring, validation and tests.
+- `apps/web`: Next.js 15 App Router, authentication, study flows, PWA and Estudio Lúmico UI components.
+- `packages/shared`: framework-independent SREM, scoring, validation and 136 automated unit tests.
 - `supabase/migrations`: complete migration history fetched from the linked production database.
 - `supabase/seed-assets`: versioned TOEFL audio required by the seed content.
 
@@ -54,7 +56,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for data flow, security boundaries and cu
 
 ## Run locally
 
-Prerequisites: Node.js 20+, npm and a Supabase project.
+Prerequisites: Node.js 22+, npm and a Supabase project.
 
 ```bash
 git clone https://github.com/angelgit3/macitta.git
@@ -68,7 +70,7 @@ Copy the environment template and add the URL and publishable or legacy anon key
 cp apps/web/.env.example apps/web/.env.local
 ```
 
-Link the project, apply the versioned schema and upload the two TOEFL audio fixtures:
+Link the project, apply the versioned schema and upload the TOEFL audio fixtures:
 
 ```bash
 npx supabase login
