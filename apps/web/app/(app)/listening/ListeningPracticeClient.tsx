@@ -192,14 +192,14 @@ export function ListeningPracticeClient({ previewData, previewUserId }: Props = 
         if (position + 1 < queue.length) {
             const nextItem = queue[position + 1];
             const sameLong = nextItem.unit.id === current?.unit.id && nextItem.unit.kind === "long";
-            setPosition((value) => value + 1); setSelected(null); setLocked(false); setHeard(sameLong); setPlayCount(sameLong ? playCount : 0); startedAt.current = Date.now();
+            setPosition((value) => value + 1); setSelected(null); setLocked(false); setHeard(sameLong); setPlayCount(sameLong ? 1 : 0); startedAt.current = Date.now();
             return;
         }
         const correct = outcomes.filter((outcome) => outcome.correct).length;
         const totalMs = Date.now() - new Date(session.startedAt).getTime();
         if (!isPreview) await finishListeningSession(session, outcomes.length, correct, totalMs);
         setScreen("summary"); void performSync();
-    }, [current?.unit.id, isPreview, outcomes, performSync, playCount, position, queue, session]);
+    }, [current?.unit.id, isPreview, outcomes, performSync, position, queue, session]);
 
     const leave = useCallback(async () => {
         if (session && !isPreview) await abandonListeningSession(session, outcomes.length, outcomes.filter((item) => item.correct).length, Date.now() - new Date(session.startedAt).getTime());
@@ -208,12 +208,19 @@ export function ListeningPracticeClient({ previewData, previewUserId }: Props = 
 
     useEffect(() => {
         const handleKey = (event: KeyboardEvent) => {
-            if (!current || locked || !heard || event.metaKey || event.ctrlKey || event.altKey) return;
-            const option = event.key.toUpperCase() as ListeningOptionId;
-            if (["A", "B", "C", "D"].includes(option)) void submit(option);
+            if (!current || event.metaKey || event.ctrlKey || event.altKey) return;
+            if (locked && (event.key === "Enter" || event.key === " ")) {
+                event.preventDefault();
+                void next();
+                return;
+            }
+            if (!locked && heard) {
+                const option = event.key.toUpperCase() as ListeningOptionId;
+                if (["A", "B", "C", "D"].includes(option)) void submit(option);
+            }
         };
         window.addEventListener("keydown", handleKey); return () => window.removeEventListener("keydown", handleKey);
-    }, [current, heard, locked, submit]);
+    }, [current, heard, locked, next, submit]);
 
     const progress = useMemo(() => aggregateListeningProgress(data.questions, data.questionProgress), [data.questionProgress, data.questions]);
 

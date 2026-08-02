@@ -56,6 +56,48 @@ describe("Listening two-point scoring", () => {
         expect(result.questionProgress.points).toBe(0);
         expect(result.questionProgress.dueAt).toBe(NOW.toISOString());
     });
+
+    it("evaluates consecutive questions in long audios independently with 2 points on first listen", () => {
+        const longUnit = LISTENING_UNITS.find((unit) => unit.kind === "long")!;
+        const longQuestions = LISTENING_QUESTIONS.filter((q) => q.unit_id === longUnit.id);
+        expect(longQuestions.length).toBe(5);
+
+        const q1Result = evaluateListeningAnswer(
+            createEmptyListeningQuestionProgress("user", longQuestions[0].id),
+            createEmptyListeningSkillProgress("user", longQuestions[0].primary_skill_code),
+            true,
+            1,
+            NOW,
+        );
+        expect(q1Result.earnedPoints).toBe(2);
+
+        const q2Result = evaluateListeningAnswer(
+            createEmptyListeningQuestionProgress("user", longQuestions[1].id),
+            createEmptyListeningSkillProgress("user", longQuestions[1].primary_skill_code),
+            true,
+            1,
+            NOW,
+        );
+        expect(q2Result.earnedPoints).toBe(2);
+
+        const q3Result = evaluateListeningAnswer(
+            createEmptyListeningQuestionProgress("user", longQuestions[2].id),
+            createEmptyListeningSkillProgress("user", longQuestions[2].primary_skill_code),
+            true,
+            2,
+            NOW,
+        );
+        expect(q3Result.earnedPoints).toBe(1);
+
+        const q4Result = evaluateListeningAnswer(
+            createEmptyListeningQuestionProgress("user", longQuestions[3].id),
+            createEmptyListeningSkillProgress("user", longQuestions[3].primary_skill_code),
+            true,
+            1,
+            NOW,
+        );
+        expect(q4Result.earnedPoints).toBe(2);
+    });
 });
 
 describe("Listening adaptive queues", () => {
