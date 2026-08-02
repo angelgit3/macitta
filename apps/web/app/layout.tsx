@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { PWAInstallPromptCapture } from "@/components/ui/PWAInstallPromptCapture";
+import { CookieConsentBanner } from "@/components/ui/CookieConsentBanner";
 import "./globals.css";
 
 // Nonce-based CSP requires request-time rendering so Next.js can copy the
@@ -42,6 +43,7 @@ export default function RootLayout({
         <html lang="es-MX" className="dark">
             <body className="bg-void text-ink min-h-screen flex justify-center selection:bg-accent/30 selection:text-ink transition-colors duration-300">
                 <PWAInstallPromptCapture />
+                <CookieConsentBanner />
                 {children}
             </body>
         </html>

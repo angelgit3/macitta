@@ -399,9 +399,24 @@ export default function LandingPage() {
             iconClassName="text-accent"
             textClassName="font-black"
           />
-          <p className="text-ink-faint">
-            Hecha para estudiar con calma, incluso cuando la conexión no acompaña.
-          </p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm">
+            <Link
+              href="/privacidad"
+              className="text-ink-muted transition-colors hover:text-accent font-medium"
+            >
+              Aviso de Privacidad
+            </Link>
+            <Link
+              href="/terminos"
+              className="text-ink-muted transition-colors hover:text-accent font-medium"
+            >
+              Términos de Servicio
+            </Link>
+            <span className="text-ink-faint hidden md:inline">•</span>
+            <p className="text-ink-faint">
+              Hecha para estudiar con calma, incluso cuando la conexión no acompaña.
+            </p>
+          </div>
         </div>
       </footer>
     </div>

@@ -6,8 +6,9 @@ import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
     Code2, User, Flame, Clock, Target, Trophy,
-    Download, Github, Instagram,
+    Download, Github, Instagram, ShieldCheck,
 } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUserStats } from '@/hooks/useUserStats';
 import { clearPrivateOfflineData } from '@/lib/db';
@@ -330,6 +331,16 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
             {/* ── Footer ────────────────────────────────────── */}
             <footer className="pt-6 pb-2 text-center space-y-4 border-t border-border">
+                <div className="flex justify-center items-center gap-4 text-xs font-semibold text-ink-muted">
+                    <Link href="/privacidad" className="flex items-center gap-1 hover:text-accent transition-colors">
+                        <ShieldCheck size={14} className="text-accent" /> Aviso de Privacidad
+                    </Link>
+                    <span>•</span>
+                    <Link href="/terminos" className="hover:text-accent transition-colors">
+                        Términos de Servicio
+                    </Link>
+                </div>
+
                 <div className="flex justify-center gap-3">
                     <SocialButton label="GitHub" href="https://github.com/angelgit3/macitta">
                         <Github size={18} />
