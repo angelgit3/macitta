@@ -329,6 +329,12 @@ export function useSync(enabled = true) {
 
                 case 'start_reading_session': {
                     const { data } = op;
+                    const { data: authData } = await supabase.auth.getUser();
+                    if (!authData.user) return false;
+                    if (authData.user.id !== data.userId) {
+                        // Discard queue items from previous/other user sessions to avoid RLS mismatch
+                        return true;
+                    }
                     const payload = {
                         id: data.id,
                         user_id: data.userId,
@@ -693,6 +699,9 @@ export function useSync(enabled = true) {
         const queue = await db.syncQueue.orderBy('id').toArray();
         if (queue.length === 0) return;
 
+        const { data: authData } = await supabase.auth.getUser();
+        if (!authData.user) return;
+
         syncingRef.current = true;
         setIsSyncing(true);
         logger.log(`[Sync] Processing ${queue.length} operations...`);
@@ -717,7 +726,7 @@ export function useSync(enabled = true) {
             syncingRef.current = false;
             setIsSyncing(false);
         }
-    }, [enabled, isOnline, processOperation]);
+    }, [enabled, isOnline, processOperation, supabase]);
 
     // Sync immediately when the app becomes usable again, then use a low-cost
     // fallback interval only while the tab is visible.

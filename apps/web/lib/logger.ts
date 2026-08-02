@@ -6,6 +6,35 @@
 
 const isDev = process.env.NODE_ENV !== "production";
 
+function serializeError(error: unknown): unknown {
+    if (!error) return "Null or undefined error";
+    if (typeof error === "string") return error;
+    if (typeof error === "object") {
+        const obj = error as Record<string, unknown>;
+        const result: Record<string, unknown> = {};
+
+        const keys = ["message", "code", "details", "hint", "status", "statusText", "name", "error_description"];
+        for (const key of keys) {
+            if (key in obj && obj[key] !== undefined && obj[key] !== "") {
+                result[key] = obj[key];
+            }
+        }
+
+        try {
+            Object.assign(result, obj);
+        } catch {
+            // ignore
+        }
+
+        if (Object.keys(result).length === 0) {
+            return String(error) !== "[object Object]" ? String(error) : error;
+        }
+
+        return result;
+    }
+    return String(error);
+}
+
 export const logger = {
     log: (...args: unknown[]) => {
         if (isDev) console.log(...args);
@@ -13,25 +42,9 @@ export const logger = {
     warn: (...args: unknown[]) => {
         if (isDev) console.warn(...args);
     },
-    /**
-     * Errores: En producción registra solo el mensaje, nunca el objeto de error
-     * completo (que puede exponer detalles del schema de Supabase).
-     */
     error: (message: string, error?: unknown) => {
         if (isDev) {
-            if (error && typeof error === "object") {
-                const err = error as Record<string, unknown>;
-                const formatted = {
-                    message: err.message ?? (error instanceof Error ? error.message : undefined),
-                    code: err.code,
-                    details: err.details,
-                    hint: err.hint,
-                    ...err,
-                };
-                console.error(message, formatted);
-            } else {
-                console.error(message, error);
-            }
+            console.error(message, serializeError(error));
         } else {
             console.error(message);
         }
