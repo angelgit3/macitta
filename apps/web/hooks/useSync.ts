@@ -329,21 +329,30 @@ export function useSync(enabled = true) {
 
                 case 'start_reading_session': {
                     const { data } = op;
+                    const payload = {
+                        id: data.id,
+                        user_id: data.userId,
+                        mode: data.mode,
+                        primary_passage_id: data.primaryPassageId,
+                        status: data.status,
+                        started_at: data.startedAt,
+                        ended_at: data.endedAt,
+                        total_questions: data.totalQuestions,
+                        correct_questions: data.correctQuestions,
+                        total_time_ms: data.totalTimeMs,
+                    };
                     const { error } = await supabase
                         .from('reading_sessions')
-                        .upsert({
-                            id: data.id,
-                            user_id: data.userId,
-                            mode: data.mode,
-                            primary_passage_id: data.primaryPassageId,
-                            status: data.status,
-                            started_at: data.startedAt,
-                            ended_at: data.endedAt,
-                            total_questions: data.totalQuestions,
-                            correct_questions: data.correctQuestions,
-                            total_time_ms: data.totalTimeMs,
-                        }, { onConflict: 'id' });
+                        .upsert(payload, { onConflict: 'id' });
                     if (error) {
+                        if (error.code === '23503') {
+                            const { error: retryError } = await supabase
+                                .from('reading_sessions')
+                                .upsert({ ...payload, primary_passage_id: null }, { onConflict: 'id' });
+                            if (!retryError) return true;
+                            logger.error("[Sync] start_reading_session retry error", retryError);
+                            return false;
+                        }
                         logger.error("[Sync] start_reading_session error", error);
                         return false;
                     }

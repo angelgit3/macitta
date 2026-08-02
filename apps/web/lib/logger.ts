@@ -19,9 +19,20 @@ export const logger = {
      */
     error: (message: string, error?: unknown) => {
         if (isDev) {
-            console.error(message, error);
+            if (error && typeof error === "object") {
+                const err = error as Record<string, unknown>;
+                const formatted = {
+                    message: err.message ?? (error instanceof Error ? error.message : undefined),
+                    code: err.code,
+                    details: err.details,
+                    hint: err.hint,
+                    ...err,
+                };
+                console.error(message, formatted);
+            } else {
+                console.error(message, error);
+            }
         } else {
-            // En producción, solo logeamos el mensaje sin datos sensibles
             console.error(message);
         }
     },
