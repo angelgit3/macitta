@@ -17,7 +17,19 @@ export type ListeningSkillCode =
     | "function"
     | "idiom"
     | "attitude"
-    | "organization";
+    | "organization"
+    | "who_what_where"
+    | "passive"
+    | "multiple_nouns"
+    | "negative"
+    | "double_negative"
+    | "almost_negative"
+    | "comparative"
+    | "agreement"
+    | "uncertainty"
+    | "suggestion"
+    | "surprise"
+    | "wish";
 
 export interface ListeningSkill {
     code: ListeningSkillCode;
