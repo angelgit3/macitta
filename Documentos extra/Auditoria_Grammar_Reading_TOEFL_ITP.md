@@ -729,3 +729,10 @@
 - Revisiones lingüística y de fairness; Reading añade revisión factual.
 - Exclusión de contenido no publicado en las colas nuevas.
 - Ausencia de secuencias publicadas de 12 palabras tomadas de los extractos.
+
+## QA funcional (2026-08-28)
+
+- `/grammar-preview`: Error Identification y Sentence Completion; clic, teclado, respuesta correcta/incorrecta, corrección y explicación aprobados.
+- `/reading-preview`: pasaje estándar, evidencia resaltada y bloque de lectura larga aprobados.
+- Responsive: Grammar y Reading sin desbordamiento horizontal a 390 × 844 px.
+- Consola: sin errores en ambos previews usando un origen local sin caché previa.
