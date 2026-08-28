@@ -281,10 +281,28 @@ export function ListeningPracticeClient({ previewData, previewUserId }: Props = 
 
     if (screen === "completed") return <main className="mx-auto min-h-dvh w-full max-w-6xl bg-void px-5 pb-24 sm:px-8 lg:px-10"><Header onBack={() => setScreen("home")} /><section className="mx-auto mt-20 max-w-xl text-center"><CheckCircle2 className="mx-auto size-14 text-success" /><h1 className="mt-6 text-4xl font-black text-ink">Oído limpio por ahora.</h1><p className="mt-4 text-ink-muted">Terminaste los ejercicios disponibles. Las próximas sesiones traerán contenido nuevo al ampliar el banco.</p><button onClick={() => setScreen("home")} className="mt-8 rounded-xl bg-accent px-5 py-3 font-black text-void">Volver</button></section></main>;
 
-    return <main className="mx-auto min-h-dvh w-full max-w-6xl bg-void px-5 pb-24 sm:px-8 lg:px-10"><Header />
-        <section className="relative mt-8 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-9 sm:px-10 sm:py-12"><div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-accent/10 blur-3xl" /><div className="relative max-w-2xl"><span className="pill-badge bg-accent/10 text-accent-hover">TOEFL ITP · Listening Comprehension</span><h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-[-0.055em] text-ink sm:text-6xl">Entrena el oído,<br /><span className="text-accent">no la memoria.</span></h1><p className="mt-6 max-w-xl text-base leading-7 text-ink-muted sm:text-lg">Audios pequeños, decisiones reales y repetición espaciada. Una respuesta limpia se gana en la primera escucha.</p><div className="mt-8 flex flex-wrap gap-3"><button disabled={starting} onClick={() => void startPractice("quick")} className="inline-flex min-h-13 items-center gap-2 rounded-2xl bg-accent px-6 font-black text-void shadow-[0_14px_34px_rgba(222,255,85,0.14)] hover:brightness-110 disabled:opacity-50"><Headphones size={19} /> {starting ? "Preparando…" : "Escuchar 5"}</button><button disabled={starting} onClick={() => void startPractice("long")} className="inline-flex min-h-13 items-center gap-2 rounded-2xl border border-border-strong bg-void/60 px-6 font-black text-ink hover:border-accent/45 disabled:opacity-50"><Waves size={19} className="text-accent" /> Audio largo · 5 preguntas</button></div></div></section>
-        <section className="mt-6 grid gap-4 md:grid-cols-[1.2fr_0.8fr]"><div className="rounded-3xl border border-border bg-surface/70 p-6"><div className="flex items-center justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[0.16em] text-ink-faint">Tu oído</p><h2 className="mt-2 text-2xl font-black text-ink">{progress.clean} de {progress.total} limpios</h2></div><span className="text-3xl font-black text-accent">{progress.percent}%</span></div><div className="mt-5 h-3 overflow-hidden rounded-full bg-white/6"><div className="h-full rounded-full bg-accent transition-all" style={{ width: `${progress.percent}%` }} /></div><p className="mt-4 text-sm text-ink-muted">{progress.recovery ? `${progress.recovery} ejercicio${progress.recovery === 1 ? "" : "s"} espera${progress.recovery === 1 ? "" : "n"} recuperación.` : "Tu siguiente sesión equilibrará habilidades y dificultad."}</p></div><div className="rounded-3xl border border-border bg-surface/70 p-6"><Sparkles className="text-amber" size={22} /><h2 className="mt-4 text-xl font-black text-ink">Dos formatos reales</h2><ul className="mt-3 space-y-2 text-sm leading-6 text-ink-muted"><li><b className="text-ink">Micro audios:</b> una situación, una pregunta.</li><li><b className="text-ink">Audio largo:</b> una charla o conversación y cinco preguntas conectadas.</li></ul></div></section>
-        <section className="mt-6 rounded-3xl border border-border bg-surface/50 p-6"><p className="text-xs font-black uppercase tracking-[0.16em] text-ink-faint">Qué se está entrenando</p><div className="mt-4 flex flex-wrap gap-2">{data.skills.map((skill) => <span key={skill.code} className="rounded-full border border-border bg-void/60 px-3 py-1.5 text-xs font-bold text-ink-muted">{skill.name_es}</span>)}</div></section>
-        {error ? <p className="mt-4 rounded-xl border border-danger/30 bg-danger/10 p-3 text-sm font-semibold text-danger">{error}</p> : null}
+    return <main className="mx-auto min-h-dvh w-full max-w-6xl bg-void px-5 pb-24 sm:px-8 lg:px-10">
+        <Header />
+        <section className="mx-auto max-w-2xl pt-10 sm:pt-16">
+            <div className="flex items-center gap-2 text-sm font-semibold text-ink-muted">
+                <span>Listening</span><span aria-hidden="true">·</span><span>5 ejercicios</span>
+                {!isOnline && <><span aria-hidden="true">·</span><CloudOff size={14} /><span>Disponible offline</span></>}
+            </div>
+            <h1 className="mt-4 text-3xl font-black tracking-[-0.035em] text-ink sm:text-4xl">Tu siguiente escucha está lista.</h1>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-ink-muted">Empezaremos con los audios que mejor entrenan tu comprensión ahora.</p>
+            <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+                <button disabled={starting} onClick={() => void startPractice("quick")} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 font-black text-void transition-colors hover:bg-accent-hover disabled:opacity-50 sm:w-auto sm:min-w-48">
+                    <Headphones size={18} /> {starting ? "Preparando…" : "Estudiar 5"}
+                </button>
+                <button disabled={starting} onClick={() => void startPractice("long")} className="inline-flex min-h-11 items-center gap-2 px-1 text-sm font-bold text-ink-muted hover:text-ink disabled:opacity-50">
+                    <Waves size={17} /> Practicar audio largo
+                </button>
+            </div>
+            {error ? <p className="mt-5 rounded-xl border border-danger/30 bg-danger/10 p-3 text-sm font-semibold text-danger">{error}</p> : null}
+            <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-border pt-5 text-sm text-ink-faint">
+                <span>{progress.clean} de {progress.total} limpios</span>
+                <span>{progress.recovery} por reforzar</span>
+            </div>
+        </section>
     </main>;
 }

@@ -1,20 +1,17 @@
 "use client";
 
 import {
-    aggregateReadingProgress,
     buildReadingQueue,
     createEmptyReadingQuestionProgress,
     createEmptyReadingSkillProgress,
     evaluateReadingAnswer,
     findResumableLongReading,
     readingParagraphs,
-    type ReadingDomain,
     type ReadingOptionId,
     type ReadingPassage,
     type ReadingQuestion,
     type ReadingQuestionProgress,
     type ReadingQueueItem,
-    type ReadingSkill,
     type ReadingSkillProgress,
 } from "@macitta/shared";
 import {
@@ -23,7 +20,6 @@ import {
     BookOpen,
     Check,
     CheckCircle2,
-    ChevronRight,
     CloudOff,
     Eye,
     GraduationCap,
@@ -32,7 +28,6 @@ import {
     LockKeyhole,
     RotateCcw,
     Sparkles,
-    Target,
     Trophy,
     X,
 } from "lucide-react";
@@ -80,13 +75,6 @@ const GENRE_LABELS: Record<ReadingPassage["genre"], string> = {
     arts: "Artes",
     technology: "Tecnología",
 };
-
-const DOMAIN_STYLES = [
-    "bg-accent/12 text-accent-hover",
-    "bg-sky-400/10 text-sky-300",
-    "bg-amber/12 text-amber",
-    "bg-fuchsia-400/10 text-fuchsia-300",
-];
 
 function ModuleHeader({ onBack }: { onBack?: () => void }) {
     return (
@@ -476,10 +464,6 @@ export function ReadingPracticeClient({
         setScreen("home");
     }, [isPreview, outcomes, session]);
 
-    const aggregates = useMemo(
-        () => aggregateReadingProgress(data.questions, data.questionProgress),
-        [data.questionProgress, data.questions],
-    );
     const completedCount = data.questionProgress.filter((item) => item.points === 2).length;
     const recoveringCount = data.questionProgress.filter((item) => item.attempts > 0 && item.points < 2).length;
     const dueRecoveryCount = data.questionProgress.filter(
@@ -488,7 +472,6 @@ export function ReadingPracticeClient({
             item.points < 2 &&
             new Date(item.dueAt).getTime() <= Date.now(),
     ).length;
-    const exploredCount = data.exposures.length;
     const resumableLongReading = useMemo(
         () => findResumableLongReading(
             data.passages,
@@ -717,104 +700,44 @@ export function ReadingPracticeClient({
     return (
         <div className="mx-auto max-w-6xl">
             <ModuleHeader />
-            <main className="pb-8 pt-8 sm:pt-12">
-                <section className="relative overflow-hidden rounded-[2rem] border border-border bg-elevated p-6 sm:p-10">
-                    <div className="pointer-events-none absolute -right-16 -top-24 size-72 rounded-full bg-accent/10 blur-3xl" />
-                    <div className="relative max-w-2xl">
-                        <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">Reading Comprehension</p>
-                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.055em] text-ink sm:text-5xl">
-                            Leer mejor,<br />cinco preguntas a la vez.
-                        </h1>
-                        <p className="mt-5 max-w-xl text-base leading-7 text-ink-muted">
-                            Textos completos, práctica dosificada y habilidades que se refuerzan con material nuevo. Sin convertir Reading en otro simulador interminable.
-                        </p>
-                        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                            <button
-                                type="button"
-                                onClick={() => void startPractice(dueRecoveryCount > 0 ? "recovery" : "daily")}
-                                disabled={starting || data.questions.length === 0}
-                                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-accent px-6 font-black text-void transition-transform active:scale-[0.98] disabled:opacity-45"
-                            >
-                                {starting ? <Loader2 className="animate-spin" size={18} /> : <BookOpen size={19} />}
-                                Leer y resolver 5
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => resumableLongReading
-                                    ? void startPractice("continued", resumableLongReading.passageId, resumableLongReading.blockIndex)
-                                    : void startPractice("long")
-                                }
-                                disabled={starting || data.questions.length === 0}
-                                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-border-strong bg-surface px-6 font-black text-ink"
-                            >
-                                <LibraryBig size={18} className="text-accent" />
-                                {resumableLongReading ? "Continuar lectura larga" : "Lectura larga"}
-                            </button>
-                        </div>
-                        {error && <p className="mt-5 rounded-xl border border-danger/30 bg-danger/8 px-4 py-3 text-sm text-danger">{error}</p>}
-                        {data.source === "cache" && !isOnline && (
-                            <p className="mt-4 inline-flex items-center gap-2 text-xs font-bold text-ink-faint"><CloudOff size={14} /> Banco disponible sin conexión</p>
-                        )}
+            <main className="mx-auto w-full max-w-2xl pb-12 pt-10 sm:pt-16">
+                <section>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-ink-muted">
+                        <span>Reading</span><span aria-hidden="true">·</span><span>1 lectura, 5 preguntas</span>
+                        {!isOnline && <><span aria-hidden="true">·</span><CloudOff size={14} /><span>Disponible offline</span></>}
                     </div>
-                </section>
-
-                <section className="mt-5 grid gap-3 sm:grid-cols-3">
-                    {[
-                        { icon: CheckCircle2, value: completedCount, label: "ejercicios limpios", color: "text-success" },
-                        { icon: RotateCcw, value: recoveringCount, label: "en recuperación", color: "text-amber" },
-                        { icon: Eye, value: exploredCount, label: "lecturas exploradas", color: "text-accent" },
-                    ].map(({ icon: Icon, value, label, color }) => (
-                        <div key={label} className="rounded-2xl border border-border bg-surface/60 p-5">
-                            <Icon size={19} className={color} />
-                            <p className="mt-5 text-3xl font-black tracking-[-0.04em] text-ink">{value}</p>
-                            <p className="mt-1 text-sm font-semibold text-ink-muted">{label}</p>
-                        </div>
-                    ))}
-                </section>
-
-                <section className="mt-8">
-                    <div className="mb-4 flex items-end justify-between gap-4">
-                        <div>
-                            <p className="text-xs font-black uppercase tracking-[0.16em] text-ink-faint">Transferencia</p>
-                            <h2 className="mt-1 text-2xl font-black tracking-[-0.035em] text-ink">Habilidades de lectura</h2>
-                        </div>
-                        <button onClick={() => setScreen("completed")} className="text-sm font-bold text-ink-muted hover:text-ink">
-                            Ver completados
+                    <h1 className="mt-4 text-3xl font-black tracking-[-0.035em] text-ink sm:text-4xl">Tu siguiente lectura está lista.</h1>
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-ink-muted">Elegiremos el texto y las habilidades que más te conviene practicar ahora.</p>
+                    <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+                        <button
+                            type="button"
+                            onClick={() => void startPractice(dueRecoveryCount > 0 ? "recovery" : "daily")}
+                            disabled={starting || data.questions.length === 0}
+                            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 font-black text-void transition-colors hover:bg-accent-hover disabled:opacity-45 sm:w-auto sm:min-w-52"
+                        >
+                            {starting ? <Loader2 className="animate-spin" size={18} /> : <BookOpen size={19} />}
+                            Estudiar lectura
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => resumableLongReading
+                                ? void startPractice("continued", resumableLongReading.passageId, resumableLongReading.blockIndex)
+                                : void startPractice("long")
+                            }
+                            disabled={starting || data.questions.length === 0}
+                            className="inline-flex min-h-11 items-center gap-2 px-1 text-sm font-bold text-ink-muted hover:text-ink disabled:opacity-45"
+                        >
+                            <LibraryBig size={17} />
+                            {resumableLongReading ? "Continuar lectura larga" : "Practicar lectura larga"}
                         </button>
                     </div>
-                    <div className="grid gap-3 sm:grid-cols-2">
-                        {data.domains.map((domain: ReadingDomain, index) => {
-                            const aggregate = aggregates.find((item) => item.domainId === domain.id);
-                            const skills = data.skills.filter((skill: ReadingSkill) => skill.domain_id === domain.id);
-                            const seen = aggregate?.seen ?? 0;
-                            const completed = aggregate?.completed ?? 0;
-                            const percentage = seen > 0 ? Math.round((completed / seen) * 100) : 0;
-                            return (
-                                <div key={domain.id} className="rounded-2xl border border-border bg-surface/55 p-5">
-                                    <div className="flex items-start justify-between gap-4">
-                                        <div className={`flex size-10 items-center justify-center rounded-xl ${DOMAIN_STYLES[index % DOMAIN_STYLES.length]}`}>
-                                            <Target size={19} />
-                                        </div>
-                                        <span className="text-xs font-black tabular-nums text-ink-faint">{percentage}% limpio</span>
-                                    </div>
-                                    <h3 className="mt-5 font-black text-ink">{domain.name_es}</h3>
-                                    <p className="mt-1 text-sm text-ink-muted">{skills.map((skill) => skill.name_es).join(" · ")}</p>
-                                    <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/6">
-                                        <div className="h-full rounded-full bg-accent" style={{ width: `${percentage}%` }} />
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {error && <p className="mt-5 rounded-xl border border-danger/30 bg-danger/8 px-4 py-3 text-sm text-danger">{error}</p>}
                 </section>
-
-                <Link href="/toefl" className="mt-8 flex items-center justify-between rounded-2xl border border-border bg-surface/45 p-5 text-ink-muted transition-colors hover:border-border-strong hover:text-ink">
-                    <span>
-                        <span className="block text-sm font-black text-ink">¿Buscas el formato completo?</span>
-                        <span className="mt-1 block text-sm">Los simulacros TOEFL existentes siguen separados de esta práctica.</span>
-                    </span>
-                    <ChevronRight className="shrink-0" size={20} />
-                </Link>
+                <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-border pt-5 text-sm text-ink-faint">
+                    <span>{completedCount} completadas</span>
+                    <span>{recoveringCount} por reforzar</span>
+                    <button onClick={() => setScreen("completed")} className="font-bold text-ink-muted hover:text-ink">Ver progreso</button>
+                </div>
             </main>
         </div>
     );

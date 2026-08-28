@@ -1,7 +1,6 @@
 "use client";
 
 import {
-    aggregateGrammarProgress,
     buildGrammarQueue,
     evaluateGrammarReview,
     grammarProgressLabel,
@@ -18,12 +17,8 @@ import {
     BookCheck,
     Check,
     CheckCircle2,
-    ChevronRight,
-    CircleDot,
     CloudOff,
     GraduationCap,
-    History,
-    Layers3,
     Loader2,
     Play,
     RotateCcw,
@@ -63,16 +58,6 @@ const EMPTY_DATA: GrammarDataSnapshot = {
     progress: [],
     source: "cache",
 };
-
-const DOMAIN_ACCENTS = [
-    "bg-accent/12 text-accent-hover",
-    "bg-amber/12 text-amber",
-    "bg-success/12 text-success",
-    "bg-sky-400/10 text-sky-300",
-    "bg-fuchsia-400/10 text-fuchsia-300",
-    "bg-orange-400/10 text-orange-300",
-    "bg-cyan-400/10 text-cyan-300",
-];
 
 function formatDueDate(value: string) {
     const date = new Date(value);
@@ -337,10 +322,6 @@ export function GrammarPracticeClient({ previewData, previewUserId }: GrammarPra
     const domainById = useMemo(
         () => new Map(data.domains.map((domain) => [domain.id, domain])),
         [data.domains],
-    );
-    const domainProgress = useMemo(
-        () => aggregateGrammarProgress(data.exercises, data.progress),
-        [data.exercises, data.progress],
     );
     const nowMs = Date.now();
     const dueCount = data.progress.filter((item) => new Date(item.dueDate).getTime() <= nowMs).length;
@@ -660,19 +641,24 @@ export function GrammarPracticeClient({ previewData, previewUserId }: GrammarPra
     return (
         <>
             <ModuleHeader />
-            <main className="pb-10">
-                <section className="pt-3 sm:pt-5">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <span className="pill-badge bg-accent/10 text-accent-hover">TOEFL ITP · Structure & Written Expression</span>
-                        {!isOnline && <span className="pill-badge bg-white/5 text-ink-muted"><CloudOff size={12} /> Offline</span>}
-                        {data.source === "cache" && isOnline && <span className="pill-badge bg-white/5 text-ink-muted">Caché local</span>}
+            <main className="mx-auto w-full max-w-2xl pb-12 pt-10 sm:pt-16">
+                <section>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-ink-muted">
+                        <span>Grammar</span>
+                        <span aria-hidden="true">·</span>
+                        <span>5 ejercicios</span>
+                        {!isOnline && <><span aria-hidden="true">·</span><CloudOff size={14} /><span>Disponible offline</span></>}
                     </div>
-                    <h1 className="mt-5 max-w-3xl text-[2.4rem] font-black leading-[1.02] tracking-[-0.045em] text-ink sm:text-5xl">
-                        Gramática, en dosis que sí se quedan.
-                    </h1>
-                    <p className="mt-4 max-w-2xl text-sm leading-7 text-ink-muted sm:text-base">
-                        Cinco ejercicios, feedback inmediato y repasos SREM. Practica lo más débil primero y deja que lo dominado se aparte hasta que vuelva a tocar.
-                    </p>
+                    <h1 className="mt-4 text-3xl font-black tracking-[-0.035em] text-ink sm:text-4xl">Tu siguiente sesión está lista.</h1>
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-ink-muted">Repasaremos primero lo que más necesitas y completaremos el grupo con contenido nuevo.</p>
+                    <button
+                        type="button"
+                        onClick={beginSession}
+                        disabled={!userId || data.exercises.length === 0}
+                        className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 font-black text-void transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto sm:min-w-48"
+                    >
+                        <Play size={18} fill="currentColor" aria-hidden="true" /> Estudiar 5
+                    </button>
                 </section>
 
                 {error && (
@@ -682,118 +668,11 @@ export function GrammarPracticeClient({ previewData, previewUserId }: GrammarPra
                     </div>
                 )}
 
-                <section className="daily-focus-panel mt-8 overflow-hidden rounded-3xl" aria-labelledby="grammar-review-title">
-                    <div className="grid lg:grid-cols-[minmax(0,1fr)_15rem]">
-                        <div className="p-6 sm:p-8">
-                            <div className="flex items-center gap-3">
-                                <span className="flex size-10 items-center justify-center rounded-xl bg-accent/15 text-accent">
-                                    <Target size={20} aria-hidden="true" />
-                                </span>
-                                <div>
-                                    <p className="text-sm font-bold text-accent-hover">Tu siguiente grupo</p>
-                                    <p className="mt-0.5 text-xs text-ink-faint">{dueCount > 0 ? `${dueCount} ejercicios listos para repasar` : "Contenido nuevo listo para ti"}</p>
-                                </div>
-                            </div>
-                            <h2 id="grammar-review-title" className="mt-7 text-3xl font-black tracking-[-0.035em] text-ink sm:text-4xl">Repasar 5</h2>
-                            <p className="mt-3 max-w-xl text-sm leading-6 text-ink-muted">Primero aparecen los vencidos y los que más cuestan; completamos el grupo con habilidades nuevas y variadas.</p>
-                            <button
-                                type="button"
-                                onClick={beginSession}
-                                disabled={!userId || data.exercises.length === 0}
-                                className="mt-7 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-accent px-6 font-black text-void transition-[background-color,transform] hover:bg-accent-hover active:scale-[0.985] disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto sm:min-w-56"
-                            >
-                                <Play size={20} fill="currentColor" aria-hidden="true" /> Comenzar
-                            </button>
-                        </div>
-                        <div className="grid grid-cols-3 border-t border-border bg-white/[0.018] lg:grid-cols-1 lg:border-l lg:border-t-0">
-                            {[
-                                { label: "Vencidos", value: dueCount, icon: History },
-                                { label: "Completados", value: completedCount, icon: CheckCircle2 },
-                                { label: "Dominados", value: masteredCount, icon: Trophy },
-                            ].map(({ label, value, icon: Icon }) => (
-                                <div key={label} className="flex flex-col justify-center border-r border-border p-4 last:border-r-0 lg:border-b lg:border-r-0 lg:last:border-b-0">
-                                    <Icon size={16} className="text-ink-faint" aria-hidden="true" />
-                                    <strong className="mt-2 text-2xl font-black tabular-nums text-ink">{value}</strong>
-                                    <span className="mt-0.5 text-[0.6875rem] font-semibold text-ink-faint">{label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(17rem,0.8fr)]">
-                    <section aria-labelledby="domains-title">
-                        <div className="mb-4 flex items-end justify-between gap-4 px-1">
-                            <div>
-                                <p className="text-sm font-bold text-accent-hover">Mapa de habilidades</p>
-                                <h2 id="domains-title" className="mt-1 text-xl font-black text-ink">Progreso por área</h2>
-                            </div>
-                            <span className="text-xs text-ink-faint">{data.skills.length} microhabilidades</span>
-                        </div>
-                        <div className="product-panel divide-y divide-border overflow-hidden rounded-2xl">
-                            {data.domains.map((domain, index) => {
-                                const stats = domainProgress.find((item) => item.domainId === domain.id);
-                                const skills = data.skills.filter((skill) => skill.domain_id === domain.id);
-                                const completed = stats?.completed ?? 0;
-                                const seen = stats?.seen ?? 0;
-                                const percentage = seen === 0 ? 0 : Math.round((completed / Math.max(seen, 1)) * 100);
-                                return (
-                                    <article key={domain.id} className="p-5 sm:px-6">
-                                        <div className="flex items-center gap-4">
-                                            <span className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${DOMAIN_ACCENTS[index % DOMAIN_ACCENTS.length]}`}>
-                                                <Layers3 size={18} aria-hidden="true" />
-                                            </span>
-                                            <div className="min-w-0 flex-1">
-                                                <div className="flex items-baseline justify-between gap-4">
-                                                    <h3 className="truncate text-sm font-bold text-ink">{domain.name_es}</h3>
-                                                    <span className="text-xs font-bold tabular-nums text-ink-muted">{completed}/{skills.length * 10}</span>
-                                                </div>
-                                                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/7">
-                                                    <div className="h-full rounded-full bg-accent/75" style={{ width: `${percentage}%` }} />
-                                                </div>
-                                                <p className="mt-2 text-[0.6875rem] text-ink-faint">{skills.length} habilidades · {stats?.due ?? 0} por repasar</p>
-                                            </div>
-                                        </div>
-                                    </article>
-                                );
-                            })}
-                            {data.domains.length === 0 && (
-                                <div className="p-6 text-sm leading-6 text-ink-muted">
-                                    El banco todavía no está disponible en este dispositivo.
-                                </div>
-                            )}
-                        </div>
-                    </section>
-
-                    <aside className="space-y-4" aria-label="Accesos de Grammar">
-                        <button
-                            type="button"
-                            onClick={() => setScreen("completed")}
-                            className="product-panel group flex w-full items-center gap-4 rounded-2xl p-5 text-left transition-colors hover:border-accent/35"
-                        >
-                            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-success/12 text-success"><BookCheck size={19} /></span>
-                            <span className="min-w-0 flex-1">
-                                <span className="block text-sm font-bold text-ink">Completados</span>
-                                <span className="mt-1 block text-xs leading-5 text-ink-muted">Logros y próximos mantenimientos</span>
-                            </span>
-                            <ChevronRight size={17} className="text-ink-faint transition-transform group-hover:translate-x-0.5" />
-                        </button>
-                        <Link
-                            href="/toefl"
-                            className="product-panel group flex items-center gap-4 rounded-2xl p-5 transition-colors hover:border-accent/35"
-                        >
-                            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/5 text-ink-muted"><CircleDot size={19} /></span>
-                            <span className="min-w-0 flex-1">
-                                <span className="block text-sm font-bold text-ink">Simulacros anteriores</span>
-                                <span className="mt-1 block text-xs leading-5 text-ink-muted">Prácticas largas e historial previo</span>
-                            </span>
-                            <ChevronRight size={17} className="text-ink-faint transition-transform group-hover:translate-x-0.5" />
-                        </Link>
-                        <div className="rounded-2xl border border-border bg-white/[0.018] p-5">
-                            <p className="text-xs font-bold text-ink">Una métrica de aprendizaje Macitta</p>
-                            <p className="mt-2 text-xs leading-5 text-ink-faint">Este progreso no es una puntuación TOEFL oficial ni implica afiliación con ETS.</p>
-                        </div>
-                    </aside>
+                <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-border pt-5 text-sm text-ink-faint">
+                    <span>{dueCount} por repasar</span>
+                    <span>{completedCount} completados</span>
+                    <span>{masteredCount} dominados</span>
+                    <button type="button" onClick={() => setScreen("completed")} className="font-bold text-ink-muted hover:text-ink">Ver progreso</button>
                 </div>
             </main>
         </>
