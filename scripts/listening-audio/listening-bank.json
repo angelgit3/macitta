@@ -1,90 +1,2031 @@
 {
   "units": [
-    { "id": "quick-library-hours", "segments": [
-      { "voice": "af_bella", "text": "I thought the library closed at eight tonight." },
-      { "voice": "am_michael", "text": "Usually it does, but during final exams it stays open until ten." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man mean?" }
-    ] },
-    { "id": "quick-adviser-appointment", "segments": [
-      { "voice": "am_michael", "text": "Can I see Professor Morales this afternoon?" },
-      { "voice": "af_heart", "text": "Her office hours are over, but she said students with registration problems can email her." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the woman suggest that the man do?" }
-    ] },
-    { "id": "quick-cafeteria-line", "segments": [
-      { "voice": "af_bella", "text": "I was going to get lunch here, but look at that line." },
-      { "voice": "am_michael", "text": "The sandwich shop across the street is usually quieter at this hour." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What will the woman probably do?" }
-    ] },
-    { "id": "quick-printing-fee", "segments": [
-      { "voice": "am_fenrir", "text": "Why did the computer lab charge me for printing?" },
-      { "voice": "af_heart", "text": "The first twenty pages are free. After that, the system deducts money from your student account." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the woman mean?" }
-    ] },
-    { "id": "quick-lab-report", "segments": [
-      { "voice": "af_bella", "text": "Are you almost done with the chemistry report?" },
-      { "voice": "am_michael", "text": "I have the results, but I still need to explain why the second trial was different." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man imply?" }
-    ] },
-    { "id": "quick-dorm-repair", "segments": [
-      { "voice": "am_fenrir", "text": "The heater in my room is making that noise again." },
-      { "voice": "af_heart", "text": "Fill out the online maintenance form before noon, and someone can come today." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "Why does the woman mention noon?" }
-    ] },
-    { "id": "quick-history-reading", "segments": [
-      { "voice": "af_bella", "text": "I cannot believe the professor assigned three chapters for Monday." },
-      { "voice": "am_michael", "text": "He said the third chapter is optional background, unless you are writing the extra-credit response." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man mean?" }
-    ] },
-    { "id": "quick-bookstore-order", "segments": [
-      { "voice": "am_michael", "text": "Has my economics textbook arrived yet?" },
-      { "voice": "af_heart", "text": "The shipment came this morning, but we have not unpacked the boxes. Try again after lunch." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What will the man probably do?" }
-    ] },
-    { "id": "quick-music-ensemble", "segments": [
-      { "voice": "af_bella", "text": "I thought the rehearsal was cancelled." },
-      { "voice": "am_puck", "text": "It was moved to the smaller hall, so it is still on, just not where we usually meet." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man mean?" }
-    ] },
-    { "id": "quick-deadline-extension", "segments": [
-      { "voice": "am_fenrir", "text": "Do you think Professor Chen will give us more time for the essay?" },
-      { "voice": "af_heart", "text": "She already moved the deadline once, so I would not count on it." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the woman mean by saying, I would not count on it?" }
-    ] },
-    { "id": "quick-campus-map", "segments": [
-      { "voice": "af_bella", "text": "Is the science building far from here?" },
-      { "voice": "am_michael", "text": "It is behind the art museum. If you can see the clock tower, you are already halfway there." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What does the man imply?" }
-    ] },
-    { "id": "quick-group-presentation", "segments": [
-      { "voice": "am_fenrir", "text": "I can make the slides, but someone else should introduce the topic." },
-      { "voice": "af_heart", "text": "Fine. You have a good eye for design, and I have already practiced the opening." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "What will the woman probably do?" }
-    ] },
-    { "id": "long-field-study", "gap_ms": 360, "segments": [
-      { "voice": "am_michael", "text": "Hi, I am here about the environmental science field trip. I signed up last month, but I just noticed that it starts before the buses run from my neighborhood." },
-      { "voice": "af_heart", "text": "You are in Professor Patel's section, right? The department arranged a van from the east parking lot at seven fifteen." },
-      { "voice": "am_michael", "text": "I did not see that in the announcement." },
-      { "voice": "af_heart", "text": "It was added after students mentioned the transportation problem. You need to reserve a seat by Thursday because there are only twelve spaces." },
-      { "voice": "am_michael", "text": "That helps. Is there anything else I should bring?" },
-      { "voice": "af_heart", "text": "The lab will provide the sampling equipment. Just wear shoes that can get wet and bring your student ID. The weather forecast says it may rain, but the trip will go ahead unless there is lightning." },
-      { "voice": "am_michael", "text": "So if it rains, we still collect the samples?" },
-      { "voice": "af_heart", "text": "Exactly. In fact, comparing the stream after rain is one reason the professor chose this week." },
-      { "voice": "am_michael", "text": "Then I will reserve a van seat today." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "Now answer the questions." }
-    ] },
-    { "id": "long-bee-navigation", "gap_ms": 300, "segments": [
-      { "voice": "am_fenrir", "speed": 0.96, "text": "Today we will look at how honeybees tell other bees where food is located. For a long time, researchers noticed that a returning bee performs a repeated movement inside the hive. This movement is called the waggle dance." },
-      { "voice": "am_fenrir", "speed": 0.96, "text": "The direction of the dance indicates the direction of the food source relative to the sun. The length and energy of the central movement provide information about distance. At first, this explanation seemed almost too simple." },
-      { "voice": "am_fenrir", "speed": 0.96, "text": "But when scientists moved food sources and observed the dancers, the changes in the dance matched the new locations. Of course, the dance is not the only source of information. Bees can also use scent left on flowers, and they learn features of the landscape around the hive." },
-      { "voice": "am_fenrir", "speed": 0.96, "text": "The important point is that the dance gives other bees a useful starting point. It does not function like a printed map with exact coordinates. Instead, it helps a bee begin searching in the right direction and at roughly the right distance. This is a good example of animal communication being both precise and flexible." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "Now answer the questions." }
-    ] },
-    { "id": "long-city-market", "gap_ms": 300, "segments": [
-      { "voice": "af_nicole", "speed": 0.96, "text": "When historians study an old city, they often begin with its public buildings: temples, government offices, and walls. But market areas can reveal just as much about everyday life. A market brings together people who may otherwise have little reason to meet." },
-      { "voice": "af_nicole", "speed": 0.96, "text": "Farmers bring food from outside the city, craftspeople sell objects they have made, and travelers exchange news from distant places. Because of this, markets can influence a city's growth in more than one way. First, they make trade more efficient by concentrating buyers and sellers in one location." },
-      { "voice": "af_nicole", "speed": 0.96, "text": "Second, they create regular paths through the city. Streets near an active market may become wider or more permanent because so many people use them. Finally, governments often begin to regulate markets by setting weights, collecting taxes, or inspecting goods." },
-      { "voice": "af_nicole", "speed": 0.96, "text": "These rules tell historians what leaders considered important. So, a market is not simply a place to buy food. It is a meeting point where economic activity, movement, and political control become visible at the same time." },
-      { "voice": "af_nicole", "speed": 0.94, "text": "Now answer the questions." }
-    ] }
+    {
+      "id": "quick-library-hours",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "I thought the library closed at eight tonight."
+        },
+        {
+          "voice": "am_michael",
+          "text": "Usually it does, but during final exams it stays open until ten."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the man mean?"
+        }
+      ]
+    },
+    {
+      "id": "quick-adviser-appointment",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Can I see Professor Morales this afternoon?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "Her office hours are over, but she said students with registration problems can email her."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the woman suggest that the man do?"
+        }
+      ]
+    },
+    {
+      "id": "quick-cafeteria-line",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "I was going to get lunch here, but look at that line."
+        },
+        {
+          "voice": "am_michael",
+          "text": "The sandwich shop across the street is usually quieter at this hour."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What will the woman probably do?"
+        }
+      ]
+    },
+    {
+      "id": "quick-printing-fee",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "Why did the computer lab charge me for printing?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "The first twenty pages are free. After that, the system deducts money from your student account."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the woman mean?"
+        }
+      ]
+    },
+    {
+      "id": "quick-lab-report",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Are you almost done with the chemistry report?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "I have the results, but I still need to explain why the second trial was different."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the man imply?"
+        }
+      ]
+    },
+    {
+      "id": "quick-dorm-repair",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "The heater in my room is making that noise again."
+        },
+        {
+          "voice": "af_heart",
+          "text": "Fill out the online maintenance form before noon, and someone can come today."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Why does the woman mention noon?"
+        }
+      ]
+    },
+    {
+      "id": "quick-history-reading",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "I cannot believe the professor assigned three chapters for Monday."
+        },
+        {
+          "voice": "am_michael",
+          "text": "He said the third chapter is optional background, unless you are writing the extra-credit response."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the man mean?"
+        }
+      ]
+    },
+    {
+      "id": "quick-bookstore-order",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Has my economics textbook arrived yet?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "The shipment came this morning, but we have not unpacked the boxes. Try again after lunch."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What will the man probably do?"
+        }
+      ]
+    },
+    {
+      "id": "quick-music-ensemble",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "I thought the rehearsal was cancelled."
+        },
+        {
+          "voice": "am_puck",
+          "text": "It was moved to the smaller hall, so it is still on, just not where we usually meet."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the man mean?"
+        }
+      ]
+    },
+    {
+      "id": "quick-deadline-extension",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "Do you think Professor Chen will give us more time for the essay?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "She already moved the deadline once, so I would not count on it."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the woman mean by saying, I would not count on it?"
+        }
+      ]
+    },
+    {
+      "id": "quick-campus-map",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Is the science building far from here?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "It is behind the art museum. If you can see the clock tower, you are already halfway there."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What does the man imply?"
+        }
+      ]
+    },
+    {
+      "id": "quick-group-presentation",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "I can make the slides, but someone else should introduce the topic."
+        },
+        {
+          "voice": "af_heart",
+          "text": "Fine. You have a good eye for design, and I have already practiced the opening."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What will the woman probably do?"
+        }
+      ]
+    },
+    {
+      "id": "long-field-study",
+      "gap_ms": 360,
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Hi, I am here about the environmental science field trip. I signed up last month, but I just noticed that it starts before the buses run from my neighborhood."
+        },
+        {
+          "voice": "af_heart",
+          "text": "You are in Professor Patel's section, right? The department arranged a van from the east parking lot at seven fifteen."
+        },
+        {
+          "voice": "am_michael",
+          "text": "I did not see that in the announcement."
+        },
+        {
+          "voice": "af_heart",
+          "text": "It was added after students mentioned the transportation problem. You need to reserve a seat by Thursday because there are only twelve spaces."
+        },
+        {
+          "voice": "am_michael",
+          "text": "That helps. Is there anything else I should bring?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "The lab will provide the sampling equipment. Just wear shoes that can get wet and bring your student ID. The weather forecast says it may rain, but the trip will go ahead unless there is lightning."
+        },
+        {
+          "voice": "am_michael",
+          "text": "So if it rains, we still collect the samples?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "Exactly. In fact, comparing the stream after rain is one reason the professor chose this week."
+        },
+        {
+          "voice": "am_michael",
+          "text": "Then I will reserve a van seat today."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Now answer the questions."
+        }
+      ]
+    },
+    {
+      "id": "long-bee-navigation",
+      "gap_ms": 300,
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "speed": 0.96,
+          "text": "Today we will look at how honeybees tell other bees where food is located. For a long time, researchers noticed that a returning bee performs a repeated movement inside the hive. This movement is called the waggle dance."
+        },
+        {
+          "voice": "am_fenrir",
+          "speed": 0.96,
+          "text": "The direction of the dance indicates the direction of the food source relative to the sun. The length and energy of the central movement provide information about distance. At first, this explanation seemed almost too simple."
+        },
+        {
+          "voice": "am_fenrir",
+          "speed": 0.96,
+          "text": "But when scientists moved food sources and observed the dancers, the changes in the dance matched the new locations. Of course, the dance is not the only source of information. Bees can also use scent left on flowers, and they learn features of the landscape around the hive."
+        },
+        {
+          "voice": "am_fenrir",
+          "speed": 0.96,
+          "text": "The important point is that the dance gives other bees a useful starting point. It does not function like a printed map with exact coordinates. Instead, it helps a bee begin searching in the right direction and at roughly the right distance. This is a good example of animal communication being both precise and flexible."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Now answer the questions."
+        }
+      ]
+    },
+    {
+      "id": "long-city-market",
+      "gap_ms": 300,
+      "segments": [
+        {
+          "voice": "af_bella",
+          "speed": 1,
+          "text": "When historians study an old city, they often begin with its public buildings: temples, government offices, and walls. But market areas can reveal just as much about everyday life. A market brings together people who may otherwise have little reason to meet."
+        },
+        {
+          "voice": "af_bella",
+          "speed": 1,
+          "text": "Farmers bring food from outside the city, craftspeople sell objects they have made, and travelers exchange news from distant places. Because of this, markets can influence a city's growth in more than one way. First, they make trade more efficient by concentrating buyers and sellers in one location."
+        },
+        {
+          "voice": "af_bella",
+          "speed": 1,
+          "text": "Second, they create regular paths through the city. Streets near an active market may become wider or more permanent because so many people use them. Finally, governments often begin to regulate markets by setting weights, collecting taxes, or inspecting goods."
+        },
+        {
+          "voice": "af_bella",
+          "speed": 1,
+          "text": "These rules tell historians what leaders considered important. So, a market is not simply a place to buy food. It is a meeting point where economic activity, movement, and political control become visible at the same time."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Now answer the questions."
+        }
+      ]
+    },
+    {
+      "id": "skill04-who-dental-01",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Doctor Vance said that the porcelain crown on my upper molar has cracked and needs replacement."
+        },
+        {
+          "voice": "af_heart",
+          "text": "Let me pull up your dental charts and schedule you for a preliminary fitting with the dentist on Thursday."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Who is the woman most likely to be?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-what-cashier-02",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "The mechanic finished the safety inspection on your brakes, but the cashier needs your signature on the work order before handing over the keys."
+        },
+        {
+          "voice": "am_michael",
+          "text": "I'll step up to the payment counter right away."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What will the man probably do next?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-where-postoffice-03",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "I need to send this parcel via certified mail and purchase a book of international airmail stamps."
+        },
+        {
+          "voice": "af_heart",
+          "text": "Please place the carton on the electronic scale so I can calculate the required postage."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Where does this conversation probably take place?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-who-realestate-04",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Can you show me properties in the north district with at least three bedrooms and a fenced backyard?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "I have several residential listings that just hit the market. We can tour two of the open houses this afternoon."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Who is the man?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-what-battery-05",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "We're running completely out of battery power on our audio recording equipment, and the keynote begins in fifteen minutes."
+        },
+        {
+          "voice": "af_heart",
+          "text": "There's an electronics accessory kiosk down the concourse near Gate B."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What will the speakers probably do next?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-who-judge-06",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Your opening statement clearly outlined the contract dispute, counselor, but the jury will need verifiable documentary evidence."
+        },
+        {
+          "voice": "am_michael",
+          "text": "I intend to submit the audited balance sheets as Exhibit A, Your Honor."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Who is the woman?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-where-lab-07",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Don't forget to put on your safety goggles and secure your apron before we ignite the Bunsen burners."
+        },
+        {
+          "voice": "af_bella",
+          "text": "I've already measured the chemical reagents into the graduated cylinder."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Where does this conversation most likely take place?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-what-museum-08",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "The museum security guard just announced that the special gallery exhibition closes in ten minutes."
+        },
+        {
+          "voice": "am_michael",
+          "text": "Let's head over to the gift shop right now so we can buy the exhibition catalog before the register shuts down."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What will the man probably do next?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-who-tailor-09",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Could you take in the waist of this suit jacket and hem the trouser cuffs so they fall right above the heel?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "Certainly. Please step up onto the fitting platform so I can pin the fabric and note your measurements."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "Who is the woman?"
+        }
+      ]
+    },
+    {
+      "id": "skill04-what-camera-10",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Make sure you store the purchase receipt and warranty slip in case the telephoto lens or autofocus sensor requires servicing."
+        },
+        {
+          "voice": "am_michael",
+          "text": "I'll pack the documentation in the padded carrying case alongside the spare high-capacity memory cards."
+        },
+        {
+          "voice": "af_heart",
+          "speed": 1,
+          "text": "What are the speakers discussing?"
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-11",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Did the municipal council approve the funding for the new library wing?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "The mayor signed the authorization bill late yesterday evening."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-12",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Why wasn't the science building open during the morning rush?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "The fire alarms were triggered by an unexpected electrical surge."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-13",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "Did Professor Jenkins accept your draft for the anthropology paper?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "She reviewed it and gave me permission to start the final research."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about her draft?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-14",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Has the package with our laboratory microscopes arrived yet?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "It was delivered by the express courier just ten minutes ago."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-15",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Are the maintenance workers going to paint the campus dormitories this summer?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "The housing director already hired an outside painting contractor for the job."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-16",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Why is the highway ramp blocked off by orange cones?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "The guardrail was damaged by an overturned tractor-trailer this morning."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say happened?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-17",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Did our architecture team secure the contract for the downtown revitalization project?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "The city planning board awarded the entire contract to our firm."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-18",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Why was the guest lecture on ancient architecture relocated to Hall B?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "Room 104 was flooded by a burst water pipe early this morning."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-19",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "Did Rachel complete the scholarship application before the five o'clock deadline?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "She submitted all the required essays and recommendation letters at noon."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about Rachel?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill05-passive-20",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Were you able to recover your lost briefcase from the airport terminal?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "It was found near the baggage carousel by a flight attendant."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-21",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Who is directing the campus chamber orchestra for the winter concert?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "Professor Martinez stepped in to replace Maestro Rossi after he fell ill."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about the concert?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-22",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Why did the laboratory supervisor make Greg repeat the titration experiment?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "His initial readings showed an unacceptable level of chemical contamination."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-23",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Did Sandra lend her car to Marcus for his job interview in Chicago?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "No, Marcus ended up borrowing his roommate's pickup truck instead."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-24",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Did you hear that Mr. Sterling designated Arthur as the sole trustee of the charitable foundation?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "Yes, and Arthur has already assumed responsibility for managing the endowment fund."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about Arthur?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-25",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "Has the search committee chosen a successor for Dean Reynolds?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "Dr. Albright was selected by the board to take over the administration."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-26",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Is Daniel traveling to Boston next weekend for his graduation ceremony?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "Actually, he's attending his brother's commencement at MIT."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man clarify about Daniel?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-27",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Did Jason remodel the kitchen cabinets in his new townhouse himself?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "He had a professional carpenter rebuild the entire pantry and island."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about Jason's kitchen?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-28",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Is Professor Evans tutoring Clara in organic chemistry this term?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "No, Clara is assisting Professor Evans as a teaching assistant for the underclassmen."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about Clara?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-29",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "How did the varsity soccer team score the winning goal in the final seconds?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "Tyler intercepted the pass from the defender and set up Jordan for the shot."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What happened during the final play?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill06-multiple_nouns-30",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Did the editor-in-chief write that investigative article on urban transit?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "She assigned the entire story to her senior investigative reporter, Brian."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-31",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "What did the advisory committee think of the proposed budget cuts?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "They were not pleased with the plan to reduce research grants."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-32",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Did you manage to find the historical document in the university archives?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "The head librarian told me the original manuscript is inaccessible to the public."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about the manuscript?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-33",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "How did the morning department meeting go with the new regional manager?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "Nobody arrived on time because of the unexpected subway derailment."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about the meeting?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-34",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "How did your field team manage to reach the remote station in under three hours?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "We certainly didn't drive slowly once we hit the expressway."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-35",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Is Kevin planning to accept the summer internship offer at the investment bank?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "He's still really unsure about relocating to New York."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about Kevin?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-36",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Were you satisfied with how the annual alumni fundraising banquet turned out?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "Nothing went as planned from the moment the caterer arrived late."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about the banquet?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-37",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "I've been trying to unlock this storage cabinet for ten minutes without any luck."
+        },
+        {
+          "voice": "bf_emma",
+          "text": "That isn't the right key for this lock mechanism."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-38",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Why is the project manager reluctant to assign Brian to the software development phase?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "Brian never puts in much effort unless someone is constantly supervising him."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about Brian?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-39",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Did the journal editor accept the final draft of your environmental science study?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "She stated that the methodology section was incomplete and lacked statistical backing."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about her study?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill07-negative-40",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "How was your dinner at the newly opened seafood bistro on the waterfront?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "The service wasn't too good, and the food was barely lukewarm."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about the bistro?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-41",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Do you think the university will approve our grant application for the solar energy project?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "Well, it's not improbable that we will receive funding."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-42",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Did Teresa or Samuel understand the statistical model introduced in lecture?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "Teresa couldn't follow the professor's explanation, and neither could Samuel."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about the students?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-43",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "What did Mark think of the modern art exhibit at the downtown gallery?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "He didn't dislike the abstract sculptures."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about Mark?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-44",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Did Professor Vance remember to include the bibliography requirements on the syllabus?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "She didn't fail to mention them in bold print on the first page."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-45",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Are power outages frequent in this mountainous region during winter storms?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "It wasn't uncommon for the electricity to go out several times a month."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about power outages?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-46",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "How did the corporate clients react to the redesigned user interface of the banking app?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "No one was dissatisfied with the simplified navigation."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-47",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Does Walter ever travel on business trips without checking his emails constantly?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "He never leaves town without taking two laptops and his tablet along."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-48",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Did Clara or David apply for the department leadership position?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "Clara wasn't interested in the administrative role, and David wasn't either."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about Clara and David?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-49",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Did the lab technician leave the hazardous waste container open overnight?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "Frank is not irresponsible when it comes to laboratory safety protocols."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about Frank?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill08-double_negative-50",
+      "skill": "double_negative",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Why are you smiling at that classical symphony playing on the radio?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "I can't hear that melody without thinking of our student trip to Vienna."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-51",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Is there enough diesel in the generator to keep the laboratory equipment running tonight?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "There's scarcely any fuel left in the reserve tank."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-52",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Does Professor Harrison ever extend deadlines for semester essays?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "He seldom accepts late submissions without a documented emergency."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about Professor Harrison?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-53",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Did your research team secure sufficient lab supplies for the gene sequencing project?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "We have barely enough reagents to complete the final trial."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-54",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "How often does the express shuttle bus run to the regional airport on weekends?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "It rarely operates after six in the evening."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about the shuttle bus?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-55",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "Was there a large audience at the visiting author's poetry reading last night?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "Hardly anyone attended because of the heavy blizzard."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about the reading?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-56",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Does Arthur still play tournament chess on the university team?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "Since starting medical school, he hardly ever touches a chessboard."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-57",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Did you catch your connecting flight in Atlanta after the sudden gate change?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "I barely made it onto the jet bridge before they closed the cabin door."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-58",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "How many original copies of the 18th-century manuscript are still in existence?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "Only a handful survived the catastrophic library fire in London."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about the manuscripts?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-59",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "Could you understand the guest lecturer from your seat in the balcony?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "We could scarcely hear a word because the microphone was faulty."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill09-almost_negative-60",
+      "skill": "almost_negative",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Is the endangered red fox population recovering in the wildlife sanctuary?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "Park rangers seldom spot one outside the deep northern wilderness."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about the red fox?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-61",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "What did the review board say about Elena's architectural blueprint?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "No design was more innovative than hers."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-62",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "How did the community react to the opening of the new public park?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "The residents couldn't be happier with the green space."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about the residents?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-63",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Who was selected as the regional branch's employee of the quarter?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "Marcus won the award because nobody worked harder than he did on the supply chain project."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply about Marcus?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-64",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "How did the symphony orchestra perform at the grand opening of the concert hall?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "They couldn't have played better."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-65",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "How are the road conditions on the mountain pass during this blizzard?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "Visibility couldn't be worse with all this blowing snow."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about visibility?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-66",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "I think the university should expand the shuttle bus schedule during exam week."
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "I couldn't agree more!"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-67",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "Which reference manual should I consult for advanced organic chemistry synthesis?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "No text is more thorough than Professor Martinez's monograph."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply about the monograph?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-68",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Are airline tickets to Europe affordable during the off-season in November?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "Fares couldn't be lower at this time of year."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about the airfare?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-69",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Where can I find a peaceful place on campus to study for my comprehensive exams?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "No place is quieter than the upper mezzanine of the archives library."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill10-comparative-70",
+      "skill": "comparative",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "Why did the alumni association honor Professor Larson at the commencement banquet?"
+        },
+        {
+          "voice": "am_puck",
+          "text": "No faculty member was more dedicated to undergraduate mentoring."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man say about Professor Larson?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill11-agreement-71",
+      "skill": "agreement",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "The reading assignments for our international law seminar are exceptionally demanding."
+        },
+        {
+          "voice": "af_heart",
+          "text": "You can say that again!"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill11-agreement-72",
+      "skill": "agreement",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "I don't think the new cafeteria meal plan provides healthy options."
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "Neither do I."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill12-uncertainty-73",
+      "skill": "uncertainty",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "When is the final draft of our chemistry lab report due?"
+        },
+        {
+          "voice": "bf_emma",
+          "text": "We have until Friday afternoon at five, don't we?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill12-suggestion-74",
+      "skill": "suggestion",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "The downtown traffic is bumper-to-bumper, and parking will be impossible near the auditorium."
+        },
+        {
+          "voice": "am_michael",
+          "text": "Why not take the commuter express train instead?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man suggest?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill13-surprise-75",
+      "skill": "surprise",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "Marcus just received an acceptance letter from Johns Hopkins Medical School."
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "Then he DID submit his application on time!"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What had the man assumed about Marcus?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill13-surprise-76",
+      "skill": "surprise",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "I watched Sarah negotiate that international trade contract in fluent Japanese."
+        },
+        {
+          "voice": "bf_emma",
+          "text": "So she CAN speak Japanese!"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What had the woman thought?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill14-wish-77",
+      "skill": "wish",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "Are you going to attend the keynote lecture on artificial intelligence this evening?"
+        },
+        {
+          "voice": "am_michael",
+          "text": "I wish I didn't have to work the night shift at the clinic."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill14-wish-78",
+      "skill": "wish",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "How did your group presentation in economics go yesterday?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "I wish we had rehearsed the data analysis section more thoroughly."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply?",
+          "speed": 1
+        }
+      ]
+    },
+    {
+      "id": "skill-int-79-who_what_where",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "The defendant claims he didn't drive recklessly through the school zone, but the radar records show he was traveling at twice the speed limit."
+        },
+        {
+          "voice": "bf_emma",
+          "text": "No witness was more credible than the traffic officer who testified this morning, counselor."
+        },
+        {
+          "voice": "af_heart",
+          "text": "Who is the woman, and what does she imply about the testimony?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "4"
+      ]
+    },
+    {
+      "id": "skill-int-80-passive",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "It's not impossible that the architectural blueprints were leaked by an insider before the bidding deadline."
+        },
+        {
+          "voice": "am_michael",
+          "text": "You can say that again!"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "5"
+      ]
+    },
+    {
+      "id": "skill-int-81-multiple_nouns",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "Did Professor Vance have Kevin tutor Sandra for the advanced biochemistry midterm?"
+        },
+        {
+          "voice": "af_bella",
+          "text": "Sandra rarely attends study sessions, so I wish Kevin had worked with Marcus instead."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman imply?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "6"
+      ]
+    },
+    {
+      "id": "skill-int-82-who_what_where",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "We have barely fifteen minutes before our flight boards, and our mobile passes won't scan at the security turnstile."
+        },
+        {
+          "voice": "am_puck",
+          "text": "Then the airline server DID fail to synchronize! Why not head straight to the customer service kiosk?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What had the man assumed, and what does he suggest?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "4"
+      ]
+    },
+    {
+      "id": "skill-int-83-passive",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "am_puck",
+          "text": "How did the faculty committee evaluate the research grant proposal submitted by Dr. Collins?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "The proposal was not rejected; in fact, no grant received higher scores from the review board."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman say about Dr. Collins's proposal?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "5"
+      ]
+    },
+    {
+      "id": "skill-int-84-multiple_nouns",
+      "skill": "multiple_nouns",
+      "segments": [
+        {
+          "voice": "af_heart",
+          "text": "David didn't fail to assign the laboratory tasks to Brenda and Julian, did he?"
+        },
+        {
+          "voice": "am_fenrir",
+          "text": "As far as I can tell, Brenda was put in charge of the chemical samples and Julian took over data analysis."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man mean?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "6"
+      ]
+    },
+    {
+      "id": "skill-int-85-who_what_where",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "am_fenrir",
+          "text": "I wish there were scarcely any wait at this prescription pick-up counter."
+        },
+        {
+          "voice": "bf_emma",
+          "text": "There are at least twenty patients ahead of us waiting for their medication."
+        },
+        {
+          "voice": "af_heart",
+          "text": "Where are the speakers, and what is the actual situation?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "4"
+      ]
+    },
+    {
+      "id": "skill-int-86-passive",
+      "skill": "passive",
+      "segments": [
+        {
+          "voice": "bf_emma",
+          "text": "The quarterly financial audit was finalized by the junior accountant after Mr. Sterling was transferred."
+        },
+        {
+          "voice": "am_michael",
+          "text": "So Mr. Sterling DID leave the regional headquarters!"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What had the man assumed about Mr. Sterling?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "5"
+      ]
+    },
+    {
+      "id": "skill-int-87-negative",
+      "skill": "negative",
+      "segments": [
+        {
+          "voice": "am_michael",
+          "text": "The instructions on this federal fellowship application are not at all straightforward."
+        },
+        {
+          "voice": "af_bella",
+          "text": "Neither are the filing guidelines on the portal. Why not consult the scholarship advisor?"
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the woman mean?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "7"
+      ]
+    },
+    {
+      "id": "skill-int-88-who_what_where",
+      "skill": "who_what_where",
+      "segments": [
+        {
+          "voice": "af_bella",
+          "text": "I wish the executive chef hadn't appointed Carlos to manage the banquet kitchen tonight."
+        },
+        {
+          "voice": "am_puck",
+          "text": "Why? No culinary assistant in this restaurant is more capable than Carlos."
+        },
+        {
+          "voice": "af_heart",
+          "text": "What does the man imply about Carlos?",
+          "speed": 1
+        }
+      ],
+      "integration_skills": [
+        "4"
+      ]
+    }
   ]
 }

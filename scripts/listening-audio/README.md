@@ -62,6 +62,35 @@ optional `speed`.
 npm.cmd run audio:generate -- --bank scripts/listening-audio/listening-bank.json --output-dir apps/web/public/audio/toefl-listening
 ```
 
+Para regenerar únicamente una unidad corregida, agrega por ejemplo
+`--unit-id long-city-market` al mismo comando.
+
+`listening-bank.json` es la única fuente canónica de generación y contiene las
+103 unidades publicadas. No deben mantenerse bancos parciales o acumulativos en
+paralelo. Las preguntas y respuestas se sincronizan desde
+`Documentos extra/ejercicios_listening.md` ejecutando:
+
+```powershell
+node scripts/listening-audio/sync-listening-questions.mjs
+```
+
+La lista de control editorial se regenera con
+`npx tsx scripts/listening-audio/write-audit-report.mjs`.
+
+Después de sincronizar contenido o regenerar audio, ejecuta las pruebas de
+`@macitta/shared`; incluyen referencias, opciones, respuestas y correspondencia
+exacta entre catálogo y archivos MP3.
+
+La auditoría técnica de audio decodifica todos los MP3 y comprueba inventario,
+sample rate, canales, duración, clipping y nivel RMS:
+
+```powershell
+uv run --project scripts/listening-audio python scripts/listening-audio/audit.py
+```
+
+Usa `--sync-durations` después de regenerar archivos para alinear la duración
+declarada del catálogo con la duración real redondeada.
+
 The batch reuses the local model, assigns the voices declared for each turn and
 creates one versioned MP3 per listening unit.
 

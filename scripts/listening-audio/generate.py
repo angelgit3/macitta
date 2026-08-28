@@ -63,6 +63,10 @@ def parse_args() -> argparse.Namespace:
         help="Directory for --bank MP3 files. Each item must provide an id.",
     )
     parser.add_argument(
+        "--unit-id",
+        help="Generate only this unit from --bank (useful for targeted fixes).",
+    )
+    parser.add_argument(
         "--list-voices",
         action="store_true",
         help="Print the recommended English voice set and exit.",
@@ -159,11 +163,20 @@ def render_audio(
     return output
 
 
-def render_bank(bank_path: Path, output_dir: Path, default_gap_ms: int) -> list[Path]:
+def render_bank(
+    bank_path: Path,
+    output_dir: Path,
+    default_gap_ms: int,
+    unit_id_filter: str | None = None,
+) -> list[Path]:
     payload = json.loads(bank_path.read_text(encoding="utf-8"))
     entries = payload.get("units", payload) if isinstance(payload, dict) else payload
     if not isinstance(entries, list) or not entries:
         raise ValueError("The bank JSON needs a non-empty array or a 'units' array.")
+    if unit_id_filter:
+        entries = [entry for entry in entries if entry.get("id") == unit_id_filter]
+        if not entries:
+            raise ValueError(f"Unit '{unit_id_filter}' was not found in the bank.")
 
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -193,7 +206,7 @@ def main() -> None:
     if args.bank:
         if not args.output_dir:
             raise ValueError("--bank requires --output-dir.")
-        outputs = render_bank(args.bank, args.output_dir, args.gap_ms)
+        outputs = render_bank(args.bank, args.output_dir, args.gap_ms, args.unit_id)
         print(f"Generated {len(outputs)} listening files in {args.output_dir.resolve()}")
         return
 
