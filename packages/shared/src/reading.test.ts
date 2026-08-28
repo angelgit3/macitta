@@ -243,6 +243,26 @@ describe("Reading queue", () => {
         expect(queue).toHaveLength(0);
     });
 
+    it("never queues retired passages or questions", () => {
+        const retiredPassage = { ...makePassage("retired-passage"), status: "retired" as const };
+        const activePassage = makePassage("active-passage");
+        const retiredQuestion = {
+            ...makeQuestion("retired-question", activePassage.id, 1),
+            status: "retired" as const,
+        };
+        const queue = buildReadingQueue([
+            {
+                passage: retiredPassage,
+                question: makeQuestion("active-question", retiredPassage.id, 1),
+            },
+            { passage: activePassage, question: retiredQuestion },
+        ], {
+            userId: "user",
+            now: new Date("2026-07-28T12:00:00.000Z"),
+        });
+        expect(queue).toHaveLength(0);
+    });
+
     it("does not repeat a recovering question before its due time", () => {
         const item = makePassage("not-due");
         const recovering = {
