@@ -19,6 +19,7 @@ export type ReadingSkillCode =
     | "READ_PARAPHRASE";
 
 export interface ReadingQuestionSeed {
+    id: string;
     skill: ReadingSkillCode;
     prompt: string;
     correct: string;
@@ -31,6 +32,7 @@ export interface ReadingQuestionSeed {
 }
 
 export interface ReadingPassageSeed {
+    id: string;
     slug: string;
     title: string;
     topicEs: string;
@@ -44,6 +46,7 @@ export interface ReadingPassageSeed {
 }
 
 export function q(
+    id: string,
     skill: ReadingSkillCode,
     prompt: string,
     correct: string,
@@ -55,6 +58,7 @@ export function q(
     difficulty?: 1 | 2 | 3,
 ): ReadingQuestionSeed {
     return {
+        id,
         skill,
         prompt,
         correct,

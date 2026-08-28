@@ -2,6 +2,8 @@ import { q, type ReadingPassageSeed } from "../readingBankTypes";
 
 export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
     {
+        id: "60000000-0000-4000-8000-000000000017",
+
         slug: "roman-concrete",
         title: "Concrete That Heals",
         topicEs: "Materiales de construcción romanos",
@@ -16,7 +18,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "This process cannot repair unlimited damage, and Roman recipes varied widely. Nevertheless, the finding changes how historians interpret apparently imperfect material. What looked like a defect may have resulted from a hot-mixing method that gave the concrete useful long-term behavior.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000101", 
                 "READ_MAIN_IDEA",
                 "What discovery about Roman concrete is emphasized in the passage?",
                 "Lime-rich fragments once considered defects may help seal cracks.",
@@ -26,7 +28,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "they can contribute to self-repair",
                 ["El texto menciona colocación bajo agua marina.", "Se afirma que el concreto moderno puede agrietarse con sal.", "Los minerales se forman dentro de las grietas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000102", 
                 "READ_DETAIL",
                 "What happens after water reaches a lime-rich fragment?",
                 "Calcium-rich material dissolves and forms minerals in the crack.",
@@ -36,7 +38,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "calcium-rich material dissolves and later forms new minerals",
                 ["El cambio es local y no licua la estructura.", "La ceniza forma parte de la mezcla y no se extrae.", "Los moldes se usaron durante construcción, no crecen."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000103", 
                 "READ_VOCAB_CONTEXT",
                 "The word “dismissed” in paragraph 2 is closest in meaning to",
                 "rejected as unimportant",
@@ -46,7 +48,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "were once dismissed as evidence of careless mixing",
                 ["La medición microscópica pertenece a estudios recientes.", "La colocación bajo agua describe construcción portuaria.", "No se habla de copiar los fragmentos."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000104", 
                 "READ_INFERENCE",
                 "Why has the interpretation of the lime fragments changed?",
                 "New microscopic evidence suggests a useful mechanism that was previously overlooked.",
@@ -57,7 +59,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La cal era un ingrediente explícito.", "No se afirma adopción universal moderna.", "Los fragmentos siguen siendo objeto de estudio."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000105", 
                 "READ_TONE",
                 "How does the author qualify the self-repair explanation?",
                 "It is promising but limited and not identical across all Roman concrete.",
@@ -71,6 +73,8 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000018",
+
         slug: "relay-posts",
         title: "Messages in Relays",
         topicEs: "Redes postales premodernas",
@@ -85,7 +89,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Although relay posts are often described as early postal systems, they were not always open to ordinary correspondence. Their main purpose was administrative: reporting conditions, transmitting orders, and moving officials. The network connected distant regions to a political center, but access to that speed was itself a form of power.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000106", 
                 "READ_PRIMARY_PURPOSE",
                 "What does the passage explain about relay networks?",
                 "How they accelerated official communication through organized exchanges",
@@ -95,7 +99,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "no single animal or person had to complete the entire journey without rest",
                 ["El acceso ordinario no estaba siempre permitido.", "La ventaja consistía en reemplazar animales cansados.", "El período descrito precede la comunicación electrónica."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000107", 
                 "READ_DETAIL",
                 "What could an authorized courier do at a relay station?",
                 "Exchange a tired horse for a rested one",
@@ -105,7 +109,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "exchange a tired horse for a rested one",
                 ["No se mencionan periódicos.", "Las estaciones conectaban con el centro; no creaban capitales.", "La transmisión era física."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000108", 
                 "READ_REFERENCE",
                 "The word “these” in paragraph 2 refers to",
                 "station animals, food, workers, and related resources",
@@ -115,7 +119,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "allowed officials to use these resources",
                 ["Los centros son destinos de la red, no recursos de estación.", "La correspondencia común podía estar excluida.", "Los ferrocarriles son posteriores."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000109", 
                 "READ_NEGATIVE_DETAIL",
                 "Which activity was NOT identified as a main purpose of the relay network?",
                 "Delivering personal letters for all residents",
@@ -125,7 +129,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "not always open to ordinary correspondence",
                 ["Las órdenes forman parte de la lista administrativa.", "Los informes de condiciones se mencionan expresamente.", "El movimiento de funcionarios también era una función."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000110", 
                 "READ_INFERENCE",
                 "Why does the author call access to speed “a form of power”?",
                 "Those authorized to use the network could act on distant information sooner than others.",
@@ -139,6 +143,8 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000019",
+
         slug: "paper-travels-west",
         title: "A Material That Changed Writing",
         topicEs: "Difusión histórica del papel",
@@ -154,7 +160,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "As paper production expanded, it supported more extensive record keeping and bookmaking. Yet the material alone did not create a literate society. Schools, scribes, trade networks, state demand, and later printing technologies shaped who could produce and read texts. The ability to recycle used fibers also affected local material supply. Paper lowered some production costs, but its historical effect depended on the institutions that used it.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000111", 
                 "READ_MAIN_IDEA",
                 "Which idea about the spread of paper is central to the passage?",
                 "Paper spread through gradual adaptation and gained importance within supporting institutions.",
@@ -164,7 +170,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "its historical effect depended on the institutions that used it",
                 ["Papiro y pergamino continuaron utilizándose.", "Los artesanos usaron materiales locales distintos.", "El cierre niega que el material por sí solo creara una sociedad alfabetizada."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000112", 
                 "READ_DETAIL",
                 "Why did some workshops use linen and hemp rags?",
                 "Locally available materials differed from those used in China.",
@@ -174,7 +180,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "adapted raw materials to local conditions",
                 ["La fabricación aún requería preparar fibras.", "El pergamino podía borrarse y reutilizarse.", "No se plantea una prohibición de energía hidráulica."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000113", 
                 "READ_VOCAB_CONTEXT",
                 "The word “suspend” in paragraph 1 is closest in meaning to",
                 "disperse throughout a liquid",
@@ -184,7 +190,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "suspend them in water",
                 ["No se describe almacenamiento de libros.", "La secuencia continúa después de esta acción.", "La escritura sucede tras fabricar y secar la hoja."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000114", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author discuss papyrus and parchment?",
                 "To show that adoption of paper was gradual and depended on particular uses",
@@ -195,7 +201,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El primer párrafo caracteriza el papel como ligero.", "La impresión se menciona después como otra tecnología.", "Las instituciones podían tomar decisiones diferentes."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000115", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the conclusion?",
                 "Cheaper writing material mattered most where social and economic systems enabled people to use it.",
@@ -209,6 +215,8 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000020",
+
         slug: "stars-waves-and-islands",
         title: "Finding Islands without Instruments",
         topicEs: "Navegación tradicional del Pacífico",
@@ -224,7 +232,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Knowledge was carried through teaching, memory, and repeated voyages. Training included names and sequences, but it also developed careful attention to subtle movement at sea. A learner might lie quietly in the canoe and feel how its motion changed as waves struck from different directions. Experienced navigators evaluated learners gradually over many journeys, allowing responsibility to grow as observations became more reliable. Navigation was therefore both an intellectual system and a bodily skill refined through practice.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000116", 
                 "READ_PRIMARY_PURPOSE",
                 "What does the author mainly explain about Pacific navigation?",
                 "It combined multiple environmental cues with trained memory and bodily experience.",
@@ -234,7 +242,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "both an intellectual system and a bodily skill",
                 ["Varias olas podían cruzarse y la mayor no bastaba.", "Se destaca navegación sin compás magnético.", "Ninguna señal aislada garantizaba tierra."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000117", 
                 "READ_DETAIL",
                 "How could ocean swells assist when stars were hidden?",
                 "They could retain information about winds beyond the cloudy area.",
@@ -244,7 +252,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "long ocean swells could preserve information about distant winds",
                 ["El oleaje no controla las nubes.", "Interpretar patrones no equivale a señalar siempre la isla más cercana.", "No se atribuye magnetismo al oleaje."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000118", 
                 "READ_NEGATIVE_DETAIL",
                 "Which of the following is NOT mentioned as a possible sign of nearby land?",
                 "A sudden change in the writing on a chart",
@@ -254,7 +262,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Signs of land became important near the end of a voyage.",
                 ["El regreso nocturno de ciertas aves puede indicar islas.", "Algunas nubes se forman sobre tierra.", "La luz reflejada de una laguna puede teñir una nube."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000119", 
                 "READ_INFERENCE",
                 "Why was experience necessary for interpreting swells?",
                 "Several wave patterns could overlap and had to be distinguished.",
@@ -265,7 +273,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los viajes y la práctica eran repetidos.", "El movimiento de la canoa era una fuente de sensación.", "Los oleajes preservaban información sobre vientos."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000120", 
                 "READ_PARAPHRASE",
                 "What broader point does the final paragraph make about navigational knowledge?",
                 "Navigational knowledge included memorized systems and sensitivity developed through physical practice.",
@@ -279,6 +287,8 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000021",
+
         slug: "coffeehouses-and-news",
         title: "Rooms Full of News",
         topicEs: "Cafés y circulación de información",
@@ -293,7 +303,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "These spaces were not open to everyone equally. Cost, location, social rules, and gender shaped who could participate. It is therefore misleading to describe every coffeehouse as a fully democratic public sphere. Their historical importance lies instead in how they connected print, conversation, business, and sociability in new combinations.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000121", 
                 "READ_MAIN_IDEA",
                 "Why were urban coffeehouses historically important according to the passage?",
                 "They brought printed information and social networks together.",
@@ -303,7 +313,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "connected print, conversation, business, and sociability",
                 ["La participación estaba condicionada y no era plenamente igual.", "La rapidez también difundía rumores.", "Las conversaciones y noticias eran funciones centrales."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000122", 
                 "READ_DETAIL",
                 "Where were merchants especially likely to gather?",
                 "Near exchanges and docks",
@@ -313,7 +323,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Merchants gathered near exchanges and docks",
                 ["El contexto es urbano.", "Los cafés eran espacios distintos de oficinas oficiales.", "Las estaciones postales pertenecen a otra red."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000123", 
                 "READ_VOCAB_CONTEXT",
                 "The word “favored” in paragraph 2 is closest in meaning to",
                 "preferred",
@@ -323,7 +333,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "favored other locations",
                 ["Los locales podían ser vigilados, pero «favored» no significa cerrar.", "No se afirma que financiaran el establecimiento.", "No expresa una operación de medición."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000124", 
                 "READ_INFERENCE",
                 "Why might governments have monitored coffeehouses?",
                 "Rapid discussion networks could circulate politically sensitive ideas or rumors.",
@@ -334,7 +344,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los materiales impresos circulaban ampliamente.", "Los clientes incluían múltiples grupos.", "Los comerciantes usaban estos espacios vinculados con negocios."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000125", 
                 "READ_TONE",
                 "How does the author treat the idea that coffeehouses were democratic spaces?",
                 "With caution, because participation was socially limited",
@@ -348,6 +358,8 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000022",
+
         slug: "calendars-and-seasons",
         title: "Keeping a Calendar in Step",
         topicEs: "Historia de calendarios",
@@ -363,7 +375,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Calendar reform is never only an astronomical calculation. Changing a rule can alter religious observances, tax periods, contracts, and anniversaries. Printed schedules and official legal records may also need carefully coordinated conversion across an entire political region. People may strongly resist losing locally familiar dates even when the new system tracks the sun more accurately. A successful reform must therefore coordinate institutions as carefully as it coordinates days.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000126", 
                 "READ_MAIN_IDEA",
                 "What problem and response does the passage primarily discuss?",
                 "Calendars use different correction systems because astronomical cycles do not divide evenly.",
@@ -373,7 +385,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "astronomical cycles used to define those units do not fit neatly together",
                 ["El ciclo lunar sigue siendo la base de varios calendarios.", "Se describen sistemas lunar, solar y lunisolar.", "La reforma afecta contratos, impuestos y celebraciones."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000127", 
                 "READ_DETAIL",
                 "How does a lunisolar calendar keep seasonal events in a similar part of the year?",
                 "It occasionally inserts an extra month.",
@@ -383,7 +395,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "periodically insert an additional month",
                 ["La duración del día no cambia.", "El sistema conserva meses lunares.", "Los marcadores agrícolas son una razón para mantener alineación."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000128", 
                 "READ_VOCAB_CONTEXT",
                 "The word “drift” in paragraph 3 is closest in meaning to",
                 "move gradually out of alignment",
@@ -393,7 +405,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "dates drift slowly relative to equinoxes and solstices",
                 ["El resultado es desalineación, no identidad.", "Las fechas continúan contándose.", "No se describe un cambio diario de nombres."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000129", 
                 "READ_INFERENCE",
                 "Why can a very small error in year length matter?",
                 "Repeated annually, it accumulates into a visible seasonal shift.",
@@ -404,7 +416,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El calendario no modifica la órbita lunar.", "Los contratos son afectados por reformas, no imposibilitados por todo error.", "La escala descrita es anual y secular."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000130", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention taxes, contracts, and anniversaries?",
                 "To show that calendar changes have practical and social consequences",
@@ -418,6 +430,8 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000023",
+
         slug: "archaeology-of-discarded-things",
         title: "What People Threw Away",
         topicEs: "Arqueología de residuos domésticos",
@@ -436,7 +450,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "The archaeology of refuse is powerful precisely because it is necessarily incomplete. Gaps force researchers to combine context, recovery technique, measurement, comparison, and uncertainty. New laboratory methods can identify residues or microscopic wear, but they do not remove the need for contextual judgment. A trash pit cannot tell a household’s whole story, but it can preserve choices and routines rarely celebrated in monuments or written records.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000131", 
                 "READ_MAIN_IDEA",
                 "What central point does the passage make about archaeological refuse?",
                 "Discarded material reveals ordinary life when its formation and context are carefully analyzed.",
@@ -447,7 +461,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El segundo párrafo niega que sea una fotografía directa.", "Cerámica común e importada pueden aportar información social.", "Se usan cribado y flotación para recuperar restos pequeños."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000132", 
                 "READ_DETAIL",
                 "Why might a broken vessel not enter a trash deposit immediately?",
                 "It may be repaired and used again first.",
@@ -457,7 +471,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "A cracked vessel may be repaired before it is finally thrown away",
                 ["Un objeto reparado no se vuelve necesariamente importado.", "La inundación puede mezclar capas, no transformar materiales.", "Las cribas son herramientas de excavación posterior."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000133", 
                 "READ_VOCAB_CONTEXT",
                 "The word “cluster” in paragraph 5 is closest in meaning to",
                 "be concentrated together",
@@ -467,7 +481,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "may cluster around certain houses",
                 ["La presencia agrupada no implica desaparición.", "La frase habla de ubicación, no error cronológico.", "Flotar describe restos botánicos en otro procedimiento."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000134", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention animals carrying bones away?",
                 "To illustrate how material can move after it is discarded",
@@ -478,7 +492,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los animales son un agente entre varios.", "Los huesos sí aportan evidencia cuando se analizan con contexto.", "La fabricación cerámica no se explica."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000135", 
                 "READ_INFERENCE",
                 "Why are recovery techniques important when comparing deposits?",
                 "Different methods can change which small remains are visible and counted.",
@@ -489,7 +503,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los depósitos varían por actividad y ubicación.", "La flotación recupera restos botánicos.", "La cerámica grande no depende exclusivamente de flotación."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000136", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are suggested for interpreting animal bones EXCEPT",
                 "the color of nearby modern buildings",
@@ -499,7 +513,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "compare body parts, cut marks, burning, age of animals",
                 ["Las partes ayudan a distinguir procesamiento y consumo.", "Las marcas de corte revelan actividad.", "La edad de los animales forma parte de la comparación."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000137", 
                 "READ_REFERENCE",
                 "The word “its” in paragraph 5, in the phrase “extend its use,” refers to",
                 "an ordinary vessel",
@@ -509,7 +523,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "repairs on ordinary vessels can indicate efforts to extend their use",
                 ["«Imported» describe cerámica, no casas.", "El taller se menciona en relación con huesos.", "La reparación descrita corresponde a recipientes."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000138", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the caution in paragraph 5?",
                 "Objects associated with wealth offer clues but cannot establish social status with certainty.",
@@ -520,7 +534,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La concentración puede asociarse con ciertas casas, sin exclusividad inversa.", "Los ricos pueden desechar en lugares no excavados.", "Las reparaciones indican uso prolongado, no una familia única."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000139", 
                 "READ_TONE",
                 "How would the author’s approach to archaeological interpretation best be described?",
                 "Evidence-based and cautious about simple conclusions",
@@ -531,7 +545,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Se rechaza depender de un solo conteo.", "Las rutinas cotidianas son precisamente el interés.", "Los residuos complementan lo que monumentos y registros no celebran."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000140", 
                 "READ_ORGANIZATION",
                 "Which description best matches the organization of the passage?",
                 "It introduces refuse evidence, then examines sources of bias and methods of interpretation.",
@@ -545,6 +559,8 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000024",
+
         slug: "making-city-water-safe",
         title: "Making City Water Safer",
         topicEs: "Historia del saneamiento urbano",
@@ -563,7 +579,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Modern systems inherit these layered solutions and inequalities. Filtration, disinfection, sewer separation, monitoring, and watershed protection work together. Operators must also retain training, spare parts, emergency plans, and public trust. Aging pipes, extreme rainfall, and unequal service can reopen risks that appear solved. The history of sanitation shows that technical knowledge matters, but durable safety depends on maintenance, public institutions, and attention to who remains outside the network.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000141", 
                 "READ_MAIN_IDEA",
                 "What is the passage’s central claim about urban sanitation?",
                 "Safe water emerged from layered technical and institutional changes that require continued maintenance and equitable reach.",
@@ -574,7 +590,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La aceptación del agua contaminada no produjo seguridad inmediata.", "El olor motivó obras, pero la función sanitaria fue más amplia.", "Tuberías viejas y lluvias extremas pueden reabrir riesgos."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000142", 
                 "READ_DETAIL",
                 "What made neighboring houses useful for comparing disease patterns?",
                 "They could receive water from different companies through separate pipes.",
@@ -584,7 +600,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Competing companies sometimes served neighboring houses through different pipes.",
                 ["El punto era la diferencia de suministro.", "No se afirma inmovilidad de residentes.", "Eran viviendas dentro de redes urbanas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000143", 
                 "READ_VOCAB_CONTEXT",
                 "The word “barrier” in paragraph 3 is closest in meaning to",
                 "a layer of protection",
@@ -594,7 +610,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "provided another barrier",
                 ["El contexto es tratamiento de agua, no territorio.", "El olor pertenece a teorías anteriores.", "Los impuestos financian infraestructura pero no son barrera sanitaria."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000144", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author discuss miasma theory?",
                 "To show that an incorrect explanation could still encourage some useful environmental action",
@@ -605,7 +621,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El texto declara incorrecta la teoría causal.", "La construcción aparece como consecuencia parcial.", "La evidencia sobre agua se desarrolla en el siguiente párrafo."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000145", 
                 "READ_INFERENCE",
                 "Why could improving only a water intake fail to prevent disease?",
                 "Water could be contaminated later through leaking pipes or unmanaged waste.",
@@ -616,7 +632,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los filtros reducían material y microbios.", "La desinfección protegía y no bloqueaba distribución.", "Mover tomas lejos del drenaje era una mejora pendiente."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000146", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as parts of safer water systems EXCEPT",
                 "eliminating every municipal boundary",
@@ -626,7 +642,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Filtration, disinfection, sewer separation, monitoring, and watershed protection work together.",
                 ["La filtración aparece como barrera física y biológica.", "La desinfección química agrega protección.", "Los ingenieros seguían presión para rendición de cuentas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000147", 
                 "READ_REFERENCE",
                 "The phrase “This shift” in paragraph 6 refers to",
                 "expanding sanitation goals to reduce downstream environmental harm",
@@ -636,7 +652,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "This shift required seeing the river",
                 ["La desigualdad urbana se discute, pero no se describe ese traslado.", "Mapas y laboratorios son herramientas complementarias.", "El pasaje avanza hacia transmisión hídrica, no regresa a miasma."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000148", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the warning in paragraph 5?",
                 "Limited sampling can cause a testing program to overlook brief or localized risks.",
@@ -647,7 +663,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Una muestra aislada no cubre variación temporal.", "Los estándares orientan lo que los laboratorios deben comprobar.", "Microbios peligrosos no dependen necesariamente de olor."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000149", 
                 "READ_TONE",
                 "How does the author evaluate sanitation progress?",
                 "As substantial but vulnerable to neglect and unequal service",
@@ -658,7 +674,7 @@ export const HISTORY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los beneficios de salud pública se describen como amplios.", "Los riesgos pueden regresar.", "Impuestos, límites y poder político afectan implementación."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000150", 
                 "READ_ORGANIZATION",
                 "How does paragraph 6 broaden the discussion?",
                 "It extends sanitation from protecting city residents to considering downstream ecosystems and communities.",

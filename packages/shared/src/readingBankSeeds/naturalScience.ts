@@ -2,6 +2,8 @@ import { q, type ReadingPassageSeed } from "../readingBankTypes";
 
 export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
     {
+        id: "60000000-0000-4000-8000-000000000001",
+
         slug: "fog-water-redwoods",
         title: "Water from Fog",
         topicEs: "Ecología de bosques costeros",
@@ -16,7 +18,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Fog does not replace rainfall entirely. A long period without either rain or fog can still stress the forest. Nevertheless, fog drip helps coastal plants survive the driest part of the year and may become increasingly important where seasonal rainfall becomes less predictable.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000001", 
                 "READ_MAIN_IDEA",
                 "Which statement best summarizes the discussion of coastal fog?",
                 "How coastal trees capture fog and redistribute its water",
@@ -26,7 +28,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "The trees therefore act as structures that redistribute atmospheric water through the ecosystem.",
                 ["El texto señala que la lluvia estival es escasa, no que haya aumentado.", "Las raíces aprovechan humedad, pero no evitan toda pérdida de agua.", "Los animales aparecen como beneficiarios de la humedad, no como víctimas de la niebla."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000002", 
                 "READ_DETAIL",
                 "According to the passage, what happens to water that is not absorbed directly by the leaves?",
                 "It forms larger drops that fall to the ground.",
@@ -36,7 +38,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "the rest gathers into larger drops that fall to the forest floor",
                 ["No se describe un retorno inmediato al océano.", "Las gotas dejan de permanecer suspendidas cuando se agrupan.", "El tronco no se menciona como depósito de esa agua."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000003", 
                 "READ_REFERENCE",
                 "The phrase “This process” in paragraph 2 refers to",
                 "the collection and dripping of water from fog",
@@ -46,7 +48,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "This process, known as fog drip",
                 ["Las mediciones aparecen después y no anteceden al demostrativo.", "Las raíces absorben el resultado del proceso, pero no lo constituyen.", "El texto destaca precisamente la escasez de lluvia estival."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000004", 
                 "READ_INFERENCE",
                 "What can be inferred about open areas near redwood forests?",
                 "Their soil may receive less moisture from fog.",
@@ -57,7 +59,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La profundidad del suelo nunca se compara.", "Las áreas son cercanas y no se afirma que reciban lluvias distintas.", "La comparación no permite concluir que carezcan por completo de plantas adaptadas."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000005", 
                 "READ_VOCAB_CONTEXT",
                 "The word “stress” in paragraph 3 is closest in meaning to",
                 "weaken",
@@ -70,6 +72,8 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000002",
+
         slug: "nurse-logs",
         title: "A Fallen Tree’s Second Life",
         topicEs: "Regeneración forestal",
@@ -84,7 +88,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "The relationship changes over time. Roots eventually extend through the decaying log and enter the soil below. Decades later, the original trunk may disappear completely, leaving a row of mature trees whose raised roots reveal where their temporary support once lay.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000006", 
                 "READ_PRIMARY_PURPOSE",
                 "Why does the author discuss fungi and insects in paragraph 1?",
                 "To explain how a fallen trunk becomes suitable for new growth",
@@ -94,7 +98,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "breaking its tissues into smaller components",
                 ["El árbol ya está caído cuando llegan los insectos.", "No se comparan métodos de medición.", "El texto presenta la descomposición como beneficiosa para el establecimiento de plantas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000007", 
                 "READ_DETAIL",
                 "Which advantage of growing on a nurse log is mentioned in paragraph 2?",
                 "Seedlings are lifted above layers of wet leaves.",
@@ -104,7 +108,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "keeps them above layers of wet leaves",
                 ["El acceso a la luz es una ventaja, por lo que sí la necesitan.", "Las raíces alcanzan el suelo posteriormente, no de inmediato.", "No se promete protección total frente a insectos."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000008", 
                 "READ_VOCAB_CONTEXT",
                 "The word “porous” in paragraph 1 is closest in meaning to",
                 "full of small spaces that can hold liquid",
@@ -114,7 +118,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "soft and porous, so it can hold considerable amounts of rainwater",
                 ["Una capa impermeable impediría retener agua dentro de la madera.", "La madera se describe como húmeda y en descomposición.", "La elevación pertenece a la posición del tronco, no al significado de «porous»."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000009", 
                 "READ_INFERENCE",
                 "How might a person identify the former location of a nurse log many years later?",
                 "By looking for a line of trees with elevated roots",
@@ -125,7 +129,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El tronco puede haber desaparecido por completo.", "La lluvia no funciona como marcador histórico en el pasaje.", "La disponibilidad de luz explica el crecimiento, pero no localiza el tronco décadas después."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000010", 
                 "READ_ORGANIZATION",
                 "How is the passage organized?",
                 "It follows the transformation of a fallen tree and its effects over time.",
@@ -138,6 +142,8 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000003",
+
         slug: "living-light",
         title: "Living Light in the Ocean",
         topicEs: "Bioluminiscencia marina",
@@ -153,7 +159,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Because the deep ocean is difficult to observe directly, scientists once learned about these displays mainly from animals brought to the surface. Such specimens were often injured and behaved unnaturally. Modern low-light cameras and quiet remotely operated vehicles now record bioluminescence under the pressure and temperature conditions in which it evolved. These tools have revealed that living light is not an occasional curiosity but a widespread form of communication, concealment, and predation.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000011", 
                 "READ_MAIN_IDEA",
                 "What is the main idea of the passage?",
                 "Deep-sea organisms use self-produced light in several adaptive ways.",
@@ -163,7 +169,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "a widespread form of communication, concealment, and predation",
                 ["Las herramientas registran la luz; no son su fuente principal.", "La reacción produce muy poco calor.", "Se mencionan animales pequeños y diversas especies, no solo peces depredadores."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000012", 
                 "READ_DETAIL",
                 "Why can bioluminescence occur in delicate tissues?",
                 "The reaction releases very little heat.",
@@ -173,7 +179,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "this reaction produces very little heat",
                 ["En el océano profundo la luz solar se desvanece.", "La presión no impide la reacción química.", "La bioluminiscencia sucede en el hábitat profundo, no solo en superficie."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000013", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author describe light-producing organs on the underside of an animal?",
                 "To illustrate how bioluminescence can provide camouflage",
@@ -183,7 +189,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "makes the animal’s silhouette harder to detect",
                 ["La ubicación inferior no implica que el animal nade invertido.", "La función descrita es ocultar, no evitar daño solar.", "La reacción genera poco calor y no se localiza una región caliente."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000014", 
                 "READ_INFERENCE",
                 "The passage suggests that an animal flashing near a predator may benefit even if the flash does not frighten the predator because",
                 "the flash may draw a larger attacker to the scene",
@@ -194,7 +200,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["No se afirma que la pérdida de visión sea permanente.", "La luz atrae alimento en otros casos, pero no se consume como alimento.", "La presencia de luz solar no depende del destello."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000015", 
                 "READ_REFERENCE",
                 "The phrase “Such specimens” in paragraph 4 refers to",
                 "deep-sea animals brought to the surface",
@@ -207,6 +213,8 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000004",
+
         slug: "volcanic-soil",
         title: "From Ash to Fertile Soil",
         topicEs: "Formación de suelos volcánicos",
@@ -222,7 +230,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Not every volcanic deposit follows the same path. Climate, ash composition, slope, and the frequency of later eruptions all affect soil formation. A cool, wet deposit may develop differently from ash of the same age in a dry environment. Thus, the celebrated fertility of volcanic regions is not an immediate gift of an eruption but the result of a long interaction among rock, climate, and living organisms.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000016", 
                 "READ_PARAPHRASE",
                 "Which sentence best expresses the meaning of the final sentence?",
                 "Volcanic fertility develops gradually through geological, climatic, and biological processes.",
@@ -233,7 +241,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El texto dice explícitamente que no es un regalo inmediato.", "La edad no basta; también intervienen clima, composición y pendiente.", "Los organismos aportan y estabilizan materia, no bloquean los minerales."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000017", 
                 "READ_NEGATIVE_DETAIL",
                 "According to paragraph 2, all of the following contribute to early soil development EXCEPT",
                 "large amounts of organic matter already present in fresh ash",
@@ -243,7 +251,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "contains almost no organic matter",
                 ["La meteorización libera nutrientes según el segundo párrafo.", "Los líquenes estabilizan directamente la superficie expuesta.", "Las plantas resistentes atrapan polvo transportado por el viento."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000018", 
                 "READ_VOCAB_CONTEXT",
                 "The word “hardy” in paragraph 2 is closest in meaning to",
                 "able to survive difficult conditions",
@@ -253,7 +261,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "grasses and other hardy plants trap windblown dust",
                 ["El color no participa en la función descrita.", "No se habla de cuándo fueron descubiertas.", "Estas plantas aparecen antes de que exista suelo profundo."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000019", 
                 "READ_DETAIL",
                 "What makes weathered volcanic soil capable of retaining water?",
                 "Spaces created when mineral particles bind with organic material",
@@ -263,7 +271,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "create spaces that retain both water and nutrients",
                 ["Retirar la vegetación aumenta la erosión.", "Los descomponedores son necesarios para producir materia orgánica.", "La meteorización rompe el vidrio en partículas más finas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000020", 
                 "READ_ORGANIZATION",
                 "What is the relationship between paragraphs 1–3 and paragraph 4?",
                 "The first three describe a general process, and the fourth explains why its outcome varies.",
@@ -277,6 +285,8 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000005",
+
         slug: "seed-banks",
         title: "Seeds Held in Reserve",
         topicEs: "Conservación de diversidad vegetal",
@@ -291,7 +301,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Seed banks are valuable, but they cannot preserve every plant. Some tropical species produce seeds that are damaged by drying or freezing. Other plants reproduce without conventional seeds. These cases require living collections, tissue cultures, or frozen cells. Conservationists therefore treat seed banks as one part of a broader strategy rather than a complete replacement for protecting ecosystems.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000021", 
                 "READ_DETAIL",
                 "Why are seeds dried before they are placed in cold storage?",
                 "To slow their metabolism",
@@ -301,7 +311,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "workers dry the seeds to slow their metabolism",
                 ["La germinación se prueba después; no debe comenzar al guardar.", "El banco intenta conservar la diversidad, no eliminarla.", "Los recipientes protegen las semillas y no buscan introducir insectos."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000022", 
                 "READ_INFERENCE",
                 "Why might a bank grow plants from many stored seeds during regeneration?",
                 "To preserve as much of the original genetic variation as possible",
@@ -312,7 +322,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La identidad genética reduciría precisamente la diversidad.", "La regeneración tiene como objetivo producir semillas frescas.", "La temperatura de la cámara no depende de cuántas plantas se cultiven."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000023", 
                 "READ_VOCAB_CONTEXT",
                 "The word “passive” in paragraph 2 is closest in meaning to",
                 "requiring no active attention",
@@ -322,7 +332,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Storage is not completely passive.",
                 ["La ubicación del almacenamiento no define «passive».", "El frío es una condición controlada, no una incapacidad.", "El banco conserva múltiples variedades y especies."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000024", 
                 "READ_NEGATIVE_DETAIL",
                 "Which type of plant is NOT well suited to ordinary seed-bank storage?",
                 "A species whose seeds are harmed by drying",
@@ -332,7 +342,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "seeds that are damaged by drying or freezing",
                 ["La supervivencia prolongada es justamente una condición favorable.", "Conservar variedades desaparecidas de granjas es una función del banco.", "La germinación posterior demuestra viabilidad en almacenamiento."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000025", 
                 "READ_MAIN_IDEA",
                 "Which statement best summarizes the passage?",
                 "Seed banks preserve many plants through active management but must be combined with other methods.",
@@ -345,6 +355,8 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000006",
+
         slug: "magnetic-migration",
         title: "A Map without Landmarks",
         topicEs: "Orientación magnética de aves",
@@ -360,7 +372,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "The sensory mechanism remains debated. Magnetic particles have been found in some animal tissues, but their exact role is uncertain. Another hypothesis proposes that light-sensitive molecules in the eye create chemical reactions influenced by magnetic direction. These explanations are not necessarily exclusive, and different species may combine them. What is clear is that migration is not guided by a single internal instrument; it depends on a flexible system that compares multiple cues.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000026", 
                 "READ_PRIMARY_PURPOSE",
                 "What is the author’s primary purpose?",
                 "To explain evidence that birds use Earth’s magnetic field for both direction and location",
@@ -370,7 +382,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "This response suggests that they interpreted the artificial field as location information.",
                 ["Los puntos de referencia son una de varias señales útiles.", "La comparación con una brújula humana es explicativa, no una instrucción de construcción.", "El último párrafo afirma que el mecanismo continúa debatido."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000027", 
                 "READ_DETAIL",
                 "Which property of Earth’s magnetic field varies from place to place?",
                 "Its strength",
@@ -380,7 +392,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "its strength changes from place to place",
                 ["Las costas son puntos de referencia visuales, no propiedades del campo.", "La visibilidad estelar depende de nubes y luz.", "La edad de las aves no forma parte del campo magnético."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000028", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the distinction made in paragraph 2?",
                 "Direction shows where to head; a map-like signal also shows current position.",
@@ -391,7 +403,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los puntos de referencia no son identificados por una brújula.", "El texto señala que la intensidad sí cambia geográficamente.", "No se limita el uso de un mapa a aves sin experiencia."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000029", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention coils surrounding an enclosure?",
                 "To explain how researchers alter magnetic information without moving the birds",
@@ -401,7 +413,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "reproduce the magnetic conditions of another region",
                 ["El procedimiento no enseña montañas ni otros rasgos visuales.", "La dirección intentada por las aves es la variable observada, no su incapacidad de volar.", "Se modifica la señal magnética; no se afirma que se eliminen todas las demás."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000030", 
                 "READ_TONE",
                 "How would the author’s attitude toward explanations of magnetic sensing best be described?",
                 "Cautious and open to multiple mechanisms",
@@ -415,6 +427,8 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000007",
+
         slug: "coral-night-calendar",
         title: "A Reef’s Night Calendar",
         topicEs: "Reproducción sincronizada de corales",
@@ -432,7 +446,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Researchers monitor spawning for practical as well as scientific reasons. During an event, they can collect egg-and-sperm bundles, fertilize them under controlled conditions, and raise young corals for restoration projects. Young colonies produced in this way can be placed on damaged reefs, although their survival is never guaranteed. Teams also compare which parent colonies produce larvae that tolerate warmer conditions. The work is demanding because the opportunity may last only a few hours. Understanding the reef’s multiple clocks helps teams prepare, but successful collection still depends on close observation of local colonies and conditions.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000031", 
                 "READ_MAIN_IDEA",
                 "Which topic is developed throughout the passage?",
                 "How multiple environmental signals coordinate coral spawning and why that timing matters",
@@ -443,7 +457,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Las colonias permanecen fijas; son las larvas las que se dispersan.", "La luna ayuda a sincronizar, pero los depredadores no determinan su ciclo.", "Las especies pueden desovar en noches u horas distintas."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000032", 
                 "READ_DETAIL",
                 "Which signal helps narrow spawning to a particular hour?",
                 "The change from daylight to darkness",
@@ -453,7 +467,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "the transition from daylight to darkness helps coordinate the hour",
                 ["La superficie importa para el asentamiento posterior.", "La abundancia de depredadores no aparece como reloj.", "El viaje larvario ocurre después de la fecundación."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000033", 
                 "READ_VOCAB_CONTEXT",
                 "The word “rigid” in paragraph 4 is closest in meaning to",
                 "unable to vary",
@@ -463,7 +477,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "precise but not perfectly rigid",
                 ["La facilidad de observación no es el contraste presentado.", "No se restringe el fenómeno a aguas profundas.", "Los depredadores afectan supervivencia, no la flexibilidad del calendario."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000034", 
                 "READ_INFERENCE",
                 "Why can synchronized release improve fertilization for stationary colonies?",
                 "It places reproductive cells from many colonies in the water together.",
@@ -474,7 +488,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los adultos no se desplazan.", "Las corrientes transportan huevos fecundados.", "La sincronía mejora probabilidades, pero no garantiza supervivencia total."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000035", 
                 "READ_REFERENCE",
                 "The phrase “This effect” in paragraph 3 refers to",
                 "predators being unable to consume all the reproductive bundles",
@@ -484,7 +498,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "predators cannot consume all of them. This effect",
                 ["El asentamiento se explica después.", "La respuesta lunar pertenece al párrafo anterior.", "La recolección científica aparece al final del pasaje."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000036", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as factors that can shift or disrupt spawning EXCEPT",
                 "the hardness of the surface beneath an adult colony",
@@ -495,7 +509,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La lluvia intensa puede reducir la salinidad y desplazar el evento.", "Temperaturas inusuales alteran el desarrollo.", "El estrés por blanqueamiento puede reducir o impedir el desove."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000037", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author describe predator satiation?",
                 "To identify a survival advantage of releasing many bundles simultaneously",
@@ -506,7 +520,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El proceso conduce a larvas tras la fecundación.", "Los peces responden al evento, pero no fijan su fecha.", "No se propone eliminar depredadores del ecosistema."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000038", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the idea that climate change may cause signals to become “less closely aligned”?",
                 "Temperature cues may shift while lunar and daylight cues retain a different schedule.",
@@ -517,7 +531,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El texto habla de desajuste, no de desaparición total.", "Los depredadores no se presentan como señal temporal.", "El calentamiento no altera las fases lunares según el pasaje."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000039", 
                 "READ_TONE",
                 "The author’s discussion of scientific prediction is best described as",
                 "measured, emphasizing both useful patterns and local uncertainty",
@@ -528,7 +542,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los registros se combinan con datos actuales; no se descartan.", "El evento puede desplazarse una noche o más.", "La restauración es exigente, no imposible."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000040", 
                 "READ_ORGANIZATION",
                 "How does the final paragraph contribute to the passage?",
                 "It connects knowledge of spawning timing to coral restoration work.",
@@ -542,6 +556,8 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000008",
+
         slug: "deep-ocean-carbon",
         title: "The Ocean’s Falling Snow",
         topicEs: "Ciclo de carbono oceánico",
@@ -560,7 +576,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Researchers combine sediment traps, optical sensors, chemical measurements, and computer models to estimate the flow. Each method captures only part of the process: traps can disturb currents, cameras do not directly measure carbon, and models depend on assumptions. Agreement among independent methods therefore provides stronger evidence than any one instrument. Marine snow may look gentle, but understanding its descent is central to explaining how the ocean regulates atmospheric carbon over long periods.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000041", 
                 "READ_MAIN_IDEA",
                 "Which statement best captures the central focus of the passage?",
                 "The processes that move organic carbon from surface waters into the deep ocean",
@@ -571,7 +587,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La nieve marina es material orgánico natural, no nieve artificial.", "La fotosíntesis ocurre en la zona iluminada superior.", "El cierre destaca que cada método captura solo una parte."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000042", 
                 "READ_DETAIL",
                 "What causes small particles to descend more rapidly?",
                 "Their collision and combination into larger aggregates",
@@ -581,7 +597,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "forming larger aggregates that descend more rapidly",
                 ["El carbono disuelto ya no desciende como partícula.", "El agua cálida acelera microbios, no necesariamente el hundimiento.", "Las luces permiten observar, pero no impulsan las partículas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000043", 
                 "READ_VOCAB_CONTEXT",
                 "The word “shield” in paragraph 3 is closest in meaning to",
                 "protect",
@@ -591,7 +607,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "shield some organic material from bacteria",
                 ["Medir corresponde a las herramientas científicas del final.", "La protección reduce la descomposición, no la disolución.", "El calentamiento se discute como factor climático distinto."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000044", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention zooplankton waste pellets?",
                 "To give another mechanism that concentrates material into faster-sinking particles",
@@ -602,7 +618,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los productores fotosintéticos mencionados son algas.", "El empaquetamiento acorta el tiempo cerca de la superficie.", "El carbono también procede de células muertas y otros materiales."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000045", 
                 "READ_PARAPHRASE",
                 "Which sentence best expresses the idea in paragraph 4?",
                 "Daily animal migrations transport carbon downward even when particles do not simply sink.",
@@ -613,7 +629,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El transporte animal contribuye al movimiento hacia profundidad.", "Las especies bajan de día para evitar depredadores, no son estos quienes llevan carbono arriba.", "El texto diferencia explícitamente ambos mecanismos."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000046", 
                 "READ_INFERENCE",
                 "Why is carbon reaching greater depths generally isolated from the atmosphere for longer?",
                 "It takes ocean circulation more time to return it to surface waters.",
@@ -624,7 +640,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El texto describe consumo bacteriano durante el descenso.", "El intercambio atmosférico no se limita por horario nocturno.", "Solo una fracción mucho menor queda enterrada en sedimentos."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000047", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as affecting how far particles carry carbon EXCEPT",
                 "the brightness of the moon",
@@ -635,7 +651,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los microbios consumen materia mientras cae.", "La facilidad de descomposición depende de la composición.", "Los minerales añaden peso y pueden proteger materia orgánica."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000048", 
                 "READ_REFERENCE",
                 "The phrase “These interacting effects” in paragraph 6 refers to",
                 "changes in nutrient supply and plankton-related particle properties",
@@ -646,7 +662,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Las herramientas de medición se presentan en el párrafo siguiente.", "Solo una pequeña cantidad llega a enterrarse.", "La migración animal se explica antes, pero no es el conjunto inmediato retomado."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000049", 
                 "READ_TONE",
                 "What is the author’s attitude toward predicting future changes in the biological carbon pump?",
                 "Cautious because several mechanisms may change in different directions",
@@ -657,7 +673,7 @@ export const NATURAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La producción puede reducirse en algunas regiones y no se ofrece una conclusión universal.", "El proceso se vincula directamente con carbono atmosférico.", "Las cámaras no miden carbono directamente."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000050", 
                 "READ_ORGANIZATION",
                 "Why does the passage end by comparing several research methods?",
                 "To show why estimates are strongest when independent approaches agree",

@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
     auditReadingCatalog,
+    createReadingCatalog,
     READING_CATALOG,
 } from "./readingBank";
+import { ARTS_PASSAGES } from "./readingBankSeeds/arts";
 
 describe("Reading authored catalog", () => {
     it("passes structural and editorial publication gates", () => {
@@ -12,6 +14,10 @@ describe("Reading authored catalog", () => {
     it("ships the complete v1 bank with short, standard, and long work", () => {
         expect(READING_CATALOG.passages).toHaveLength(40);
         expect(READING_CATALOG.questions).toHaveLength(250);
+        expect(READING_CATALOG.passages[0].id).toBe("60000000-0000-4000-8000-000000000001");
+        expect(READING_CATALOG.passages.at(-1)?.id).toBe("60000000-0000-4000-8000-000000000040");
+        expect(READING_CATALOG.questions[0].id).toBe("70000000-0000-4000-8000-000000000001");
+        expect(READING_CATALOG.questions.at(-1)?.id).toBe("70000000-0000-4000-8000-000000000250");
         expect(
             READING_CATALOG.passages.filter((passage) => passage.length_band === "long"),
         ).toHaveLength(10);
@@ -28,6 +34,15 @@ describe("Reading authored catalog", () => {
             );
         }
         expect([...passagesByGenre.values()]).toEqual([8, 8, 8, 8, 8]);
+    });
+
+    it("keeps authored passage and question ids when seeds are reordered", () => {
+        const original = createReadingCatalog(ARTS_PASSAGES);
+        const reordered = createReadingCatalog([...ARTS_PASSAGES].reverse());
+        expect(new Set(reordered.passages.map((passage) => passage.id)))
+            .toEqual(new Set(original.passages.map((passage) => passage.id)));
+        expect(new Set(reordered.questions.map((question) => question.id)))
+            .toEqual(new Set(original.questions.map((question) => question.id)));
     });
 
     it("covers every skill with enough transfer items", () => {

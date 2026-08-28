@@ -2,6 +2,8 @@ import { q, type ReadingPassageSeed } from "../readingBankTypes";
 
 export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
     {
+        id: "60000000-0000-4000-8000-000000000033",
+
         slug: "clocks-and-escapements",
         title: "Releasing Time One Step at a Time",
         topicEs: "Mecanismos de relojería",
@@ -16,7 +18,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "No escapement is perfectly isolated from its environment. Temperature can change the dimensions of components, oil can thicken, and motion can disturb a portable watch. Later designs and materials reduced these effects. Their goal was not to create energy but to divide its release into intervals that remained as uniform as possible.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000201", 
                 "READ_MAIN_IDEA",
                 "What function of a clock escapement does the passage explain?",
                 "It controls stored energy by releasing the gear in regular steps.",
@@ -26,7 +28,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "alternately locking and releasing a gear in small, regular steps",
                 ["La energía procede de peso o resorte.", "El mecanismo permite movimiento controlado.", "La temperatura es una perturbación, no la variable medida."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000202", 
                 "READ_DETAIL",
                 "What produces the familiar ticking sound?",
                 "Repeated contacts as the escapement locks and releases",
@@ -36,7 +38,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "ticking sound comes from these repeated contacts",
                 ["La liberación libre haría girar y detener rápidamente.", "El aceite afecta fricción pero no se describe como origen del tic.", "La luz no forma parte del mecanismo."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000203", 
                 "READ_VOCAB_CONTEXT",
                 "The word “steadiness” in paragraph 2 is closest in meaning to",
                 "regularity",
@@ -46,7 +48,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Accuracy depends on the steadiness of the oscillator",
                 ["Las dimensiones influyen, pero no definen la palabra.", "El reloj no produce luz en este contexto.", "No se discute precio."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000204", 
                 "READ_INFERENCE",
                 "Why would a clock run poorly if its gears were released without an escapement?",
                 "Its stored energy would be spent too rapidly to mark equal intervals.",
@@ -57,7 +59,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El oscilador regula, no crea energía neta.", "La temperatura seguiría afectando componentes.", "No se describe crecimiento de dientes."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000205", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the passage’s final point?",
                 "Improved clock designs make energy release more uniform rather than producing the energy themselves.",
@@ -71,6 +73,8 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000034",
+
         slug: "open-source-repair",
         title: "Instructions That Remain Open",
         topicEs: "Diseño abierto y reparabilidad",
@@ -85,7 +89,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Open design does not guarantee that repair will be easy or safe. Specialized tools, high voltage, sealed materials, or unavailable components can still create barriers. Licenses explain what others may legally do with the files, while practical documentation explains what they can realistically accomplish. Both are important, but they solve different problems.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000206", 
                 "READ_PRIMARY_PURPOSE",
                 "What distinction does the passage make about open hardware?",
                 "Publishing designs enables study and repair, but practical barriers can remain.",
@@ -95,7 +99,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "does not guarantee that repair will be easy or safe",
                 ["Se mencionan alta tensión y herramientas especializadas.", "Licencias y documentación resuelven problemas distintos.", "Declarar versiones es parte de una buena publicación."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000207", 
                 "READ_DETAIL",
                 "Which item may be included in an open hardware project?",
                 "A circuit layout",
@@ -105,7 +109,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "circuit layouts",
                 ["La apertura ayuda a detectar fallas, no promete ausencia.", "Modificar es uno de los usos permitidos según licencia.", "La información esencial se publica."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000208", 
                 "READ_INFERENCE",
                 "Why is version information important?",
                 "Instructions or replacement parts may apply only to particular revisions.",
@@ -116,7 +120,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los cambios entre versiones justifican declararlas.", "Las pruebas siguen siendo necesarias.", "Los riesgos físicos no desaparecen con metadatos."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000209", 
                 "READ_REFERENCE",
                 "The word “they” in the final sentence refers to",
                 "licenses and practical documentation",
@@ -126,7 +130,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Both are important, but they solve different problems.",
                 ["Los materiales son una barrera física.", "Las fallas son información que la comunidad descubre.", "Las piezas pueden proponerse a partir de documentación."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000210", 
                 "READ_NEGATIVE_DETAIL",
                 "Which factor is NOT presented as a barrier to practical repair?",
                 "Users being allowed to read a parts list",
@@ -139,6 +143,8 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000035",
+
         slug: "keeping-food-cold",
         title: "A Chain That Must Stay Cold",
         topicEs: "Logística de refrigeración",
@@ -154,7 +160,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Operators prepare for failures such as delayed flights, power cuts, and broken doors. A response plan identifies alternative storage, safe time limits, and who can decide whether goods remain usable. Staff rehearse transfers, so emergency equipment can be found and activated quickly. Discarding everything after a minor deviation creates waste, but accepting products without evidence can create health risks. Good cold-chain management combines prevention with documented decisions after an interruption.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000211", 
                 "READ_MAIN_IDEA",
                 "Which idea about cold-chain management is central to the passage?",
                 "Safe delivery depends on continuous monitoring, suitable packaging, and planned responses to interruptions.",
@@ -164,7 +170,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "combines prevention with documented decisions after an interruption",
                 ["La historia de temperatura es más informativa.", "El aislamiento solo ralentiza transferencia.", "La decisión depende de magnitud, tiempo y evidencia."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000212", 
                 "READ_DETAIL",
                 "Why can a loading platform be a weak point?",
                 "Products may warm while waiting outside controlled storage.",
@@ -174,7 +180,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "warm rapidly while waiting on an uncovered loading platform",
                 ["El problema es falta de control, no exceso de datos.", "No se describe aislamiento en la plataforma.", "Puede haber espera aunque el vehículo llegue."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000213", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author contrast fixed sensors with package loggers?",
                 "To show that measurements at different locations may describe different conditions",
@@ -185,7 +191,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los sensores fijos siguen siendo útiles.", "La variación entre paquetes es precisamente la limitación.", "Los registradores miden, no refrigeran."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000214", 
                 "READ_INFERENCE",
                 "Why might tightly packed boxes be a problem inside a refrigerated truck?",
                 "They can prevent cooled air from circulating around the load.",
@@ -196,7 +202,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El bloqueo puede generar zonas cálidas, no congelación universal.", "El contexto es transporte, no refrigeración doméstica.", "Otros riesgos pueden persistir."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000215", 
                 "READ_PARAPHRASE",
                 "What does the final paragraph say about decisions after a temperature deviation?",
                 "They should use recorded evidence to balance waste against safety.",
@@ -210,6 +216,8 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000036",
+
         slug: "why-keyboards-keep-their-shape",
         title: "Why Keyboards Keep Their Shape",
         topicEs: "Persistencia de diseños tecnológicos",
@@ -224,7 +232,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Alternative layouts may offer advantages for particular languages, tasks, or accessibility needs. Their existence does not automatically cause a universal switch. A technology can persist because coordination is valuable: an imperfect shared standard may be more useful than several incompatible improvements.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000216", 
                 "READ_MAIN_IDEA",
                 "Why do established keyboard layouts persist according to the passage?",
                 "Mechanical history and the benefits of a shared learned standard reinforce them.",
@@ -234,7 +242,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "coordination is valuable",
                 ["Las tecnologías posteriores perdieron esa restricción.", "Se mencionan alternativas.", "Usuarios y escuelas ya invirtieron en el patrón."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000217", 
                 "READ_DETAIL",
                 "What problem could occur when nearby typewriter arms moved quickly?",
                 "They could collide or jam.",
@@ -244,7 +252,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "they could collide or jam",
                 ["El mecanismo no modifica el idioma.", "La cinta recibe golpes para imprimir.", "Las escuelas aparecen en la adopción posterior."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000218", 
                 "READ_VOCAB_CONTEXT",
                 "The word “imposed” in paragraph 2 is closest in meaning to",
                 "created",
@@ -254,7 +262,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "changing it imposed a cost",
                 ["La evaluación de velocidad es un uso separado.", "El costo no desaparecía.", "No se trata de imágenes."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000219", 
                 "READ_INFERENCE",
                 "Why did electronic keyboards retain older layouts after mechanical jams disappeared?",
                 "Users and institutions had already coordinated around familiar arrangements.",
@@ -265,7 +273,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La electrónica no depende de cinta mecánica.", "El cierre admite estándares imperfectos.", "Las teclas pueden reorganizarse técnicamente."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000220", 
                 "READ_TONE",
                 "How does the author view alternative layouts?",
                 "They may be useful, but adoption depends on more than technical advantage.",
@@ -279,6 +287,8 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000037",
+
         slug: "seeing-storms-from-orbit",
         title: "Seeing Storms from Orbit",
         topicEs: "Observación meteorológica satelital",
@@ -294,7 +304,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Satellites have limitations. They infer many quantities indirectly, instruments age, and clouds or surface properties can complicate retrieval. Calibration against trusted surface measurements remains necessary throughout the mission. Instrument teams compare overlapping observations as satellites cross. The value of satellite observation comes from broad, repeated coverage combined with—not substituted for—other independent scientific evidence.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000221", 
                 "READ_PRIMARY_PURPOSE",
                 "What does the passage explain about weather satellites?",
                 "They provide broad, varied observations that require interpretation and calibration with other evidence.",
@@ -304,7 +314,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "combined with—not substituted for—other independent scientific evidence",
                 ["Muchas cantidades se infieren.", "La banda visible depende de luz diurna.", "Las órbitas ofrecen compromisos entre frecuencia y detalle."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000222", 
                 "READ_DETAIL",
                 "Which type of measurement can be used at night to estimate cloud-top temperature?",
                 "Infrared radiation",
@@ -314,7 +324,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Infrared measurements estimate temperatures of cloud tops or surfaces and work at night.",
                 ["La imagen visible necesita luz solar.", "La escala representa datos, no es sensor.", "El teclado no participa en meteorología."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000223", 
                 "READ_REFERENCE",
                 "The word “Others” in paragraph 1 refers to",
                 "satellites in lower orbits that pass over different places",
@@ -324,7 +334,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Others orbit closer to Earth",
                 ["Las estaciones son otra fuente de medición.", "Las regiones son observadas, no orbitan.", "Las escalas aparecen después."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000224", 
                 "READ_INFERENCE",
                 "Why do forecasters examine several channels?",
                 "Different wavelengths reveal different properties and reduce ambiguity.",
@@ -335,7 +345,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Cada banda responde a propiedades distintas.", "El envejecimiento requiere calibración.", "La banda visible depende del sol y otras bandas infieren viento."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000225", 
                 "READ_PARAPHRASE",
                 "How does the conclusion evaluate satellite evidence?",
                 "Satellite coverage is powerful when it complements models and measurements from other sources.",
@@ -349,6 +359,8 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000038",
+
         slug: "sensors-in-a-river",
         title: "Sensors in a River",
         topicEs: "Monitoreo ambiental con sensores",
@@ -364,7 +376,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Public dashboards can make river conditions visible in near real time, but a number without context may cause confusion. A temporary rise in turbidity after a storm is not equivalent to a toxic spill. Historical ranges help users judge whether a value is unusual for that season. Effective systems pair measurements with thresholds, explanations, uncertainty, and contact information for unusual events.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000226", 
                 "READ_MAIN_IDEA",
                 "What does the passage emphasize about river sensors?",
                 "Their frequent data are useful only with maintenance, representative placement, and context.",
@@ -374,7 +386,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "pair measurements with thresholds, explanations, uncertainty",
                 ["Las muestras de laboratorio complementan.", "La turbidez por tormenta tiene otra interpretación.", "La posición puede sesgar representatividad."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000227", 
                 "READ_DETAIL",
                 "What can frequent sensor records reveal that monthly sampling may miss?",
                 "A short muddy pulse following rainfall",
@@ -384,7 +396,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "a muddy pulse after rain",
                 ["La propiedad no es una variable de calidad medida.", "La fabricación no se infiere del agua.", "Los registros revelan, no eliminan, ciclos diarios."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000228", 
                 "READ_VOCAB_CONTEXT",
                 "The word “drift” in paragraph 2 is closest in meaning to",
                 "change gradually away from accurate values",
@@ -394,7 +406,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Electronic components drift",
                 ["El sujeto son componentes, no una embarcación.", "La calibración corrige la deriva.", "Las explicaciones pertenecen al tablero público."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000229", 
                 "READ_INFERENCE",
                 "Why are implausibly constant values suspicious?",
                 "A failed or fouled sensor may stop responding to real environmental variation.",
@@ -405,7 +417,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El primer párrafo destaca cambios diarios.", "Los estándares sirven para comparar precisión.", "La batería débil es una causa posible de falla, no se descarta por constancia."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000230", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author contrast storm turbidity with a toxic spill?",
                 "To illustrate why public measurements need interpretation and context",
@@ -419,6 +431,8 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000039",
+
         slug: "printing-as-a-system",
         title: "Printing as a System",
         topicEs: "Producción técnica de libros impresos",
@@ -437,7 +451,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "Printing increased the number of comparatively consistent copies, yet it did not produce perfect uniformity. Hand work, material variation, correction, binding, and later use gave copies individual histories. Libraries sometimes combined sheets from different states when repairing volumes. Owners also annotated, trimmed, rebound, or rearranged their surviving personal copies after purchase. Understanding printing as a system explains both its power to reproduce text and the differences that remain within apparently identical books.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000231", 
                 "READ_MAIN_IDEA",
                 "What is the central argument of the passage?",
                 "Repeatable printing resulted from coordinated materials, labor, machinery, and markets rather than the press alone.",
@@ -448,7 +462,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Compositores, correctores y otros trabajadores eran esenciales.", "Se conservan correcciones y diferencias entre copias.", "La tinta de escritura podía ser demasiado fluida."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000232", 
                 "READ_DETAIL",
                 "Why was consistent type height important?",
                 "Uneven pieces would produce letters with different darkness or no clear impression.",
@@ -458,7 +472,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "some letters printed darkly while others barely touched the paper",
                 ["La censura pertenece a economía y política.", "La humedad era propiedad del papel.", "Los espacios requerían piezas en la forma."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000233", 
                 "READ_VOCAB_CONTEXT",
                 "The word “body” in paragraph 4 is closest in meaning to",
                 "thickness or consistency",
@@ -468,7 +482,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "needed enough body to transfer a clear image",
                 ["El contexto es material, no anatomía.", "No se habla de contenido jurídico.", "Los lectores aparecen en distribución, no en la tinta."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000234", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention blank pieces inside a page form?",
                 "To show that nonprinting components were necessary to organize and secure printable type",
@@ -479,7 +493,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Su función era estructural, no aumentar valor de páginas vacías.", "Los compositores leían mientras armaban.", "Las letras metálicas se colocaban antes de imprimir."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000235", 
                 "READ_INFERENCE",
                 "Why might two copies from the same edition contain different errors?",
                 "Corrections could be made while the print run was already in progress.",
@@ -490,7 +504,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El mismo conjunto de caracteres servía al tiraje.", "El papel no altera palabras por sí solo.", "La corrección de pruebas se menciona expresamente."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000236", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following could introduce variation into printed books EXCEPT",
                 "a guarantee that materials never changed",
@@ -500,7 +514,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "material variation, correction, binding, and later use",
                 ["El papel variaba en humedad.", "El tipo podía desplazarse.", "Las correcciones creaban estados distintos."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000237", 
                 "READ_REFERENCE",
                 "The phrase “the structure” in paragraph 3 refers to",
                 "the locked arrangement of type and spacing pieces",
@@ -510,7 +524,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "held the structure tightly together",
                 ["El mercado se discute más tarde.", "La censura no forma parte de la página.", "La aleación produce tipos individuales antes de su montaje."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000238", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses paragraph 6?",
                 "Production costs and institutional relationships influenced which texts were printed and sold.",
@@ -521,7 +535,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El acceso al equipo no asegura publicación o demanda.", "Los libros no vendidos inmovilizaban capital.", "Los libreros son uno de los actores enumerados."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000239", 
                 "READ_TONE",
                 "How does the author treat the idea of identical printed copies?",
                 "As broadly useful but too simple to describe material variation between copies",
@@ -532,7 +546,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La uniformidad perfecta se niega.", "La reproducción de texto sí fue poderosa.", "Las diferencias son parte de la explicación histórica."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000240", 
                 "READ_ORGANIZATION",
                 "How is the printing passage organized?",
                 "It moves through components and stages of production before considering economics and overall consequences.",
@@ -546,6 +560,8 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000040",
+
         slug: "microgrids-that-can-island",
         title: "A Grid That Can Become an Island",
         topicEs: "Microredes eléctricas resilientes",
@@ -564,7 +580,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
             "The value of a microgrid depends on more than whether it survives one demonstration. Equipment needs maintenance, software must be secured, fuel contracts may be needed, and operators require training. Replacement parts and technical support must remain reliably available years after installation. Financing must cover operation as well as construction. A technically advanced system that a community cannot afford to maintain may provide less resilience than a simpler design supported by durable local institutions.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000241", 
                 "READ_MAIN_IDEA",
                 "What main idea does the passage develop about microgrids?",
                 "Independent operation requires coordinated controls, resources, priorities, safety, and long-term support.",
@@ -575,7 +591,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La separación exige más que paneles.", "Normalmente puede intercambiar con la red.", "El cierre exige mantenimiento y capacitación."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000242", 
                 "READ_DETAIL",
                 "What function must local controls assume after islanding?",
                 "Stabilizing voltage and frequency",
@@ -585,7 +601,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "local controls must perform that task",
                 ["La capacidad energética sigue limitada.", "Los contratos son una necesidad institucional.", "Las cargas consumen energía aunque algunas se desconecten."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000243", 
                 "READ_VOCAB_CONTEXT",
                 "The word “shed” in paragraph 4 is closest in meaning to",
                 "disconnect",
@@ -595,7 +611,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Automated controls can shed loads quickly",
                 ["Los pronósticos se usan para renovables.", "Reparar no reduce demanda inmediata.", "Sincronizar se aplica al reconectar redes."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000244", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author give the example of a hospital?",
                 "To illustrate how limited power requires ranking loads by importance",
@@ -606,7 +622,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Las oficinas consumen pero pueden ser menos prioritarias.", "El almacenamiento sirve en múltiples microredes.", "Las áreas clínicas se mantienen, no se desconectan siempre."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000245", 
                 "READ_INFERENCE",
                 "Why is battery power alone not always sufficient during a long outage?",
                 "Its stored energy may be depleted before generation or demand recovers.",
@@ -617,7 +633,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La rapidez es precisamente una ventaja.", "Las nubes reducen solar, no destruyen batería.", "El almacenamiento no crea demanda por sí mismo."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000246", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as inputs to microgrid control decisions EXCEPT",
                 "the color of the control-room walls",
@@ -627,7 +643,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "weather predictions, current battery charge, expected demand, and fuel availability",
                 ["El clima ayuda a anticipar renovables.", "La carga disponible condiciona reserva.", "La demanda prevista guía almacenamiento y uso."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000247", 
                 "READ_REFERENCE",
                 "The phrase “the two systems” in paragraph 6 refers to",
                 "the islanded microgrid and the utility network",
@@ -637,7 +653,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Controls synchronize the two systems first.",
                 ["Los pronósticos son entradas del controlador.", "Las áreas son cargas dentro del hospital.", "Los contratos y formación apoyan operación."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000248", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the reserve point in paragraph 5?",
                 "Uncertain forecasts are manageable when the system keeps enough flexible capacity.",
@@ -648,7 +664,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La reserva reduce dependencia de exactitud total.", "Solar y viento varían.", "Las cargas críticas se priorizan."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000249", 
                 "READ_TONE",
                 "How does the author evaluate technologically advanced microgrids?",
                 "Their value is conditional on maintainability, security, affordability, and trained operation.",
@@ -659,7 +675,7 @@ export const TECHNOLOGY_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La complejidad puede exceder capacidad local.", "Las instituciones determinan mantenimiento y operación.", "Se exige desempeño sostenido."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000250", 
                 "READ_ORGANIZATION",
                 "How does the passage progress?",
                 "It defines islanding, explains operational requirements, and ends with conditions for durable resilience.",

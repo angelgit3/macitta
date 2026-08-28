@@ -150,7 +150,7 @@ function makeQuestion(
         distractorRationales[id] = seed.distractorReasonsEs[distractorIndex++];
     }
     return {
-        id: stableUuid("7", questionIndex + 1),
+        id: seed.id,
         passage_id: passage.id,
         primary_skill_id: skill.id,
         domain_id: skill.domain_id,
@@ -215,10 +215,10 @@ export function createReadingCatalog(
     }
 
     let questionIndex = 0;
-    for (const [passageOffset, seed] of passageSeeds.entries()) {
+    for (const seed of passageSeeds) {
         const body = seed.paragraphs.join("\n\n");
         const passage: ReadingPassage = {
-            id: stableUuid("6", passageOffset + 1),
+            id: seed.id,
             slug: seed.slug,
             title: seed.title,
             topic_es: seed.topicEs,

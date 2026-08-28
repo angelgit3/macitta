@@ -2,6 +2,8 @@ import { q, type ReadingPassageSeed } from "../readingBankTypes";
 
 export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
     {
+        id: "60000000-0000-4000-8000-000000000025",
+
         slug: "searching-for-blue",
         title: "The Search for a Stable Blue",
         topicEs: "Historia de pigmentos azules",
@@ -16,7 +18,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "The development of synthetic blues expanded access and gave artists new choices. It did not simply replace older materials; painters selected pigments for hue, texture, cost, symbolism, and compatibility. The history of blue therefore reflects chemistry and trade as much as artistic preference.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000151", 
                 "READ_MAIN_IDEA",
                 "Which factor shaped artists’ historical use of blue according to the passage?",
                 "The color’s material cost, stability, and chemical behavior",
@@ -26,7 +28,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "reflects chemistry and trade as much as artistic preference",
                 ["No se menciona una prohibición general.", "El lapislázuli viajaba por rutas comerciales.", "Los pigmentos tenían propiedades distintas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000152", 
                 "READ_DETAIL",
                 "Why was lapis lazuli sometimes reserved for important areas?",
                 "It produced a brilliant color but was costly.",
@@ -36,7 +38,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "produced a brilliant blue, but the stone traveled through long trade routes and was expensive",
                 ["El desvanecimiento se asocia a ciertos tintes vegetales.", "La distancia comercial contradice disponibilidad local universal.", "No se afirma daño inevitable a capas protectoras."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000153", 
                 "READ_VOCAB_CONTEXT",
                 "The word “drawbacks” in paragraph 2 is closest in meaning to",
                 "disadvantages",
@@ -46,7 +48,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Other blue materials had drawbacks.",
                 ["Las recetas intentaban reducir problemas.", "El simbolismo es un criterio de elección posterior.", "Las rutas explican costo, no el significado de la palabra."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000154", 
                 "READ_INFERENCE",
                 "Why would a workshop keep detailed pigment recipes?",
                 "Small differences in preparation could affect color and durability.",
@@ -57,7 +59,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La observación del resultado era esencial.", "El texto destaca reacciones distintas.", "Los sintéticos se desarrollaron después."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000155", 
                 "READ_PARAPHRASE",
                 "How did synthetic blues change artistic choice according to the final paragraph?",
                 "New synthetic pigments broadened choices without eliminating the reasons artists might prefer older ones.",
@@ -71,6 +73,8 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000026",
+
         slug: "writing-down-dance",
         title: "Writing Down Movement",
         topicEs: "Sistemas de notación coreográfica",
@@ -85,7 +89,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "Recording does more than support reconstruction. A score can reveal patterns that are difficult to notice while watching at full speed, and it allows researchers to compare versions created in different periods. Notation is therefore less a replacement for performance than a tool for preserving and analyzing selected features of it.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000156", 
                 "READ_PRIMARY_PURPOSE",
                 "What does the author explain about dance notation?",
                 "It records and supports analysis of movement but cannot preserve every performance quality.",
@@ -95,7 +99,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "a tool for preserving and analyzing selected features",
                 ["La notación complementa, no reemplaza, la actuación.", "Los sistemas detallados requieren aprendizaje.", "Se registran secuencias, tiempo, espacio y relaciones."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000157", 
                 "READ_DETAIL",
                 "Which information can dance notation preserve?",
                 "Timing and relationships among dancers",
@@ -105,7 +109,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "timing, and relationships among dancers",
                 ["La reacción del público no forma parte de la partitura.", "Los costos teatrales no se mencionan.", "La composición de vestuario no es movimiento."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000158", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following may supplement written notation EXCEPT",
                 "water-quality measurements",
@@ -115,7 +119,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "combine notation with oral coaching, photographs, or video",
                 ["La enseñanza oral ayuda con interpretación.", "Las fotografías conservan posiciones.", "El video registra movimiento temporal."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000159", 
                 "READ_INFERENCE",
                 "Why might a researcher study a score in addition to a video?",
                 "The score may make structural patterns easier to compare.",
@@ -126,7 +130,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El pasaje reconoce cualidades no capturadas.", "El video sí registra movimiento.", "Las diferencias son objeto de comparación, no se eliminan."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000160", 
                 "READ_REFERENCE",
                 "The word “it” at the end of paragraph 3 refers to",
                 "performance",
@@ -139,6 +143,8 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000027",
+
         slug: "oral-epics-in-performance",
         title: "An Epic Recreated",
         topicEs: "Tradiciones épicas orales",
@@ -154,7 +160,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "Recording a performance preserves one valuable version but changes how it may be understood. A written transcription removes voice, gesture, timing, and audience response, while an audio or video recording still captures only one particular occasion. Scholars compare multiple performances and learn about the wider social, cultural, and historical setting so that variation is treated as part of the art rather than as corruption of a perfect text.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000161", 
                 "READ_MAIN_IDEA",
                 "Which idea about oral epics does the passage emphasize?",
                 "Performers recreate a shared tradition through formulas, context, and audience interaction.",
@@ -164,7 +170,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "variation is treated as part of the art",
                 ["Las versiones pueden variar mucho.", "Las fórmulas apoyan fluidez y planificación.", "Una grabación conserva solo una ocasión."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000162", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author discuss formulaic language?",
                 "To explain a technique that supports composition during performance",
@@ -174,7 +180,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "support fluency and variation",
                 ["La repetición ayuda a los oyentes.", "Las fórmulas encajan precisamente en patrones rítmicos.", "Funcionan dentro de la actuación oral."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000163", 
                 "READ_DETAIL",
                 "What might cause a performer to shorten a genealogical section?",
                 "Limited time",
@@ -184,7 +190,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "shorten a genealogical section when time is limited",
                 ["Los nombres locales pueden incorporarse.", "El público influye en decisiones.", "La grabación se discute después."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000164", 
                 "READ_INFERENCE",
                 "How can two performances be considered the same epic despite major differences?",
                 "They draw on shared characters, episodes, and patterns.",
@@ -195,7 +201,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La variación verbal es una característica central.", "La composición corresponde al intérprete.", "Los asuntos actuales pueden entrar en la narración."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000165", 
                 "READ_TONE",
                 "How does the author view variation in oral performance?",
                 "As a meaningful feature that should be studied rather than corrected away",
@@ -209,6 +215,8 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000028",
+
         slug: "lighting-a-museum",
         title: "Light That Reveals and Damages",
         topicEs: "Conservación e iluminación museística",
@@ -223,7 +231,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "There is no single safe brightness for every collection. Stone and metal usually tolerate more exposure than watercolor or historic fabric. Decisions balance access with preservation, recognizing that displaying an object now consumes part of the limited light exposure it can safely receive over its lifetime.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000166", 
                 "READ_MAIN_IDEA",
                 "What balance must museums manage according to the passage?",
                 "Making objects visible while limiting cumulative light damage",
@@ -233,7 +241,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "balance access with preservation",
                 ["La iluminación es necesaria para ver.", "El papel suele ser más sensible.", "Las lámparas iluminan objetos, no los sustituyen."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000167", 
                 "READ_DETAIL",
                 "Why might a museum rotate a fragile work off display?",
                 "To reduce its total exposure to damaging light",
@@ -243,7 +251,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "rotate fragile works off display",
                 ["Se eligen lámparas con poca radiación ultravioleta.", "La rotación protege la obra frágil, no perjudica piedra.", "Es una decisión de conservación, no su eliminación."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000168", 
                 "READ_PARAPHRASE",
                 "What does the passage mean by saying that displaying an object “consumes” light exposure?",
                 "Each period on display uses part of the object’s lifetime tolerance.",
@@ -254,7 +262,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["No se describe generación eléctrica.", "El daño se caracteriza como permanente.", "La entrada de visitantes activa luz en algunos casos."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000169", 
                 "READ_NEGATIVE_DETAIL",
                 "Which action is NOT mentioned as a way to reduce harmful exposure?",
                 "Heating the gallery to a high temperature",
@@ -264,7 +272,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "choose lamps that emit little ultraviolet radiation, limit brightness",
                 ["Reducir ultravioleta limita daño.", "La intensidad se controla.", "Los sensores mantienen penumbra sin visitantes."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000170", 
                 "READ_INFERENCE",
                 "Why can directed light improve preservation?",
                 "It can make the object readable without brightly lighting the entire room.",
@@ -278,6 +286,8 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000029",
+
         slug: "patterns-that-carry-memory",
         title: "Patterns That Carry Memory",
         topicEs: "Textiles como sistemas culturales",
@@ -293,7 +303,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "Technical study adds another layer. Examining fibers, dye molecules, and thread direction can reveal repairs, imported materials, or changes made during weaving. It may also distinguish a later replacement from the original border. These findings do not replace knowledge held by makers. The strongest interpretation brings material analysis into conversation with oral history, visual comparison, and present-day practice.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000171", 
                 "READ_MAIN_IDEA",
                 "What approach to interpreting textile patterns does the passage support?",
                 "Combining material evidence with cultural context and makers’ knowledge",
@@ -303,7 +313,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "brings material analysis into conversation with oral history",
                 ["Los significados pueden cambiar entre lugares y tiempos.", "La estructura técnica aporta información.", "Los patrones pueden cumplir funciones técnicas y sociales."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000172", 
                 "READ_DETAIL",
                 "How can repeated geometric units assist a weaver?",
                 "They can help count threads and maintain tension.",
@@ -313,7 +323,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "help maintain tension and count threads",
                 ["El telar condiciona y posibilita la estructura.", "Los tintes son un factor social distinto.", "Los motivos pueden circular entre comunidades."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000173", 
                 "READ_VOCAB_CONTEXT",
                 "The word “freeze” in paragraph 3 is closest in meaning to",
                 "treat as unchanging",
@@ -323,7 +333,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "freeze a flexible tradition",
                 ["El contexto es interpretación, no temperatura.", "Las reparaciones se detectan mediante estudio técnico.", "La fotografía no aparece en esta frase."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000174", 
                 "READ_INFERENCE",
                 "Why might contemporary weavers disagree with an older museum label?",
                 "The label may generalize from limited evidence and ignore changing practice.",
@@ -334,7 +344,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los tejedores producen y transforman motivos.", "Las etiquetas discutidas asignan significados culturales.", "El texto valora los textiles como registros complejos."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000175", 
                 "READ_ORGANIZATION",
                 "How does the final paragraph relate to the preceding discussion?",
                 "It adds scientific material analysis while insisting that it be integrated with cultural knowledge.",
@@ -348,6 +358,8 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000030",
+
         slug: "rooms-designed-to-listen",
         title: "Rooms Designed to Listen",
         topicEs: "Acústica arquitectónica",
@@ -363,7 +375,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "Modern halls may include movable panels, curtains, or overhead reflectors. These elements allow one room to support lectures, chamber groups, and larger ensembles. Technicians can change configurations between events and document settings that worked well. Adjustable design does not create a perfect setting for every event, but it recognizes acoustics as a set of trade-offs rather than a single measure of quality.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000176", 
                 "READ_PRIMARY_PURPOSE",
                 "What does the passage explain about concert-hall acoustics?",
                 "Good acoustic design balances reflections differently for different performances.",
@@ -373,7 +385,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "a set of trade-offs rather than a single measure of quality",
                 ["La reverberación excesiva puede borrar detalle.", "Superficies, forma, asientos y público participan.", "Se combinan geometría y materiales ajustables."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000177", 
                 "READ_DETAIL",
                 "Why does speech generally require acoustic clarity?",
                 "Listeners need to distinguish quickly changing consonants.",
@@ -383,7 +395,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "listeners must distinguish rapid consonants",
                 ["Toda fuente genera sonido directo y reflejado.", "La ocupación puede variar.", "Las cortinas absorben sonido; no alteran la velocidad de luz."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000178", 
                 "READ_REFERENCE",
                 "The phrase “These elements” in paragraph 4 refers to",
                 "movable panels, curtains, and overhead reflectors",
@@ -393,7 +405,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "movable panels, curtains, or overhead reflectors. These elements",
                 ["Las consonantes motivan claridad pero no son elementos arquitectónicos.", "El público absorbe sonido, aunque no es el antecedente inmediato.", "Los dispositivos gestionan múltiples reflexiones."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000179", 
                 "READ_INFERENCE",
                 "Why might designers test a hall with and without an audience?",
                 "People absorb sound and can change the room’s reverberation.",
@@ -404,7 +416,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["No se atribuye construcción al público.", "Paredes, asientos y techo siguen presentes.", "El sonido llega por rutas directas y reflejadas."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000180", 
                 "READ_PARAPHRASE",
                 "How should acoustic quality be evaluated according to the final sentence?",
                 "Acoustic quality depends on choices among competing benefits, not one universally best value.",
@@ -418,6 +430,8 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000031",
+
         slug: "restoring-what-remains",
         title: "Restoring What Remains",
         topicEs: "Ética de restauración artística",
@@ -436,7 +450,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "Good restoration is therefore not measured by making intervention invisible at any cost. It aims to stabilize material, support understanding, and remain honest about uncertainty. Detailed records preserve photographs, tests, materials, and reasoning so future researchers can evaluate not only the artwork but the decisions made around it. Records also identify areas that should be monitored after treatment and note changing environmental conditions that could affect the repair over time in storage or transit.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000181", 
                 "READ_MAIN_IDEA",
                 "Which principle of restoration is developed throughout the passage?",
                 "Intervention requires transparent judgments that balance material stability, appearance, history, and uncertainty.",
@@ -447,7 +461,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La intención puede ser incompleta y el envejecimiento complejo.", "El cierre rechaza invisibilidad a cualquier costo.", "Los modelos también incorporan decisiones."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000182", 
                 "READ_DETAIL",
                 "Why can removing varnish threaten an original glaze?",
                 "A solvent may affect both layers when their boundary is uncertain.",
@@ -457,7 +471,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "A solvent strong enough to remove one layer can affect another.",
                 ["El barniz puede ser posterior y se distingue del esmalte original.", "Se examinan muestras y zonas pequeñas.", "Las huellas de edad pueden pertenecer a la historia del objeto."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000183", 
                 "READ_VOCAB_CONTEXT",
                 "The word “loss” in paragraph 3 is closest in meaning to",
                 "an area where original material is missing",
@@ -467,7 +481,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Leaving a loss untouched makes damage visible",
                 ["El contexto es físico, no económico.", "No se discute ubicación del museo.", "El barniz es una capa, no el vacío de material."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000184", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author discuss retouching visible only at close range?",
                 "To illustrate a compromise between visual continuity and disclosure of modern additions",
@@ -478,7 +492,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La distancia sirve para distinguir intervención, no para prohibir acercamiento.", "Es una alternativa a dejar vacío.", "La luz especial se usa para identificar, no se describe como daño universal."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000185", 
                 "READ_INFERENCE",
                 "Why are detailed treatment records valuable even when a repair appears successful?",
                 "Future researchers need to know what was changed and why.",
@@ -489,7 +503,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Todos los materiales siguen envejeciendo.", "Las pruebas forman parte del registro.", "La documentación facilita reconsideración."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000186", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as restoration considerations EXCEPT",
                 "increasing the artwork’s auction price",
@@ -500,7 +514,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La reversibilidad es un objetivo ético.", "Las reparaciones antiguas pueden tener importancia cultural.", "Los modelos digitales deben declarar incertidumbre."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000187", 
                 "READ_REFERENCE",
                 "The word “it” in paragraph 4, in “the act of removing it,” refers to",
                 "a supposedly removable coating",
@@ -510,7 +524,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Even a removable coating may change how an old surface ages, and the act of removing it",
                 ["No se elimina al artista.", "La reconstrucción digital aparece después.", "La distancia pertenece al retoque del párrafo anterior."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000188", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the point about old restorations in paragraph 5?",
                 "A historically inaccurate addition may itself become part of an artwork’s meaningful history.",
@@ -521,7 +535,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La importancia se evalúa, no produce una regla absoluta.", "La exactitud es una consideración entre varias.", "La familiaridad generacional es la razón de importancia."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000189", 
                 "READ_TONE",
                 "How does the author present reversibility?",
                 "As a valuable ideal whose practical limits must be acknowledged",
@@ -532,7 +546,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los recubrimientos pueden alterar envejecimiento.", "Se denomina objetivo ético.", "La discusión se aplica a materiales físicos."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000190", 
                 "READ_ORGANIZATION",
                 "How does the passage build its argument?",
                 "It examines several restoration decisions and then draws a principle of transparent, documented intervention.",
@@ -546,6 +560,8 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000032",
+
         slug: "photographs-and-public-memory",
         title: "Photographs and Public Memory",
         topicEs: "Fotografía como evidencia y memoria",
@@ -564,7 +580,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
             "Reading a historical photograph therefore involves movement between image and context. Researchers inspect visible details but also ask who made the image, how it circulated, why it survived, what information accompanied it, and who can speak about it now. Comparing related frames or records can test an interpretation. The photograph remains evidence, but its evidentiary value grows when uncertainty and the history of its use are made visible.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000191", 
                 "READ_MAIN_IDEA",
                 "What argument does the passage make about historical photographs?",
                 "They are valuable evidence whose meaning depends on framing, description, survival, circulation, and ethics.",
@@ -575,7 +591,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los pies de foto orientan y pueden distorsionar.", "La supervivencia es selectiva.", "Reproducción y nuevas descripciones cambian interpretación."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000192", 
                 "READ_DETAIL",
                 "Why do some archives preserve earlier versions of captions?",
                 "Caption changes are part of the photograph’s interpretive history.",
@@ -585,7 +601,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "preserve the history of caption changes",
                 ["Una versión anterior también puede ser inexacta.", "La razón es histórica, no una necesidad técnica.", "La fecha puede conectar con otros registros."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000193", 
                 "READ_VOCAB_CONTEXT",
                 "The word “foregrounds” in paragraph 2 is closest in meaning to",
                 "emphasizes",
@@ -595,7 +611,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "foregrounds different relationships",
                 ["La clasificación cambia enfoque, no borra necesariamente.", "El verbo describe lenguaje de la leyenda.", "La fecha es otra información posible."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000194", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author compare an album photograph with a museum print and digital image?",
                 "To show that scale, setting, and circulation can alter how an image functions",
@@ -606,7 +622,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El álbum conserva una forma de contexto.", "El recorte digital puede eliminar detalles.", "Se comparan usos y formatos, no cámaras."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000195", 
                 "READ_INFERENCE",
                 "Why can a visually rich archive still give a distorted impression?",
                 "The processes that preserved photographs favored certain people, events, and institutions.",
@@ -617,7 +633,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La crítica es a representatividad, no autenticidad universal.", "La humedad destruyó colecciones.", "Los eventos oficiales fueron una prioridad de preservación."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000196", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as possible effects of reproducing a photograph EXCEPT",
                 "restoring every lost collection",
@@ -627,7 +643,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Repeated publication can turn one image into a symbol",
                 ["Una foto pequeña puede ampliarse.", "El recorte elimina contexto.", "La repetición puede volverla representativa simbólicamente."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000197", 
                 "READ_REFERENCE",
                 "The phrase “These collaborations” in paragraph 6 refers to",
                 "projects in which archives work with communities to add knowledge or guide access",
@@ -637,7 +653,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 "These collaborations can add knowledge",
                 ["El ajuste visual pertenece al párrafo anterior.", "La pérdida de colecciones no es colaboración.", "Se habla de decisiones éticas, no de prohibición universal."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000198", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the ethical point in paragraph 5?",
                 "Having legal permission does not remove responsibilities toward photographed people and their communities.",
@@ -648,7 +664,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La legalidad no agota la ética.", "Las personas retratadas pueden sufrir exposición.", "Los descendientes pueden interpretar de otra manera."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000199", 
                 "READ_TONE",
                 "How does the author view community participation in archival description?",
                 "As valuable but not guaranteed to produce one uncontested interpretation",
@@ -659,7 +675,7 @@ export const ARTS_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los archivos pueden carecer de nombres e historias.", "El desacuerdo puede permanecer.", "La participación se centra en contexto y acceso."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000200", 
                 "READ_ORGANIZATION",
                 "What is the function of the final paragraph?",
                 "It synthesizes the earlier cautions into a method for reading photographs contextually.",

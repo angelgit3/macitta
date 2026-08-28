@@ -2,6 +2,8 @@ import { q, type ReadingPassageSeed } from "../readingBankTypes";
 
 export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
     {
+        id: "60000000-0000-4000-8000-000000000009",
+
         slug: "libraries-shared-infrastructure",
         title: "More Than Shelves",
         topicEs: "Funciones contemporáneas de bibliotecas públicas",
@@ -16,7 +18,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "This broader mission creates challenges. Staff members need skills that range from preserving local records to teaching digital privacy. Buildings designed for silent reading must accommodate conversation, workshops, and group work without abandoning quiet areas. The modern library therefore balances continuity with adaptation: it protects access to recorded knowledge while changing how that access is delivered.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000051", 
                 "READ_MAIN_IDEA",
                 "Which description best captures the modern public library?",
                 "Public libraries preserve access to knowledge while expanding their services and spaces.",
@@ -26,7 +28,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "balances continuity with adaptation",
                 ["Los libros siguen formando parte de la misión.", "La falta de acceso doméstico vuelve importantes los espacios físicos.", "Permanecer sin comprar se presenta como una característica distintiva."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000052", 
                 "READ_DETAIL",
                 "Why are library computers described as infrastructure for some residents?",
                 "They may be the residents’ only reliable way to access online services.",
@@ -36,7 +38,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "lack reliable devices or connections at home",
                 ["La preservación de registros requiere trabajo especializado.", "El texto menciona asistencia con formularios digitales.", "Se destacan solicitudes, estudio y servicios, no solo entretenimiento."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000053", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention a student, a job seeker, and a recently arrived resident?",
                 "To illustrate different uses of the same accessible public space",
@@ -46,7 +48,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "These activities differ, yet they share the same accessible setting.",
                 ["No se comparan niveles de lectura.", "Los ejemplos no constituyen una lista exclusiva.", "Las clases complementan, no sustituyen, el acceso al conocimiento."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000054", 
                 "READ_VOCAB_CONTEXT",
                 "The word “accommodate” in paragraph 3 is closest in meaning to",
                 "make room for",
@@ -56,7 +58,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "must accommodate conversation, workshops, and group work",
                 ["La biblioteca intenta permitir esas actividades, no impedirlas.", "No se trata de calcular su tamaño.", "Registrar información no expresa adaptar el espacio."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000055", 
                 "READ_INFERENCE",
                 "What can be inferred about the skills required of modern library staff?",
                 "They have become more varied as library services have expanded.",
@@ -70,6 +72,8 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000010",
+
         slug: "markets-and-city-streets",
         title: "Markets That Move",
         topicEs: "Mercados temporales y espacio urbano",
@@ -84,7 +88,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "The flexibility also creates tension. Residents may object to noise, blocked parking, or waste, while vendors need predictable rules and access to desirable locations. Successful market programs usually depend on negotiation among organizers, local government, businesses, and residents. The market is therefore not simply a collection of stalls; it is a recurring agreement about how public space will be shared.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000056", 
                 "READ_PRIMARY_PURPOSE",
                 "What does the author seek to explain about temporary markets?",
                 "To explain the opportunities and negotiations created by temporary street markets",
@@ -94,7 +98,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "a recurring agreement about how public space will be shared",
                 ["El objeto de estudio es un mercado temporal.", "Las conexiones pueden continuar después de desmontar los puestos.", "La fijación de precios no se atribuye a residentes."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000057", 
                 "READ_DETAIL",
                 "How can a weekly stall help a small producer?",
                 "It allows the producer to test demand with less financial risk.",
@@ -104,7 +108,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "a weekly stall can be tested with less risk",
                 ["La ubicación es temporal y puede ser objeto de negociación.", "Los comercios cercanos incluso pueden recibir más tránsito.", "Los vendedores necesitan reglas predecibles, no ausencia de reglas."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000058", 
                 "READ_REFERENCE",
                 "The phrase “The flexibility” in paragraph 3 refers to",
                 "the temporary and adjustable nature of the market",
@@ -114,7 +118,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "The flexibility also creates tension.",
                 ["Los contratos largos representan la alternativa menos flexible.", "No se discuten precios fijos.", "El estacionamiento aparece como posible conflicto, no como nueva construcción."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000059", 
                 "READ_NEGATIVE_DETAIL",
                 "According to the passage, residents may object to all of the following EXCEPT",
                 "vendors observing which products buyers prefer",
@@ -124,7 +128,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Vendors can observe which products attract buyers",
                 ["El ruido figura entre las objeciones.", "El bloqueo de estacionamiento se menciona como tensión.", "Los residuos también aparecen en la lista de preocupaciones."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000060", 
                 "READ_PARAPHRASE",
                 "Which sentence best expresses the final idea of the passage?",
                 "A recurring market depends on continuing cooperation over the use of shared space.",
@@ -138,6 +142,8 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000011",
+
         slug: "standard-time",
         title: "When Noon Became Standard",
         topicEs: "Estandarización social del tiempo",
@@ -153,7 +159,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Eventually, standard time became ordinary enough to seem natural. That familiarity can hide the fact that time zones are negotiated systems rather than direct copies of solar time. Their boundaries bend around political borders and economic relationships, and governments occasionally move them for practical reasons. Standard time solved genuine coordination problems, but it did so by replacing many locally observed noons with a smaller number of socially agreed ones worldwide.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000061", 
                 "READ_MAIN_IDEA",
                 "Which statement best summarizes the development described in the passage?",
                 "Faster transport and communication encouraged societies to replace local solar times with shared standards.",
@@ -163,7 +169,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "replacing many locally observed noons with a smaller number of socially agreed ones",
                 ["La variación provenía de la posición solar local, no de un cambio en la velocidad del sol.", "Los ferrocarriles motivaron la estandarización, no fueron creados para retirar relojes.", "Las zonas redujeron la cantidad de horarios usados."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000062", 
                 "READ_DETAIL",
                 "Why did local solar time create few problems before railroads?",
                 "Most coordination occurred among people in the same area.",
@@ -173,7 +179,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "coordinate activities only with others nearby",
                 ["Los relojes de lugares distintos podían diferir.", "El telégrafo todavía no era la condición descrita y luego transmitía casi al instante.", "El texto habla de menor necesidad de coordinación distante, no de ausencia total de viajes."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000063", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author give the example of a nine o’clock departure?",
                 "To illustrate the ambiguity created by multiple time systems",
@@ -183,7 +189,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "might refer to station time, railway headquarters time, or the time of another city",
                 ["La hora es ilustrativa y no define todos los itinerarios.", "No se asocia con la primera zona legal.", "La dificultad era interpretar horarios, no prescindir de ellos."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000064", 
                 "READ_INFERENCE",
                 "Why might some municipal leaders have resisted railway time?",
                 "They believed accepting it could reduce a visible sign of local autonomy.",
@@ -194,7 +200,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La velocidad del telégrafo no dependía de la preferencia municipal.", "El mediodía solar seguía existiendo.", "La resistencia era al estándar, no a toda información horaria."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000065", 
                 "READ_TONE",
                 "How does the author characterize modern time zones?",
                 "As useful social agreements whose apparent naturalness hides historical choices",
@@ -208,6 +214,8 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000012",
+
         slug: "community-mapping",
         title: "Maps Made by Residents",
         topicEs: "Cartografía participativa",
@@ -222,7 +230,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Community knowledge is detailed but not automatically complete or neutral. Meetings can exclude people who lack time, confidence, or social status. Facilitators therefore use multiple ways to contribute and record who participated. The goal is not to replace technical surveys but to place lived experience alongside them, making decisions about public space better informed.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000066", 
                 "READ_PRIMARY_PURPOSE",
                 "What is the passage mainly intended to explain?",
                 "How community mapping adds residents’ experience to technical information",
@@ -232,7 +240,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "place lived experience alongside them",
                 ["Las carreteras son un ejemplo útil de información oficial.", "Los teléfonos son una herramienta, no una solución social automática.", "Las experiencias pueden diferir entre grupos."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000067", 
                 "READ_DETAIL",
                 "Which information might residents add to a land-use map?",
                 "An entrance that becomes blocked during seasonal flooding",
@@ -242,7 +250,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "where seasonal flooding blocks an entrance",
                 ["Las fronteras nacionales no son el ejemplo local presentado.", "El tiempo ferroviario pertenece a otro problema.", "La composición mineral requeriría otro tipo de estudio."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000068", 
                 "READ_INFERENCE",
                 "Why can comparing observations improve a map?",
                 "It reveals needs that may be visible to one group but not another.",
@@ -253,7 +261,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La silla de ruedas es un ejemplo de perspectiva, no una condición universal.", "Registrar quién participó sigue siendo necesario.", "El objetivo es complementar las encuestas técnicas."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000069", 
                 "READ_VOCAB_CONTEXT",
                 "The word “neutral” in paragraph 3 is closest in meaning to",
                 "free from the influence of particular perspectives",
@@ -263,7 +271,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "not automatically complete or neutral",
                 ["El uso de color no se discute.", "Los proyectos se basan precisamente en compartir observaciones.", "Se admiten mapas impresos, teléfonos y fotografías."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000070", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as ways to contribute to a community map EXCEPT",
                 "changing a national law",
@@ -276,6 +284,8 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000013",
+
         slug: "learning-through-apprenticeship",
         title: "Learning Beside an Expert",
         topicEs: "Aprendizaje por participación",
@@ -291,7 +301,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Apprenticeship should not be romanticized. Traditional arrangements have sometimes depended on unpaid labor or excluded people from professions through informal networks. Modern programs attempt to preserve situated practice while adding clear standards, fair compensation, and accessible routes for reporting problems. Their central challenge is to formalize protection without reducing learning to a checklist detached from real work.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000071", 
                 "READ_MAIN_IDEA",
                 "What central idea does the passage develop?",
                 "Apprenticeship builds practical judgment through guided participation, but its structure must also protect learners.",
@@ -301,7 +311,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "preserve situated practice while adding clear standards, fair compensation, and accessible routes for reporting problems",
                 ["La retroalimentación evita que los errores se vuelvan hábitos.", "La participación y responsabilidad gradual complementan la observación.", "El reto es combinarlos, no declarar imposible su coexistencia."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000072", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention weighing ingredients and organizing tools?",
                 "To illustrate useful beginner tasks with limited risk",
@@ -311,7 +321,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "limited, low-risk tasks that contribute to real work",
                 ["No se presentan datos económicos.", "La responsabilidad aumenta conforme crece la competencia.", "Los expertos pueden realizar esas tareas; se asignan por su valor formativo y menor riesgo."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000073", 
                 "READ_VOCAB_CONTEXT",
                 "The word “tacit” in paragraph 2 is closest in meaning to",
                 "understood through practice but not easily stated",
@@ -321,7 +331,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "difficult to express as rules",
                 ["Un manual detallado sería conocimiento explícito.", "Los juicios están integrados en la práctica física.", "Los poseen trabajadores expertos, no exclusivamente clientes."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000074", 
                 "READ_INFERENCE",
                 "Why should early mistakes have manageable consequences?",
                 "So learners can receive correction without causing serious harm.",
@@ -332,7 +342,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El objetivo es impedir que se conviertan en hábitos.", "La supervisión y retroalimentación siguen siendo centrales.", "Los estándares claros forman parte de los programas modernos."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000075", 
                 "READ_TONE",
                 "The author’s attitude toward apprenticeship is best described as",
                 "supportive but attentive to its risks and exclusions",
@@ -346,6 +356,8 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000014",
+
         slug: "bilingual-signs",
         title: "Reading a Bilingual Street",
         topicEs: "Señalización y lenguas en espacio público",
@@ -361,7 +373,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Signage policies can increase access, yet they cannot by themselves guarantee equal treatment. A hospital may display multilingual directions while lacking trained staff who can discuss complex care with patients. Conversely, an unofficial handwritten sign may provide highly useful and timely information within a neighborhood. Public language is best understood not as decoration but as one layer of a larger system of communication and power.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000076", 
                 "READ_PRIMARY_PURPOSE",
                 "What is the author’s main purpose?",
                 "To show that bilingual signage conveys practical information as well as social relationships",
@@ -371,7 +383,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "one layer of a larger system of communication and power",
                 ["Las traducciones pueden variar según lectores y contexto.", "El conteo de señales es un método parcial, no un objetivo en sí.", "La permanencia indica autoridad posible, no exactitud garantizada."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000077", 
                 "READ_DETAIL",
                 "Why might a transit message be longer in one language?",
                 "Readers of that language may be less familiar with the transit system.",
@@ -381,7 +393,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "readers have different familiarity with the system",
                 ["El tamaño de letras es una decisión separada.", "No se establece una prohibición general.", "La longitud no se equipara automáticamente con jerarquía."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000078", 
                 "READ_INFERENCE",
                 "Why can a simple count of signs be misleading?",
                 "Signs differ in visibility, permanence, authority, and intended audience.",
@@ -392,7 +404,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Las fotografías son precisamente una herramienta de estudio.", "Se distinguen señales temporales y permanentes.", "No se afirma bilingüismo universal en señales gubernamentales."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000079", 
                 "READ_REFERENCE",
                 "The word “they” in paragraph 4 refers to",
                 "signage policies",
@@ -402,7 +414,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Signage policies can increase access, yet they",
                 ["Los pacientes aparecen después como usuarios de atención.", "Las direcciones son un ejemplo de señalización, no el antecedente gramatical.", "Los barrios se mencionan en relación con letreros informales."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000080", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the final paragraph?",
                 "Multilingual information helps, but equal communication also requires capable institutions and local practice.",
@@ -416,6 +428,8 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000015",
+
         slug: "counting-a-population",
         title: "Counting a Moving Population",
         topicEs: "Métodos y efectos de los censos",
@@ -434,7 +448,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "The census is therefore both a measurement and an institution. Its numbers influence important public decisions, and those decisions can affect whether communities trust the next national count. Public discussion before forms are finalized can expose unclear wording and practical barriers for local residents. Transparency about definitions, privacy protections, uncertainty, and correction methods is essential. No census produces a perfectly still portrait of society, but a carefully designed one can provide a shared reference while making its limitations visible.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000081", 
                 "READ_MAIN_IDEA",
                 "Which statement best captures the central argument of the passage?",
                 "A census requires conventions, multiple methods, and transparent corrections to represent a changing population.",
@@ -445,7 +459,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Las reglas de residencia muestran que contar exige definiciones.", "Persisten brechas incluso con métodos digitales.", "Las categorías cambian con la sociedad y las necesidades."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000082", 
                 "READ_DETAIL",
                 "Why do census systems establish a reference date?",
                 "To apply residence rules consistently to a population that is always changing",
@@ -455,7 +469,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "make separate responses more comparable",
                 ["Una fecha de referencia no detiene los desplazamientos.", "Los estudiantes ilustran ambigüedad, no ausencia de domicilio.", "Las estimaciones se usan para evaluar omisiones después."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000083", 
                 "READ_VOCAB_CONTEXT",
                 "The word “plausibly” in paragraph 2 is closest in meaning to",
                 "reasonably",
@@ -465,7 +479,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "could plausibly be associated with more than one address",
                 ["La asociación puede ser temporal.", "El problema no depende de ocultar información.", "Más de una dirección puede ser válida según el criterio usado."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000084", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author describe online responses followed by visits?",
                 "To illustrate how agencies combine collection methods",
@@ -476,7 +490,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los trabajadores siguen visitando direcciones sin respuesta.", "La duplicación es un riesgo que se intenta prevenir, no un objetivo.", "No se limita el ejemplo a regiones remotas."],
                 2,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000085", 
                 "READ_INFERENCE",
                 "Why can a high national response rate give a misleading impression?",
                 "It can conceal severe undercounting concentrated in particular groups or places.",
@@ -487,7 +501,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El párrafo afirma una distribución desigual.", "Los modelos pueden seguir siendo necesarios para medir brechas.", "La movilidad puede producir omisión o duplicación, pero no necesariamente en todos los casos."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000086", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are mentioned as possible barriers to census participation EXCEPT",
                 "having a permanent government office nearby",
@@ -497,7 +511,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Language barriers, distrust of government, or fear that information will be shared",
                 ["Mudarse con frecuencia puede hacer perder formularios y visitas.", "Las barreras lingüísticas reducen participación.", "El temor al intercambio de datos se identifica directamente."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000087", 
                 "READ_TONE",
                 "How does the author present statistical adjustment?",
                 "As contested but potentially necessary when direct counts have known biases",
@@ -508,7 +522,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los modelos estiman y conservan incertidumbre.", "La comparación parte de respuestas directas y una encuesta independiente.", "El texto vincula expresamente omisión con representación y recursos."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000088", 
                 "READ_REFERENCE",
                 "The phrase “these gaps” in paragraph 5 refers to",
                 "patterns of people being missed or unevenly represented",
@@ -518,7 +532,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "Agencies attempt to measure these gaps",
                 ["No se analizan colores de formularios.", "Los escaños usan resultados, pero la distancia entre ellos no es una brecha de conteo.", "Los horarios escolares no se discuten."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000089", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the problem discussed in paragraph 6?",
                 "Changes in census categories can improve visibility while making historical comparison harder.",
@@ -529,7 +543,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Una nueva medición no demuestra por sí sola aparición repentina.", "La comparación se complica, pero no se vuelve imposible.", "La voluntad de responder es una explicación considerada."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000090", 
                 "READ_ORGANIZATION",
                 "Which description best matches the structure of the passage?",
                 "It moves from counting problems through methods and biases to the consequences of census design.",
@@ -543,6 +557,8 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
         ],
     },
     {
+        id: "60000000-0000-4000-8000-000000000016",
+
         slug: "water-by-agreement",
         title: "Water by Agreement",
         topicEs: "Gobernanza comunitaria del riego",
@@ -561,7 +577,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
             "Climate variability adds pressure to these institutions. A schedule designed around a reliable snowmelt may become difficult to follow when water arrives earlier or in shorter bursts. Communities may need to revise the length of turns, prioritize crops differently, or reserve water for domestic use. Such changes can impose unequal local costs, so temporary experiments and public review may be especially useful. Whether local adaptation succeeds depends not only on available engineering but on whether users consider the process for changing rules legitimate.",
         ],
         questions: [
-            q(
+            q("70000000-0000-4000-8000-000000000091", 
                 "READ_MAIN_IDEA",
                 "What central claim does the passage make about irrigation systems?",
                 "Their success depends on legitimate social rules as well as physical engineering.",
@@ -572,7 +588,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El concreto puede causar efectos ignorados y no resuelve legitimidad.", "Las tradiciones pueden reproducir desigualdad.", "Los horarios son especialmente críticos en regiones secas."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000092", 
                 "READ_DETAIL",
                 "What disadvantage of allocating water by fixed hours is mentioned?",
                 "Changing flow can cause equal periods to deliver unequal amounts.",
@@ -582,7 +598,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "equal hours do not deliver equal volumes when flow changes",
                 ["El tiempo se describe como más fácil de medir.", "El resultado depende del flujo y no siempre es exceso.", "Los turnos pueden registrarse públicamente."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000093", 
                 "READ_VOCAB_CONTEXT",
                 "The word “proportional” in paragraph 3 is closest in meaning to",
                 "determined in relation to an amount or share",
@@ -592,7 +608,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "proportional to land area, water rights, or household status",
                 ["La organización es comunitaria y observable.", "La proporcionalidad permite cargas diferentes.", "La frase enumera precisamente los factores relacionados."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000094", 
                 "READ_INFERENCE",
                 "Why can visible gates and public records reduce the need for frequent punishment?",
                 "They make behavior observable and violations easier to anticipate or resolve.",
@@ -603,7 +619,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["Los usuarios río arriba conservan turnos legítimos.", "El texto habla de abordar disputas, no de eliminarlas.", "Existen guardias o inspectores aunque su rotación varíe."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000095", 
                 "READ_TONE",
                 "How does the author treat community traditions?",
                 "As valuable sources of coordination that still require critical examination",
@@ -614,7 +630,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La desigualdad heredada exige revisión.", "La intervención útil comprende el sistema en vez de sustituirlo automáticamente.", "El texto analiza explícitamente voz e influencia."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000096", 
                 "READ_NEGATIVE_DETAIL",
                 "All of the following are described as forms of canal maintenance contribution EXCEPT",
                 "writing national weather forecasts",
@@ -624,7 +640,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "remove sediment, repair walls, and clear plants",
                 ["Retirar sedimento es una tarea colectiva.", "Reparar paredes ocurre antes de la temporada.", "Alguien puede aportar comida o dinero en lugar de trabajo físico."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000097", 
                 "READ_RHETORICAL_PURPOSE",
                 "Why does the author mention seepage replenishing wells?",
                 "To show that an apparently inefficient feature can provide benefits outside the canal.",
@@ -635,7 +651,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["El texto pide evaluar efectos, no maximizar pérdidas.", "El problema es adecuación social y ecológica, no fabricación.", "Los conflictos tienen múltiples causas y no se atribuyen a pozos."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000098", 
                 "READ_REFERENCE",
                 "The phrase “These arrangements” in paragraph 3 refers to",
                 "the different ways users contribute labor, money, or food",
@@ -645,7 +661,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 "These arrangements convert an individual need for water into repeated cooperation.",
                 ["El deshielo se discute al final.", "Las compuertas externas aparecen varios párrafos después.", "La exclusión se presenta como problema distinto."],
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000099", 
                 "READ_PARAPHRASE",
                 "Which statement best expresses the final sentence?",
                 "Adaptation needs both technical options and user trust in how rules change.",
@@ -656,7 +672,7 @@ export const SOCIAL_SCIENCE_PASSAGES: readonly ReadingPassageSeed[] = [
                 ["La ingeniería sigue siendo relevante, pero no suficiente.", "La legitimidad facilita adaptación sin crear agua adicional.", "El clima cambiante puede exigir revisar horarios anteriores."],
                 3,
             ),
-            q(
+            q("70000000-0000-4000-8000-000000000100", 
                 "READ_ORGANIZATION",
                 "How does paragraph 6 function in the passage?",
                 "It warns against both purely technical intervention and uncritical preservation of tradition.",

@@ -14,6 +14,8 @@ describe("Grammar editorial bank", () => {
         expect(GRAMMAR_CATALOG.domains).toHaveLength(7);
         expect(GRAMMAR_CATALOG.skills).toHaveLength(35);
         expect(GRAMMAR_CATALOG.exercises).toHaveLength(350);
+        expect(GRAMMAR_CATALOG.exercises[0].id).toBe("30000000-0000-4000-8000-000000000001");
+        expect(GRAMMAR_CATALOG.exercises.at(-1)?.id).toBe("30000000-0000-4000-8000-000000000350");
     });
 
     it("gives every skill four completion and six error-identification items", () => {
