@@ -4,7 +4,7 @@ import { Logo } from "@/components/ui/Logo";
 
 export default function AuthCodeErrorPage() {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
+        <div className="flex flex-col items-center justify-center p-6 bg-void text-center">
             <Link href="/" className="mb-10 flex items-center gap-2 text-ink-faint hover:text-ink transition-colors">
                 <Logo size={24} />
                 <span className="font-bold">Macitta</span>

@@ -117,7 +117,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
       
       {/* Header and Answer Fields */}
       <div className="flex flex-col gap-3">
-        <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border shadow-inner text-xs font-black text-ink tracking-widest uppercase">
+        <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border shadow-inner text-xs font-black text-ink">
           {label}
         </div>
 
@@ -137,7 +137,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                     }
                   }}
                   className="flex-1"
-                  inputClassName="py-2.5 focus:border-accent-success focus:ring-accent-success"
+                  inputClassName="py-2.5 focus:border-success focus:ring-success"
                   placeholder={
                     ruleType === "exact" ? "Respuesta correcta (Ej: Apple)" :
                     ruleType === "anyOf" ? "Opción válida y presionar Enter..." :
@@ -155,7 +155,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                     handleChange(ruleType, next, forbidItems, kValue, media);
                   }}
                   disabled={items.length === 1}
-                  className="p-2.5 text-red-400/50 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all disabled:opacity-30 disabled:hover:bg-transparent"
+                  className="p-2.5 text-danger/50 hover:text-danger hover:bg-danger/10 rounded-xl transition-all disabled:opacity-30 disabled:hover:bg-transparent"
                 >
                   <X size={16} />
                 </button>
@@ -170,7 +170,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                 setItems(next);
                 handleChange(ruleType, next, forbidItems, kValue, media);
               }}
-              className="text-[11px] font-bold text-accent hover:text-accent/80 flex items-center px-1 py-1 transition-colors uppercase tracking-wider"
+              className="text-[11px] font-bold text-accent hover:text-accent/80 flex items-center px-1 py-1 transition-colors"
             >
               <Plus size={14} className="mr-1" /> 
               {ruleType === "anyOf" ? "Añadir opción correcta" : 
@@ -185,7 +185,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
       <div className="pt-2 border-t border-border/30">
         <button 
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center justify-between w-full text-[11px] font-bold uppercase tracking-wider text-ink-faint hover:text-ink transition-colors py-1"
+          className="flex items-center justify-between w-full text-[11px] font-bold text-ink-faint hover:text-ink transition-colors py-1"
         >
           <span className="flex items-center gap-1.5"><Settings2 size={14} /> Ajustes Avanzados</span>
           {showAdvanced ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -195,13 +195,13 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
       {/* Advanced Options Content */}
       {showAdvanced && (
         <div className="space-y-5 pt-3 pb-1 animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border shadow-inner text-xs font-black text-ink tracking-widest uppercase">
+          <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border shadow-inner text-xs font-black text-ink">
             {label}
           </div>
           
           {/* Evaluation Mode */}
           <div className="flex flex-col gap-2 w-full bg-void/40 p-3 rounded-xl border border-border/50">
-            <label className="text-[10px] uppercase font-bold text-accent">
+            <label className="text-[10px] font-bold text-accent">
               Modo de Evaluación
             </label>
             <select
@@ -248,8 +248,8 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
 
           {/* Forbid Items */}
           <div className="space-y-2">
-            <label className="flex text-[10px] font-bold uppercase tracking-wider text-red-400/80 items-center ml-1">
-              <AlertCircle size={12} className="mr-1.5 text-red-400" /> Palabras Prohibidas
+            <label className="flex text-[10px] font-bold text-danger/80 items-center ml-1">
+              <AlertCircle size={12} className="mr-1.5 text-danger" /> Palabras Prohibidas
             </label>
             <div className="space-y-2">
               {forbidItems.map((item, idx) => (
@@ -266,7 +266,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                       }
                     }}
                     className="flex-1"
-                    inputClassName="py-2 bg-red-950/10 border-red-500/30 focus:border-red-500 focus:ring-red-500 placeholder:text-red-400/30"
+                    inputClassName="py-2 bg-red-950/10 border-red-500/30 focus:border-red-500 focus:ring-red-500 placeholder:text-danger/30"
                     placeholder="Palabra que invalida..."
                   />
                   <button
@@ -276,7 +276,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                       setForbidItems(next);
                       handleChange(ruleType, items, next, kValue, media);
                     }}
-                    className="p-2 text-red-400/50 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
+                    className="p-2 text-danger/50 hover:text-danger hover:bg-danger/10 rounded-xl transition-all"
                   >
                     <X size={16} />
                   </button>
@@ -290,7 +290,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
                 setForbidItems(next);
                 handleChange(ruleType, items, next, kValue, media);
               }}
-              className="text-[11px] font-bold text-red-400 hover:text-red-300 flex items-center px-1 transition-colors uppercase tracking-wider mt-1"
+              className="text-[11px] font-bold text-danger hover:text-danger flex items-center px-1 transition-colors mt-1"
             >
               <Plus size={14} className="mr-1" /> Añadir prohibida
             </button>

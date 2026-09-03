@@ -50,7 +50,7 @@ export function WorkspaceStep() {
             <ArrowLeft size={18} />
           </button>
           <div className="flex flex-col justify-center">
-            <h2 className="text-lg font-bold text-ink leading-tight tracking-wide">{state.metadata.name || "Nuevo Mazo"}</h2>
+            <h2 className="text-lg font-bold text-ink leading-tight tracking-tight">{state.metadata.name || "Nuevo Mazo"}</h2>
             <span className="mt-0.5 text-xs font-medium text-ink-faint">
               {state.cards.length} carta{state.cards.length !== 1 ? 's' : ''}
             </span>

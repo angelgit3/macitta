@@ -250,7 +250,7 @@ function FeedbackPanel({
                 </div>
             </div>
             <div className="mt-5 border-t border-white/8 pt-5">
-                <p className="label-kicker">Oración correcta</p>
+                <p className="section-label">Oración correcta</p>
                 <p className="mt-2 text-base font-semibold leading-7 text-ink">{exercise.corrected_sentence}</p>
                 <p className="mt-4 text-sm leading-6 text-ink-muted">{exercise.explanation_es}</p>
                 {!correct && misconception && (

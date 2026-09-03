@@ -109,7 +109,7 @@ function ReadingText({
     return (
         <article>
             <div className="mb-7 border-b border-border pb-5">
-                <p className="mb-2 text-[0.6875rem] font-black uppercase tracking-[0.16em] text-accent">
+                <p className="mb-2 text-[0.6875rem] font-bold text-accent">
                     {GENRE_LABELS[passage.genre]} · {passage.word_count} palabras
                 </p>
                 <h2 className="text-2xl font-black tracking-[-0.035em] text-ink sm:text-3xl">
@@ -152,7 +152,7 @@ function QuestionPanel({
     return (
         <>
             <div className="mb-6">
-                <p className="mb-3 text-[0.6875rem] font-black uppercase tracking-[0.16em] text-ink-faint">
+                <p className="mb-3 text-[0.6875rem] font-bold text-ink-faint">
                     {item.reason === "recovery" ? "Recuperación" : item.reason === "weak_skill" ? "Habilidad prioritaria" : item.reason === "continued_reading" ? "Continuación" : "Comprensión"}
                 </p>
                 <h3 className="text-xl font-bold leading-8 tracking-[-0.02em] text-ink">
@@ -597,7 +597,7 @@ export function ReadingPracticeClient({
                         <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-accent/15 text-accent">
                             <Trophy size={30} />
                         </div>
-                        <p className="mt-6 text-xs font-black uppercase tracking-[0.18em] text-accent">Bloque completado</p>
+                        <p className="mt-6 text-xs font-bold text-accent">Bloque completado</p>
                         <h1 className="mt-2 text-4xl font-black tracking-[-0.05em] text-ink">{correct} de {outcomes.length}</h1>
                         <p className="mx-auto mt-3 max-w-md leading-7 text-ink-muted">
                             {correct === outcomes.length
@@ -663,7 +663,7 @@ export function ReadingPracticeClient({
                 <main className="py-10 sm:py-14">
                     <div className="text-center">
                         <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-success/12 text-success"><CheckCircle2 size={30} /></div>
-                        <p className="mt-5 text-xs font-black uppercase tracking-[0.18em] text-success">2 de 2 puntos</p>
+                        <p className="mt-5 text-xs font-bold text-success">2 de 2 puntos</p>
                         <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] text-ink">Ejercicios limpios</h1>
                         <p className="mx-auto mt-3 max-w-lg leading-7 text-ink-muted">
                             Salieron de tu cola. La habilidad seguirá apareciendo en preguntas nuevas para comprobar transferencia, no memoria.
@@ -678,7 +678,7 @@ export function ReadingPracticeClient({
                             <div key={question.id} className="rounded-2xl border border-border bg-surface/55 p-5">
                                 <div className="flex items-start justify-between gap-4">
                                     <div>
-                                        <p className="text-xs font-black uppercase tracking-[0.12em] text-ink-faint">{passage.title}</p>
+                                        <p className="text-xs font-bold text-ink-faint">{passage.title}</p>
                                         <p className="mt-2 font-bold leading-6 text-ink">{question.prompt}</p>
                                         <p className="mt-2 text-sm text-ink-muted">{skill.name_es}</p>
                                     </div>

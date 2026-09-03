@@ -14,7 +14,7 @@ export function CardSidebar() {
   return (
     <div className="w-full border-b border-border bg-surface/30 flex flex-col shrink-0 relative z-10">
       <div className="p-4 border-b border-border flex justify-between items-center bg-void/40 backdrop-blur-md">
-        <h3 className="text-[11px] font-bold uppercase tracking-wider text-ink-faint/60 ml-1">
+        <h3 className="text-[11px] font-bold text-ink-faint/60 ml-1">
           Cartas ({cards.length})
         </h3>
         <button
@@ -47,7 +47,7 @@ export function CardSidebar() {
                 {previewText}
               </div>
               <div className="flex justify-between items-end w-full">
-                <span className={`text-[10px] font-bold tracking-wider ${isActive ? "text-accent" : "text-ink-faint/40"}`}>
+                <span className={`text-[10px] font-bold ${isActive ? "text-accent" : "text-ink-faint/40"}`}>
                   #{index + 1}
                 </span>
                 <button

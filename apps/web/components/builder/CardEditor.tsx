@@ -33,7 +33,7 @@ export function CardEditor() {
           
           <div className="flex items-center gap-2 border-b border-border/50 pb-3 mb-2">
             <HelpCircle size={18} className="text-accent" />
-            <h2 className="text-lg font-bold text-ink tracking-wide">Pregunta (Frente)</h2>
+            <h2 className="text-lg font-bold text-ink tracking-tight">Pregunta (Frente)</h2>
           </div>
           
           <ZenInput
@@ -47,7 +47,7 @@ export function CardEditor() {
           {!showFrontMedia && !activeCard.front_media ? (
             <button 
               onClick={() => setShowFrontMedia(true)}
-              className="text-xs font-bold text-ink-faint hover:text-accent flex items-center gap-1.5 transition-colors uppercase tracking-wider mt-2"
+              className="text-xs font-bold text-ink-faint hover:text-accent flex items-center gap-1.5 transition-colors mt-2"
             >
               <ImageIcon size={14} /> Añadir Imagen o Audio
             </button>
@@ -67,7 +67,7 @@ export function CardEditor() {
         <div className="space-y-4 relative">
           <div className="flex items-center gap-2 px-1">
             <CheckCircle2 size={20} className="text-success drop-shadow-[0_0_10px_rgba(107,203,142,0.4)]" />
-            <h2 className="text-lg font-bold text-ink tracking-wide">Respuestas a Evaluar</h2>
+            <h2 className="text-lg font-bold text-ink tracking-tight">Respuestas a Evaluar</h2>
           </div>
           
           <div className="space-y-4">
@@ -90,7 +90,7 @@ export function CardEditor() {
         <div className="pt-4 flex justify-center">
           <button
             onClick={() => dispatch({ type: "ADD_CARD" })}
-            className="flex items-center gap-2 px-8 py-4 bg-accent/10 text-accent hover:bg-accent hover:text-void border border-accent/30 rounded-2xl font-black uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(124,133,232,0.35)]"
+            className="flex items-center gap-2 px-8 py-4 bg-accent/10 text-accent hover:bg-accent hover:text-void border border-accent/30 rounded-2xl font-black transition-all hover:shadow-[0_0_20px_rgba(124,133,232,0.35)]"
           >
             <CheckCircle2 size={20} /> Terminar y Crear Nueva Carta
           </button>

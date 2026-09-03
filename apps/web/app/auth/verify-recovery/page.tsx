@@ -121,7 +121,7 @@ function VerifyRecoveryClient() {
     const isComplete = otp.every(digit => digit !== '');
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
+        <div className="flex flex-col items-center justify-center p-6 bg-void text-center">
             <Link href="/" className="mb-8 flex items-center gap-2 text-ink-faint hover:text-ink transition-colors">
                 <Logo size={24} />
                 <span className="font-bold">Macitta</span>
@@ -200,7 +200,7 @@ function VerifyRecoveryClient() {
 export default function VerifyRecoveryPage() {
     return (
         <Suspense fallback={
-            <div className="flex min-h-screen items-center justify-center bg-void text-ink-faint">
+            <div className="flex items-center justify-center bg-void text-ink-faint">
                 <Loader2 className="animate-spin" size={24} />
             </div>
         }>

@@ -13,7 +13,7 @@ export function MetadataStep() {
 
   const [title, setTitle] = useState(metadata.name);
   const [description, setDescription] = useState(metadata.description);
-  const [color, setColor] = useState(metadata.color || "#ffffff");
+  const [color, setColor] = useState(metadata.color || "#7C85E8");
   const [questionLabelsStr, setQuestionLabelsStr] = useState(formatLabels(metadata.question_labels));
   const [answerLabelsStr, setAnswerLabelsStr] = useState(formatLabels(metadata.answer_labels));
 

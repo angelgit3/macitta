@@ -57,7 +57,7 @@ export default function UpdatePasswordPage() {
 
     if (success) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void text-center">
+            <div className="flex flex-col items-center justify-center p-6 bg-void text-center">
                 <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mb-6 text-success animate-in zoom-in">
                     <CheckCircle2 size={32} />
                 </div>
@@ -70,7 +70,7 @@ export default function UpdatePasswordPage() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-void">
+        <div className="flex flex-col items-center justify-center p-6 bg-void">
             <Link href="/" className="mb-8 flex items-center gap-2 text-ink-faint hover:text-ink transition-colors">
                 <Logo size={24} />
                 <span className="font-bold">Macitta</span>
@@ -90,7 +90,7 @@ export default function UpdatePasswordPage() {
 
                 <form method="post" onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-ink-faint ml-1">Nueva Contraseña</label>
+                        <label className="ml-1 text-sm font-bold text-ink-muted">Nueva Contraseña</label>
                         <div className="relative">
                             <Lock className="absolute left-4 top-3.5 text-ink-faint" size={18} />
                             <input
@@ -107,7 +107,7 @@ export default function UpdatePasswordPage() {
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-ink-faint ml-1">Confirmar Contraseña</label>
+                        <label className="ml-1 text-sm font-bold text-ink-muted">Confirmar Contraseña</label>
                         <div className="relative">
                             <Lock className="absolute left-4 top-3.5 text-ink-faint" size={18} />
                             <input

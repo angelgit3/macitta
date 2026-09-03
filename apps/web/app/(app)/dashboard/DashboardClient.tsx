@@ -2,11 +2,12 @@
 
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
 import { StatsGraph } from "@/components/ui/StatsGraph";
+import { Sticker } from "@/components/ui/BrandShapes";
 import { APP_CONFIG } from "@/config/constants";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 import { useUserStats } from "@/hooks/useUserStats";
 import { createClient } from "@/utils/supabase/client";
-import { Check, CloudOff, Loader2, Play } from "lucide-react";
+import { Check, Clock3, CloudOff, Layers3, Loader2, Play } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -65,6 +66,7 @@ export function DashboardClient() {
   }) ?? [];
 
   const dueCards = stats?.dueCards ?? 0;
+  const weekMinutes = stats?.dailyActivity.reduce((total, activity) => total + activity.minutes, 0) ?? 0;
   const nextSessionCards = Math.min(dueCards, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
   const reviewCopy = loading
     ? "Preparando tu sesión"
@@ -93,19 +95,37 @@ export function DashboardClient() {
           )}
         </div>
 
-        <h1 id="daily-greeting" className="mt-6 text-[2rem] font-black leading-[1.08] tracking-[-0.035em] text-ink sm:text-4xl">
+        <h1 id="daily-greeting" className="mt-6 text-[clamp(2.4rem,6vw,3.75rem)] font-black leading-[1.02] tracking-[-0.045em] text-ink">
           {greetingFor(hour)}{loading ? "" : `, ${stats?.displayName}`}
         </h1>
         <p className="mt-3 text-sm text-ink-muted first-letter:uppercase">{todayLabel}</p>
       </section>
 
-      <section className="daily-focus-panel rounded-3xl p-6 sm:p-8" aria-labelledby="daily-study-title">
+      <section className="daily-focus-panel relative rounded-3xl p-6 sm:p-8" aria-labelledby="daily-study-title">
         <p className="text-base font-bold text-accent-hover">Tu estudio de hoy</p>
-        <h2 id="daily-study-title" className="mt-3 text-3xl font-black leading-tight tracking-[-0.03em] text-ink sm:text-4xl">
+        <h2 id="daily-study-title" className="mt-3 max-w-[16ch] text-3xl font-black leading-[1.05] tracking-[-0.035em] text-ink sm:text-[2.75rem]">
           {reviewCopy}
         </h2>
         {!loading && dueCards > nextSessionCards && (
           <p className="mt-2 text-sm text-ink-muted">{dueCards} pendientes en total</p>
+        )}
+        {!loading && (
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Sticker className="-rotate-2 bg-accent text-void">
+              <Layers3 size={13} />
+              {dueCards === 1 ? "1 vencida" : `${dueCards} vencidas`}
+            </Sticker>
+            <Sticker className="rotate-1 bg-amber text-void">
+              <Clock3 size={13} />
+              {weekMinutes} min esta semana
+            </Sticker>
+            {!isOnline && (
+              <Sticker className="-rotate-1 bg-success text-void">
+                <CloudOff size={13} />
+                Offline
+              </Sticker>
+            )}
+          </div>
         )}
         {loading ? (
           <button disabled className="mt-8 inline-flex min-h-14 w-full cursor-wait items-center justify-center gap-3 rounded-xl bg-accent/45 px-6 text-base font-black text-void/70" aria-label="Preparando sesión">
