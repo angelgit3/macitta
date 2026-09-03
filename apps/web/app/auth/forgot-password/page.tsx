@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 import { ZenButton } from "@/components/ui/ZenButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

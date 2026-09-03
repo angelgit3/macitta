@@ -133,6 +133,18 @@ export function ListeningPracticeClient({ previewData, previewUserId }: Props = 
 
     useEffect(() => { void refresh(); }, [refresh]);
 
+    // Warm the service worker's runtime audio cache with just today's queue
+    // while online, so the session keeps working if the connection drops
+    // mid-practice. Full files are fetched (no range header), which is what
+    // makes them cacheable for offline playback.
+    useEffect(() => {
+        if (!isOnline || queue.length === 0) return;
+        const paths = [...new Set(queue.map((item) => item.unit.audio_path))];
+        for (const path of paths) {
+            void fetch(path, { priority: "low" } as RequestInit).catch(() => {});
+        }
+    }, [isOnline, queue]);
+
     const progressByQuestion = useMemo(() => new Map(data.questionProgress.map((item) => [item.questionId, item])), [data.questionProgress]);
     const progressBySkill = useMemo(() => new Map(data.skillProgress.map((item) => [item.skillCode, item])), [data.skillProgress]);
     const current = queue[position];

@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useState, useRef, useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ZenButton } from '@/components/ui/ZenButton';
 import Link from 'next/link';
@@ -20,7 +20,17 @@ function VerifyOTPClient() {
     const [message, setMessage] = useState<string | null>(null);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-    const supabase = createClient();
+    // The Supabase browser bundle (~57 kB) loads after first paint instead of
+    // blocking the initial JS for this page.
+    const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
+
+    useEffect(() => {
+        let active = true;
+        void import('@/utils/supabase/client').then((mod) => {
+            if (active) setSupabase(mod.createClient());
+        });
+        return () => { active = false; };
+    }, []);
 
     // Auto-focus first input on mount
     useEffect(() => {
@@ -84,6 +94,12 @@ function VerifyOTPClient() {
         setError(null);
         setMessage(null);
 
+        if (!supabase) {
+            setError('Preparando la verificación. Intenta de nuevo en un momento.');
+            setLoading(false);
+            return;
+        }
+
         const { error } = await supabase.auth.verifyOtp({
             email,
             token: code,
@@ -100,7 +116,7 @@ function VerifyOTPClient() {
     };
 
     const handleResend = async () => {
-        if (!email) return;
+        if (!email || !supabase) return;
         setResending(true);
         setError(null);
         setMessage(null);
@@ -176,7 +192,7 @@ function VerifyOTPClient() {
                     <ZenButton
                         variant="primary"
                         className="w-full h-12"
-                        disabled={loading || !isComplete}
+                        disabled={loading || !isComplete || !supabase}
                     >
                         {loading ? <Loader2 className="animate-spin" /> : "Verificar y entrar"}
                     </ZenButton>
@@ -185,7 +201,7 @@ function VerifyOTPClient() {
                 <div className="mt-8 flex flex-col gap-3 text-sm">
                     <button
                         onClick={handleResend}
-                        disabled={resending || !email}
+                        disabled={resending || !email || !supabase}
                         className="text-ink-faint hover:text-ink font-medium transition-colors disabled:opacity-50"
                     >
                         {resending ? 'Enviando...' : '¿No recibiste el código? Reenviar'}

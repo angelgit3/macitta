@@ -25,8 +25,10 @@ const withSerwist = withSerwistInit({
     additionalPrecacheEntries: [{ url: "/offline", revision }],
     // Exclude source maps and Next.js manifest chunks from precaching
     exclude: [/.map$/, /^manifest.*.js$/, /_buildManifest\.js$/, /_ssgManifest\.js$/],
-    // Precache all public static assets
-    globPublicPatterns: ["**/*.{js,css,html,ico,png,svg,woff2,mp3}"],
+    // Precache small public static assets. Lesson audio (public/audio, ~18 MB)
+    // is deliberately excluded: it is cached at runtime on first play instead,
+    // so installing the PWA never triggers a multi-megabyte download.
+    globPublicPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
 });
 
 const isProduction = process.env.NODE_ENV === "production";

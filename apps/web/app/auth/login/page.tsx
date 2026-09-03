@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
@@ -24,6 +23,7 @@ export default function LoginPage() {
 
     setLastAttemptedEmail(email);
 
+    const { createClient } = await import("@/utils/supabase/client");
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 

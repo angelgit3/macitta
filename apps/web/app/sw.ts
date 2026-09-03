@@ -5,7 +5,14 @@
 
 import { defaultCache } from "@serwist/next/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { NetworkOnly, Serwist } from "serwist";
+import {
+    CacheFirst,
+    CacheableResponsePlugin,
+    ExpirationPlugin,
+    NetworkOnly,
+    RangeRequestsPlugin,
+    Serwist,
+} from "serwist";
 
 declare global {
     interface WorkerGlobalScope extends SerwistGlobalConfig {
@@ -58,6 +65,29 @@ const serwist = new Serwist({
             },
             method: "GET",
             handler: new NetworkOnly(),
+        },
+        // Lesson audio (/audio/*.mp3, ~18 MB total) is NOT precached.
+        // It is cached on demand the first time it plays (or when the
+        // listening queue warms it), so offline playback still works for
+        // anything the student has already heard.
+        {
+            matcher: ({ sameOrigin, url }) =>
+                sameOrigin && url.pathname.startsWith("/audio/"),
+            method: "GET",
+            handler: new CacheFirst({
+                cacheName: "lesson-audio",
+                plugins: [
+                    // Only complete responses may be cached; partial 206
+                    // responses would corrupt later playback.
+                    new CacheableResponsePlugin({ statuses: [200] }),
+                    // Serve byte ranges from the cached full response.
+                    new RangeRequestsPlugin(),
+                    new ExpirationPlugin({
+                        maxEntries: 128,
+                        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 días
+                    }),
+                ],
+            }),
         },
         ...defaultCache,
     ],

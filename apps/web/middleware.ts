@@ -38,6 +38,26 @@ export async function middleware(request: NextRequest) {
     let response = NextResponse.next({
         request: { headers: requestHeaders },
     });
+
+    const isDevelopmentPreview =
+        process.env.NODE_ENV === "development" &&
+        (path === "/grammar-preview" ||
+            path === "/reading-preview" ||
+            path === "/listening-preview" ||
+            path === "/toefl-preview");
+    // Public marketing and legal pages must never require a session.
+    const isPublicRoute =
+        path === "/" ||
+        path === "/privacidad" ||
+        path === "/privacy" ||
+        path === "/terminos" ||
+        path === "/terms" ||
+        path === "/offline" ||
+        isDevelopmentPreview;
+    const isAuthRoute = path.startsWith("/auth");
+    const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
+    const isAppRoute = !isPublicRoute && !isAuthRoute;
+
     const secure = (result: NextResponse) => {
         result.headers.set("Content-Security-Policy", csp);
         if (isAppRoute) {
@@ -46,42 +66,45 @@ export async function middleware(request: NextRequest) {
         return result;
     };
 
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                getAll() {
-                    return request.cookies.getAll();
-                },
-                setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value }) =>
-                        request.cookies.set(name, value)
-                    );
-                    response = NextResponse.next({
-                        request: { headers: requestHeaders },
-                    });
-                    cookiesToSet.forEach(({ name, value, options }) =>
-                        response.cookies.set(name, value, options)
-                    );
+    // Fast path: without a Supabase auth cookie the request cannot be
+    // authenticated, so skip creating the client and parsing claims.
+    // Anonymous traffic (landing, crawlers, first visits) never pays for it.
+    const hasAuthCookie = request.cookies
+        .getAll()
+        .some(
+            (cookie) =>
+                cookie.name.startsWith("sb-") &&
+                cookie.name.includes("auth-token"),
+        );
+
+    let isAuthenticated = false;
+    if (hasAuthCookie) {
+        const supabase = createServerClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            {
+                cookies: {
+                    getAll() {
+                        return request.cookies.getAll();
+                    },
+                    setAll(cookiesToSet) {
+                        cookiesToSet.forEach(({ name, value }) =>
+                            request.cookies.set(name, value)
+                        );
+                        response = NextResponse.next({
+                            request: { headers: requestHeaders },
+                        });
+                        cookiesToSet.forEach(({ name, value, options }) =>
+                            response.cookies.set(name, value, options)
+                        );
+                    },
                 },
             },
-        }
-    );
+        );
 
-    const { data: claimsData } = await supabase.auth.getClaims();
-
-    const isAuthenticated = Boolean(claimsData?.claims.sub);
-    const isDevelopmentPreview =
-        process.env.NODE_ENV === "development" &&
-        (path === "/grammar-preview" ||
-            path === "/reading-preview" ||
-            path === "/listening-preview" ||
-            path === "/toefl-preview");
-    const isPublicRoute = path === "/" || isDevelopmentPreview;
-    const isAuthRoute = path.startsWith("/auth");
-    const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
-    const isAppRoute = !isPublicRoute && !isAuthRoute;
+        const { data: claimsData } = await supabase.auth.getClaims();
+        isAuthenticated = Boolean(claimsData?.claims.sub);
+    }
 
     // Authentication must fail closed. Offline use is handled by the already
     // loaded PWA and its IndexedDB data, never by bypassing route protection.
