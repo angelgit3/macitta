@@ -63,7 +63,7 @@ export function StudyCard({
         {/* Word header */}
         <div className="relative z-10 text-center space-y-2.5">
           <span className="text-sm font-bold text-accent">
-            Verbo irregular
+            Completa la tarjeta
           </span>
           <h1 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
             {card.front_text}
@@ -71,7 +71,7 @@ export function StudyCard({
         </div>
 
         {/* Slots */}
-        <div className="relative z-10 grid gap-4 md:grid-cols-2">
+        <div className="relative z-10 grid gap-4">
           {card.slots.map((slot, index) => {
             const slotState = feedback[slot.id];
             const isCorrect   = slotState?.status === "correct";
