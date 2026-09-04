@@ -73,7 +73,7 @@ export function CookieConsentBanner() {
                 href="/privacidad#cookies-offline"
                 className="text-xs font-semibold text-ink-muted transition-colors hover:text-accent underline"
               >
-                Más información
+                Más información sobre cookies
               </Link>
             </div>
           </div>

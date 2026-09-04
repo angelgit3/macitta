@@ -90,7 +90,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-1 sm:gap-3">
               <Link
                 href="/auth/login"
-                className="inline-flex min-h-11 items-center justify-center px-3 text-sm font-bold text-void/75 transition-colors hover:text-void max-[359px]:hidden sm:px-4"
+                className="inline-flex min-h-11 items-center justify-center px-3 text-sm font-bold text-void transition-colors hover:text-void/80 max-[359px]:hidden sm:px-4"
               >
                 Entrar
               </Link>
@@ -105,7 +105,7 @@ export default function LandingPage() {
         </header>
 
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-5 pb-10 pt-32 text-center sm:px-8 sm:pt-36">
-          <span className="inline-flex items-center gap-2 rounded-full border-2 border-void/25 px-4 py-1.5 text-xs font-black text-void/80">
+          <span className="inline-flex items-center gap-2 rounded-full border-2 border-void/25 px-4 py-1.5 text-xs font-black text-void">
             Repetición espaciada · Offline-first
           </span>
 
@@ -123,7 +123,7 @@ export default function LandingPage() {
           <p className="mt-10 max-w-[46ch] text-balance text-xl font-bold leading-8 text-void sm:text-2xl sm:leading-9">
             Recuerda el inglés cuando de verdad lo necesitas.
           </p>
-          <p className="mt-4 max-w-[58ch] text-pretty text-base leading-7 text-void/70">
+          <p className="mt-4 max-w-[58ch] text-pretty text-base leading-7 text-void/85">
             Macitta organiza tu vocabulario, lecturas y práctica TOEFL con
             repetición espaciada. Estudia unos minutos, incluso sin conexión, y
             retoma exactamente donde te quedaste.
@@ -148,7 +148,7 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          <p className="mt-6 flex items-center gap-2 text-sm font-semibold text-void/65">
+          <p className="mt-6 flex items-center gap-2 text-sm font-semibold text-void/85">
             <Check size={15} className="shrink-0" />
             Progreso local, sesiones cortas y ninguna racha obligatoria.
           </p>
@@ -204,7 +204,7 @@ export default function LandingPage() {
 
               <div className="p-6 sm:p-8">
                 <div className="flex items-center justify-between gap-4">
-                  <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+                  <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-bold text-accent-hover">
                     Documentación técnica
                   </span>
                   <span className="text-xs font-semibold text-ink-faint">
@@ -419,7 +419,7 @@ export default function LandingPage() {
           <h2 className="max-w-[16ch] text-balance text-[clamp(2.6rem,5.5vw,4.5rem)] font-black leading-[0.98] tracking-[-0.04em]">
             Empieza con lo que ya estás estudiando.
           </h2>
-          <p className="max-w-xl text-pretty text-base font-semibold leading-7 text-void/75">
+          <p className="max-w-xl text-pretty text-base font-semibold leading-7 text-void/85">
             Crea un mazo, importa tu material y deja que Macitta ordene el
             siguiente repaso.
           </p>

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /$
+Allow: /privacidad$
+Allow: /privacy$
+Allow: /terminos$
+Allow: /terms$
+Disallow: /

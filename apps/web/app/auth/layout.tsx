@@ -18,7 +18,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               macitta<span className="text-amber">.</span>
             </span>
           </Link>
-          <p className="mt-3 text-sm font-bold text-void/70">
+          <p className="mt-3 text-sm font-bold text-void/85">
             Estudio diario con repetición espaciada
           </p>
         </div>
@@ -26,11 +26,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Tarjeta del formulario */}
-      <div className="flex flex-1 flex-col items-center px-4 pb-10 pt-8 sm:pt-10">
+      <main className="flex flex-1 flex-col items-center px-4 pb-10 pt-8 sm:pt-10">
         <div className="w-full max-w-sm rounded-3xl border border-border bg-surface p-6 shadow-[0_28px_70px_-40px_rgba(0,0,0,0.9)] sm:p-8">
           {children}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
