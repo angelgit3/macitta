@@ -194,7 +194,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
 
       {/* Advanced Options Content */}
       {showAdvanced && (
-        <div className="space-y-5 pt-3 pb-1 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="space-y-5 pt-3 pb-1 animate-rise-in">
           <div className="bg-void/80 self-start px-3 py-1.5 rounded-lg border border-border shadow-inner text-xs font-black text-ink">
             {label}
           </div>

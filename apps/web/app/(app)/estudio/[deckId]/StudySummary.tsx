@@ -41,7 +41,7 @@ export function StudySummary({
         "transition-all duration-200 active:scale-[0.97]";
 
     return (
-        <div className="h-full flex flex-col items-center justify-center gap-8 text-center max-w-xl mx-auto animate-in fade-in zoom-in-95 duration-700">
+        <div className="h-full flex flex-col items-center justify-center gap-8 text-center max-w-xl mx-auto animate-pop-in">
 
             {/* ── Result card ──────────────────────────────── */}
             <div className="relative w-full overflow-hidden rounded-3xl border border-border bg-surface p-8">

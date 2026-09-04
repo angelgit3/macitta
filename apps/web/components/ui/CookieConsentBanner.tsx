@@ -36,7 +36,7 @@ export function CookieConsentBanner() {
     <div
       role="region"
       aria-label="Aviso de privacidad y almacenamiento de cookies"
-      className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg transition-all duration-300 animate-in fade-in slide-in-from-bottom-5 sm:bottom-6 sm:right-6 sm:left-auto"
+      className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg animate-slide-up sm:bottom-6 sm:right-6 sm:left-auto"
     >
       <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-void/92 p-5 shadow-[0_16px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl">
         <button

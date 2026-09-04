@@ -99,7 +99,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
                 <div className="p-7">
                     {/* ── Slide content ─────────────────────── */}
                     {currentSlide && (
-                        <div key={step} className="flex flex-col items-center text-center gap-5 animate-in fade-in slide-in-from-bottom-3 duration-300">
+                        <div key={step} className="flex flex-col items-center text-center gap-5 animate-slide-up">
                             <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${currentSlide.bg}`}>
                                 <currentSlide.icon size={36} className={currentSlide.color} />
                             </div>
@@ -130,7 +130,7 @@ export function OnboardingModal({ userId, onDone }: OnboardingModalProps) {
 
                     {/* ── Username step ─────────────────────── */}
                     {isUsernameStep && (
-                        <div className="flex flex-col gap-5 animate-in fade-in slide-in-from-bottom-3 duration-300">
+                        <div className="flex flex-col gap-5 animate-slide-up">
                             <div className="text-center">
                                 <div className="w-16 h-16 rounded-2xl bg-accent/20 flex items-center justify-center mx-auto mb-4">
                                     <CheckCircle2 size={28} className="text-accent" />

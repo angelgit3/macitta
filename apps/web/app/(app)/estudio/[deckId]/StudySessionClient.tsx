@@ -91,6 +91,7 @@ export function StudySessionContent({ params }: { params: Promise<{ deckId: stri
 
             {/* ── Flashcard ─────────────────────────────────── */}
             <StudyCard
+                key={currentCard.id}
                 card={currentCard}
                 userAnswers={userAnswers}
                 feedback={feedback}

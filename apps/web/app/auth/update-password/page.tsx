@@ -58,7 +58,7 @@ export default function UpdatePasswordPage() {
     if (success) {
         return (
             <div className="flex flex-col items-center justify-center p-6 bg-void text-center">
-                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mb-6 text-success animate-in zoom-in">
+                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mb-6 text-success animate-pop-in">
                     <CheckCircle2 size={32} />
                 </div>
                 <h2 className="text-3xl font-bold mb-3">¡Contraseña actualizada!</h2>
