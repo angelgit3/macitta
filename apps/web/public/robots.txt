@@ -5,3 +5,5 @@ Allow: /privacy$
 Allow: /terminos$
 Allow: /terms$
 Disallow: /
+
+Sitemap: https://www.macitta.app/sitemap.xml
