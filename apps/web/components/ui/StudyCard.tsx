@@ -55,7 +55,7 @@ export function StudyCard({
     <div className="mx-auto w-full max-w-2xl">
       {/* ── Inner core ── */}
       <div
-        className="relative flex flex-col gap-8 overflow-hidden rounded-3xl border border-border bg-surface p-6 shadow-[0_28px_70px_-40px_rgba(0,0,0,0.9)] sm:p-9"
+        className="relative flex flex-col gap-8 overflow-hidden rounded-3xl border border-border bg-surface p-6 shadow-[0_28px_70px_-40px_rgba(0,0,0,0.9)] animate-card-in sm:p-9"
       >
         {/* Accent gradient top */}
         {/* Background glow */}
@@ -117,7 +117,7 @@ export function StudyCard({
                 </div>
 
                 {isRevealed && isIncorrect && (
-                  <div className="mt-2 text-sm text-success pl-1 animate-in fade-in slide-in-from-top-1">
+                  <div className="mt-2 text-sm text-success pl-1 animate-rise-in">
                     <span className="opacity-55 text-xs uppercase mr-2">Respuesta:</span>
                     {slot.accepted_answers.join(", ")}
                   </div>

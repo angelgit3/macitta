@@ -27,7 +27,7 @@ export function DeleteDeckModal({ deckId, deckTitle, onClose }: { deckId: string
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4">
-            <div className="w-full max-w-sm bg-surface border border-danger/30 rounded-3xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-full max-w-sm bg-surface border border-danger/30 rounded-3xl overflow-hidden shadow-2xl animate-pop-in">
                 <div className="flex flex-col items-center justify-center p-6 space-y-4">
                     <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center">
                         <AlertCircle size={32} className="text-red-500" />
