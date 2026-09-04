@@ -8,8 +8,32 @@ import "./globals.css";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
+    metadataBase: new URL(
+        process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.macitta.app",
+    ),
     title: "Macitta",
     description: "Estudio de inglés con repetición espaciada, modo offline y práctica TOEFL.",
+    openGraph: {
+        type: "website",
+        siteName: "Macitta",
+        locale: "es_MX",
+        title: "Macitta — Recuerda el inglés cuando de verdad lo necesitas",
+        description: "Vocabulario, lecturas y práctica TOEFL con repetición espaciada. Incluso sin conexión.",
+        images: [
+            {
+                url: "/og-image.png",
+                width: 1200,
+                height: 630,
+                alt: "Macitta — estudio de inglés con repetición espaciada, offline-first",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Macitta — Recuerda el inglés cuando de verdad lo necesitas",
+        description: "Vocabulario, lecturas y práctica TOEFL con repetición espaciada. Incluso sin conexión.",
+        images: ["/og-image.png"],
+    },
     manifest: "/manifest.json",
     icons: {
         icon: [

@@ -92,6 +92,7 @@ const nextConfig = {
             { source: "/favicon.ico", headers: staticAssetHeaders },
             { source: "/manifest.json", headers: staticAssetHeaders },
             { source: "/apple-touch-icon.png", headers: staticAssetHeaders },
+            { source: "/og-image.png", headers: staticAssetHeaders },
             { source: "/icon-192x192.png", headers: staticAssetHeaders },
             { source: "/icon-512x512.png", headers: staticAssetHeaders },
             { source: "/icon-maskable-192x192.png", headers: staticAssetHeaders },
