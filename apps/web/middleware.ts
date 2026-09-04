@@ -11,6 +11,17 @@ const AUTH_PASSTHROUGH = [
     "/auth/forgot-password",
 ];
 
+const APP_ROUTE_PREFIXES = [
+    "/dashboard",
+    "/estudio",
+    "/vocabulario",
+    "/toefl",
+    "/grammar",
+    "/reading",
+    "/listening",
+    "/usuario",
+];
+
 export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
     const nonce = btoa(crypto.randomUUID());
@@ -56,7 +67,12 @@ export async function middleware(request: NextRequest) {
         isDevelopmentPreview;
     const isAuthRoute = path.startsWith("/auth");
     const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => path.startsWith(p));
-    const isAppRoute = !isPublicRoute && !isAuthRoute;
+    // Whitelist real app routes. Anything else (unknown URLs) must fall
+    // through to Next so it renders the real 404 page — otherwise anonymous
+    // visitors get bounced to /auth/login instead of ever seeing it.
+    const isAppRoute = APP_ROUTE_PREFIXES.some(
+        (p) => path === p || path.startsWith(`${p}/`),
+    );
 
     const secure = (result: NextResponse) => {
         result.headers.set("Content-Security-Policy", csp);
