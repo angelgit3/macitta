@@ -105,11 +105,7 @@ export default function LandingPage() {
         </header>
 
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-5 pb-10 pt-32 text-center sm:px-8 sm:pt-36">
-          <span className="inline-flex items-center gap-2 rounded-full border-2 border-void/25 px-4 py-1.5 text-xs font-black text-void">
-            Repetición espaciada · Offline-first
-          </span>
-
-          <h1 className="relative mt-10 max-w-full select-none text-[clamp(3rem,13vw,12rem)] font-black leading-[0.85] tracking-[-0.055em]">
+          <h1 className="relative max-w-full select-none text-[clamp(3rem,13vw,12rem)] font-black leading-[0.85] tracking-[-0.055em]">
             macitta<span className="text-amber">.</span>
             <Sticker className="absolute -right-2 top-0 hidden -rotate-6 bg-void text-ink lg:inline-flex lg:-right-16">
               TOEFL
@@ -134,7 +130,7 @@ export default function LandingPage() {
               href="/auth/signup"
               className="group inline-flex min-h-13 items-center justify-center gap-3 rounded-xl bg-void px-7 py-3.5 text-base font-black text-ink shadow-[0_16px_40px_-12px_rgba(13,14,23,0.55)] transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0"
             >
-              Empezar gratis
+              Crear cuenta
               <ArrowRight
                 size={18}
                 className="transition-transform duration-200 group-hover:translate-x-0.5"
