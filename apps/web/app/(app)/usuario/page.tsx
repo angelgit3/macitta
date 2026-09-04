@@ -1,25 +1,35 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import type { User } from "@supabase/supabase-js";
-import { createClient } from "@/utils/supabase/client";
-import { ProfileClient } from "./ProfileClient";
+import { PracticeSkeleton } from "@/components/ui/PracticeSkeleton";
+
+// Profile management loads account, sync and offline tooling as a deferred
+// chunk; the account header paints first.
+const ProfileClient = dynamic(
+    () => import("./ProfileClient").then((m) => m.ProfileClient),
+    { ssr: false, loading: () => <PracticeSkeleton label="tu cuenta" /> },
+);
 
 export default function ProfilePage() {
-    const supabase = useMemo(() => createClient(), []);
     const [user, setUser] = useState<User | null>();
 
     useEffect(() => {
         let active = true;
 
-        supabase.auth.getSession().then(({ data }) => {
-            if (active) setUser(data.session?.user ?? null);
-        });
+        // The Supabase browser client (and its deps) load as a deferred chunk
+        // so this shell stays in the light shared bundle.
+        void import("@/utils/supabase/client")
+            .then((mod) => mod.createClient().auth.getSession())
+            .then(({ data }) => {
+                if (active) setUser(data.session?.user ?? null);
+            });
 
         return () => {
             active = false;
         };
-    }, [supabase]);
+    }, []);
 
     if (user === undefined) {
         return (

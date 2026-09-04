@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import type { TOEFLExam, TOEFLMode, TOEFLQuestion } from "@/types/models";
-import { TOEFLPracticeClient } from "./TOEFLPracticeClient";
+import { TOEFLPracticeGate } from "./TOEFLPracticeGate";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +33,7 @@ export default async function TOEFLPracticeRunPage({
     }
 
     return (
-        <TOEFLPracticeClient
+        <TOEFLPracticeGate
                 userId={user.id}
                 exam={exam as TOEFLExam}
                 questions={questions as TOEFLQuestion[]}

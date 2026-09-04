@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
-import { safeInternalRedirect } from "@macitta/shared";
+import { safeInternalRedirect } from "@macitta/shared/src/security";
 
 const AUTH_PASSTHROUGH = [
     "/auth/confirm",

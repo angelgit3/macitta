@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { TOEFLResultsClient } from "./TOEFLResultsClient";
+import { TOEFLResultsGate } from "./TOEFLResultsGate";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ export default async function TOEFLResultPage({ params }: { params: Promise<{ at
     const { attemptId } = await params;
 
     return (
-        <TOEFLResultsClient
+        <TOEFLResultsGate
                 attemptId={attemptId}
                 userId={user.id}
             />
