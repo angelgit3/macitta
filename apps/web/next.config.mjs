@@ -54,6 +54,8 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     transpilePackages: ["@macitta/shared"],
+    // Drop the cosmetic X-Powered-By header from every response.
+    poweredByHeader: false,
     experimental: {
         serverActions: {
             // Cap memory spent parsing hostile Server Action bodies.
@@ -61,11 +63,39 @@ const nextConfig = {
         },
     },
     async headers() {
+        // Named public assets are not content-hashed, so they get a short
+        // fresh window plus a long stale-while-revalidate: repeat visits are
+        // instant, updates still propagate within a day.
+        const staticAssetHeaders = [
+            {
+                key: "Cache-Control",
+                value: "public, max-age=86400, stale-while-revalidate=604800",
+            },
+        ];
         return [
             {
                 source: "/:path*",
                 headers: securityHeaders,
             },
+            // Lesson audio is immutable speech content (~18 MB across 103
+            // files). Let the HTTP cache keep it fresh for a day and serve
+            // stale copies for 30 days, mirroring the service worker policy.
+            {
+                source: "/audio/:path*",
+                headers: [
+                    {
+                        key: "Cache-Control",
+                        value: "public, max-age=86400, stale-while-revalidate=2592000",
+                    },
+                ],
+            },
+            { source: "/favicon.ico", headers: staticAssetHeaders },
+            { source: "/manifest.json", headers: staticAssetHeaders },
+            { source: "/apple-touch-icon.png", headers: staticAssetHeaders },
+            { source: "/icon-192x192.png", headers: staticAssetHeaders },
+            { source: "/icon-512x512.png", headers: staticAssetHeaders },
+            { source: "/icon-maskable-192x192.png", headers: staticAssetHeaders },
+            { source: "/icon-maskable-512x512.png", headers: staticAssetHeaders },
             {
                 source: "/sw.js",
                 headers: [
