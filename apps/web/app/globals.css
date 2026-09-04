@@ -39,6 +39,7 @@
   /* Motion */
   --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
   --animate-fade-in:    fade-in 0.4s ease-out forwards;
+  --animate-float:      float 5.5s ease-in-out infinite alternate;
 }
 
 /* ─── Keyframes ────────────────────────────────────────── */
@@ -49,6 +50,10 @@
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+@keyframes float {
+  from { transform: translateY(-3px); }
+  to   { transform: translateY(3px); }
 }
 
 /* ─── Base ──────────────────────────────────────────────── */
@@ -175,14 +180,41 @@
     box-shadow: 0 0 0 3px rgba(124,133,232,0.10);
     outline: none;
   }
+
+  /*
+     Scroll-reveal (marketing). El estado oculto SOLO existe con
+     data-armed="true", que el componente <Reveal> activa tras montar:
+     el SSR y los entornos sin JS muestran el contenido directamente.
+     Al armarse no hay transición (la propiedad transition llega junto
+     con el cambio), así que nunca hay un fade-out previo al reveal.
+  */
+  .reveal[data-armed="true"] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 600ms cubic-bezier(0.22,1,0.36,1),
+      transform 600ms cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal[data-armed="true"][data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ─── Reduced motion ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* Si la preferencia cambia a mitad de sesión, nada queda oculto. */
+  .reveal[data-armed="true"] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
