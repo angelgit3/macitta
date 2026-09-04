@@ -6,7 +6,6 @@ import {
   ArrowRight,
   BookOpenText,
   Brain,
-  Check,
   CloudOff,
   Headphones,
   Layers3,
@@ -144,11 +143,6 @@ export default function LandingPage() {
               Ya tengo cuenta
             </Link>
           </div>
-
-          <p className="mt-6 flex items-center gap-2 text-sm font-semibold text-void/85 opacity-0 animate-fade-in-up [animation-delay:360ms]">
-            <Check size={15} className="shrink-0" />
-            Progreso local, sesiones cortas y ninguna racha obligatoria.
-          </p>
         </div>
 
         <ScallopDivider fill="#0D0E17" />

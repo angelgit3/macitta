@@ -51,7 +51,7 @@ export default function LoginPage() {
       {/* Heading */}
       <div className="text-center mb-7">
         <h2 className="text-2xl font-black text-ink mb-1">Bienvenido de vuelta</h2>
-        <p className="text-sm text-ink-muted">Inicia sesión para continuar tu racha.</p>
+        <p className="text-sm text-ink-muted">Inicia sesión para seguir estudiando.</p>
       </div>
 
       {/* Error banner */}
