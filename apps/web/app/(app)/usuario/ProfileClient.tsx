@@ -6,7 +6,7 @@ import { ZenButton } from '@/components/ui/ZenButton';
 import {
     KeyRound, LogOut, CheckCircle2, AlertCircle, Loader2,
     Code2, User, Flame, Clock, Target, Trophy,
-    Download, Github, Instagram, ShieldCheck,
+    Download, Github, Instagram, ShieldCheck, TriangleAlert,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -196,6 +196,32 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
         router.refresh();
     };
 
+    // ── Account deletion (ARCO cancelación) ─────────────────
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteConfirm, setDeleteConfirm] = useState('');
+    const [deleting, setDeleting] = useState(false);
+
+    const handleDeleteAccount = async () => {
+        if (deleteConfirm !== 'ELIMINAR' || deleting) return;
+        setDeleting(true);
+        try {
+            const { error } = await supabase.rpc('delete_own_account');
+            if (error) throw error;
+            // Borra la copia offline (IndexedDB + almacenamiento local)
+            try { await clearPrivateOfflineData(); } catch { /* best effort */ }
+            try { localStorage.clear(); } catch { /* best effort */ }
+            try { await supabase.auth.signOut(); } catch { /* la sesión ya no existe */ }
+            window.location.href = '/';
+        } catch {
+            setDeleting(false);
+            setMessage({
+                type: 'error',
+                text: 'No se pudo eliminar la cuenta. Intenta de nuevo o escríbenos a macitta.app@gmail.com.',
+            });
+            setShowDeleteModal(false);
+        }
+    };
+
     const handleInstallApp = async () => {
         if (!installPrompt) return;
 
@@ -328,6 +354,77 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
             >
                 <LogOut size={16} /> Cerrar sesión
             </button>
+
+            {/* ── Danger zone: eliminar cuenta ─────────────── */}
+            <section className="rounded-2xl border border-danger/25 bg-danger/5 p-5 space-y-3">
+                <div className="flex items-center gap-2 text-danger">
+                    <TriangleAlert size={16} />
+                    <h3 className="text-base font-black">Zona de peligro</h3>
+                </div>
+                <p className="text-sm leading-6 text-ink-muted">
+                    Eliminar tu cuenta borra permanentemente tu perfil, mazos, historial de
+                    repasos, racha y calificaciones. Esta acción no se puede deshacer.
+                </p>
+                <button
+                    onClick={() => { setShowDeleteModal(true); setDeleteConfirm(''); setMessage(null); }}
+                    className="w-full rounded-xl border border-danger/40 bg-danger/10 py-3 text-sm font-bold
+                               text-danger transition-colors hover:bg-danger/20"
+                >
+                    Eliminar mi cuenta
+                </button>
+            </section>
+
+            {/* ── Modal de confirmación de baja ────────────── */}
+            {showDeleteModal && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-void/80 backdrop-blur-sm p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="delete-account-title"
+                    onClick={() => !deleting && setShowDeleteModal(false)}
+                >
+                    <div
+                        className="w-full max-w-sm bg-surface border border-danger/30 rounded-3xl overflow-hidden shadow-2xl animate-pop-in p-6 space-y-4"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex items-center gap-2 text-danger">
+                            <TriangleAlert size={20} />
+                            <h3 id="delete-account-title" className="text-lg font-black">¿Eliminar tu cuenta?</h3>
+                        </div>
+                        <p className="text-sm leading-6 text-ink-muted">
+                            Se borrarán todos tus datos de forma permanente. Para confirmar,
+                            escribe <strong className="text-ink">ELIMINAR</strong> abajo.
+                        </p>
+                        <input
+                            type="text"
+                            value={deleteConfirm}
+                            onChange={(e) => setDeleteConfirm(e.target.value.toUpperCase())}
+                            placeholder="ELIMINAR"
+                            autoComplete="off"
+                            className="w-full soft-field rounded-xl py-3 px-4 text-sm font-bold tracking-widest"
+                            aria-label="Escribe ELIMINAR para confirmar"
+                        />
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                onClick={() => setShowDeleteModal(false)}
+                                disabled={deleting}
+                                className="rounded-xl border border-border py-3 text-sm font-bold text-ink-muted
+                                           transition-colors hover:bg-surface-raised hover:text-ink disabled:opacity-50"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={handleDeleteAccount}
+                                disabled={deleteConfirm !== 'ELIMINAR' || deleting}
+                                className="rounded-xl bg-danger py-3 text-sm font-black text-void
+                                           transition-opacity disabled:opacity-40 flex items-center justify-center gap-2"
+                            >
+                                {deleting ? <Loader2 size={16} className="animate-spin" /> : 'Eliminar'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* ── Footer ────────────────────────────────────── */}
             <footer className="pt-6 pb-2 text-center space-y-4 border-t border-border">

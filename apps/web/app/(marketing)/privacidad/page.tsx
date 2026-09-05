@@ -174,6 +174,9 @@ export default function PrivacyPolicyPage() {
                 </p>
               </div>
             </div>
+            <p className="text-xs text-ink-faint leading-6">
+              Macitta no recaba deliberadamente datos personales de menores de 13 años. Si eres padre, madre o tutor y detectas que un menor creó una cuenta sin tu consentimiento, escríbenos a <a href="mailto:macitta.app@gmail.com" className="text-accent font-semibold underline hover:text-accent-hover">macitta.app@gmail.com</a> y la eliminaremos junto con todos sus datos.
+            </p>
           </section>
 
           {/* Section 3 */}
@@ -275,7 +278,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="rounded-2xl border border-accent/25 bg-accent/5 p-5 text-sm">
               <p className="font-bold text-ink">Atención a Privacidad Macitta</p>
-              <p className="mt-1 text-ink-muted">Correo electrónico: <a href="mailto:contacto@macitta.com" className="text-accent font-semibold underline hover:text-accent-hover">contacto@macitta.com</a></p>
+              <p className="mt-1 text-ink-muted">Correo electrónico: <a href="mailto:macitta.app@gmail.com" className="text-accent font-semibold underline hover:text-accent-hover">macitta.app@gmail.com</a></p>
               <p className="mt-1 text-ink-faint text-xs">Atención directa en español e inglés.</p>
             </div>
           </section>
