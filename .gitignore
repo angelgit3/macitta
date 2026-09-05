@@ -46,3 +46,6 @@ scripts/listening-audio/__pycache__/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Artefactos locales de auditoria/agente
+.agent/
