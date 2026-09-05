@@ -172,7 +172,7 @@ function VerifyOTPClient() {
                 )}
 
                 <form method="post" onSubmit={handleVerify} className="flex flex-col gap-6">
-                    <div className="flex justify-between gap-2" onPaste={handlePaste}>
+                    <div className="grid grid-cols-6 gap-1.5 sm:gap-2" onPaste={handlePaste}>
                         {otp.map((digit, index) => (
                             <input
                                 key={index}
@@ -184,7 +184,7 @@ function VerifyOTPClient() {
                                 value={digit}
                                 onChange={(e) => handleChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
-                                className="w-12 h-14 text-center text-xl font-bold soft-field rounded-xl outline-none"
+                                className="h-12 w-full min-w-0 text-center text-lg font-bold soft-field rounded-xl outline-none sm:h-14 sm:text-xl"
                             />
                         ))}
                     </div>

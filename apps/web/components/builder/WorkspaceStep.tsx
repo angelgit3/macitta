@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDeckBuilder } from "../../contexts/DeckBuilderContext";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
@@ -15,6 +15,41 @@ export function WorkspaceStep() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  // Hay contenido sin guardar mientras existan cartas en el builder.
+  const isDirty = state.cards.length > 0;
+
+  // Aviso nativo al cerrar/recargar la pestaña con trabajo sin guardar.
+  useEffect(() => {
+    if (!isDirty) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [isDirty]);
+
+  // beforeunload no cubre la navegación interna del App Router: intercepta
+  // clicks en enlaces internos (dock, "Volver", etc.) y pide confirmación.
+  useEffect(() => {
+    if (!isDirty) return;
+    const onClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement).closest?.("a[href]");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href") || "";
+      if (!href.startsWith("/")) return;
+      const leave = window.confirm(
+        "Tienes cartas sin guardar. Si sales ahora perderás el mazo completo. ¿Salir sin guardar?"
+      );
+      if (!leave) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, [isDirty]);
 
   const handleSave = async () => {
     setIsSaving(true);

@@ -166,7 +166,14 @@ export function DeckDetailsClient({ deck, cards, isOwner }: DeckDetailsClientPro
                                 className="group flex flex-col justify-between rounded-2xl border border-border bg-surface/85 p-5 transition-colors hover:border-accent/35"
                             >
                                 <div className="flex items-start justify-between gap-4 mb-4">
-                                    <h3 className="font-black text-lg text-ink leading-tight break-words">{card.front_text}</h3>
+                                    <div className="min-w-0">
+                                        {deck.question_labels?.[0] && (
+                                            <span className="mb-1 block text-[11px] font-bold uppercase tracking-wider text-ink-faint">
+                                                {deck.question_labels[0]}
+                                            </span>
+                                        )}
+                                        <h3 className="font-black text-lg text-ink leading-tight break-words">{card.front_text}</h3>
+                                    </div>
                                     {isOwner && (
                                         <div className="flex items-center gap-1 shrink-0">
                                             <button
