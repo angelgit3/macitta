@@ -34,7 +34,7 @@ La base está en muy buen estado: headers de seguridad completos, CSP con nonce,
 ## ⚠️ Acciones manuales antes del lanzamiento (no se pueden hacer desde el repo)
 
 1. **Aplicar la migración de baja de cuenta** (`supabase db push` o SQL Editor del dashboard) y **probarla con una cuenta desechable**: crear cuenta → crear mazo → eliminar cuenta → verificar que ya no puedes entrar y que los datos desaparecieron.
-2. **Verificar el buzón `contacto@macitta.com`.** El dominio del producto es `macitta.app`, pero las páginas legales publican `contacto@macitta.com`. Si ese correo no existe o no lo monitoreas, los derechos ARCO quedan sin vía de contacto real. Crea el buzón o cambia las páginas a un correo válido (p. ej. `contacto@macitta.app`).
+2. **Activar el buzón `contacto@macitta.app`.** Las páginas legales ya publican este correo (antes decían `contacto@macitta.com`, dominio que no controlamos), pero el buzón aún no existe. Sin él, los derechos ARCO quedan sin vía de contacto real. Opciones gratis: **Zoho Mail** (plan Forever Free con dominio propio) o **ImprovMX / Cloudflare Email Routing** (reenvían a tu Gmail personal en 5 minutos, solo agregando registros MX en el registrador del dominio).
 3. **Dashboard de Supabase → Authentication:** confirmar "Confirm email" activado, rate limits de auth en valores por defecto o más estrictos, y SMTP propio (el SMTP compartido de Supabase es solo para desarrollo y puede caer en spam).
 4. **Backups:** verificar que el plan de Supabase tenga backups diarios activos (o activar PITR si el volumen de usuarios lo justifica).
 

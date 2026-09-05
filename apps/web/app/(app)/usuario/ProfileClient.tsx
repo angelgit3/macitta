@@ -216,7 +216,7 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
             setDeleting(false);
             setMessage({
                 type: 'error',
-                text: 'No se pudo eliminar la cuenta. Intenta de nuevo o escríbenos a contacto@macitta.com.',
+                text: 'No se pudo eliminar la cuenta. Intenta de nuevo o escríbenos a contacto@macitta.app.',
             });
             setShowDeleteModal(false);
         }

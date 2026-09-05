@@ -192,7 +192,7 @@ export default function TermsOfServicePage() {
               <h2 className="text-xl font-black text-ink">7. Contacto Legal</h2>
             </div>
             <p>
-              Para cualquier consulta referente a estos términos, puedes escribirnos a <a href="mailto:contacto@macitta.com" className="text-accent font-semibold underline">contacto@macitta.com</a>.
+              Para cualquier consulta referente a estos términos, puedes escribirnos a <a href="mailto:contacto@macitta.app" className="text-accent font-semibold underline">contacto@macitta.app</a>.
             </p>
           </section>
         </div>
