@@ -307,7 +307,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
               }}
               inputClassName="py-2"
               placeholder="URL de Audio o Imagen (Opcional)"
-              helperText="Usa una URL pública directa. El recurso se descarga cada vez que estudies la tarjeta, así que consumirá datos."
+              helperText="Debe ser la URL pública directa del archivo (termina en .jpg/.png/.mp3; en Imgur: clic derecho → copiar dirección de imagen). Links de Google Photos no sirven. Se descarga en cada repaso, así que consume datos."
             />
           </div>
 

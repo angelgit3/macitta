@@ -59,7 +59,7 @@ export function CardEditor() {
                 value={activeCard.front_media || ""}
                 onChange={(e) => updateCard({ front_media: e.target.value })}
                 placeholder="URL de Imagen o Audio (Ej: https://...)"
-                helperText="Usa una URL pública directa (Imgur, etc.). El recurso se descarga cada vez que estudies la tarjeta, así que consumirá datos."
+                helperText="Debe ser la URL pública directa del archivo (termina en .jpg/.png/.mp3; en Imgur: clic derecho → copiar dirección de imagen). Links de Google Photos no sirven. Se descarga en cada repaso, así que consume datos."
               />
             </div>
           )}

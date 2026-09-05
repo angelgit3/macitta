@@ -30,9 +30,9 @@ export async function middleware(request: NextRequest) {
         "default-src 'self'",
         `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isProduction ? "" : " 'unsafe-eval'"}`,
         "style-src 'self' 'unsafe-inline'",
-        "img-src 'self' data: blob: https://api.dicebear.com",
+        "img-src 'self' data: blob: https:", // https: necesario: los usuarios enlazan imágenes públicas externas
         "font-src 'self' data:",
-        "media-src 'self' blob: https://*.supabase.co",
+        "media-src 'self' blob: https:", // https: necesario: audio/video externo por URL pública
         "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
         "worker-src 'self' blob:",
         "manifest-src 'self'",
