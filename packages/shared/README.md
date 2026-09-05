@@ -1,6 +1,6 @@
 # @macitta/shared
 
-Core scheduling engine and shared types for the [Macitta](https://www.macitta.app) educational platform.
+Core scheduling engine and shared types for the [Macitta](https://macitta.vercel.app) educational platform.
 
 ## SREM — Spaced Repetition Engine
 

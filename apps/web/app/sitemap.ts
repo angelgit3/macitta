@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 // Public, indexable pages only. App routes require a session and are
 // excluded via robots.txt, so they must not appear here either.
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.macitta.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://macitta.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const lastModified = new Date();

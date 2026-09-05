@@ -2,7 +2,7 @@
 
 > **"Low Friction, Long Term"**
 
-SREM is a custom spaced repetition scheduling algorithm built in TypeScript, designed for vocabulary acquisition in educational platforms. It ships as the core of [Macitta](https://www.macitta.app) and lives in `packages/shared/src/sem.ts`.
+SREM is a custom spaced repetition scheduling algorithm built in TypeScript, designed for vocabulary acquisition in educational platforms. It ships as the core of [Macitta](https://macitta.vercel.app) and lives in `packages/shared/src/sem.ts`.
 
 ---
 
@@ -280,4 +280,4 @@ npm run test
 
 ---
 
-*SREM is part of the [Macitta](https://www.macitta.app) open-source project. MIT License.*
+*SREM is part of the [Macitta](https://macitta.vercel.app) open-source project. MIT License.*

@@ -19,7 +19,7 @@
         "sm2",
         "typescript"
     ],
-    "homepage": "https://www.macitta.app",
+    "homepage": "https://macitta.vercel.app",
     "repository": {
         "type": "git",
         "url": "https://github.com/angelgit3/macitta.git",
