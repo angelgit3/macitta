@@ -6,6 +6,7 @@ import { BuilderAnswerSlot, BuilderAdvancedRules } from "../../types/builder";
 import { buildAnswerSlot, RuleType } from "../../contexts/deckBuilderUtils";
 import { X, Plus, AlertCircle, Settings2, ChevronDown, ChevronUp } from "lucide-react";
 import { ZenInput } from "@/components/ui/ZenInput";
+import { APP_CONFIG } from "@/config/constants";
 
 type Props = {
   cardIndex?: number;
@@ -297,6 +298,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
           </div>
 
           {/* Media */}
+          {APP_CONFIG.FEATURES.CARD_MEDIA_INPUT && (
           <div className="pt-2">
             <ZenInput
               label="Multimedia de Respuesta"
@@ -310,6 +312,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
               helperText="Debe ser la URL pública directa del archivo (termina en .jpg/.png/.mp3; en Imgur: clic derecho → copiar dirección de imagen). Links de Google Photos no sirven. Se descarga en cada repaso, así que consume datos."
             />
           </div>
+          )}
 
         </div>
       )}

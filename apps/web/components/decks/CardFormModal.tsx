@@ -7,6 +7,7 @@ import { AnswerSlotEditor } from "@/components/builder/AnswerSlotEditor";
 import { ZenInput } from "@/components/ui/ZenInput";
 import { ZenButton } from "@/components/ui/ZenButton";
 import type { Deck, Card } from "@/types/models";
+import { APP_CONFIG } from "@/config/constants";
 
 interface CardFormModalProps {
     deck: Deck;
@@ -126,7 +127,7 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                             autoFocus
                         />
 
-                        {!showFrontMedia && !frontMedia ? (
+                        {APP_CONFIG.FEATURES.CARD_MEDIA_INPUT && (!showFrontMedia && !frontMedia ? (
                             <button 
                                 onClick={() => setShowFrontMedia(true)}
                                 className="mt-2 flex items-center gap-1.5 text-xs font-bold text-ink-faint transition-colors hover:text-accent"
@@ -143,7 +144,7 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                                     helperText="Debe ser la URL pública directa del archivo (termina en .jpg/.png/.mp3; en Imgur: clic derecho → copiar dirección de imagen). Links de Google Photos no sirven. Se descarga en cada repaso, así que consume datos."
                                 />
                             </div>
-                        )}
+                        ))}
                     </div>
 
                     {/* Answers Section */}
