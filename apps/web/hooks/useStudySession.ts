@@ -23,7 +23,7 @@ export const GLOBAL_STUDY_DECK_ID = "global";
 
 // ─── Hook ───────────────────────────────────────────────────────────
 
-export function useStudySession(providedDeckId?: string) {
+export function useStudySession(providedDeckId?: string, selectedDeckIds?: string[]) {
     const supabase = useMemo(() => createClient(), []);
     const { isOffline } = useNetworkStatus();
     const { sessionId, startSession, endSession } = useSessionManager();
@@ -101,7 +101,7 @@ export function useStudySession(providedDeckId?: string) {
                 await startSession(isGlobalStudy ? null : providedDeckId);
 
                 const cards = isGlobalStudy
-                    ? await loadGlobalDueCards(userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE)
+                    ? await loadGlobalDueCards(userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE, selectedDeckIds)
                     : await loadDueCards(providedDeckId, userId, APP_CONFIG.STUDY_SESSION.BATCH_SIZE);
                 setQueue(cards);
             } catch (err) {
@@ -116,7 +116,7 @@ export function useStudySession(providedDeckId?: string) {
 
         init();
         return () => { isMounted = false; clearTimeout(timeout); };
-    }, [isGlobalStudy, providedDeckId, startSession, supabase]);
+    }, [isGlobalStudy, providedDeckId, startSession, supabase, selectedDeckIds]);
 
     // ─── Card Navigation ────────────────────────────────────────────
 
@@ -199,7 +199,7 @@ export function useStudySession(providedDeckId?: string) {
                     const user = session?.user;
                     if (user) {
                         const remaining = isGlobalStudy
-                            ? await countRemainingDueGlobal(user.id)
+                            ? await countRemainingDueGlobal(user.id, selectedDeckIds)
                             : await countRemainingDue(deckId, user.id);
                         setRemainingDueCount(remaining);
                     }
@@ -208,7 +208,7 @@ export function useStudySession(providedDeckId?: string) {
 
             setSessionComplete(true);
         }
-    }, [currentIndex, queue.length, endSession, sessionStats, deckId, isGlobalStudy, supabase]);
+    }, [currentIndex, queue.length, endSession, sessionStats, deckId, isGlobalStudy, supabase, selectedDeckIds]);
 
     // ─── Rush Mode ──────────────────────────────────────────────────
 
