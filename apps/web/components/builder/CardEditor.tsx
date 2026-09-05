@@ -5,6 +5,7 @@ import { useDeckBuilder } from "../../contexts/DeckBuilderContext";
 import { AnswerSlotEditor } from "./AnswerSlotEditor";
 import { HelpCircle, CheckCircle2, Image as ImageIcon } from "lucide-react";
 import { ZenInput } from "@/components/ui/ZenInput";
+import { APP_CONFIG } from "@/config/constants";
 
 export function CardEditor() {
   const { state, dispatch } = useDeckBuilder();
@@ -45,7 +46,7 @@ export function CardEditor() {
             autoFocus
           />
 
-          {!showFrontMedia && !activeCard.front_media ? (
+          {APP_CONFIG.FEATURES.CARD_MEDIA_INPUT && (!showFrontMedia && !activeCard.front_media ? (
             <button 
               onClick={() => setShowFrontMedia(true)}
               className="text-xs font-bold text-ink-faint hover:text-accent flex items-center gap-1.5 transition-colors mt-2"
@@ -62,7 +63,7 @@ export function CardEditor() {
                 helperText="Debe ser la URL pública directa del archivo (termina en .jpg/.png/.mp3; en Imgur: clic derecho → copiar dirección de imagen). Links de Google Photos no sirven. Se descarga en cada repaso, así que consume datos."
               />
             </div>
-          )}
+          ))}
         </div>
 
         {/* Answers Section */}

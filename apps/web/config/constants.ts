@@ -22,5 +22,14 @@ export const APP_CONFIG = {
     UI: {
         /** Fallback string when a deck has no explicit answer labels configured */
         DEFAULT_ANSWER_LABEL: "Respuesta",
+    },
+    FEATURES: {
+        /**
+         * Card media by external public URL (image/audio/video).
+         * Disabled for end users until we have a good UX for hosting files.
+         * Cards that already carry media (e.g. official decks with assets
+         * hosted on GitHub) still render it in study mode.
+         */
+        CARD_MEDIA_INPUT: false,
     }
 } as const;
