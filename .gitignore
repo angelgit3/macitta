@@ -47,5 +47,6 @@ scripts/listening-audio/__pycache__/
 *.tsbuildinfo
 next-env.d.ts
 
-# Artefactos locales de auditoria/agente
-.agent/
+# Artefactos locales de auditoria (rules/ y skills/ si van versionados)
+.agent/design-refs/
+.agent/lighthouse/
