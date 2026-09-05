@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
     metadataBase: new URL(
-        process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.macitta.app",
+        process.env.NEXT_PUBLIC_SITE_URL ?? "https://macitta.vercel.app",
     ),
     title: "Macitta",
     description: "Estudio de inglés con repetición espaciada, modo offline y práctica TOEFL.",

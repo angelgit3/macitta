@@ -4,7 +4,7 @@
 
 **Offline-first English study, spaced repetition and TOEFL practice in one installable app.**
 
-[Live app](https://www.macitta.app) · [Architecture](ARCHITECTURE.md) · [SREM algorithm](docs/srem-algorithm.md) · [Deployment guide](docs/deployment.md) · [Privacy Policy](apps/web/app/(marketing)/privacidad/page.tsx)
+[Live app](https://macitta.vercel.app) · [Architecture](ARCHITECTURE.md) · [SREM algorithm](docs/srem-algorithm.md) · [Deployment guide](docs/deployment.md) · [Privacy Policy](apps/web/app/(marketing)/privacidad/page.tsx)
 
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
