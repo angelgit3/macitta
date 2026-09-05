@@ -174,6 +174,9 @@ export default function PrivacyPolicyPage() {
                 </p>
               </div>
             </div>
+            <p className="text-xs text-ink-faint leading-6">
+              Macitta no recaba deliberadamente datos personales de menores de 13 años. Si eres padre, madre o tutor y detectas que un menor creó una cuenta sin tu consentimiento, escríbenos a <a href="mailto:contacto@macitta.com" className="text-accent font-semibold underline hover:text-accent-hover">contacto@macitta.com</a> y la eliminaremos junto con todos sus datos.
+            </p>
           </section>
 
           {/* Section 3 */}

@@ -118,6 +118,9 @@ export default function TermsOfServicePage() {
             <p>
               Al acceder, registrarte o hacer uso del sitio web o aplicación web progresiva (PWA) de Macitta, confirmas haber leído, comprendido y aceptado quedar vinculado por estos Términos de Servicio y por nuestro <Link href="/privacidad" className="text-accent font-bold underline">Aviso de Privacidad</Link>.
             </p>
+            <p>
+              El servicio está dirigido a personas <strong className="text-ink font-bold">mayores de 13 años</strong>. Si tienes entre 13 y 17 años, solo puedes crear y usar una cuenta con el consentimiento y supervisión de tu padre, madre o tutor legal, quien acepta estos términos en tu nombre.
+            </p>
           </section>
 
           {/* Section 2 */}
