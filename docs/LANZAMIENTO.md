@@ -18,7 +18,13 @@ Flujo completo ejecutado de punta a punta con cuenta nueva (correo temporal), si
 9. **Borrado de cuenta** — zona de peligro con confirmación tipada `ELIMINAR`; RPC `delete_own_account()` borra todo y redirige a landing.
 10. **Legal** — Términos y Aviso de Privacidad con cláusula de menores y contacto macitta.app@gmail.com.
 11. **404** — URLs desconocidas muestran la página 404 propia (middleware con whitelist de rutas).
-12. **Seguridad** — headers (CSP con nonce, X-Frame-Options, HSTS, Permissions-Policy), RLS activo, rutas privadas redirigen a login.
+12. **Seguridad** — headers (CSP con nonce, X-Frame-Options, HSTS, Permissions-Policy), RLS activo, rutas privadas redirigen a login. Auditoría de secretos limpia: ningún `.env` real ni clave en el historial; `.gitignore` blindado (`.env*` excepto ejemplos).
+
+## 🛡️ Protecciones activas en GitHub (5-sep-2026)
+
+- **Secret scanning** + **Push protection** — GitHub escanea el historial y bloquea pushes con secretos.
+- **Dependabot alerts + security updates** — avisos y PRs automáticos ante dependencias vulnerables.
+- Verificado vía API: las tres en estado `enabled`.
 
 ## 🔧 Configuración operativa (no perder de vista)
 
