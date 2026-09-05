@@ -4,14 +4,43 @@ import { GLOBAL_STUDY_DECK_ID, useStudySession } from "@/hooks/useStudySession";
 import { StudyCard } from "@/components/ui/StudyCard";
 import { Loader2, Flame, Shuffle } from "lucide-react";
 import { StudySummary } from "./StudySummary";
-import { use } from "react";
+import { DeckPicker } from "./DeckPicker";
+import { use, useState } from "react";
 
 /**
- * StudySessionContent — renders the active flashcard study session.
- * Handles global vs. per-deck mode, rush mode, and the session summary screen.
+ * StudySessionContent — entry point for the study route.
+ * Global study first asks which decks to include (DeckPicker), then mounts
+ * the actual session with that selection.
  */
 export function StudySessionContent({ params }: { params: Promise<{ deckId: string }> }) {
     const { deckId } = use(params);
+    const isGlobalStudy = deckId === GLOBAL_STUDY_DECK_ID;
+    // null = still picking; [] = all decks; [ids] = chosen decks
+    const [selectedDeckIds, setSelectedDeckIds] = useState<string[] | null>(null);
+
+    if (isGlobalStudy && selectedDeckIds === null) {
+        return <DeckPicker onConfirm={setSelectedDeckIds} />;
+    }
+
+    return (
+        <StudySessionActive
+            deckId={deckId}
+            selectedDeckIds={selectedDeckIds ?? undefined}
+        />
+    );
+}
+
+/**
+ * StudySessionActive — renders the active flashcard study session.
+ * Handles global vs. per-deck mode, rush mode, and the session summary screen.
+ */
+function StudySessionActive({
+    deckId,
+    selectedDeckIds,
+}: {
+    deckId: string;
+    selectedDeckIds?: string[];
+}) {
     const isGlobalStudy = deckId === GLOBAL_STUDY_DECK_ID;
 
     const {
@@ -30,7 +59,7 @@ export function StudySessionContent({ params }: { params: Promise<{ deckId: stri
         isRushMode,
         remainingDueCount,
         startRushMode,
-    } = useStudySession(deckId);
+    } = useStudySession(deckId, selectedDeckIds);
 
     // ── Loading state ────────────────────────────────────────
     if (loading) {

@@ -182,18 +182,23 @@ export async function loadDueCards(
 export async function loadGlobalDueCards(
     userId: string | null,
     batchSize = APP_CONFIG.STUDY_SESSION.BATCH_SIZE,
+    deckIds?: string[],
 ): Promise<CardData[]> {
     const supabase = createClient();
     let rawCards: any[] = [];
+    const selectedOnly = deckIds && deckIds.length > 0;
 
     if (navigator.onLine) {
-        const { data: remoteCards, error } = await supabase
+        let query = supabase
             .from("cards")
             .select(`
                 id, deck_id, front_text, front_media,
                 card_slots (id, label, accepted_answers, match_type, order_index, advanced_rules, media),
                 user_items (stability, difficulty, reps, lapses, state, last_review, due_date)
             `);
+        if (selectedOnly) query = query.in("deck_id", deckIds);
+
+        const { data: remoteCards, error } = await query;
 
         if (error) console.error("[SREM] Global fetch error:", error);
 
@@ -237,7 +242,10 @@ export async function loadGlobalDueCards(
     }
 
     if (rawCards.length === 0) {
-        const localCards = await db.cards.toArray();
+        let localCards = await db.cards.toArray();
+        if (selectedOnly) {
+            localCards = localCards.filter(c => deckIds.includes(c.deck_id));
+        }
         const cardIds = localCards.map(c => c.id);
         const localItems = userId && cardIds.length > 0
             ? await db.userItems.where("card_id").anyOf(cardIds).toArray()
@@ -304,6 +312,53 @@ export async function loadRushCards(
     );
 }
 
+// ─── Deck Picker (Global Study) ─────────────────────────────────────
+
+export interface DeckDueInfo {
+    id: string;
+    title: string;
+    color: string | null;
+    dueCount: number;
+}
+
+/**
+ * Lists the user's visible decks with their due-card counts, for the
+ * pre-session deck picker. Requires network; returns null offline so the
+ * caller can fall back to a plain "study everything" entry.
+ */
+export async function listDecksWithDueCounts(
+    userId: string | null,
+): Promise<DeckDueInfo[] | null> {
+    if (!navigator.onLine) return null;
+    const supabase = createClient();
+
+    const [decksRes, cardsRes] = await Promise.all([
+        supabase.from("decks").select("id, title, color").order("created_at", { ascending: false }),
+        supabase.from("cards").select("id, deck_id, user_items(due_date)"),
+    ]);
+
+    if (decksRes.error || cardsRes.error) {
+        console.error("[SREM] Deck picker fetch error:", decksRes.error || cardsRes.error);
+        return null;
+    }
+
+    const now = new Date();
+    const dueByDeck = new Map<string, number>();
+    for (const card of cardsRes.data ?? []) {
+        const due = (card as any).user_items?.[0]?.due_date;
+        if (!due || new Date(due) <= now) {
+            dueByDeck.set(card.deck_id, (dueByDeck.get(card.deck_id) ?? 0) + 1);
+        }
+    }
+
+    return (decksRes.data ?? []).map(deck => ({
+        id: deck.id,
+        title: deck.title,
+        color: (deck as any).color ?? null,
+        dueCount: dueByDeck.get(deck.id) ?? 0,
+    }));
+}
+
 // ─── Remaining Due Count ────────────────────────────────────────────
 
 /**
@@ -328,8 +383,11 @@ export async function countRemainingDue(
     return count;
 }
 
-export async function countRemainingDueGlobal(userId: string): Promise<number> {
-    const allCards = await db.cards.toArray();
+export async function countRemainingDueGlobal(userId: string, deckIds?: string[]): Promise<number> {
+    let allCards = await db.cards.toArray();
+    if (deckIds && deckIds.length > 0) {
+        allCards = allCards.filter(c => deckIds.includes(c.deck_id));
+    }
     const cardIds = allCards.map(c => c.id);
     const userProgress = cardIds.length > 0
         ? await db.userItems.where("card_id").anyOf(cardIds).toArray()
