@@ -27,8 +27,8 @@ export function CardEditor() {
     <div className="flex-1 p-4 md:p-6 overflow-y-auto bg-void flex flex-col items-center custom-scrollbar">
       <div className="max-w-3xl w-full space-y-6 pb-20">
         
-        {/* Front Question Section */}
-        <div className="bg-surface/30 backdrop-blur-sm rounded-2xl border border-border p-5 space-y-4 shadow-lg relative overflow-hidden group">
+        {/* Front Question Section (sticky: la pregunta siempre visible al abrir ajustes avanzados) */}
+        <div className="bg-surface/85 backdrop-blur-md rounded-2xl border border-border p-5 space-y-4 shadow-lg sticky top-0 z-10 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-accent"></div>
           
           <div className="flex items-center gap-2 border-b border-border/50 pb-3 mb-2">
@@ -59,6 +59,7 @@ export function CardEditor() {
                 value={activeCard.front_media || ""}
                 onChange={(e) => updateCard({ front_media: e.target.value })}
                 placeholder="URL de Imagen o Audio (Ej: https://...)"
+                helperText="Usa una URL pública directa (Imgur, etc.). El recurso se descarga cada vez que estudies la tarjeta, así que consumirá datos."
               />
             </div>
           )}

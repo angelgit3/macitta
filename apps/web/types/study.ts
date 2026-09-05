@@ -16,6 +16,7 @@ export interface Slot {
 export interface CardData {
     id: string;
     front_text: string;
+    front_media?: string | null;
     slots: Slot[];
     sem: SEMCardState;
 }

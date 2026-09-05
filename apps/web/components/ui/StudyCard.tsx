@@ -12,6 +12,42 @@ interface StudyCardProps {
   onNext: () => void;
 }
 
+const AUDIO_URL_RE = /\.(mp3|wav|ogg|oga|m4a|aac|flac|opus)(\?.*)?(#.*)?$/i;
+const VIDEO_URL_RE = /\.(mp4|webm|mov)(\?.*)?(#.*)?$/i;
+
+/**
+ * Renders a public media URL as audio, video, or image (default).
+ */
+function StudyMedia({ url, alt }: { url: string; alt: string }) {
+  const [failed, setFailed] = React.useState(false);
+  if (failed) return null;
+
+  if (AUDIO_URL_RE.test(url)) {
+    return <audio controls preload="auto" src={url} className="w-full max-w-md" />;
+  }
+  if (VIDEO_URL_RE.test(url)) {
+    return (
+      <video
+        controls
+        preload="metadata"
+        src={url}
+        className="max-h-64 w-auto rounded-xl border border-border"
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={url}
+      alt={alt}
+      loading="lazy"
+      className="max-h-64 w-auto rounded-xl border border-border object-contain"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 /**
  * StudyCard — Estudio Lúmico
  * The core study instrument: double-bezel glass plate with haptic inputs.
@@ -70,6 +106,13 @@ export function StudyCard({
           </h1>
         </div>
 
+        {/* Front media (public URL: image / audio / video) */}
+        {card.front_media && (
+          <div className="relative z-10 flex justify-center animate-rise-in">
+            <StudyMedia url={card.front_media} alt={card.front_text} />
+          </div>
+        )}
+
         {/* Slots */}
         <div className="relative z-10 grid gap-4">
           {card.slots.map((slot, index) => {
@@ -120,6 +163,12 @@ export function StudyCard({
                   <div className="mt-2 text-sm text-success pl-1 animate-rise-in">
                     <span className="opacity-55 text-xs uppercase mr-2">Respuesta:</span>
                     {slot.accepted_answers.join(", ")}
+                  </div>
+                )}
+
+                {isRevealed && slot.media && (
+                  <div className="mt-2 flex justify-center animate-rise-in">
+                    <StudyMedia url={slot.media} alt={slot.label} />
                   </div>
                 )}
               </div>

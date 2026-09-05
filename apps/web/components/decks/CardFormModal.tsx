@@ -110,8 +110,8 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                 </div>
                 
                 <div className="p-4 md:p-6 max-h-[80vh] overflow-y-auto custom-scrollbar bg-void flex flex-col gap-6">
-                    {/* Front Question Section */}
-                    <div className="group relative space-y-4 overflow-hidden rounded-2xl border border-border bg-surface p-5">
+                    {/* Front Question Section (sticky: la pregunta siempre visible al abrir ajustes avanzados) */}
+                    <div className="group sticky top-0 z-10 relative space-y-4 overflow-hidden rounded-2xl border border-border bg-surface p-5 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.9)]">
                         
                         <div className="flex items-center gap-2 border-b border-border/50 pb-3 mb-2">
                             <HelpCircle size={18} className="text-accent" />
@@ -140,6 +140,7 @@ export function CardFormModal({ deck, card, onClose, onSuccess }: CardFormModalP
                                     value={frontMedia}
                                     onChange={e => setFrontMedia(e.target.value)}
                                     placeholder="URL de Imagen o Audio (Ej: https://...)"
+                                    helperText="Usa una URL pública directa (Imgur, etc.). El recurso se descarga cada vez que estudies la tarjeta, así que consumirá datos."
                                 />
                             </div>
                         )}

@@ -307,6 +307,7 @@ export function AnswerSlotEditor({ cardIndex, slotIndex, label, slot, onChangeSl
               }}
               inputClassName="py-2"
               placeholder="URL de Audio o Imagen (Opcional)"
+              helperText="Usa una URL pública directa. El recurso se descarga cada vez que estudies la tarjeta, así que consumirá datos."
             />
           </div>
 
