@@ -31,6 +31,7 @@ export interface LocalCard {
     id: string;
     deck_id: string;
     front_text: string;
+    front_media?: string | null;
     slots: any[]; // Complex json types
     updated_at: string;
 }

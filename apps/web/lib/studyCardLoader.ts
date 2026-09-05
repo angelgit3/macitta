@@ -16,7 +16,7 @@ function sortSlots(slots: Slot[]): Slot[] {
  * Migrates FSRS data to SEM state when progress exists.
  */
 function toCardData(
-    card: { id: string; front_text: string },
+    card: { id: string; front_text: string; front_media?: string | null },
     slots: Slot[],
     progress?: {
         stability: number;
@@ -31,6 +31,7 @@ function toCardData(
     return {
         id: card.id,
         front_text: card.front_text,
+        front_media: card.front_media ?? null,
         slots: sortSlots(slots),
         sem: progress ? migrateFromFSRS(progress) : createEmptySEMState(),
     };
@@ -99,7 +100,7 @@ export async function loadDueCards(
         const { data: remoteCards, error } = await supabase
             .from("cards")
             .select(`
-                id, front_text,
+                id, front_text, front_media,
                 card_slots (id, label, accepted_answers, match_type, order_index, advanced_rules, media),
                 user_items (stability, difficulty, reps, lapses, state, last_review, due_date)
             `)
@@ -113,6 +114,7 @@ export async function loadDueCards(
                     id: c.id,
                     deck_id: deckId,
                     front_text: c.front_text,
+                    front_media: c.front_media ?? null,
                     slots: c.card_slots,
                     updated_at: new Date().toISOString(),
                 }));
@@ -188,7 +190,7 @@ export async function loadGlobalDueCards(
         const { data: remoteCards, error } = await supabase
             .from("cards")
             .select(`
-                id, deck_id, front_text,
+                id, deck_id, front_text, front_media,
                 card_slots (id, label, accepted_answers, match_type, order_index, advanced_rules, media),
                 user_items (stability, difficulty, reps, lapses, state, last_review, due_date)
             `);
@@ -201,6 +203,7 @@ export async function loadGlobalDueCards(
                     id: c.id,
                     deck_id: c.deck_id,
                     front_text: c.front_text,
+                    front_media: c.front_media ?? null,
                     slots: c.card_slots,
                     updated_at: new Date().toISOString(),
                 }));
