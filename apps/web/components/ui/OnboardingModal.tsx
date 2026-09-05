@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Logo } from "@/components/ui/Logo";
-import { BookOpen, Flame, ChevronRight, CheckCircle2, Loader2 } from "lucide-react";
+import { BookOpen, WifiOff, ChevronRight, CheckCircle2, Loader2 } from "lucide-react";
 
 const SLIDES = [
     {
@@ -21,11 +21,11 @@ const SLIDES = [
         body: "Cada día aparecen las tarjetas que más necesitas repasar. Responde con honestidad y el algoritmo ajusta la frecuencia automáticamente.",
     },
     {
-        icon: Flame,
+        icon: WifiOff,
         color: "text-accent",
         bg: "bg-accent/10",
-        title: "Mantén tu racha",
-        body: "Estudia aunque sea 5 minutos cada día para mantener tu racha viva. La constancia es lo que marca la diferencia a largo plazo.",
+        title: "Estudia sin conexión",
+        body: "Tus sesiones funcionan aunque no haya internet: tu avance se guarda en el dispositivo y se sincroniza cuando vuelva la red.",
     },
 ] as const;
 
