@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ZenButton } from "@/components/ui/ZenButton";
 import Link from "next/link";
-import { User, Mail, Lock, Loader2 } from "lucide-react";
+import { Mail, Lock, Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 
 export default function SignupPage() {
@@ -22,14 +22,6 @@ export default function SignupPage() {
         const email = (formData.get("email") as string).trim().toLowerCase();
         const password = formData.get("password") as string;
         const confirmPassword = formData.get("confirmPassword") as string;
-        const rawUsername = (formData.get("username") as string).trim();
-
-        const username = rawUsername.replace(/[^a-zA-Z0-9_\-.]/g, "").slice(0, 32);
-        if (username.length < 3) {
-            setError("El nombre de usuario debe tener al menos 3 caracteres alfanumericos.");
-            setLoading(false);
-            return;
-        }
 
         if (password.length < 8) {
             setError("La contraseña debe tener al menos 8 caracteres.");
@@ -52,7 +44,6 @@ export default function SignupPage() {
             password,
             options: {
                 data: {
-                    user_name: username,
                     avatar_url: `https://api.dicebear.com/9.x/notionists/svg?seed=${avatarSeed}`,
                 },
             },
@@ -91,17 +82,6 @@ export default function SignupPage() {
             )}
 
             <form method="post" onSubmit={handleSubmit} className="flex flex-col gap-3">
-                <AuthField icon={<User size={16} />} label="Usuario" htmlFor="signup-username">
-                    <input
-                        id="signup-username"
-                        name="username"
-                        required
-                        minLength={3}
-                        className="w-full soft-field rounded-lg py-3 pl-11 pr-4 text-sm"
-                        placeholder="neo_anderson"
-                    />
-                </AuthField>
-
                 <AuthField icon={<Mail size={16} />} label="Email" htmlFor="signup-email">
                     <input
                         id="signup-email"

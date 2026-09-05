@@ -37,6 +37,7 @@ export function CardEditor() {
           </div>
           
           <ZenInput
+            label={metadata.question_labels[0] || undefined}
             value={activeCard.front_text}
             onChange={(e) => updateCard({ front_text: e.target.value })}
             placeholder="Ej: ¿Cómo se dice 'Manzana' en inglés?"
